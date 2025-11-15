@@ -50,29 +50,31 @@ jobs:
         run: |
           echo "Finding products with Docker support..."
           
-          # Create a temporary file for the JSON array
-          TEMP_FILE=$(mktemp)
+          # Build JSON array in a single command to avoid intermediate output
+          PRODUCTS_JSON='['
+          FIRST=true
           
-          # Find products and build JSON array properly
-          find . -maxdepth 2 -name "Dockerfile.backend" -type f | \
-            sed 's|^\./||' | \
-            sed 's|/Dockerfile.backend||' | \
-            jq -R . | \
-            jq -s . > "$TEMP_FILE"
+          for dir in $(find . -maxdepth 2 -name "Dockerfile.backend" -type f | sed 's|^\./||' | sed 's|/Dockerfile.backend||' | sort); do
+            if [ "$FIRST" = true ]; then
+              PRODUCTS_JSON="${PRODUCTS_JSON}&quot;${dir}&quot;"
+              FIRST=false
+            else
+              PRODUCTS_JSON="${PRODUCTS_JSON},&quot;${dir}&quot;"
+            fi
+            echo "  ✓ $dir"
+          done
           
-          # Read the JSON and set output
-          PRODUCTS=$(cat "$TEMP_FILE")
-          echo "list=$PRODUCTS" >> $GITHUB_OUTPUT
+          PRODUCTS_JSON="${PRODUCTS_JSON}]"
           
-          # Display results
+          # Set output using heredoc to avoid issues
+          {
+            echo "list<<EOF"
+            echo "$PRODUCTS_JSON"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+          
           echo ""
-          echo "Products found:"
-          echo "$PRODUCTS" | jq -r '.[]' | sed 's/^/  ✓ /'
-          echo ""
-          echo "Total products with Docker support: $(echo "$PRODUCTS" | jq -r '. | length')"
-          
-          # Cleanup
-          rm "$TEMP_FILE"
+          echo "Total products with Docker support: $(echo "$PRODUCTS_JSON" | jq -r '. | length')"
 
   build-docker-images:
     name: Build Docker Image
