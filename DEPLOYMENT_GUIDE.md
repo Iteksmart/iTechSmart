@@ -1,349 +1,171 @@
-# iTechSmart Suite - Deployment Guide
-## Version 2.0 - Feature Enhancements
-
-**Document Version:** 2.0  
-**Release Date:** August 8, 2025  
-**Company:** iTechSmart Inc.
-
----
-
-## Table of Contents
-
-1. [Overview](#overview)
-2. [Prerequisites](#prerequisites)
-3. [Architecture](#architecture)
-4. [Deployment Options](#deployment-options)
-5. [Docker Deployment](#docker-deployment)
-6. [Kubernetes Deployment](#kubernetes-deployment)
-7. [Database Setup](#database-setup)
-8. [Configuration](#configuration)
-9. [Post-Deployment](#post-deployment)
-10. [Monitoring](#monitoring)
-11. [Troubleshooting](#troubleshooting)
-12. [Rollback Procedures](#rollback-procedures)
-
----
+# iTechSmart Suite - Production Deployment Guide
 
 ## Overview
 
-This guide covers the deployment of iTechSmart Suite Version 2.0, which includes 5 major enhancements:
+This guide covers the complete deployment process for iTechSmart Suite, including building executables, creating installers, and distributing to end users.
 
-1. **Compliance Center** (Product #19) - Multi-framework compliance management
-2. **Service Catalog** (Product #1) - Self-service IT portal
-3. **Automation Orchestrator** (Product #23) - Workflow automation
-4. **Observatory** (Product #36) - APM and observability
-5. **AI Insights** (Product #3) - AI/ML analytics
+## Table of Contents
 
-### What's New in Version 2.0
-
-- **150+ new API endpoints**
-- **50+ new database models**
-- **5 new frontend applications**
-- **20+ integration points**
-- **100+ new features**
-
-### Deployment Scope
-
-- **Products Updated:** 5 products
-- **New Services:** 5 services
-- **Database Changes:** 50+ new tables
-- **Configuration Updates:** Required
-- **Downtime:** ~30 minutes (with proper planning)
-
----
+1. [Prerequisites](#prerequisites)
+2. [Build System Architecture](#build-system-architecture)
+3. [GitHub Actions Workflow](#github-actions-workflow)
+4. [Manual Build Process](#manual-build-process)
+5. [Testing](#testing)
+6. [Distribution](#distribution)
+7. [License Management](#license-management)
+8. [Auto-Update System](#auto-update-system)
 
 ## Prerequisites
 
-### System Requirements
+### Development Environment
 
-#### Hardware Requirements (Per Service)
+- **Python 3.11+**
+- **Node.js 20+**
+- **Git**
+- **Docker** (for containerized products)
+
+### Platform-Specific Tools
+
+#### Windows
+- Visual Studio Build Tools
+- WiX Toolset (for MSI installers)
+- NSIS (alternative installer)
+
+#### macOS
+- Xcode Command Line Tools
+- create-dmg utility
+
+#### Linux
+- build-essential
+- dpkg-dev (for DEB packages)
+- rpm-build (for RPM packages)
+- appimagetool (for AppImage)
+
+## Build System Architecture
+
+### Directory Structure
+
 ```
-Minimum:
-- CPU: 2 cores
-- RAM: 4GB
-- Storage: 20GB
-- Network: 1Gbps
-
-Recommended:
-- CPU: 4 cores
-- RAM: 8GB
-- Storage: 50GB SSD
-- Network: 10Gbps
-```
-
-#### Software Requirements
-```
-- Docker: 24.0+
-- Docker Compose: 2.20+
-- PostgreSQL: 14+
-- Redis: 7+
-- Node.js: 20+ (for frontend builds)
-- Python: 3.11+
-```
-
-### Network Requirements
-
-#### Ports Required
-```
-Product #1 (Enterprise):        8002 (backend), 3002 (frontend)
-Product #3 (Analytics):         8003 (backend), 3003 (frontend)
-Product #19 (Compliance):       8019 (backend), 3019 (frontend)
-Product #23 (Workflow):         8023 (backend), 3023 (frontend)
-Product #36 (Observatory):      8036 (backend), 3036 (frontend)
-
-Supporting Services:
-- PostgreSQL: 5432
-- Redis: 6379
-- Hub: 8001
-```
-
----
-
-## Docker Deployment
-
-### Complete Docker Compose Configuration
-
-Create `docker-compose.yml`:
-
-```yaml
-version: '3.8'
-
-services:
-  # Database
-  postgres:
-    image: postgres:14
-    environment:
-      POSTGRES_DB: itechsmart
-      POSTGRES_USER: itechsmart
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U itechsmart"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  # Redis
-  redis:
-    image: redis:7
-    command: redis-server --requirepass ${REDIS_PASSWORD}
-    volumes:
-      - redis_data:/data
-    ports:
-      - "6379:6379"
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  # Hub (Central coordination)
-  hub:
-    image: itechsmart/hub:2.0
-    environment:
-      - DATABASE_URL=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@postgres:5432/${DATABASE_NAME}
-      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379/0
-      - SECRET_KEY=${SECRET_KEY}
-    ports:
-      - "8001:8001"
-    depends_on:
-      - postgres
-      - redis
-
-  # Compliance Center
-  compliance:
-    image: itechsmart/compliance:2.0
-    environment:
-      - DATABASE_URL=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@postgres:5432/${DATABASE_NAME}
-      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379/1
-      - HUB_URL=http://hub:8001
-      - SECRET_KEY=${SECRET_KEY}
-    ports:
-      - "8019:8019"
-      - "3019:3019"
-    depends_on:
-      - postgres
-      - redis
-      - hub
-
-  # Service Catalog (Enterprise)
-  enterprise:
-    image: itechsmart/enterprise:2.0
-    environment:
-      - DATABASE_URL=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@postgres:5432/${DATABASE_NAME}
-      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379/2
-      - HUB_URL=http://hub:8001
-      - SECRET_KEY=${SECRET_KEY}
-    ports:
-      - "8002:8002"
-      - "3002:3002"
-    depends_on:
-      - postgres
-      - redis
-      - hub
-
-  # Automation Orchestrator (Workflow)
-  workflow:
-    image: itechsmart/workflow:2.0
-    environment:
-      - DATABASE_URL=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@postgres:5432/${DATABASE_NAME}
-      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379/3
-      - HUB_URL=http://hub:8001
-      - SECRET_KEY=${SECRET_KEY}
-    ports:
-      - "8023:8023"
-      - "3023:3023"
-    depends_on:
-      - postgres
-      - redis
-      - hub
-
-  # Observatory
-  observatory:
-    image: itechsmart/observatory:2.0
-    environment:
-      - DATABASE_URL=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@postgres:5432/${DATABASE_NAME}
-      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379/4
-      - HUB_URL=http://hub:8001
-      - SECRET_KEY=${SECRET_KEY}
-    ports:
-      - "8036:8036"
-      - "3036:3036"
-    depends_on:
-      - postgres
-      - redis
-      - hub
-
-  # AI Insights (Analytics)
-  analytics:
-    image: itechsmart/analytics:2.0
-    environment:
-      - DATABASE_URL=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@postgres:5432/${DATABASE_NAME}
-      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379/5
-      - HUB_URL=http://hub:8001
-      - SECRET_KEY=${SECRET_KEY}
-    ports:
-      - "8003:8003"
-      - "3003:3003"
-    depends_on:
-      - postgres
-      - redis
-      - hub
-
-volumes:
-  postgres_data:
-  redis_data:
+iTechSmart/
+├── build-tools/                    # Build scripts
+│   ├── build_windows_exe.py       # Windows executable builder
+│   ├── build_macos_app.py         # macOS application builder
+│   ├── build_linux_binary.py      # Linux binary builder
+│   ├── create_windows_installer.py # Windows installer creator
+│   ├── create_macos_dmg.py        # macOS DMG creator
+│   ├── create_linux_packages.py   # Linux package creator
+│   ├── create_demo_version.py     # Demo version creator
+│   ├── create_suite_installer.py  # Suite installer creator
+│   └── generate_release_notes.py  # Release notes generator
+├── src/
+│   ├── license-system/            # License management
+│   ├── auto-update/               # Auto-update system
+│   ├── launcher/                  # Product launcher
+│   ├── crash-reporting/           # Crash reporting
+│   └── telemetry/                 # Usage telemetry
+├── electron-installer/            # Web-based installer
+├── installers/                    # Generated installers
+├── dist/                          # Built executables
+└── .github/workflows/             # CI/CD workflows
 ```
 
-### Deploy Services
+## GitHub Actions Workflow
+
+### Automated Builds
+
+The repository includes a comprehensive GitHub Actions workflow that automatically builds all products for all platforms.
+
+#### Trigger Events
+
+- **Push to main/develop** → Full build
+- **Tag push (v*)** → Release build
+- **Pull request** → Test build
+- **Manual dispatch** → Custom build
+
+#### Using GitHub Actions
+
+##### Automatic Build on Push
 
 ```bash
-# Pull images
-docker-compose pull
-
-# Start services
-docker-compose up -d
-
-# Check status
-docker-compose ps
-
-# View logs
-docker-compose logs -f
+git add .
+git commit -m "Update products"
+git push origin main
 ```
 
----
-
-## Database Setup
-
-### Run Migrations
+##### Creating a Release
 
 ```bash
-# Compliance Center
-docker-compose exec compliance python -m alembic upgrade head
+# Tag the release
+git tag -a v1.0.0 -m "Release version 1.0.0"
+git push origin v1.0.0
 
-# Service Catalog
-docker-compose exec enterprise python -m alembic upgrade head
-
-# Automation Orchestrator
-docker-compose exec workflow python -m alembic upgrade head
-
-# Observatory
-docker-compose exec observatory python -m alembic upgrade head
-
-# AI Insights
-docker-compose exec analytics python -m alembic upgrade head
+# GitHub Actions will automatically:
+# 1. Build all products for all platforms
+# 2. Create demo versions
+# 3. Create suite installers
+# 4. Run tests
+# 5. Create GitHub release with all artifacts
 ```
 
----
+## Manual Build Process
 
-## Post-Deployment
+### Building Individual Products
 
-### Verify Services
+#### Windows
 
 ```bash
-# Check health endpoints
-curl http://localhost:8001/health  # Hub
-curl http://localhost:8019/health  # Compliance
-curl http://localhost:8002/health  # Enterprise
-curl http://localhost:8023/health  # Workflow
-curl http://localhost:8036/health  # Observatory
-curl http://localhost:8003/health  # Analytics
+cd iTechSmart
+python build-tools/build_windows_exe.py <product-name> <version>
+python build-tools/create_windows_installer.py <product-name> <version>
 ```
 
----
-
-## Troubleshooting
-
-### Common Issues
-
-#### Service won't start
-```bash
-# Check logs
-docker-compose logs <service-name>
-
-# Verify database connection
-docker-compose exec <service-name> python -c "from database import engine; engine.connect()"
-```
-
-#### Database connection errors
-```bash
-# Verify PostgreSQL is running
-docker-compose ps postgres
-
-# Check credentials
-docker-compose exec postgres psql -U itechsmart -d itechsmart
-```
-
----
-
-## Rollback Procedures
-
-### Docker Compose Rollback
+#### macOS
 
 ```bash
-# Stop current version
-docker-compose down
-
-# Restore previous version
-docker-compose -f docker-compose.v1.yml up -d
-
-# Restore database backup
-docker-compose exec postgres psql -U itechsmart -d itechsmart < backup.sql
+cd iTechSmart
+python build-tools/build_macos_app.py <product-name> <version>
+python build-tools/create_macos_dmg.py <product-name> <version>
 ```
 
----
+#### Linux
+
+```bash
+cd iTechSmart
+python build-tools/build_linux_binary.py <product-name> <version>
+python build-tools/create_linux_packages.py <product-name> <version>
+```
+
+## Testing
+
+### Running Integration Tests
+
+```bash
+cd iTechSmart
+python integration-tests/test_executables.py <platform> <version>
+```
+
+## License Management
+
+### Generating License Keys
+
+```bash
+cd iTechSmart/src/license-system
+python license_manager.py generate <type> <name> <email> [days]
+```
+
+## Auto-Update System
+
+### Update Process
+
+1. **Check** - Application checks for updates on startup
+2. **Download** - Update package downloaded and verified
+3. **Apply** - Update applied immediately or scheduled
+4. **Verify** - New version validated and confirmed
 
 ## Support
 
-### Contact
-- **Company:** iTechSmart Inc.
-- **Website:** https://itechsmart.dev
-- **Email:** support@itechsmart.dev
-- **Phone:** 310-251-3969
+- **Documentation**: https://itechsmart.com/docs
+- **Support Portal**: https://itechsmart.com/support
+- **Email**: support@itechsmart.com
 
----
-
-**© 2025 iTechSmart Inc. All rights reserved.**
+© 2025 iTechSmart. All rights reserved.

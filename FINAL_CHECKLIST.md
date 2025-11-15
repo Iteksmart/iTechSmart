@@ -86,7 +86,6 @@
    - Complete documentation
    - Docker ready
 
-8. [x] **FitSnap.AI** - 100% Complete
    - Backend API
    - 5 AI models
    - 4 mobile screens

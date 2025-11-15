@@ -112,7 +112,6 @@ The iTechSmart Suite is a comprehensive ecosystem of integrated enterprise softw
 
 ---
 
-### 8. **FitSnap.AI** ✓
 **Status**: Production Ready
 
 **Core Features**:
@@ -168,7 +167,6 @@ iTechSmart Enterprise (Hub)
 ├── ProofLink.AI (Documents)
 ├── PassPort (Identity)
 ├── ImpactOS (Impact)
-├── FitSnap.AI (Fitness)
 └── iTechSmart Analytics (Analytics)
 ```
 
@@ -293,7 +291,6 @@ iTechSmart Enterprise (Hub)
 - ProofLink.AI
 - PassPort
 - ImpactOS
-- FitSnap.AI
 
 ### In Development
 - iTechSmart Analytics (70%)

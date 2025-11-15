@@ -19,7 +19,7 @@
 ## Phase 3: Integration
 - [ ] Integrate with Hub for authentication
 - [ ] Integrate with Ninja for automation
-- [ ] Integrate with all 36 products
+- [ ] Integrate with all 35 products
 - [ ] Add webhook support
 - [ ] Add API integrations
 

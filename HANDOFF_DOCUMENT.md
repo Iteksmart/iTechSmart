@@ -36,7 +36,6 @@ The iTechSmart Suite is a complete enterprise software ecosystem consisting of 9
 6. **ProofLink.AI** - Document verification system
 7. **PassPort** - Identity management platform
 8. **ImpactOS** - Impact measurement system
-9. **FitSnap.AI** - AI-powered fitness tracking
 
 ### 2. Production Infrastructure
 
@@ -138,7 +137,6 @@ itechsmart-suite/
 ├── prooflink/                 # Document verification
 ├── passport/                  # Identity management
 ├── itechsmart-impactos/       # Impact measurement
-├── fitsnap-ai/                # Fitness tracking
 ├── integration_adapters/      # Cross-product adapters
 ├── tests/                     # Test suites
 │   ├── integration/          # Integration tests

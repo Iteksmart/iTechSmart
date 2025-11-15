@@ -123,7 +123,7 @@ sudo installer -pkg iTechSmart-Suite.pkg -target /
 | File | Purpose |
 |------|---------|
 | `build-tools/master_build.py` | Main build orchestrator |
-| `build-tools/build_all_products.py` | Build all 36 products |
+| `build-tools/build_all_products.py` | Build all 35 products |
 | `build-tools/create_installers.py` | Create installers |
 | `src/license-system/license_manager.py` | License management |
 | `src/auto-update/update_manager.py` | Auto-update system |

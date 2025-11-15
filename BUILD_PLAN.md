@@ -7,14 +7,14 @@
 ## Build Objectives
 
 ### 1. Full Suite Installer ✅
-- Complete installation package with all 36 products
+- Complete installation package with all 35 products
 - Automated database setup
 - Configuration wizard
 - Service registration
 - Desktop shortcuts
 
 ### 2. Individual Product Executables ✅
-- Standalone executables for each of 36 products
+- Standalone executables for each of 35 products
 - Self-contained with dependencies
 - Encrypted and obfuscated
 
@@ -61,7 +61,7 @@ installers/
 │   └── individual-products/
 │       ├── itechsmart-enterprise.exe
 │       ├── itechsmart-ninja.exe
-│       └── ... (all 36 products)
+│       └── ... (all 35 products)
 ├── linux/
 │   ├── itechsmart-suite.deb
 │   ├── itechsmart-suite.rpm

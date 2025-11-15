@@ -388,7 +388,6 @@
 | Passport | 8005 | ✅ Yes | ✅ Yes | ✅ Ready |
 | ProofLink | 8006 | ✅ Yes | ✅ Yes | ✅ Ready |
 
-**Note:** FitSnap.AI is separate and not part of the suite ✅
 
 ### Integration Patterns: ✅ VERIFIED
 
