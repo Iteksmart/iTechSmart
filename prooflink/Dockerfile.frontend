@@ -6,8 +6,8 @@ WORKDIR /app
 # Copy package files
 COPY frontend/package*.json ./
 
-# Install dependencies
-RUN npm ci --omit=dev
+# Install dependencies (use npm install since package-lock.json may not exist)
+RUN npm install --omit=dev
 
 # Builder stage
 FROM node:20-alpine AS builder
