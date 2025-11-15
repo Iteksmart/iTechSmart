@@ -1,0 +1,56 @@
+                       break;
+                   case 'gh-prs':
+                       await this.listGitHubPRs(args);
+                       break;
+                   case 'gh-issues':
+                       await this.listGitHubIssues(args);
+                       break;
+                   case 'gh-create-pr':
+                       await this.createGitHubPR(args);
+                       break;
+                   case 'gh-create-issue':
+                       await this.createGitHubIssue(args);
+                       break;
+                default:
+                      case 'img-generate':
+                      case 'generate-image':
+                          await this.generateImage(args);
+                          break;
+                      case 'img-transform':
+                      case 'transform-image':
+                          await this.transformImage(args);
+                          break;
+                      case 'img-upscale':
+                      case 'upscale-image':
+                          await this.upscaleImage(args);
+                          break;
+                      case 'img-remove-bg':
+                      case 'remove-background':
+                          await this.removeBackground(args);
+                          break;
+                      case 'img-providers':
+                      case 'list-image-providers':
+                          await this.listImageProviders();
+                          break;
+                    this.sendToTerminal({
+                        type: 'output',
+                        content: `Unknown command: ${cmd}\nType 'help' for available commands.\n`,
+                        color: '#ff6b6b'
+                    });
+            }
+        } catch (error: any) {
+            this.sendToTerminal({
+                type: 'output',
+                content: `Error: ${error.message}\n`,
+                color: '#ff0000'
+            });
+        }
+
+        this.sendToTerminal({ type: 'ready' });
+    }
+
+    private async showHelp() {
+        const helpText = `
+Available Commands:
+═══════════════════════════════════════════════════════════════
+

@@ -1,0 +1,57 @@
+.
+├── FINAL_SUMMARY.md
+├── IMPLEMENTATION_GUIDE.md
+├── PACKAGE_AND_DEPLOY.sh
+├── README.md
+├── backend
+│   ├── Dockerfile
+│   ├── alembic
+│   ├── app
+│   ├── requirements.txt
+│   └── tests
+├── docker-compose.yml
+├── docs
+│   ├── api
+│   ├── architecture
+│   ├── deployment
+│   ├── integrations
+│   └── user-guides
+├── frontend
+│   ├── Dockerfile
+│   ├── index.html
+│   ├── package.json
+│   ├── public
+│   ├── src
+│   └── vite.config.js
+├── infrastructure
+│   ├── docker
+│   ├── helm
+│   ├── kubernetes
+│   └── terraform
+├── integrations
+│   ├── connectwise
+│   ├── itglue
+│   ├── jira
+│   ├── nable
+│   ├── prometheus
+│   ├── salesforce
+│   ├── sap
+│   ├── servicenow
+│   ├── slack
+│   ├── wazuh
+│   ├── workday
+│   └── zendesk
+├── monitoring
+│   ├── alertmanager
+│   ├── grafana
+│   ├── prometheus
+│   └── wazuh
+├── scripts
+│   ├── backup
+│   ├── deploy
+│   ├── optimize
+│   └── validate
+├── setup.sh
+└── tests
+
+43 directories, 12 files

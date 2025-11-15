@@ -1,0 +1,30 @@
+# iTechSmart Suite - AWS Terraform Variables Example
+# Copy this file to terraform.tfvars and update with your values
+
+# AWS Configuration
+aws_region = "us-east-1"
+environment = "production"
+
+# Network Configuration
+vpc_cidr = "10.0.0.0/16"
+availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
+
+# Database Configuration
+db_instance_class = "db.t3.large"
+db_allocated_storage = 100
+db_username = "itechsmart_admin"
+db_password = "CHANGE_THIS_PASSWORD"  # Use a strong password
+
+# Redis Configuration
+redis_node_type = "cache.t3.medium"
+
+# Monitoring & Backup
+enable_monitoring = true
+enable_backup = true
+
+# Additional Tags
+tags = {
+  Owner = "iTechSmart AI"
+  CostCenter = "Engineering"
+  Compliance = "HIPAA"
+}

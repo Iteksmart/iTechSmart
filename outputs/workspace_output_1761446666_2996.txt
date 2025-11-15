@@ -1,0 +1,4 @@
+14:import { registerEditorCommands } from './commands/editorCommands';
+15:import { registerGitHubCommands } from './commands/githubCommands';
+32:    registerEditorCommands(context, apiClient);
+35:    registerGitHubCommands(context, apiClient);

@@ -1,0 +1,58 @@
+.
+├── backend
+│   ├── alembic
+│   ├── app
+│   │   ├── api
+│   │   ├── core
+│   │   ├── integrations
+│   │   ├── models
+│   │   └── services
+│   └── tests
+├── docs
+│   ├── api
+│   ├── architecture
+│   ├── deployment
+│   ├── integrations
+│   └── user-guides
+├── frontend
+│   ├── public
+│   └── src
+│       ├── components
+│       ├── pages
+│       ├── services
+│       ├── styles
+│       └── utils
+├── infrastructure
+│   ├── docker
+│   ├── helm
+│   ├── kubernetes
+│   └── terraform
+│       ├── aws
+│       ├── azure
+│       └── gcp
+├── integrations
+│   ├── connectwise
+│   ├── itglue
+│   ├── jira
+│   ├── nable
+│   ├── prometheus
+│   ├── salesforce
+│   ├── sap
+│   ├── servicenow
+│   ├── slack
+│   ├── wazuh
+│   ├── workday
+│   └── zendesk
+├── monitoring
+│   ├── alertmanager
+│   ├── grafana
+│   ├── prometheus
+│   └── wazuh
+├── scripts
+│   ├── backup
+│   ├── deploy
+│   ├── optimize
+│   └── validate
+└── tests
+
+56 directories, 0 files

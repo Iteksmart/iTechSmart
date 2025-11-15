@@ -1,0 +1,188 @@
+{
+  "projects": [
+    {
+      "name": "ProofLink.AI",
+      "type": "web",
+      "exists": true,
+      "checks": {
+        "README.md": true,
+        "docker-compose.yml": true,
+        ".gitignore": true,
+        "backend_exists": true,
+        "frontend_exists": true,
+        "requirements.txt": true,
+        "package.json": true,
+        "main.py": true,
+        "api_files_count": 9,
+        "has_api_files": true,
+        "frontend_pages_count": 18,
+        "has_frontend_pages": true
+      },
+      "score": 10,
+      "max_score": 10,
+      "status": "\u2705",
+      "completion_rate": 100.0
+    },
+    {
+      "name": "PassPort",
+      "type": "web",
+      "exists": true,
+      "checks": {
+        "README.md": true,
+        "docker-compose.yml": true,
+        ".gitignore": true,
+        "backend_exists": true,
+        "frontend_exists": true,
+        "requirements.txt": true,
+        "package.json": true,
+        "main.py": true,
+        "api_files_count": 9,
+        "has_api_files": true,
+        "frontend_pages_count": 13,
+        "has_frontend_pages": true
+      },
+      "score": 10,
+      "max_score": 10,
+      "status": "\u2705",
+      "completion_rate": 100.0
+    },
+    {
+      "name": "ImpactOS",
+      "type": "web",
+      "exists": true,
+      "checks": {
+        "README.md": true,
+        "docker-compose.yml": true,
+        ".gitignore": true,
+        "backend_exists": true,
+        "frontend_exists": true,
+        "requirements.txt": true,
+        "package.json": true,
+        "main.py": true,
+        "api_files_count": 6,
+        "has_api_files": true,
+        "frontend_pages_count": 49,
+        "has_frontend_pages": true
+      },
+      "score": 10,
+      "max_score": 10,
+      "status": "\u2705",
+      "completion_rate": 100.0
+    },
+    {
+      "name": "iTechSmart Ninja",
+      "type": "web",
+      "exists": true,
+      "checks": {
+        "README.md": true,
+        "docker-compose.yml": true,
+        ".gitignore": true,
+        "backend_exists": true,
+        "frontend_exists": true,
+        "requirements.txt": true,
+        "package.json": true,
+        "main.py": true,
+        "api_files_count": 43,
+        "has_api_files": true,
+        "frontend_pages_count": 2,
+        "has_frontend_pages": true
+      },
+      "score": 10,
+      "max_score": 10,
+      "status": "\u2705",
+      "completion_rate": 100.0
+    },
+    {
+      "name": "iTechSmart Enterprise",
+      "type": "web",
+      "exists": true,
+      "checks": {
+        "README.md": true,
+        "docker-compose.yml": true,
+        ".gitignore": true,
+        "backend_exists": true,
+        "frontend_exists": true,
+        "requirements.txt": true,
+        "package.json": true,
+        "main.py": true,
+        "api_files_count": 7,
+        "has_api_files": true,
+        "frontend_pages_count": 4,
+        "has_frontend_pages": true
+      },
+      "score": 10,
+      "max_score": 10,
+      "status": "\u2705",
+      "completion_rate": 100.0
+    },
+    {
+      "name": "iTechSmart HL7",
+      "type": "web",
+      "exists": true,
+      "checks": {
+        "README.md": true,
+        "docker-compose.yml": true,
+        ".gitignore": true,
+        "backend_exists": true,
+        "frontend_exists": true,
+        "requirements.txt": true,
+        "package.json": true,
+        "main.py": true,
+        "api_files_count": 15,
+        "has_api_files": true,
+        "frontend_pages_count": 7,
+        "has_frontend_pages": true
+      },
+      "score": 10,
+      "max_score": 10,
+      "status": "\u2705",
+      "completion_rate": 100.0
+    },
+    {
+      "name": "iTechSmart Supreme",
+      "type": "cli",
+      "exists": true,
+      "checks": {
+        "README.md": true,
+        "docker-compose.yml": true,
+        ".gitignore": true,
+        "main.py": true,
+        "requirements.txt": true,
+        "setup.py": true,
+        "python_files_count": 41,
+        "has_python_files": true
+      },
+      "score": 7,
+      "max_score": 7,
+      "status": "\u2705",
+      "completion_rate": 100.0
+    },
+    {
+      "name": "FitSnap.AI",
+      "type": "web",
+      "exists": true,
+      "checks": {
+        "README.md": true,
+        "docker-compose.yml": true,
+        ".gitignore": true,
+        "backend_exists": true,
+        "frontend_exists": true,
+        "requirements.txt": true,
+        "package.json": true,
+        "main.py": true,
+        "api_files_count": 1,
+        "has_api_files": true,
+        "frontend_pages_count": 0,
+        "has_frontend_pages": false
+      },
+      "score": 9,
+      "max_score": 10,
+      "status": "\u2705",
+      "completion_rate": 90.0
+    }
+  ],
+  "total_projects": 8,
+  "complete_projects": 8,
+  "warning_projects": 0,
+  "incomplete_projects": 0
+}

@@ -1,0 +1,183 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: prooflink
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: prooflink/backend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+          name: http
+        env:
+        # From ConfigMap
+        - name: API_V1_PREFIX
+          valueFrom:
+            configMapKeyRef:
+              name: prooflink-config
+              key: API_V1_PREFIX
+        - name: PROJECT_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: prooflink-config
+              key: PROJECT_NAME
+        - name: ALGORITHM
+          valueFrom:
+            configMapKeyRef:
+              name: prooflink-config
+              key: ALGORITHM
+        - name: ACCESS_TOKEN_EXPIRE_MINUTES
+          valueFrom:
+            configMapKeyRef:
+              name: prooflink-config
+              key: ACCESS_TOKEN_EXPIRE_MINUTES
+        - name: REFRESH_TOKEN_EXPIRE_DAYS
+          valueFrom:
+            configMapKeyRef:
+              name: prooflink-config
+              key: REFRESH_TOKEN_EXPIRE_DAYS
+        - name: UPLOAD_DIR
+          valueFrom:
+            configMapKeyRef:
+              name: prooflink-config
+              key: UPLOAD_DIR
+        - name: MAX_UPLOAD_SIZE
+          valueFrom:
+            configMapKeyRef:
+              name: prooflink-config
+              key: MAX_UPLOAD_SIZE
+        - name: BACKEND_CORS_ORIGINS
+          valueFrom:
+            configMapKeyRef:
+              name: prooflink-config
+              key: BACKEND_CORS_ORIGINS
+        
+        # From Secrets
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: prooflink-secrets
+              key: DATABASE_URL
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: prooflink-secrets
+              key: REDIS_URL
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: prooflink-secrets
+              key: SECRET_KEY
+        - name: STRIPE_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: prooflink-secrets
+              key: STRIPE_SECRET_KEY
+              optional: true
+        - name: STRIPE_WEBHOOK_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: prooflink-secrets
+              key: STRIPE_WEBHOOK_SECRET
+              optional: true
+        
+        volumeMounts:
+        - name: uploads
+          mountPath: /app/uploads
+        
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      
+      volumes:
+      - name: uploads
+        persistentVolumeClaim:
+          claimName: uploads-pvc
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: uploads-pvc
+  namespace: prooflink
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: standard
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  namespace: prooflink
+spec:
+  selector:
+    app: backend
+  ports:
+  - port: 8000
+    targetPort: 8000
+  type: ClusterIP
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: backend-hpa
+  namespace: prooflink
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: backend
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80

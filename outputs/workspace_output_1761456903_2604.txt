@@ -1,0 +1,93 @@
+                default:
+                      case 'doc':
+                    case 'document':
+                        await this.showDocumentHelp();
+                        break;
+                    case 'doc-upload':
+                    case 'upload-document':
+                        await this.uploadDocument(args);
+                        break;
+                    case 'doc-list':
+                    case 'list-documents':
+                        await this.listDocuments();
+                        break;
+                    case 'doc-extract':
+                    case 'extract-text':
+                        await this.extractDocumentText(args);
+                        break;
+                    case 'doc-tables':
+                    case 'extract-tables':
+                        await this.extractDocumentTables(args);
+                        break;
+                    case 'doc-ocr':
+                    case 'ocr-document':
+                        await this.ocrDocument(args);
+                        break;
+                    case 'doc-search':
+                    case 'search-document':
+                        await this.searchDocument(args);
+                        break;
+                    case 'chart':
+                    case 'create-chart':
+                        await this.createChart(args);
+                        break;
+                    case 'dashboard':
+                    case 'create-dashboard':
+                        await this.createDashboard(args);
+                        break;
+                    case 'list-charts':
+                        await this.listCharts();
+                        break;
+                    case 'export-chart':
+                        await this.exportChart(args);
+                        break;
+                    case 'analyze':
+                    case 'analyze-data':
+                        await this.analyzeDataFile(args);
+                        break;
+                    case 'img-generate':
+                      case 'generate-image':
+                          await this.generateImage(args);
+                          break;
+                      case 'img-transform':
+                      case 'transform-image':
+                          await this.transformImage(args);
+                          break;
+                      case 'img-upscale':
+                      case 'upscale-image':
+                          await this.upscaleImage(args);
+                          break;
+                      case 'img-remove-bg':
+                      case 'remove-background':
+                          await this.removeBackground(args);
+                          break;
+                      case 'img-providers':
+                      case 'list-image-providers':
+                          await this.listImageProviders();
+                          break;
+                    this.sendToTerminal({
+                        type: 'output',
+                        content: `Unknown command: ${cmd}\nType 'help' for available commands.\n`,
+                        color: '#ff6b6b'
+                    });
+            }
+        } catch (error: any) {
+            this.sendToTerminal({
+                type: 'output',
+                content: `Error: ${error.message}\n`,
+                color: '#ff0000'
+            });
+        }
+
+        this.sendToTerminal({ type: 'ready' });
+    }
+
+    private async showHelp() {
+        const helpText = `
+Available Commands:
+═══════════════════════════════════════════════════════════════
+
+AI Commands:
+  generate <description>    Generate code from description
+  research <query>          Research a topic
+  analyze <data>            Analyze data

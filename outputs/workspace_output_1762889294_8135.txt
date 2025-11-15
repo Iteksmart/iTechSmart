@@ -1,0 +1,13 @@
+prooflink/frontend/src/app/auth/login/page.tsx
+prooflink/frontend/src/app/auth/register/page.tsx
+prooflink/frontend/src/app/dashboard/analytics/page.tsx
+prooflink/frontend/src/app/dashboard/api-keys/page.tsx
+prooflink/frontend/src/app/dashboard/create/page.tsx
+prooflink/frontend/src/app/dashboard/page.tsx
+prooflink/frontend/src/app/dashboard/proofs/[id]/page.tsx
+prooflink/frontend/src/app/dashboard/proofs/page.tsx
+prooflink/frontend/src/app/dashboard/settings/page.tsx
+prooflink/frontend/src/app/help/page.tsx
+prooflink/frontend/src/app/page.tsx
+prooflink/frontend/src/app/pricing/page.tsx
+prooflink/frontend/src/app/verify/[link]/page.tsx

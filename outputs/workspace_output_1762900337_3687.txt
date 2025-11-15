@@ -1,0 +1,7 @@
+✓ Created FitSnap.AI project structure
+total 4
+drwxr-xr-x 5 root root   65 Nov 11 22:32 .
+drwxr-xr-x 1 root root 4096 Nov 11 22:32 ..
+drwxr-xr-x 2 root root   10 Nov 11 22:32 backend
+drwxr-xr-x 2 root root   10 Nov 11 22:32 docs
+drwxr-xr-x 2 root root   10 Nov 11 22:32 frontend

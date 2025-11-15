@@ -1,0 +1,8 @@
+total 80
+drwxr-xr-x 1 root root   112 Nov 12 01:58 .
+drwxr-xr-x 1 root root  4096 Nov 12 02:09 ..
+-rw-r--r-- 1 root root 19908 Nov 12 01:54 auto_remediation_engine.py
+-rw-r--r-- 1 root root 15693 Nov 12 01:58 domain_admin_manager.py
+-rw-r--r-- 1 root root  3859 Oct 11 18:09 models.py
+-rw-r--r-- 1 root root 15200 Oct 11 18:17 orchestrator.py
+-rw-r--r-- 1 root root 17074 Nov 12 01:57 vm_provisioner.py

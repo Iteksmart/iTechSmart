@@ -1,0 +1,11 @@
+total 52
+drwxr-xr-x  5 root root  4096 Nov 12 18:14 .
+drwxr-xr-x 23 root root 12288 Nov 12 20:08 ..
+-rw-r--r--  1 root root  1988 Nov 12 18:14 NOTIFY_COMPLETION_REPORT.md
+-rw-r--r--  1 root root  5582 Nov 12 18:00 README.md
+drwxr-xr-x  2 root root   145 Nov 12 17:59 backend
+-rw-r--r--  1 root root  2501 Nov 12 17:59 docker-compose.yml
+drwxr-xr-x  2 root root    10 Nov 12 17:52 docs
+drwxr-xr-x  2 root root    10 Nov 12 17:52 frontend
+-rw-r--r--  1 root root  8543 Nov 12 17:58 init-db.sql
+-rwxr-xr-x  1 root root  2010 Nov 12 17:59 start.sh

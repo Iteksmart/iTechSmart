@@ -1,0 +1,31 @@
+-rw-r--r-- 1 root root 20838617 Nov 12 20:38 4ce7ac17-9a40-450d-8363-163957a5b5ff.zip
+Archive:  4ce7ac17-9a40-450d-8363-163957a5b5ff.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  2025-11-12 20:21   outputs/
+      141  2025-11-12 13:34   outputs/workspace_output_1762954454_9991.txt
+      246  2025-11-12 13:34   outputs/workspace_output_1762954457_264.txt
+    12123  2025-11-12 13:37   outputs/workspace_output_1762954660_1144.txt
+       58  2025-10-11 18:07   outputs/workspace_output_1760206056_3532.txt
+        0  2025-10-11 18:07   outputs/workspace_output_1760206061_6194.txt
+      928  2025-10-11 18:07   outputs/workspace_output_1760206065_5388.txt
+        0  2025-10-11 18:08   outputs/workspace_output_1760206085_6428.txt
+    31232  2025-10-11 18:08   outputs/workspace_output_1760206089_834.txt
+        0  2025-10-11 18:08   outputs/workspace_output_1760206128_2683.txt
+        0  2025-10-11 18:18   outputs/workspace_output_1760206680_1145.txt
+        0  2025-10-11 18:27   outputs/workspace_output_1760207245_954.txt
+       75  2025-10-11 18:27   outputs/workspace_output_1760207250_3680.txt
+      651  2025-10-11 18:27   outputs/workspace_output_1760207257_1524.txt
+        0  2025-10-11 18:30   outputs/workspace_output_1760207431_7851.txt
+      847  2025-10-11 18:30   outputs/workspace_output_1760207438_711.txt
+       13  2025-10-11 18:30   outputs/workspace_output_1760207443_7449.txt
+       12  2025-10-11 18:30   outputs/workspace_output_1760207451_2760.txt
+     2104  2025-10-11 19:13   outputs/workspace_output_1760210003_1550.txt
+        0  2025-10-11 19:13   outputs/workspace_output_1760210017_3826.txt
+       49  2025-10-11 19:13   outputs/workspace_output_1760210021_8710.txt
+        0  2025-10-11 19:13   outputs/workspace_output_1760210027_1810.txt
+     6254  2025-10-11 19:13   outputs/workspace_output_1760210031_2169.txt
+     5798  2025-10-11 19:13   outputs/workspace_output_1760210037_2220.txt
+     1955  2025-10-11 19:14   outputs/workspace_output_1760210042_3273.txt
+    12105  2025-10-11 19:14   outputs/workspace_output_1760210048_783.txt
+      267  2025-10-11 19:21   outputs/workspace_output_1760210512_7963.txt

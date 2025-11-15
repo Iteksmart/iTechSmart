@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8023:8023"
+    environment:
+      - DATABASE_URL=sqlite:///./app.db
+    volumes:
+      - ./backend:/app
+      - itechsmart-ai-data:/app/data
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3023:3023"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  itechsmart-ai-data:

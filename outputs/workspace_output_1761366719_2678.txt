@@ -1,0 +1,21 @@
+        vscode.commands.registerCommand('itechsmart.viewTaskDetails', async (taskId: number) => {
+            await viewTaskDetails(taskId);
+        })
+    );
+
+    // Show welcome message
+    if (!authManager.isAuthenticated()) {
+        const result = await vscode.window.showInformationMessage(
+            'Welcome to iTechSmart Ninja! Please login to get started.',
+            'Login',
+            'Later'
+        );
+
+        if (result === 'Login') {
+            await authManager.login();
+        }
+    } else {
+        vscode.window.showInformationMessage('iTechSmart Ninja is ready!');
+    }
+
+    // Auto-refresh tasks every 30 seconds

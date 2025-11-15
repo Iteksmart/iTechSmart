@@ -1,0 +1,10 @@
+/workspace/passport/frontend/src/app/auth/login/page.tsx
+/workspace/passport/frontend/src/app/auth/register/page.tsx
+/workspace/passport/frontend/src/app/dashboard/api-keys/page.tsx
+/workspace/passport/frontend/src/app/dashboard/emergency/page.tsx
+/workspace/passport/frontend/src/app/dashboard/generator/page.tsx
+/workspace/passport/frontend/src/app/dashboard/page.tsx
+/workspace/passport/frontend/src/app/dashboard/passwords/page.tsx
+/workspace/passport/frontend/src/app/dashboard/security/page.tsx
+/workspace/passport/frontend/src/app/dashboard/settings/page.tsx
+/workspace/passport/frontend/src/app/dashboard/sharing/page.tsx

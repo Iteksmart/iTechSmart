@@ -1,0 +1,9 @@
+Added command: itechsmart.createWorkflow
+Added command: itechsmart.editWorkflow
+Added command: itechsmart.executeWorkflow
+Added command: itechsmart.viewWorkflowHistory
+Added command: itechsmart.browseTemplates
+Added command: itechsmart.deleteWorkflow
+Added command: itechsmart.shareWorkflow
+
+Total commands: 105

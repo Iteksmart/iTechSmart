@@ -1,0 +1,21 @@
+              <li>Session management</li>
+            </ul>
+          </div>
+          <div class="product-card">
+            <h4>ImpactOS</h4>
+            <div class="value">$300K - $500K</div>
+            <div class="description">Impact measurement &amp; social good tracking</div>
+            <ul class="features">
+              <li>SDG alignment</li>
+              <li>Impact reporting</li>
+              <li>AI insights</li>
+              <li>Stakeholder engagement</li>
+            </ul>
+          </div>
+        </div>
+      </div><!-- Strategic Products -->
+      <div class="product-category">
+        <h3>🚀 Strategic Products (10) - $6.6M-$12.6M Value</h3>
+        <div class="product-grid">
+          <div class="product-card">
+            <h4>iTechSmart DataFlow</h4>

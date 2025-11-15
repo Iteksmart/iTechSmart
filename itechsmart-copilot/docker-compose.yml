@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: copilot-postgres
+    environment:
+      POSTGRES_DB: copilot_db
+      POSTGRES_USER: copilot_user
+      POSTGRES_PASSWORD: copilot_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U copilot_user -d copilot_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - copilot-network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: copilot-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - copilot-network
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: copilot-backend
+    environment:
+      DATABASE_URL: postgresql://copilot_user:copilot_pass@postgres:5432/copilot_db
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: your-secret-key-change-in-production
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - copilot-network
+
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: copilot-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    command: npm run dev
+    networks:
+      - copilot-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  copilot-network:
+    driver: bridge

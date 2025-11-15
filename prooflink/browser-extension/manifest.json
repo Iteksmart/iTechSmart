@@ -1,0 +1,87 @@
+{
+  "manifest_version": 3,
+  "name": "ProofLink.AI",
+  "version": "1.0.0",
+  "description": "Create cryptographic proofs of any file or webpage instantly. The world's trust layer.",
+  "author": "ProofLink.AI",
+  "homepage_url": "https://prooflink.ai",
+  
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "ProofLink.AI - Create Proof"
+  },
+  
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content/content-script.js"],
+      "css": ["content/content-styles.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  
+  "permissions": [
+    "storage",
+    "activeTab",
+    "contextMenus",
+    "downloads",
+    "notifications",
+    "clipboardWrite"
+  ],
+  
+  "host_permissions": [
+    "https://api.prooflink.ai/*",
+    "http://localhost:8000/*"
+  ],
+  
+  "options_page": "options/options.html",
+  
+  "commands": {
+    "create-proof": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+P",
+        "mac": "Command+Shift+P"
+      },
+      "description": "Create proof of current page"
+    },
+    "verify-proof": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+V",
+        "mac": "Command+Shift+V"
+      },
+      "description": "Verify proof from clipboard"
+    }
+  },
+  
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "icons/*",
+        "content/overlay.html"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}

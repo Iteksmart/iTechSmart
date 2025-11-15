@@ -1,0 +1,5 @@
+total 8
+drwxr-xr-x 3 root root   53 Nov 11 14:16 .
+drwxr-xr-x 7 root root 4096 Nov 11 19:39 ..
+drwxr-xr-x 5 root root   78 Nov 11 14:22 app
+-rw-r--r-- 1 root root 1955 Nov 11 14:15 requirements.txt

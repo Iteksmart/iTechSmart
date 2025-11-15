@@ -1,0 +1,2 @@
+Warning: Could not find help marker
+Terminal commands added successfully

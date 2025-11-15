@@ -1,0 +1,50 @@
+/**
+ * Document Commands - VS Code commands for document processing
+ */
+
+import * as vscode from 'vscode';
+import { APIClient } from '../api/client';
+
+export function registerDocumentCommands(context: vscode.ExtensionContext, apiClient: APIClient) {
+    context.subscriptions.push(
+        vscode.commands.registerCommand('itechsmart.uploadDocument', () => uploadDocument(apiClient)),
+        vscode.commands.registerCommand('itechsmart.extractText', () => extractText(apiClient)),
+        vscode.commands.registerCommand('itechsmart.extractTables', () => extractTables(apiClient)),
+        vscode.commands.registerCommand('itechsmart.ocrDocument', () => ocrDocument(apiClient)),
+        vscode.commands.registerCommand('itechsmart.convertDocument', () => convertDocument(apiClient)),
+        vscode.commands.registerCommand('itechsmart.searchDocuments', () => searchDocuments(apiClient)),
+        vscode.commands.registerCommand('itechsmart.devpareDocuments', () => compareDocuments(apiClient))
+    );
+}
+
+async function uploadDocument(apiClient: APIClient) {
+    // TODO: Implement document upload
+    vscode.window.showInformationMessage('Document upload - To be implemented');
+}
+
+async function extractText(apiClient: APIClient) {
+    // TODO: Implement text extraction
+    vscode.window.showInformationMessage('Text extraction - To be implemented');
+}
+
+async function extractTables(apiClient: APIClient) {
+    // TODO: Implement table extraction
+    vscode.window.showInformationMessage('Table extraction - To be implemented');
+}
+
+async function ocrDocument(apiClient: APIClient) {
+    // TODO: Implement OCR
+    vscode.window.showInformationMessage('OCR - To be implemented');
+}
+
+async function convertDocument(apiClient: APIClient) {
+    // TODO: Implement document conversion
+    vscode.window.showInformationMessage('Document conversion - To be implemented');
+}
+
+async function searchDocuments(apiClient: APIClient) {
+    // TODO: Implement document search
+    vscode.window.showInformationMessage('Document search - To be implemented');
+}
+
+async function compareDocuments(apiClient: APIClient) {

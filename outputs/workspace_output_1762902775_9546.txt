@@ -1,0 +1,58 @@
+=== CHECKING README FILES QUALITY ===
+
+--- prooflink/README.md ---
+  Lines: 343
+  ✓ Has title
+  ✓ Has installation instructions
+  ✓ Has usage examples
+  ✓ Has features/overview
+
+--- passport/README.md ---
+  Lines: 349
+  ✓ Has title
+  ✓ Has installation instructions
+  ✓ Has usage examples
+  ✓ Has features/overview
+
+--- itechsmart-impactos/README.md ---
+  Lines: 328
+  ✓ Has title
+  ✓ Has installation instructions
+  ✓ Has usage examples
+  ✓ Has features/overview
+
+--- itechsmart-ninja/README.md ---
+  Lines: 493
+  ✓ Has title
+  ✓ Has installation instructions
+  ✓ Has usage examples
+  ✓ Has features/overview
+
+--- itechsmart-enterprise/README.md ---
+  Lines: 610
+  ✓ Has title
+  ✓ Has installation instructions
+  ✓ Has usage examples
+  ✓ Has features/overview
+
+--- itechsmart-hl7/README.md ---
+  Lines: 470
+  ✓ Has title
+  ✗ Missing installation instructions
+  ✓ Has usage examples
+  ✓ Has features/overview
+
+--- itechsmart_supreme/README.md ---
+  Lines: 160
+  ✓ Has title
+  ✓ Has installation instructions
+  ✓ Has usage examples
+  ✓ Has features/overview
+
+--- fitsnap-ai/README.md ---
+  Lines: 649
+  ✓ Has title
+  ✓ Has installation instructions
+  ✓ Has usage examples
+  ✓ Has features/overview
+

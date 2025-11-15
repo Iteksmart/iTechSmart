@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: citadel-postgres
+    environment:
+      POSTGRES_DB: citadel
+      POSTGRES_USER: citadel
+      POSTGRES_PASSWORD: citadel
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - citadel-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: citadel-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - citadel-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: citadel-backend
+    environment:
+      DATABASE_URL: postgresql://citadel:citadel@postgres:5432/citadel
+      REDIS_URL: redis://redis:6379/5
+      DEBUG: "false"
+      PQC_ENABLED: "true"
+      SIEM_ENABLED: "true"
+      XDR_ENABLED: "true"
+      ZERO_TRUST_ENABLED: "true"
+      HUB_URL: http://hub:8000
+      SHIELD_URL: http://shield:8018
+    ports:
+      - "8035:8035"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - citadel-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: citadel-frontend
+    environment:
+      VITE_API_URL: http://localhost:8035
+    ports:
+      - "3035:3035"
+    depends_on:
+      - backend
+    networks:
+      - citadel-network
+    restart: unless-stopped
+
+networks:
+  citadel-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

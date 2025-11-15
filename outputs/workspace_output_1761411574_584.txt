@@ -1,0 +1,30 @@
+
+            if (response.success) {
+                let output = '\n📖 Available Citation Styles:\n';
+                output += '═'.repeat(80) + '\n\n';
+
+                response.styles.forEach((style: any) => {
+                    output += `${style.name}\n`;
+                    output += `  ID: ${style.id}\n`;
+                    output += `  ${style.description}\n\n`;
+                });
+
+                output += '═'.repeat(80) + '\n';
+                output += 'Use: cite <url> <title> <style>\n\n';
+
+                this.sendToTerminal({
+                    type: 'output',
+                    content: output,
+                    color: '#4ecdc4'
+                });
+            }
+
+        } catch (error: any) {
+            this.sendToTerminal({
+                type: 'output',
+                content: `Error: ${error.message}\n`,
+                color: '#ff0000'
+            });
+        }
+    }
+}

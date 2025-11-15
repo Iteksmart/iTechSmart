@@ -1,0 +1,9 @@
+                case 'help':
+                    await this.showHelp();
+                    break;
+                case 'clear':
+                    this.sendToTerminal({ type: 'clear' });
+                    break;
+                case 'generate':
+                    await this.generateCode(args.join(' '));
+                    break;

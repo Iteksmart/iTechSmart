@@ -1,0 +1,73 @@
+---
+# iTechSmart Suite - Ansible Playbook
+# Automated deployment and configuration for all 33 products
+
+- name: Deploy iTechSmart Suite
+  hosts: all
+  become: yes
+  vars:
+    itechsmart_version: "1.0.0"
+    itechsmart_environment: "{{ environment | default('production') }}"
+    itechsmart_base_dir: "/opt/itechsmart"
+    docker_compose_version: "2.23.0"
+    
+  tasks:
+    - name: Include environment-specific variables
+      include_vars: "vars/{{ itechsmart_environment }}.yml"
+      
+    - name: System preparation
+      import_tasks: tasks/system-prep.yml
+      
+    - name: Install Docker
+      import_tasks: tasks/docker-install.yml
+      
+    - name: Configure firewall
+      import_tasks: tasks/firewall-config.yml
+      
+    - name: Deploy database
+      import_tasks: tasks/database-deploy.yml
+      
+    - name: Deploy Redis
+      import_tasks: tasks/redis-deploy.yml
+      
+    - name: Deploy iTechSmart products
+      import_tasks: tasks/products-deploy.yml
+      
+    - name: Configure monitoring
+      import_tasks: tasks/monitoring-setup.yml
+      
+    - name: Configure backups
+      import_tasks: tasks/backup-setup.yml
+      
+    - name: Health checks
+      import_tasks: tasks/health-checks.yml
+
+- name: Post-deployment verification
+  hosts: all
+  become: yes
+  tasks:
+    - name: Verify all services are running
+      import_tasks: tasks/verify-deployment.yml
+      
+    - name: Display deployment summary
+      debug:
+        msg: |
+          ========================================
+          iTechSmart Suite Deployment Complete!
+          ========================================
+          Environment: {{ itechsmart_environment }}
+          Version: {{ itechsmart_version }}
+          Products Deployed: 33
+          Base Directory: {{ itechsmart_base_dir }}
+          
+          Access URLs:
+          - Enterprise Hub: https://{{ ansible_host }}:3001
+          - Ninja Agent: https://{{ ansible_host }}:3002
+          - Analytics: https://{{ ansible_host }}:3003
+          
+          Next Steps:
+          1. Configure SSL certificates
+          2. Set up domain names
+          3. Configure monitoring alerts
+          4. Review security settings
+          ========================================

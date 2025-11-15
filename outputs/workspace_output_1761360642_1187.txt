@@ -1,0 +1,7 @@
+./PACKAGE_AND_DEPLOY.sh
+./backend/app/main.py
+./docker-compose.yml
+./frontend/src/App.jsx
+./frontend/src/main.jsx
+./monitoring/prometheus/prometheus.yml
+./setup.sh

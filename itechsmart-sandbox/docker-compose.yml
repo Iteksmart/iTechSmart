@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8033:8033"
+    environment:
+      - DATABASE_URL=postgresql://sandbox_user:sandbox_pass@db:5432/sandbox_db
+      - REDIS_URL=redis://redis:6379
+      - SECRET_KEY=your-secret-key-here
+      - ENVIRONMENT=development
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./backend:/app
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - sandbox-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3033:3033"
+    environment:
+      - VITE_API_URL=http://localhost:8033
+    depends_on:
+      - backend
+    networks:
+      - sandbox-network
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=sandbox_user
+      - POSTGRES_PASSWORD=sandbox_pass
+      - POSTGRES_DB=sandbox_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - sandbox-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - sandbox-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  sandbox-network:
+    driver: bridge

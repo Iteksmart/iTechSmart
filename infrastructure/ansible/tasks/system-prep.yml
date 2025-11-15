@@ -1,0 +1,95 @@
+---
+# System Preparation Tasks
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  when: ansible_os_family == "Debian"
+
+- name: Update yum cache
+  yum:
+    update_cache: yes
+  when: ansible_os_family == "RedHat"
+
+- name: Install required system packages
+  package:
+    name:
+      - curl
+      - wget
+      - git
+      - vim
+      - htop
+      - net-tools
+      - unzip
+      - python3
+      - python3-pip
+      - apt-transport-https
+      - ca-certificates
+      - gnupg
+      - lsb-release
+    state: present
+
+- name: Create iTechSmart base directory
+  file:
+    path: "{{ itechsmart_base_dir }}"
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Create iTechSmart user
+  user:
+    name: itechsmart
+    comment: "iTechSmart Suite Service Account"
+    shell: /bin/bash
+    home: "{{ itechsmart_base_dir }}"
+    create_home: no
+    system: yes
+
+- name: Set system limits for iTechSmart user
+  pam_limits:
+    domain: itechsmart
+    limit_type: "{{ item.type }}"
+    limit_item: "{{ item.item }}"
+    value: "{{ item.value }}"
+  loop:
+    - { type: 'soft', item: 'nofile', value: '65536' }
+    - { type: 'hard', item: 'nofile', value: '65536' }
+    - { type: 'soft', item: 'nproc', value: '32768' }
+    - { type: 'hard', item: 'nproc', value: '32768' }
+
+- name: Configure kernel parameters
+  sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    reload: yes
+  loop:
+    - { name: 'vm.max_map_count', value: '262144' }
+    - { name: 'fs.file-max', value: '2097152' }
+    - { name: 'net.core.somaxconn', value: '65535' }
+    - { name: 'net.ipv4.tcp_max_syn_backlog', value: '8192' }
+
+- name: Disable swap for better performance
+  command: swapoff -a
+  when: disable_swap | default(false)
+
+- name: Remove swap from fstab
+  lineinfile:
+    path: /etc/fstab
+    regexp: '^.*swap.*$'
+    state: absent
+  when: disable_swap | default(false)
+
+- name: Set timezone
+  timezone:
+    name: "{{ timezone | default('UTC') }}"
+
+- name: Install Python Docker SDK
+  pip:
+    name:
+      - docker
+      - docker-compose
+    state: present
+    executable: pip3

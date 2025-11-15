@@ -1,0 +1,10 @@
+=== iTechSmart Ninja Tests ===
+/workspace/itechsmart-ninja/backend/tests/test_collaboration.py
+/workspace/itechsmart-ninja/backend/tests/test_debugging.py
+/workspace/itechsmart-ninja/backend/tests/test_history.py
+/workspace/itechsmart-ninja/backend/tests/test_mcp.py
+/workspace/itechsmart-ninja/backend/tests/test_visualization.py
+/workspace/itechsmart-ninja/backend/tests/test_workflows.py
+=== iTechSmart Enterprise Tests ===
+=== iTechSmart HL7 Tests ===
+/workspace/itechsmart-hl7/backend/alembic.ini

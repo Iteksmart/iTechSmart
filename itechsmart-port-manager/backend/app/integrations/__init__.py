@@ -1,0 +1,3 @@
+"""
+iTechSmart Suite Integration Module
+"""

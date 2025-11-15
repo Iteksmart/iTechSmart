@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  itechsmart-supreme:
+    build: .
+    container_name: itechsmart-supreme
+    ports:
+      - "5000:5000"
+    environment:
+      # Core Settings
+      - MASTER_PASSWORD=change_me_in_production
+      - SECRET_KEY=change_me_in_production
+      - CREDENTIALS_PATH=/app/data/credentials.enc
+      
+      # AI Settings
+      - OFFLINE_MODE=true
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      
+      # Automation Settings
+      - AUTO_REMEDIATION=false
+      - REQUIRE_APPROVAL_HIGH_RISK=true
+      
+      # Monitoring Endpoints
+      - PROMETHEUS_ENDPOINTS=http://prometheus:9090
+      - WAZUH_ENDPOINTS=https://wazuh:55000:admin:admin
+      
+      # Webhook Secrets
+      - GITHUB_WEBHOOK_SECRET=${GITHUB_WEBHOOK_SECRET:-}
+      - PROMETHEUS_WEBHOOK_SECRET=${PROMETHEUS_WEBHOOK_SECRET:-}
+      
+      # Server Settings
+      - HOST=0.0.0.0
+      - PORT=5000
+    
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    
+    restart: unless-stopped
+    
+    networks:
+      - itechsmart-network
+    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Prometheus for monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - itechsmart-network
+    restart: unless-stopped
+
+networks:
+  itechsmart-network:
+    driver: bridge
+
+volumes:
+  prometheus-data:

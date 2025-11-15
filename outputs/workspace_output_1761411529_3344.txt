@@ -1,0 +1,20 @@
+
+                output += '═'.repeat(80) + '\n';
+                output += 'Use: cite <url> <title> <style>\n\n';
+
+                this.sendToTerminal({
+                    type: 'output',
+                    content: output,
+                    color: '#4ecdc4'
+                });
+            }
+
+        } catch (error: any) {
+            this.sendToTerminal({
+                type: 'output',
+                content: `Error: ${error.message}\n`,
+                color: '#ff0000'
+            });
+        }
+    }
+}

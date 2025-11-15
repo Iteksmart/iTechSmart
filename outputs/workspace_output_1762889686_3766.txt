@@ -1,0 +1,15 @@
+frontend/src/app
+frontend/src/app/auth
+frontend/src/app/auth/login
+frontend/src/app/auth/register
+frontend/src/app/dashboard
+frontend/src/app/dashboard/analytics
+frontend/src/app/dashboard/api-keys
+frontend/src/app/dashboard/create
+frontend/src/app/dashboard/proofs
+frontend/src/app/dashboard/proofs/[id]
+frontend/src/app/dashboard/settings
+frontend/src/app/help
+frontend/src/app/pricing
+frontend/src/app/verify
+frontend/src/app/verify/[link]

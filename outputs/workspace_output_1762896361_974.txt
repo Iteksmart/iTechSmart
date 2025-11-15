@@ -1,0 +1,7 @@
+total 0
+drwxr-xr-x 6 root root  87 Oct 24 10:16 .
+drwxr-xr-x 1 root root 126 Oct 25 02:55 ..
+drwxr-xr-x 2 root root  10 Oct 24 10:16 docker
+drwxr-xr-x 2 root root  10 Oct 24 10:16 helm
+drwxr-xr-x 2 root root  10 Oct 24 10:16 kubernetes
+drwxr-xr-x 5 root root  57 Oct 24 10:16 terraform

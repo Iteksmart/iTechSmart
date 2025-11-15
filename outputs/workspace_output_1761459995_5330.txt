@@ -1,0 +1,59 @@
+        const helpText = `
+Video Generation Commands:
+══════════════════════════════════════════════════════════════
+
+  video-generate                Generate video from text
+  generate-video                (alias for video-generate)
+  video-transform               Transform existing video
+  transform-video               (alias for video-transform)
+  video-upscale                 Upscale video resolution
+  upscale-video                 (alias for video-upscale)
+  video-edit                    Edit video (trim, merge, effects)
+  edit-video                    (alias for video-edit)
+  video-list                    List video generations
+  list-videos                   (alias for video-list)
+
+Examples:
+  video-generate
+  video-transform
+  video-upscale
+  video-list
+
+`;
+        this.sendToTerminal({
+            type: 'output',
+            content: helpText,
+            color: '#4ecdc4'
+        });
+    }
+
+    private async generateVideo() {
+        try {
+            this.sendToTerminal({
+                type: 'output',
+                content: '\n🎬 Generating video...\n\n',
+                color: '#4ecdc4'
+            });
+
+            vscode.commands.executeCommand('itechsmart.generateVideoFromText');
+
+        } catch (error: any) {
+            this.sendToTerminal({
+                type: 'output',
+                content: `Error: ${error.message}\n`,
+                color: '#ff0000'
+            });
+        }
+    }
+
+    private async transformVideo() {
+        try {
+            this.sendToTerminal({
+                type: 'output',
+                content: '\n🎨 Transforming video...\n\n',
+                color: '#4ecdc4'
+            });
+
+            vscode.commands.executeCommand('itechsmart.transformVideo');
+
+        } catch (error: any) {

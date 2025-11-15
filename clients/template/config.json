@@ -1,0 +1,67 @@
+{
+  "client": {
+    "name": "Client Company Name",
+    "short_name": "ClientCo",
+    "website": "https://www.client-company.com",
+    "support_email": "support@client-company.com",
+    "support_phone": "+1-555-0000",
+    "copyright": "Copyright © 2025 Client Company Name. All rights reserved."
+  },
+  "branding": {
+    "logo_file": "logo.png",
+    "primary_color": "#0066CC",
+    "secondary_color": "#FF6600",
+    "accent_color": "#00CC66",
+    "background_color": "#FFFFFF",
+    "text_color": "#333333",
+    "app_name": "Client Enterprise Suite",
+    "installer_name": "Client-Enterprise-Suite-Setup"
+  },
+  "products": {
+    "include": [1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
+    "exclude": [],
+    "custom_names": {
+      "iTechSmart Enterprise": "Client Integration Hub",
+      "iTechSmart Shield": "Client Security Platform"
+    }
+  },
+  "license": {
+    "types": ["trial", "basic", "professional", "enterprise"],
+    "trial_days": 30,
+    "default_type": "trial",
+    "require_activation": true,
+    "license_server": "https://license.client-company.com/api/v1"
+  },
+  "update": {
+    "update_server": "https://updates.client-company.com/api/v1",
+    "check_frequency": 86400,
+    "auto_update": false,
+    "allow_manual_check": true
+  },
+  "telemetry": {
+    "enabled": true,
+    "server": "https://telemetry.client-company.com/api/v1",
+    "anonymous": true,
+    "collect_system_info": true,
+    "collect_usage_stats": true
+  },
+  "installation": {
+    "default_dir": "C:\\Program Files\\Client Enterprise Suite",
+    "default_dir_linux": "/opt/client-enterprise-suite",
+    "default_dir_macos": "/Applications/Client Enterprise Suite.app",
+    "create_desktop_shortcut": true,
+    "create_start_menu": true,
+    "auto_start": false,
+    "ports": {
+      "base_port": 8000,
+      "frontend_base_port": 3000
+    }
+  },
+  "features": {
+    "enable_crash_reporting": true,
+    "enable_analytics": true,
+    "enable_auto_update": true,
+    "enable_telemetry": true,
+    "show_trial_reminder": true
+  }
+}

@@ -1,0 +1,1 @@
+140:        vscode.commands.registerCommand('itechsmart.viewTaskDetails', async (taskId: number) => {

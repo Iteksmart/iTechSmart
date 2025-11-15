@@ -1,0 +1,6 @@
+./backend/Dockerfile
+./backend/docker-compose.yml
+./frontend/Dockerfile
+./docker-compose.yml
+./Dockerfile.backend
+./Dockerfile.frontend

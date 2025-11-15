@@ -1,0 +1,69 @@
+# Prometheus Configuration for iTechSmart Supreme with All Integrations
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'itechsmart-supreme'
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - 'alertmanager:9093'
+
+# Load rules once and periodically evaluate them
+rule_files:
+  - "alerts.yml"
+
+# Scrape configurations
+scrape_configs:
+  # iTechSmart Supreme metrics
+  - job_name: 'itechsmart-supreme'
+    static_configs:
+      - targets:
+        - 'itechsmart-supreme:5000'
+    metrics_path: '/metrics'
+
+  # Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets:
+        - 'localhost:9090'
+
+  # Node Exporter
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets:
+        - 'node-exporter:9100'
+
+  # Grafana
+  - job_name: 'grafana'
+    static_configs:
+      - targets:
+        - 'grafana:3000'
+
+  # Ollama
+  - job_name: 'ollama'
+    static_configs:
+      - targets:
+        - 'ollama:11434'
+
+  # Vault
+  - job_name: 'vault'
+    static_configs:
+      - targets:
+        - 'vault:8200'
+    metrics_path: '/v1/sys/metrics'
+    params:
+      format: ['prometheus']
+
+  # Add your infrastructure hosts here
+  - job_name: 'infrastructure'
+    static_configs:
+      - targets:
+        # Add your servers with node_exporter
+        # - 'server1:9100'
+        # - 'server2:9100'
+        # - 'server3:9100'

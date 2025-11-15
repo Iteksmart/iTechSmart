@@ -1,0 +1,19 @@
+🚀 Starting iTechSmart GTM Manual Compilation...
+📄 Creating cover page...
+📚 Reading markdown files...
+   ✓ Reading ITECHSMART_GTM_MASTER_PLAN.md
+   ✓ Reading GTM_PRODUCT_1_ITECHSMART_CORE.md
+   ✓ Reading GTM_PRODUCT_2_ITECHSMART_NINJA.md
+   ✓ Reading GTM_PRODUCT_3_ITECHSMART_SUPREME.md
+   ✓ Reading GTM_PRODUCT_4_ENTERPRISE_HL7_CITADEL.md
+   ✓ Reading GTM_OVERALL_BUSINESS_STRATEGY.md
+   ✓ Reading GTM_COMPREHENSIVE_FAQ.md
+📝 Writing combined markdown to ITECHSMART_GTM_COMPLETE_MANUAL.md...
+🔄 Converting to PDF: iTechSmart_GTM_Master_Manual.pdf...
+❌ Error: pandoc not found. Please install pandoc:
+   Ubuntu/Debian: sudo apt-get install pandoc texlive-xetex
+   macOS: brew install pandoc basictex
+   Windows: Download from https://pandoc.org/installing.html
+
+📄 Combined markdown file created: {combined_md}
+   You can convert it to PDF manually or use an online converter.

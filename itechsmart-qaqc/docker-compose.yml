@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: itechsmart-qaqc-db
+    environment:
+      POSTGRES_DB: qaqc
+      POSTGRES_USER: qaqc_user
+      POSTGRES_PASSWORD: qaqc_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U qaqc_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: itechsmart-qaqc-backend
+    environment:
+      DATABASE_URL: postgresql://qaqc_user:qaqc_password@postgres:5432/qaqc
+      SECRET_KEY: your-secret-key-change-in-production
+      ENVIRONMENT: production
+      PORT: 8300
+      # Enterprise Hub integration
+      HUB_URL: http://itechsmart-enterprise:8001
+      HUB_API_KEY: your-hub-api-key
+      # Ninja integration
+      NINJA_URL: http://itechsmart-ninja:8002
+      NINJA_API_KEY: your-ninja-api-key
+    ports:
+      - "8300:8300"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    restart: unless-stopped
+
+  # Frontend (Nginx serving React build)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: itechsmart-qaqc-frontend
+    ports:
+      - "3300:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  default:
+    name: itechsmart-network
+    external: true

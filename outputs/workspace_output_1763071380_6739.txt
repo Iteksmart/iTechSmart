@@ -1,0 +1,6 @@
+total 8
+drwxr-xr-x 1 root root   66 Nov 13 18:17 .
+drwxr-xr-x 1 root root  116 Nov 13 18:16 ..
+-rw-r--r-- 1 root root  162 Nov 13 17:53 Dockerfile
+drwxr-xr-x 1 root root   50 Nov 12 20:48 app
+-rw-r--r-- 1 root root 1231 Nov 13 18:17 main.py

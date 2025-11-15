@@ -1,0 +1,5 @@
+# iTechSmart Suite - Master Technical Manual
+**Version:** 1.0.0  
+**Date:** August 2025  
+**Classification:** Comprehensive Enterprise Documentation
+

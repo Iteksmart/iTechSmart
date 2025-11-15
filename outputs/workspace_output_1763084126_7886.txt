@@ -1,0 +1,14 @@
+
+| # | Product Name | Category | Primary Function |
+|---|--------------|----------|------------------|
+| 1 | iTechSmart Enterprise | Foundation | Integration Hub & Service Catalog |
+| 2 | iTechSmart Ninja | Foundation | AI Agent |
+| 3 | iTechSmart Analytics | Foundation | Data Analytics & AI Insights |
+| 4 | iTechSmart Supreme | Foundation | Healthcare Management |
+| 5 | iTechSmart HL7 | Foundation | Medical Data Integration |
+| 6 | ProofLink | Foundation | Document Verification |
+| 7 | PassPort | Foundation | Identity Management |
+| 8 | ImpactOS | Foundation | Impact Measurement |
+| 9 | LegalAI Pro | Foundation | Legal Software |
+| 10 | iTechSmart DataFlow | Strategic | Data Pipeline |
+| 11 | iTechSmart Pulse | Strategic | Monitoring |

@@ -1,0 +1,21 @@
+                case 'whoami':
+                    await this.showCurrentUser();
+                    break;
+                   case 'gh-repos':
+                       await this.listGitHubRepos();
+                       break;
+                   case 'gh-prs':
+                       await this.listGitHubPRs(args);
+                       break;
+                   case 'gh-issues':
+                       await this.listGitHubIssues(args);
+                       break;
+                   case 'gh-create-pr':
+                       await this.createGitHubPR(args);
+                       break;
+                   case 'gh-create-issue':
+                       await this.createGitHubIssue(args);
+                       break;
+                default:
+                    this.sendToTerminal({
+                        type: 'output',

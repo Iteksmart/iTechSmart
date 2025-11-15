@@ -1,0 +1,9 @@
+passport/frontend/src/app/dashboard
+passport/frontend/src/app/dashboard/vault
+passport/frontend/src/app/dashboard/generator
+passport/frontend/src/app/dashboard/security
+passport/frontend/src/app/dashboard/passwords
+passport/frontend/src/app/dashboard/settings
+passport/frontend/src/app/dashboard/api-keys
+passport/frontend/src/app/dashboard/sharing
+passport/frontend/src/app/dashboard/emergency

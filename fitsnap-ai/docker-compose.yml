@@ -1,0 +1,93 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: fitsnap-postgres
+    environment:
+      POSTGRES_USER: fitsnap
+      POSTGRES_PASSWORD: fitsnap123
+      POSTGRES_DB: fitsnap
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fitsnap"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - fitsnap-network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: fitsnap-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - fitsnap-network
+
+  # Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: fitsnap-backend
+    environment:
+      DATABASE_URL: postgresql+asyncpg://fitsnap:fitsnap123@postgres:5432/fitsnap
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: ${SECRET_KEY:-dev-secret-key-change-in-production}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-dev-jwt-secret-key}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      ENVIRONMENT: ${ENVIRONMENT:-development}
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - backend_uploads:/app/uploads
+      - backend_logs:/app/logs
+    networks:
+      - fitsnap-network
+    restart: unless-stopped
+
+  # Frontend (Expo Web)
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: fitsnap-frontend
+    environment:
+      EXPO_PUBLIC_API_URL: http://backend:8000
+    ports:
+      - "19006:19006"
+    depends_on:
+      - backend
+    networks:
+      - fitsnap-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+  backend_uploads:
+  backend_logs:
+
+networks:
+  fitsnap-network:
+    driver: bridge

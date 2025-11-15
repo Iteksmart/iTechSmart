@@ -1,0 +1,2 @@
+23:import { registerVideoCommands } from './commands/videoCommands';
+70:    registerVideoCommands(context, apiClient);

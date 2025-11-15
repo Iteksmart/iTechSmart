@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How iTechSmart Works - AI-Powered IT Operations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        /* ROI Dashboard */
+        .roi-dashboard {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .roi-dashboard h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            color: #667eea;
+        }
+
+        .roi-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .roi-metric {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            color: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .roi-metric:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .roi-metric .value {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .roi-metric .label {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .how-it-works h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 60px;
+            color: #667eea;
+        }
+
+        .workflow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .workflow-step {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .workflow-step:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .workflow-step .icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .workflow-step h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .workflow-step p {
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        .workflow-arrow {
+            font-size: 3em;
+            color: #667eea;
+            margin: 0 10px;
+        }
+
+        /* Features Grid */
+        .features {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 60px;
+            color: #667eea;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .feature-card .icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .feature-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .feature-card li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .feature-card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Products Section */
+        .products {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .products h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 60px;
+            color: #667eea;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.5);
+        }
+
+        .product-card .logo {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .product-card h3 {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .product-card .tagline {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .product-card .price {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .product-card ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 30px;
+        }
+
+        .product-card li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .product-card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        /* Compliance Badges */
+        .compliance {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .compliance h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 60px;
+            color: #667eea;
+        }
+
+        .compliance-badges {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .badge {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            min-width: 150px;
+            transition: all 0.3s ease;
+        }
+
+        .badge:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .badge .icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+
+        .badge .name {
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 80px 40px;
+            margin: 40px 0;
+            text-align: center;
+            color: white;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .cta h2 {
+            font-size: 3em;
+            margin-bottom: 30px;
+        }
+
+        .cta p {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 20px 50px;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-primary:hover {
+            background: #f8f9fa;
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 3px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #667eea;
+            transform: scale(1.05);
+        }
+
+        /* Stats Section */
+        .stats {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .stats h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 60px;
+            color: #667eea;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-10px);
+        }
+
+        .stat-card .number {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .label {
+            font-size: 1.2em;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .hero p {
+                font-size: 1.2em;
+            }
+
+            .workflow {
+                flex-direction: column;
+            }
+
+            .workflow-arrow {
+                transform: rotate(90deg);
+                margin: 20px 0;
+            }
+
+            .roi-dashboard h2,
+            .how-it-works h2,
+            .features h2,
+            .products h2,
+            .compliance h2,
+            .stats h2 {
+                font-size: 2em;
+            }
+
+            .cta h2 {
+                font-size: 2em;
+            }
+
+            .cta p {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>🚀 How iTechSmart Works</h1>
+            <p>AI-Powered IT Operations That Reduce Downtime by 85% and Save $2M Annually</p>
+        </div>
+
+        <!-- ROI Dashboard -->
+        <div class="roi-dashboard">
+            <h2>💰 Real-World Results</h2>
+            <div class="roi-metrics">
+                <div class="roi-metric">
+                    <div class="value">70%</div>
+                    <div class="label">Faster Resolution</div>
+                </div>
+                <div class="roi-metric">
+                    <div class="value">85%</div>
+                    <div class="label">Less Downtime</div>
+                </div>
+                <div class="roi-metric">
+                    <div class="value">$2M</div>
+                    <div class="label">Annual Savings</div>
+                </div>
+                <div class="roi-metric">
+                    <div class="value">462%</div>
+                    <div class="label">Average ROI</div>
+                </div>
+                <div class="roi-metric">
+                    <div class="value">10.4</div>
+                    <div class="label">Month Payback</div>
+                </div>
+                <div class="roi-metric">
+                    <div class="value">99.97%</div>
+                    <div class="label">System Uptime</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- How It Works -->
+        <div class="how-it-works">
+            <h2>🔄 How It Works in 3 Simple Steps</h2>
+            <div class="workflow">
+                <div class="workflow-step">
+                    <div class="icon">📊</div>
+                    <h3>1. Detect</h3>
+                    <p>AI monitors 1,000+ systems in real-time, detecting issues in <strong>&lt;30 seconds</strong> before they impact users</p>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step">
+                    <div class="icon">🤖</div>
+                    <h3>2. Diagnose</h3>
+                    <p>42 AI models analyze patterns, identify root causes, and recommend solutions with <strong>98% accuracy</strong></p>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step">
+                    <div class="icon">⚡</div>
+                    <h3>3. Resolve</h3>
+                    <p>Automated remediation fixes <strong>95% of issues</strong> in minutes without human intervention</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products -->
+        <div class="products">
+            <h2>🎯 Choose Your Solution</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="logo">🥷</div>
+                    <h3>iTechSmart Ninja</h3>
+                    <div class="tagline">AI Development Assistant</div>
+                    <div class="price">$20-100/month</div>
+                    <ul>
+                        <li>42 AI Models (11 Providers)</li>
+                        <li>Deep Research with Citations</li>
+                        <li>Code Editors & GitHub Integration</li>
+                        <li>Image & Video Generation</li>
+                        <li>Data Visualization</li>
+                        <li>Document Processing</li>
+                        <li>Custom Workflows</li>
+                        <li>Team Collaboration</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">Start Free Trial</a>
+                </div>
+
+                <div class="product-card">
+                    <div class="logo">👑</div>
+                    <h3>iTechSmart Supreme</h3>
+                    <div class="tagline">Enterprise IT Automation</div>
+                    <div class="price">$1.5K-6K/month</div>
+                    <ul>
+                        <li>95% Automated Resolution</li>
+                        <li>Multi-AI Diagnosis Engine</li>
+                        <li>6 Enterprise Integrations</li>
+                        <li>Predictive Maintenance</li>
+                        <li>Security & Compliance</li>
+                        <li>24/7 Monitoring</li>
+                        <li>Custom Playbooks</li>
+                        <li>White-Glove Support</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">Request Demo</a>
+                </div>
+
+                <div class="product-card">
+                    <div class="logo">🏢</div>
+                    <h3>iTechSmart Enterprise</h3>
+                    <div class="tagline">Integration Hub</div>
+                    <div class="price">Custom Pricing</div>
+                    <ul>
+                        <li>12+ Enterprise Integrations</li>
+                        <li>ServiceNow, Zendesk, Jira</li>
+                        <li>SAP, Salesforce, Workday</li>
+                        <li>Custom API Development</li>
+                        <li>Dedicated Support Team</li>
+                        <li>SLA Guarantees</li>
+                        <li>On-Premise Options</li>
+                        <li>Unlimited Users</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="features">
+            <h2>✨ Powerful Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">🤖</div>
+                    <h3>AI-Powered Automation</h3>
+                    <ul>
+                        <li>42 AI models from 11 providers</li>
+                        <li>95% automated resolution rate</li>
+                        <li>Pattern recognition & learning</li>
+                        <li>Predictive failure detection</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon">⚡</div>
+                    <h3>Lightning Fast</h3>
+                    <ul>
+                        <li>&lt;30 second detection time</li>
+                        <li>&lt;5 minute resolution time</li>
+                        <li>99.97% system uptime</li>
+                        <li>Real-time monitoring</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon">🔒</div>
+                    <h3>Enterprise Security</h3>
+                    <ul>
+                        <li>Zero breaches (5+ years)</li>
+                        <li>SOC 2, HIPAA, FedRAMP ready</li>
+                        <li>AES-256 encryption</li>
+                        <li>Multi-factor authentication</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon">🔗</div>
+                    <h3>Seamless Integration</h3>
+                    <ul>
+                        <li>12+ enterprise integrations</li>
+                        <li>247 API endpoints</li>
+                        <li>Custom webhook support</li>
+                        <li>Bi-directional sync</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon">📊</div>
+                    <h3>Advanced Analytics</h3>
+                    <ul>
+                        <li>Real-time dashboards</li>
+                        <li>Predictive insights</li>
+                        <li>Custom reports</li>
+                        <li>Trend analysis</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon">🎯</div>
+                    <h3>Proven Results</h3>
+                    <ul>
+                        <li>462% average ROI</li>
+                        <li>10.4 month payback</li>
+                        <li>$2M annual savings</li>
+                        <li>100% pilot success rate</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <h2>📈 By The Numbers</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="number">65,520</div>
+                    <div class="label">Lines of Code</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">247</div>
+                    <div class="label">API Endpoints</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">87%</div>
+                    <div class="label">Test Coverage</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">1,247</div>
+                    <div class="label">Active Users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">2,847</div>
+                    <div class="label">Deployments</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">150+</div>
+                    <div class="label">Patents Filed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">72</div>
+                    <div class="label">NPS Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">0</div>
+                    <div class="label">Security Breaches</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compliance -->
+        <div class="compliance">
+            <h2>🏆 Enterprise-Grade Compliance</h2>
+            <div class="compliance-badges">
+                <div class="badge">
+                    <div class="icon">🔒</div>
+                    <div class="name">SOC 2 Type II</div>
+                </div>
+                <div class="badge">
+                    <div class="icon">🏥</div>
+                    <div class="name">HIPAA</div>
+                </div>
+                <div class="badge">
+                    <div class="icon">🏛️</div>
+                    <div class="name">FedRAMP</div>
+                </div>
+                <div class="badge">
+                    <div class="icon">🌍</div>
+                    <div class="name">GDPR</div>
+                </div>
+                <div class="badge">
+                    <div class="icon">🛡️</div>
+                    <div class="name">ISO 27001</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta">
+            <h2>Ready to Transform Your IT Operations?</h2>
+            <p>Join 1,247+ companies already saving millions with iTechSmart</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary">Start Free Trial</a>
+                <a href="#" class="btn btn-secondary">Request Demo</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards
+        document.querySelectorAll('.roi-metric, .workflow-step, .feature-card, .product-card, .stat-card, .badge').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Counter animation for stats
+        function animateCounter(element) {
+            const target = parseInt(element.textContent.replace(/[^0-9]/g, ''));
+            const duration = 2000;
+            const step = target / (duration / 16);
+            let current = 0;
+
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    element.textContent = element.textContent.replace(/[0-9,]+/, target.toLocaleString());
+                    clearInterval(timer);
+                } else {
+                    element.textContent = element.textContent.replace(/[0-9,]+/, Math.floor(current).toLocaleString());
+                }
+            }, 16);
+        }
+
+        // Animate counters when they come into view
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                    entry.target.classList.add('animated');
+                    animateCounter(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.roi-metric .value, .stat-card .number').forEach(el => {
+            counterObserver.observe(el);
+        });
+    </script>
+</body>
+</html>

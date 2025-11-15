@@ -1,0 +1,10 @@
+/workspace/itechsmart-impactos/frontend/src/app/admin/organizations/page.tsx
+/workspace/itechsmart-impactos/frontend/src/app/admin/page.tsx
+/workspace/itechsmart-impactos/frontend/src/app/admin/system/page.tsx
+/workspace/itechsmart-impactos/frontend/src/app/admin/users/page.tsx
+/workspace/itechsmart-impactos/frontend/src/app/auth/login/page.tsx
+/workspace/itechsmart-impactos/frontend/src/app/auth/register/page.tsx
+/workspace/itechsmart-impactos/frontend/src/app/dashboard/analytics/financial/page.tsx
+/workspace/itechsmart-impactos/frontend/src/app/dashboard/analytics/impact/page.tsx
+/workspace/itechsmart-impactos/frontend/src/app/dashboard/analytics/page.tsx
+/workspace/itechsmart-impactos/frontend/src/app/dashboard/analytics/programs/page.tsx

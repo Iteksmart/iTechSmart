@@ -1,0 +1,7 @@
+total 16
+drwxr-xr-x 3 root root   88 Nov 12 18:20 .
+drwxr-xr-x 3 root root 4096 Nov 12 18:29 ..
+-rw-r--r-- 1 root root 2892 Nov 12 18:20 App.tsx
+-rw-r--r-- 1 root root  686 Nov 12 18:20 index.css
+-rw-r--r-- 1 root root  231 Nov 12 18:20 index.tsx
+drwxr-xr-x 2 root root  164 Nov 12 18:25 pages

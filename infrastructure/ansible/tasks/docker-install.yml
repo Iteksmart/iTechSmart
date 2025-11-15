@@ -1,0 +1,99 @@
+---
+# Docker Installation Tasks
+
+- name: Add Docker GPG key (Debian/Ubuntu)
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Add Docker repository (Debian/Ubuntu)
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Install Docker (Debian/Ubuntu)
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Add Docker repository (RedHat/CentOS)
+  yum_repository:
+    name: docker-ce
+    description: Docker CE Repository
+    baseurl: https://download.docker.com/linux/centos/{{ ansible_distribution_major_version }}/x86_64/stable
+    gpgcheck: yes
+    gpgkey: https://download.docker.com/linux/centos/gpg
+  when: ansible_os_family == "RedHat"
+
+- name: Install Docker (RedHat/CentOS)
+  yum:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Start and enable Docker service
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Add itechsmart user to docker group
+  user:
+    name: itechsmart
+    groups: docker
+    append: yes
+
+- name: Configure Docker daemon
+  copy:
+    content: |
+      {
+        "log-driver": "json-file",
+        "log-opts": {
+          "max-size": "10m",
+          "max-file": "3"
+        },
+        "storage-driver": "overlay2",
+        "live-restore": true,
+        "userland-proxy": false,
+        "default-ulimits": {
+          "nofile": {
+            "Name": "nofile",
+            "Hard": 65536,
+            "Soft": 65536
+          }
+        }
+      }
+    dest: /etc/docker/daemon.json
+    mode: '0644'
+  notify: restart docker
+
+- name: Create Docker network for iTechSmart
+  docker_network:
+    name: itechsmart-network
+    driver: bridge
+    ipam_config:
+      - subnet: 172.20.0.0/16
+        gateway: 172.20.0.1
+
+- name: Verify Docker installation
+  command: docker --version
+  register: docker_version
+  changed_when: false
+
+- name: Display Docker version
+  debug:
+    msg: "Docker installed: {{ docker_version.stdout }}"

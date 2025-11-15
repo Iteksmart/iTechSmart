@@ -1,0 +1,100 @@
+# iTechSmart Enterprise - Service Catalog Enhancement
+
+**Version**: 1.0.0 → 1.1.0  
+**Enhancement Date**: January 10, 2025  
+**Status**: Backend Complete, Frontend Pending
+
+---
+
+## Overview
+
+The Service Catalog enhancement transforms iTechSmart Enterprise into a comprehensive self-service portal with ITIL-aligned service request management, approval workflows, and fulfillment tracking.
+
+## What's New
+
+### 1. Service Catalog
+
+**Self-Service Portal:**
+- Browse available IT services
+- Search and filter by category
+- View service details and requirements
+- Check estimated delivery times
+- See service costs and SLAs
+- View service ratings and reviews
+
+**Service Categories:**
+- Access Requests (accounts, VPN, permissions)
+- Software (licenses, applications)
+- Hardware (laptops, desktops, peripherals)
+- Infrastructure (cloud resources, servers)
+- Support (technical assistance)
+- Training (courses, certifications)
+- Consulting (professional services)
+- Other (custom services)
+
+**Service Details:**
+- Service name and description
+- Category and icon
+- Cost and cost center
+- Estimated delivery time
+- SLA information
+- Required approvals
+- Custom form fields
+- Prerequisites
+- Documentation links
+- Support group
+
+### 2. Service Request Workflow
+
+**Request Lifecycle:**
+1. **Draft** - User creates request
+2. **Submitted** - Request submitted for approval
+3. **Pending Approval** - Awaiting approver decision
+4. **Approved** - All approvals obtained
+5. **In Progress** - Being fulfilled
+6. **Fulfilled** - Service delivered
+7. **Closed** - Request completed with feedback
+
+**Request Features:**
+- Custom form data collection
+- Priority levels (low, medium, high, critical)
+- Justification and description
+- Request on behalf of others
+- Cost center allocation
+- Due date tracking
+- SLA monitoring
+- Satisfaction ratings
+
+### 3. Approval Workflows
+
+**Multi-Level Approvals:**
+- Sequential approval chains
+- Configurable approval steps
+- Automatic routing
+- Approval notifications
+- Reminder system
+- Due date tracking
+- Approval comments
+- Rejection with reasons
+
+**Approval Features:**
+- Pending approvals queue
+- One-click approve/reject
+- Bulk approval support
+- Approval history
+- Escalation rules
+- Delegation support
+
+### 4. Fulfillment Management
+
+**Task Management:**
+- Automatic task creation
+- Task assignment
+- Task dependencies
+- Progress tracking
+- Time tracking
+- Checklist support
+- Task notes
+- Completion workflow
+
+**Fulfillment Features:**

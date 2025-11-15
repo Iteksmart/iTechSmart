@@ -1,0 +1,8 @@
+# Kubernetes Namespace for iTechSmart HL7
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: itechsmart-hl7
+  labels:
+    name: itechsmart-hl7
+    environment: production

@@ -1,0 +1,8 @@
+total 76
+drwxr-xr-x 2 root root   127 Nov 13 22:48 .
+drwxr-xr-x 1 root root   168 Nov 13 22:46 ..
+-rw-r--r-- 1 root root 18614 Nov 13 22:48 Admin.tsx
+-rw-r--r-- 1 root root 10033 Nov 13 22:48 Analytics.tsx
+-rw-r--r-- 1 root root 12403 Nov 13 22:46 Browse.tsx
+-rw-r--r-- 1 root root 11478 Nov 13 22:46 Dashboard.tsx
+-rw-r--r-- 1 root root 16189 Nov 13 22:47 Requests.tsx

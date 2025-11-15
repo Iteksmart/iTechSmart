@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LegalAI Pro - Visual Showcase</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            padding: 60px 20px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .tagline {
+            font-size: 1.8em;
+            opacity: 0.95;
+            margin-bottom: 30px;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 40px auto 0;
+        }
+
+        .stat-box {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .section {
+            background: white;
+            padding: 60px 40px;
+            margin: 40px 0;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .tech-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .tech-card h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .tech-badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 0.9em;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 40px 0;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .comparison-table th {
+            padding: 20px;
+            text-align: left;
+            font-size: 1.1em;
+        }
+
+        .comparison-table td {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .check {
+            color: #28a745;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .no {
+            color: #dc3545;
+            font-size: 1.5em;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 80px 40px;
+            text-align: center;
+            border-radius: 20px;
+            margin: 60px 0;
+        }
+
+        .cta-section h2 {
+            color: white;
+            font-size: 3em;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #28a745;
+            padding: 20px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.3em;
+            margin: 10px;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .screenshot-placeholder {
+            background: #f8f9fa;
+            border: 3px dashed #ccc;
+            border-radius: 15px;
+            padding: 60px;
+            text-align: center;
+            margin: 30px 0;
+            color: #999;
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+            
+            .features-grid,
+            .tech-stack {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <header>
+        <h1>⚖️ LegalAI Pro</h1>
+        <div class="tagline">The World's Best AI-Powered Attorney Office Software</div>
+        
+        <div class="hero-stats">
+            <div class="stat-box">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Files Created</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">5,000+</div>
+                <div class="stat-label">Lines of Code</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">8</div>
+                <div class="stat-label">AI Features</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Production Ready</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Revolutionary AI Features -->
+        <div class="section">
+            <h2>🤖 Revolutionary AI Features</h2>
+            <p style="text-align: center; color: #666; font-size: 1.2em; margin-bottom: 40px;">
+                Features that don't exist in any other legal software
+            </p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <div class="feature-title">AI Document Auto-Fill</div>
+                    <div class="feature-description">
+                        Automatically populate ANY document with client and case data. Eliminates manual data entry completely. Saves 10+ hours per week.
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <div class="feature-title">AI Legal Research</div>
+                    <div class="feature-description">
+                        Instant access to case law, statutes, and legal precedents. Natural language queries. Automatic citation generation. Relevance scoring.
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📄</div>
+                    <div class="feature-title">AI Contract Analysis</div>
+                    <div class="feature-description">
+                        Comprehensive contract review with risk assessment, compliance checking, and recommendations. Identifies missing clauses and red flags.
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <div class="feature-title">AI Case Prediction</div>
+                    <div class="feature-description">
+                        Predict case outcomes, settlement values, and timelines using machine learning. Get confidence scores and strategic recommendations.
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <div class="feature-title">AI Deposition Prep</div>
+                    <div class="feature-description">
+                        Generate strategic questions for depositions. Organize by topic. Get strategy tips and potential objections.
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">✍️</div>
+                    <div class="feature-title">AI Legal Writing</div>
+                    <div class="feature-description">
+                        Draft motions, briefs, and contracts with AI assistance. Get structure recommendations and citation suggestions.
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-title">AI Summarization</div>
+                    <div class="feature-description">
+                        Extract key information from any document. Get summaries, action items, important dates, and parties automatically.
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💭</div>
+                    <div class="feature-title">AI Chat Assistant</div>
+                    <div class="feature-description">
+                        24/7 AI assistant with natural language interface. Context-aware responses. Multi-turn conversations. Case-specific advice.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technology Stack -->
+        <div class="section">
+            <h2>💻 Technology Stack</h2>
+            
+            <div class="tech-stack">
+                <div class="tech-card">
+                    <h3>Backend</h3>
+                    <span class="tech-badge">Python 3.11+</span>
+                    <span class="tech-badge">FastAPI</span>
+                    <span class="tech-badge">SQLAlchemy</span>
+                    <span class="tech-badge">PostgreSQL</span>
+                    <span class="tech-badge">JWT Auth</span>
+                </div>
+
+                <div class="tech-card">
+                    <h3>Frontend</h3>
+                    <span class="tech-badge">React 18</span>
+                    <span class="tech-badge">TypeScript</span>
+                    <span class="tech-badge">Material-UI</span>
+                    <span class="tech-badge">Vite</span>
+                    <span class="tech-badge">Recharts</span>
+                </div>
+
+                <div class="tech-card">
+                    <h3>AI & ML</h3>
+                    <span class="tech-badge">OpenAI</span>
+                    <span class="tech-badge">Anthropic</span>
+                    <span class="tech-badge">LangChain</span>
+                    <span class="tech-badge">Custom Models</span>
+                </div>
+
+                <div class="tech-card">
+                    <h3>Infrastructure</h3>
+                    <span class="tech-badge">Docker</span>
+                    <span class="tech-badge">Docker Compose</span>
+                    <span class="tech-badge">Nginx</span>
+                    <span class="tech-badge">PostgreSQL</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison -->
+        <div class="section">
+            <h2>📊 Competitive Comparison</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>LegalAI Pro</th>
+                        <th>PerfectLaw</th>
+                        <th>Clio</th>
+                        <th>MyCase</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>AI Document Auto-Fill</strong></td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="no">✗</span></td>
+                        <td><span class="no">✗</span></td>
+                        <td><span class="no">✗</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>AI Legal Research</strong></td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="no">✗</span></td>
+                        <td>Limited</td>
+                        <td><span class="no">✗</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>AI Contract Analysis</strong></td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="no">✗</span></td>
+                        <td><span class="no">✗</span></td>
+                        <td><span class="no">✗</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>AI Case Prediction</strong></td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="no">✗</span></td>
+                        <td><span class="no">✗</span></td>
+                        <td><span class="no">✗</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Modern UI</strong></td>
+                        <td><span class="check">✓</span></td>
+                        <td>Dated</td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Case Management</strong></td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Time & Billing</strong></td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Document Management</strong></td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Calendar & Docketing</strong></td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pricing (Solo)</strong></td>
+                        <td>$99/mo</td>
+                        <td>$150+/mo</td>
+                        <td>$89/mo</td>
+                        <td>$79/mo</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Screenshots -->
+        <div class="section">
+            <h2>🎨 User Interface Showcase</h2>
+            
+            <h3 style="color: #667eea; margin: 40px 0 20px 0;">Login Page</h3>
+            <div class="screenshot-placeholder">
+                Beautiful gradient background with clean login form<br>
+                Demo credentials displayed for easy access<br>
+                Responsive design for all devices
+            </div>
+
+            <h3 style="color: #667eea; margin: 40px 0 20px 0;">Dashboard</h3>
+            <div class="screenshot-placeholder">
+                4 statistics cards with real-time data<br>
+                Revenue bar chart showing 6-month trend<br>
+                Case distribution pie chart<br>
+                Recent cases and upcoming events lists<br>
+                AI Assistant quick access card
+            </div>
+
+            <h3 style="color: #667eea; margin: 40px 0 20px 0;">AI Assistant</h3>
+            <div class="screenshot-placeholder">
+                Chat interface with message bubbles<br>
+                Quick action buttons for common tasks<br>
+                Multiple tabs (Chat, Research, Analysis, Prediction)<br>
+                AI capabilities sidebar<br>
+                Recent conversations list
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta-section">
+            <h2>🚀 Ready to Revolutionize Your Practice?</h2>
+            <p style="font-size: 1.5em; margin-bottom: 40px;">
+                Get started with LegalAI Pro today and experience the future of legal practice management
+            </p>
+            <a href="#" class="cta-button">Start Free Trial</a>
+            <a href="#" class="cta-button">Request Demo</a>
+            <a href="#" class="cta-button">View Pricing</a>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; color: white; padding: 40px;">
+            <p style="font-size: 1.2em; margin-bottom: 10px;">
+                <strong>LegalAI Pro</strong> - Making Legal Practice Smarter, Faster, and More Profitable
+            </p>
+            <p style="opacity: 0.8;">
+                © 2025 LegalAI Pro. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

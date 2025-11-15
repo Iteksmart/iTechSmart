@@ -1,0 +1,8 @@
+/workspace/itechsmart-enterprise/frontend/src/App.jsx
+/workspace/itechsmart-enterprise/frontend/src/components/Header.jsx
+/workspace/itechsmart-enterprise/frontend/src/index.css
+/workspace/itechsmart-enterprise/frontend/src/main.jsx
+/workspace/itechsmart-enterprise/frontend/src/pages/Dashboard.jsx
+/workspace/itechsmart-enterprise/frontend/src/pages/Tickets.jsx
+/workspace/itechsmart-enterprise/frontend/src/pages/Integrations.jsx
+/workspace/itechsmart-enterprise/frontend/src/pages/Settings.jsx

@@ -1,0 +1,50 @@
+# iTechSmart Supreme - Deployment Guide
+
+## 📋 Table of Contents
+
+1. [Prerequisites](#prerequisites)
+2. [Quick Start Deployment](#quick-start-deployment)
+3. [Production Deployment](#production-deployment)
+4. [Configuration](#configuration)
+5. [Monitoring Setup](#monitoring-setup)
+6. [Security Hardening](#security-hardening)
+7. [Troubleshooting](#troubleshooting)
+
+## Prerequisites
+
+### System Requirements
+
+- **Operating System**: Linux (Ubuntu 20.04+, CentOS 8+, Debian 11+)
+- **CPU**: 2+ cores recommended
+- **RAM**: 4GB minimum, 8GB recommended
+- **Disk**: 20GB minimum
+- **Network**: Outbound access to monitored systems
+
+### Software Requirements
+
+- Docker 20.10+ and Docker Compose 2.0+
+- OR Python 3.11+ for manual installation
+- Access to monitoring systems (Prometheus, Wazuh, etc.)
+
+## Quick Start Deployment
+
+### Option 1: Docker Compose (Recommended)
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/yourusername/itechsmart-supreme.git
+cd itechsmart-supreme
+
+# 2. Create environment file
+cp .env.example .env
+
+# 3. Edit configuration
+nano .env
+
+# 4. Start the application
+docker-compose up -d
+
+# 5. Check logs
+docker-compose logs -f itechsmart-supreme
+
+# 6. Access dashboard

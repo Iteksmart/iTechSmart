@@ -1,0 +1,30 @@
+# iTechSmart Sentinel - Backend Dependencies
+
+# FastAPI and server
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+python-multipart==0.0.6
+
+# Database
+sqlalchemy==2.0.23
+alembic==1.12.1
+
+# HTTP client
+httpx==0.25.1
+
+# Date/time
+python-dateutil==2.8.2
+
+# Environment variables
+python-dotenv==1.0.0
+
+# CORS
+fastapi-cors==0.0.6
+
+# PostgreSQL driver (optional)
+psycopg2-binary==2.9.9
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1

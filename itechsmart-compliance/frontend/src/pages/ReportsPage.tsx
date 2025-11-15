@@ -1,0 +1,295 @@
+/**
+ * iTechSmart Compliance - Reports Page
+ * Generate and view compliance reports
+ */
+
+import React, { useState, useEffect } from 'react';
+import {
+  Box,
+  Container,
+  Typography,
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Chip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  LinearProgress,
+  IconButton
+} from '@mui/material';
+import { Add, Download, Visibility, Description } from '@mui/icons-material';
+
+interface Report {
+  report_id: string;
+  report_type: string;
+  framework: string;
+  compliance_score: number;
+  overall_status: string | null;
+  generated_at: string;
+  generated_by: string;
+}
+
+const ReportsPage: React.FC = () => {
+  const [reports, setReports] = useState<Report[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [generateOpen, setGenerateOpen] = useState(false);
+  const [newReport, setNewReport] = useState({
+    framework: 'soc2',
+    report_type: 'assessment'
+  });
+
+  useEffect(() => {
+    fetchReports();
+  }, []);
+
+  const fetchReports = async () => {
+    try {
+      const response = await fetch('http://localhost:8019/compliance-center/reports');
+      const data = await response.json();
+      setReports(data.reports);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching reports:', error);
+      setLoading(false);
+    }
+  };
+
+  const handleGenerateReport = async () => {
+    try {
+      await fetch('http://localhost:8019/compliance-center/reports/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newReport)
+      });
+      setGenerateOpen(false);
+      fetchReports();
+    } catch (error) {
+      console.error('Error generating report:', error);
+    }
+  };
+
+  const getStatusColor = (status: string | null) => {
+    if (!status) return 'default';
+    switch (status) {
+      case 'compliant':
+        return 'success';
+      case 'partially_compliant':
+        return 'warning';
+      case 'non_compliant':
+        return 'error';
+      default:
+        return 'default';
+    }
+  };
+
+  if (loading) {
+    return (
+      <Container maxWidth="xl" sx={{ mt: 4 }}>
+        <LinearProgress />
+      </Container>
+    );
+  }
+
+  return (
+    <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+        <Box>
+          <Typography variant="h4" gutterBottom>
+            Compliance Reports
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            Generate and manage compliance reports
+          </Typography>
+        </Box>
+        <Button
+          variant="contained"
+          startIcon={<Add />}
+          onClick={() => setGenerateOpen(true)}
+        >
+          Generate Report
+        </Button>
+      </Box>
+
+      {/* Summary Cards */}
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        <Grid item xs={12} md={4}>
+          <Card>
+            <CardContent>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                <Description sx={{ mr: 1 }} />
+                <Typography variant="h6">Total Reports</Typography>
+              </Box>
+              <Typography variant="h3">{reports.length}</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                Average Score
+              </Typography>
+              <Typography variant="h3" color="primary">
+                {reports.length > 0
+                  ? (
+                      reports.reduce((sum, r) => sum + r.compliance_score, 0) / reports.length
+                    ).toFixed(1)
+                  : 0}
+                %
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                Latest Report
+              </Typography>
+              <Typography variant="body2">
+                {reports.length > 0
+                  ? new Date(reports[0].generated_at).toLocaleDateString()
+                  : 'No reports'}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+
+      {/* Reports Table */}
+      <Card>
+        <CardContent>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Report ID</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell>Framework</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell align="right">Score</TableCell>
+                  <TableCell>Generated</TableCell>
+                  <TableCell>Generated By</TableCell>
+                  <TableCell align="right">Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {reports.map((report) => (
+                  <TableRow key={report.report_id} hover>
+                    <TableCell>
+                      <Typography variant="body2" fontFamily="monospace">
+                        {report.report_id.substring(0, 12)}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Chip label={report.report_type} size="small" variant="outlined" />
+                    </TableCell>
+                    <TableCell>
+                      <Chip
+                        label={report.framework.toUpperCase()}
+                        size="small"
+                        color="primary"
+                      />
+                    </TableCell>
+                    <TableCell>
+                      {report.overall_status && (
+                        <Chip
+                          label={report.overall_status.replace('_', ' ')}
+                          color={getStatusColor(report.overall_status) as any}
+                          size="small"
+                        />
+                      )}
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="body2" fontWeight="bold">
+                        {report.compliance_score.toFixed(1)}%
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      {new Date(report.generated_at).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>{report.generated_by}</TableCell>
+                    <TableCell align="right">
+                      <IconButton size="small">
+                        <Visibility fontSize="small" />
+                      </IconButton>
+                      <IconButton size="small">
+                        <Download fontSize="small" />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </CardContent>
+      </Card>
+
+      {/* Generate Report Dialog */}
+      <Dialog
+        open={generateOpen}
+        onClose={() => setGenerateOpen(false)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>Generate Compliance Report</DialogTitle>
+        <DialogContent>
+          <Grid container spacing={2} sx={{ mt: 1 }}>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputLabel>Framework</InputLabel>
+                <Select
+                  value={newReport.framework}
+                  label="Framework"
+                  onChange={(e) => setNewReport({ ...newReport, framework: e.target.value })}
+                >
+                  <MenuItem value="soc2">SOC 2</MenuItem>
+                  <MenuItem value="iso27001">ISO 27001</MenuItem>
+                  <MenuItem value="hipaa">HIPAA</MenuItem>
+                  <MenuItem value="gdpr">GDPR</MenuItem>
+                  <MenuItem value="pci_dss">PCI-DSS</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputLabel>Report Type</InputLabel>
+                <Select
+                  value={newReport.report_type}
+                  label="Report Type"
+                  onChange={(e) => setNewReport({ ...newReport, report_type: e.target.value })}
+                >
+                  <MenuItem value="assessment">Assessment Report</MenuItem>
+                  <MenuItem value="gap_analysis">Gap Analysis</MenuItem>
+                  <MenuItem value="executive">Executive Summary</MenuItem>
+                  <MenuItem value="audit">Audit Report</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setGenerateOpen(false)}>Cancel</Button>
+          <Button variant="contained" onClick={handleGenerateReport}>
+            Generate
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Container>
+  );
+};
+
+export default ReportsPage;

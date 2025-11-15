@@ -1,0 +1,10 @@
+        "frontend_package": true,
+        "docker_compose": true,
+        "dockerfile_backend": true,
+        "dockerfile_frontend": true,
+        "integration_module": true,
+        "readme": true,
+        "docs_dir": true
+      },
+      "missing": [],
+  ]

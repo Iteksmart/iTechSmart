@@ -1,0 +1,7 @@
+./itechsmart-mdm-agent/README.md:23. iTechSmart AI Platform
+./itechsmart-ai/README.md:# iTechSmart AI Platform - AI/ML Platform and Model Marketplace
+./itechsmart-ai/README.md:iTechSmart AI Platform is a comprehensive AI/ML platform that enables organizations to build, train, deploy, and manage machine learning models. With support for multiple model types, pre-trained models, AutoML capabilities, and a model marketplace, it democratizes AI for businesses of all sizes.
+./itechsmart-ai/README.md:iTechSmart AI Platform integrates with the following iTechSmart products:
+./FINAL_AUDIT_REPORT.md:24. ✅ iTechSmart AI Platform - Complete frontend
+./ITECHSMART_SUITE_INSTRUCTION_MANUAL.md:| 23 | iTechSmart AI Platform | Business | Machine Learning |
+./ITECHSMART_SUITE_INSTRUCTION_MANUAL.md:#### 23. iTechSmart AI Platform (Machine Learning)

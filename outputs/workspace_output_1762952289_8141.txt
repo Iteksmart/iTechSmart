@@ -1,0 +1,27 @@
+=== Checking product structures ===
+
+1. Checking itechsmart-hl7:
+itechsmart-hl7/backend/app/core/advanced_analytics.py
+itechsmart-hl7/backend/app/core/ai_agents.py
+itechsmart-hl7/backend/app/core/disaster_recovery.py
+itechsmart-hl7/backend/app/core/hl7_parser.py
+itechsmart-hl7/backend/app/core/performance_optimizer.py
+
+2. Checking passport:
+passport/backend/app/core/config.py
+passport/backend/app/core/security.py
+passport/backend/app/core/__init__.py
+
+3. Checking fitsnap-ai:
+fitsnap-ai/backend/app/core/config.py
+
+4. Checking prooflink:
+prooflink/backend/app/core/config.py
+prooflink/backend/app/core/database.py
+prooflink/backend/app/core/exceptions.py
+prooflink/backend/app/core/security.py
+
+5. Checking itechsmart-impactos:
+itechsmart-impactos/backend/app/core/__init__.py
+itechsmart-impactos/backend/app/core/config.py
+itechsmart-impactos/backend/app/core/security.py

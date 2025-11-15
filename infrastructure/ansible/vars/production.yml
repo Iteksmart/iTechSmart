@@ -1,0 +1,74 @@
+---
+# Production Environment Variables
+
+# Environment
+environment: production
+itechsmart_version: "1.0.0"
+itechsmart_base_dir: "/opt/itechsmart"
+
+# Docker Registry
+docker_registry: "registry.itechsmart.ai"
+use_docker_registry: true
+
+# Database Configuration
+database_host: "{{ db_host | default('localhost') }}"
+database_port: 5432
+database_name: "itechsmart_prod"
+database_user: "itechsmart_admin"
+database_password: "{{ vault_database_password }}"
+database_max_connections: 200
+database_shared_buffers: "4GB"
+
+# Redis Configuration
+redis_host: "{{ redis_host | default('localhost') }}"
+redis_port: 6379
+redis_password: "{{ vault_redis_password }}"
+redis_max_memory: "2GB"
+redis_max_memory_policy: "allkeys-lru"
+
+# Application Configuration
+enable_ssl: true
+ssl_certificate_path: "/etc/ssl/certs/itechsmart.crt"
+ssl_key_path: "/etc/ssl/private/itechsmart.key"
+
+# Resource Limits
+cpu_limit: "2"
+memory_limit: "4G"
+memory_reservation: "2G"
+
+# Monitoring
+enable_monitoring: true
+prometheus_port: 9090
+grafana_port: 3000
+
+# Backup Configuration
+enable_backup: true
+backup_schedule: "0 2 * * *"  # Daily at 2 AM
+backup_retention_days: 30
+backup_location: "/backup/itechsmart"
+
+# Security
+disable_swap: true
+enable_firewall: true
+allowed_ssh_ips:
+  - "10.0.0.0/8"
+  - "172.16.0.0/12"
+
+# Logging
+log_level: "INFO"
+log_retention_days: 30
+centralized_logging: true
+elasticsearch_host: "{{ elasticsearch_host | default('localhost') }}"
+
+# Performance
+worker_processes: 4
+worker_connections: 1024
+keepalive_timeout: 65
+
+# Timezone
+timezone: "UTC"
+
+# Feature Flags
+enable_ai_features: true
+enable_self_healing: true
+enable_auto_scaling: true

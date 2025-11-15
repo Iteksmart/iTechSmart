@@ -1,0 +1,59 @@
+itechsmart-hl7
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── FINAL_DELIVERY_PACKAGE.md
+├── FINAL_PROJECT_SUMMARY.md
+├── FINAL_SUMMARY.md
+├── IMPLEMENTATION_SUMMARY.md
+├── INDEX.md
+├── LICENSE
+├── PHASE_1_COMPLETE.md
+├── PHASE_2_COMPLETE.md
+├── PHASE_3_COMPLETE.md
+├── PHASE_4_COMPLETE.md
+├── PHASE_5_COMPLETE.md
+├── PHASE_6_SUMMARY.md
+├── PHASE_7_SUMMARY.md
+├── PHASE_9_COMPLETE.md
+├── PHASE_9_PRODUCTION_ENHANCEMENTS.md
+├── PLATFORM_OVERVIEW.md
+├── PROGRESS_SUMMARY.md
+├── PROGRESS_UPDATE.md
+├── PROJECT_COMPLETE_SUMMARY.md
+├── PROJECT_STATUS.md
+├── PROJECT_STRUCTURE.txt
+├── QUICK_START.md
+├── README.md
+├── backend
+│   ├── alembic
+│   ├── alembic.ini
+│   ├── app
+│   ├── main.py
+│   └── requirements.txt
+├── deployment
+│   ├── Dockerfile
+│   ├── backup.sh
+│   ├── docker-compose.yml
+│   ├── kubernetes
+│   ├── monitoring
+│   └── restore.sh
+├── docs
+│   ├── API_DOCUMENTATION.md
+│   ├── DEPLOYMENT_GUIDE.md
+│   ├── SECURITY_AUDIT_CHECKLIST.md
+│   └── USER_GUIDE.md
+├── frontend
+│   ├── index.html
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── src
+│   ├── tailwind.config.js
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   └── vite.config.ts
+├── scripts
+│   ├── generate_test_data.py
+│   └── load_test.py
+└── todo.md
+
+11 directories, 46 files

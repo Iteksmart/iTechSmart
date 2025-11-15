@@ -1,0 +1,9 @@
+total 24
+drwxr-xr-x  5 root root   129 Nov 11 02:23 .
+drwxr-xr-x  5 root root    62 Nov 11 01:46 ..
+drwxr-xr-x  5 root root    90 Nov 11 02:23 admin
+drwxr-xr-x  4 root root    47 Nov 11 01:56 auth
+drwxr-xr-x 11 root root  4096 Nov 11 02:21 dashboard
+-rw-r--r--  1 root root  2427 Nov 11 01:45 globals.css
+-rw-r--r--  1 root root   801 Nov 11 01:45 layout.tsx
+-rw-r--r--  1 root root 11356 Nov 11 01:46 page.tsx

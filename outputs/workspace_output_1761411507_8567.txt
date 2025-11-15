@@ -1,0 +1,13 @@
+                    await this.showStatus();
+                    break;
+                case 'whoami':
+                    await this.showCurrentUser();
+                    break;
+                default:
+                    this.sendToTerminal({
+                        type: 'output',
+                        content: `Unknown command: ${cmd}\nType 'help' for available commands.\n`,
+                        color: '#ff6b6b'
+                    });
+            }
+        } catch (error: any) {

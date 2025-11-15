@@ -1,0 +1,2 @@
+21:import { registerMCPCommands } from './commands/mcpCommands';
+64:    registerMCPCommands(context, apiClient);

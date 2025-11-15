@@ -1,0 +1,80 @@
+"""
+Virtual Machine Pool API Routes
+Provides endpoints for managing concurrent VMs
+"""
+
+from fastapi import APIRouter, Depends, HTTPException
+from typing import List, Optional, Dict, Any
+from sqlalchemy.orm import Session
+
+from app.core.database import get_db
+from app.core.security import get_current_user
+from app.models.database import User
+
+router = APIRouter(prefix="/api/vms", tags=["vms"])
+
+
+@router.post("/create")
+async def create_vm(
+    name: str,
+    language: str,
+    cpu_limit: float = 1.0,
+    memory_limit: int = 512,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Create new virtual machine
+    
+    Args:
+        name: VM name
+        language: Programming language (python, nodejs, java, go, rust)
+        cpu_limit: CPU cores limit
+        memory_limit: Memory limit in MB
+    """
+    try:
+        # TODO: Implement VM creation using Docker
+        # TODO: Check user's VM limit (max 10 per user)
+        
+        return {
+            "success": True,
+            "vm": {
+                "id": "vm_123",
+                "name": name,
+                "language": language,
+                "status": "created",
+                "cpu_limit": cpu_limit,
+                "memory_limit": memory_limit
+            },
+            "message": "VM created successfully"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("")
+async def list_vms(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """List all VMs for current user"""
+    # TODO: Implement database query
+    return {
+        "success": True,
+        "vms": [],
+        "total": 0,
+        "limit": 10,
+        "message": "VMs retrieved successfully"
+    }
+
+
+@router.get("/{vm_id}")
+async def get_vm(
+    vm_id: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Get VM details"""
+    # TODO: Implement database query
+    return {
+        "success": True,

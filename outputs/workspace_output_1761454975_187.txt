@@ -1,0 +1,21 @@
+                   case 'gh-create-issue':
+                       await this.createGitHubIssue(args);
+                       break;
+                default:
+                      case 'img-generate':
+                      case 'generate-image':
+                          await this.generateImage(args);
+                          break;
+                      case 'img-transform':
+                      case 'transform-image':
+                          await this.transformImage(args);
+                          break;
+                      case 'img-upscale':
+                      case 'upscale-image':
+                          await this.upscaleImage(args);
+                          break;
+                      case 'img-remove-bg':
+                      case 'remove-background':
+                          await this.removeBackground(args);
+                          break;
+                      case 'img-providers':

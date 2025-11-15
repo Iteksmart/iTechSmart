@@ -1,0 +1,5 @@
+total 8
+drwxr-xr-x 3 root root   45 Nov 13 13:17 .
+drwxr-xr-x 3 root root   25 Nov 13 13:16 ..
+drwxr-xr-x 2 root root  105 Nov 13 13:18 core
+-rw-r--r-- 1 root root 5463 Nov 13 13:16 main.py

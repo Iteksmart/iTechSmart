@@ -1,0 +1,100 @@
+"""
+iTechSmart Compliance - Compliance Management Engine
+Handles regulatory compliance tracking, auditing, and reporting
+"""
+
+from typing import Dict, List, Any, Optional
+from datetime import datetime, timedelta
+from enum import Enum
+from uuid import uuid4
+
+
+class ComplianceFramework(str, Enum):
+    """Supported compliance frameworks"""
+    HIPAA = "hipaa"
+    GDPR = "gdpr"
+    SOC2 = "soc2"
+    ISO27001 = "iso27001"
+    PCI_DSS = "pci_dss"
+    CCPA = "ccpa"
+    NIST = "nist"
+
+
+class ComplianceStatus(str, Enum):
+    """Compliance status"""
+    COMPLIANT = "compliant"
+    NON_COMPLIANT = "non_compliant"
+    PARTIALLY_COMPLIANT = "partially_compliant"
+    UNDER_REVIEW = "under_review"
+    NOT_APPLICABLE = "not_applicable"
+
+
+class ControlStatus(str, Enum):
+    """Control implementation status"""
+    IMPLEMENTED = "implemented"
+    PARTIALLY_IMPLEMENTED = "partially_implemented"
+    NOT_IMPLEMENTED = "not_implemented"
+    PLANNED = "planned"
+
+
+class ComplianceControl:
+    """Represents a compliance control"""
+    
+    def __init__(
+        self,
+        control_id: str,
+        framework: ComplianceFramework,
+        control_number: str,
+        title: str,
+        description: str,
+        category: str
+    ):
+        self.control_id = control_id
+        self.framework = framework
+        self.control_number = control_number
+        self.title = title
+        self.description = description
+        self.category = category
+        self.status = ControlStatus.NOT_IMPLEMENTED
+        self.evidence = []
+        self.last_assessed = None
+        self.next_assessment = None
+        self.assigned_to = None
+        self.notes = ""
+
+
+class ComplianceAssessment:
+    """Represents a compliance assessment"""
+    
+    def __init__(
+        self,
+        assessment_id: str,
+        framework: ComplianceFramework,
+        assessor: str
+    ):
+        self.assessment_id = assessment_id
+        self.framework = framework
+        self.assessor = assessor
+        self.started_at = datetime.utcnow()
+        self.completed_at = None
+        self.status = "in_progress"
+        self.findings = []
+        self.score = 0
+        self.controls_assessed = 0
+        self.controls_passed = 0
+        self.controls_failed = 0
+
+
+class ComplianceFinding:
+    """Represents a compliance finding"""
+    
+    def __init__(
+        self,
+        finding_id: str,
+        control_id: str,
+        severity: str,
+        description: str
+    ):
+        self.finding_id = finding_id
+        self.control_id = control_id
+        self.severity = severity  # critical, high, medium, low

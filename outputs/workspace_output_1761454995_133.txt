@@ -1,0 +1,1 @@
+1902 itechsmart-ninja/vscode-extension/src/terminal/panel.ts

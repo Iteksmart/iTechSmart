@@ -1,0 +1,30 @@
+"""
+LegalAI Pro - Main Application Entry Point
+The world's most advanced AI-powered attorney office software
+"""
+
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from contextlib import asynccontextmanager
+import uvicorn
+
+# Import routers
+from app.api import (
+    auth,
+    clients,
+    cases,
+    documents,
+    billing,
+    calendar,
+    time_tracking,
+    tasks,
+    email,
+    reports,
+    ai_assistant,
+    templates,
+    users,
+    settings
+)
+
+# Import database

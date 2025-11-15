@@ -1,0 +1,12 @@
+total 36
+drwxr-xr-x 1 root root 4096 Nov 12 20:42 .
+drwxr-xr-x 1 root root 4096 Nov 12 20:42 ..
+-rw-r--r-- 1 root root  504 Nov 11 01:45 .env.example
+-rw-r--r-- 1 root root  553 Nov 11 23:11 Dockerfile
+-rw-r--r-- 1 root root  767 Nov 11 01:17 next.config.js
+-rw-r--r-- 1 root root 1673 Nov 11 01:44 package.json
+-rw-r--r-- 1 root root   81 Nov 11 01:45 postcss.config.js
+drwxr-xr-x 2 root root   30 Nov 12 20:42 public
+drwxr-xr-x 1 root root   62 Nov 11 01:46 src
+-rw-r--r-- 1 root root  763 Nov 11 01:45 tailwind.config.js
+-rw-r--r-- 1 root root  647 Nov 11 01:44 tsconfig.json

@@ -1,0 +1,30 @@
+- GitHub Issues
+- Discord Server
+- Stack Overflow Tag: `itechsmart`
+
+### Commercial Support
+- Email: support@itechsmart.dev
+- Enterprise Support Plans Available
+
+---
+
+## 🗺️ Roadmap
+
+### Q1 2025
+- [ ] Additional integrations (5+)
+- [ ] Advanced AI features
+- [ ] Mobile app
+- [ ] Enhanced analytics
+
+### Q2 2025
+- [ ] Multi-tenancy
+- [ ] White-label solution
+- [ ] Marketplace for integrations
+- [ ] Advanced automation
+
+### Q3 2025
+- [ ] Edge computing support
+- [ ] IoT integration
+- [ ] Blockchain integration
+- [ ] Advanced ML models
+

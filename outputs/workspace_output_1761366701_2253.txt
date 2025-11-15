@@ -1,0 +1,12 @@
+39:        vscode.commands.registerCommand('itechsmart.openTerminal', () => {
+44:        vscode.commands.registerCommand('itechsmart.login', async () => {
+51:        vscode.commands.registerCommand('itechsmart.logout', async () => {
+59:        vscode.commands.registerCommand('itechsmart.generateCode', async () => {
+71:        vscode.commands.registerCommand('itechsmart.explainCode', async () => {
+88:        vscode.commands.registerCommand('itechsmart.refactorCode', async () => {
+105:        vscode.commands.registerCommand('itechsmart.debugCode', async () => {
+122:        vscode.commands.registerCommand('itechsmart.createTask', async () => {
+127:        vscode.commands.registerCommand('itechsmart.viewTasks', () => {
+131:        vscode.commands.registerCommand('itechsmart.refreshTasks', () => {
+135:        vscode.commands.registerCommand('itechsmart.cancelTask', async (taskId: number) => {
+140:        vscode.commands.registerCommand('itechsmart.viewTaskDetails', async (taskId: number) => {

@@ -1,0 +1,12 @@
+✅ Logo conversion complete
+total 96K
+drwxr-xr-x 2 root root   36 Nov 14 01:45 icons
+drwxr-xr-x 2 root root   10 Nov 14 01:44 licenses
+-rw-r--r-- 1 root root 7.5K Nov 14 01:45 logo-128.png
+-rw-r--r-- 1 root root 3.0K Nov 14 01:45 logo-16.png
+-rw-r--r-- 1 root root  18K Nov 14 01:45 logo-256.png
+-rw-r--r-- 1 root root 3.3K Nov 14 01:45 logo-32.png
+-rw-r--r-- 1 root root 3.9K Nov 14 01:45 logo-48.png
+-rw-r--r-- 1 root root  45K Nov 14 01:45 logo-512.png
+-rw-r--r-- 1 root root 4.4K Nov 14 01:45 logo-64.png
+drwxr-xr-x 2 root root   39 Nov 14 01:45 splash

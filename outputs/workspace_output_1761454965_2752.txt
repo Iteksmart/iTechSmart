@@ -1,0 +1,51 @@
+        const args = parts.slice(1);
+
+        try {
+            switch (cmd) {
+                case 'help':
+                    await this.showHelp();
+                    break;
+                case 'clear':
+                    this.sendToTerminal({ type: 'clear' });
+                    break;
+                case 'generate':
+                    await this.generateCode(args.join(' '));
+                    break;
+                case 'research':
+                    await this.research(args.join(' '));
+                    break;
+                case 'analyze':
+                    await this.analyze(args.join(' '));
+                    break;
+                case 'debug':
+                    await this.debug(args.join(' '));
+                    break;
+                case 'explain':
+                    await this.explain(args.join(' '));
+                    break;
+                case 'tasks':
+                    await this.listTasks();
+                    break;
+                case 'task':
+                    await this.viewTask(parseInt(args[0]));
+                    break;
+                case 'agents':
+                    await this.listAgents();
+                    break;
+                case 'files':
+                    await this.listFiles();
+                    break;
+                case 'status':
+                    await this.showStatus();
+                    break;
+                case 'whoami':
+                    await this.showCurrentUser();
+                    break;
+                   case 'gh-repos':
+                       await this.listGitHubRepos();
+                       break;
+                   case 'gh-prs':
+                       await this.listGitHubPRs(args);
+                       break;
+                   case 'gh-issues':
+                       await this.listGitHubIssues(args);

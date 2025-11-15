@@ -1,0 +1,10 @@
+/workspace/itechsmart-impactos/backend/requirements.txt
+/workspace/itechsmart-impactos/docker-compose.yml
+/workspace/itechsmart-impactos/frontend/package.json
+/workspace/itechsmart-impactos/package.json
+/workspace/passport/backend/requirements.txt
+/workspace/passport/docker-compose.yml
+/workspace/passport/frontend/package.json
+/workspace/prooflink/backend/requirements.txt
+/workspace/prooflink/docker-compose.yml
+/workspace/prooflink/frontend/package.json

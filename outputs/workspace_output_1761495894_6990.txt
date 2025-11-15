@@ -1,0 +1,5 @@
+total 28
+drwxr-xr-x  2 root root    68 Oct 11 19:01 .
+drwxr-xr-x 13 root root  4096 Oct 11 19:02 ..
+-rw-r--r--  1 root root  6680 Oct 11 18:14 credential_manager.py
+-rw-r--r--  1 root root 14013 Oct 11 19:01 zero_trust.py

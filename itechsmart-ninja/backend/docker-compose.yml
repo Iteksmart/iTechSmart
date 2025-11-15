@@ -1,0 +1,105 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: ninja-postgres
+    environment:
+      POSTGRES_USER: ninja
+      POSTGRES_PASSWORD: ninja_password
+      POSTGRES_DB: ninja_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ninja"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: ninja-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # FastAPI Backend
+  backend:
+    build: .
+    container_name: ninja-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://ninja:ninja_password@postgres:5432/ninja_db
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+      - SECRET_KEY=your-super-secret-key-change-this-in-production
+      - ADMIN_EMAIL=admin@itechsmart.ninja
+      - ADMIN_PASSWORD=admin123
+    volumes:
+      - ./app:/app/app
+      - ./uploads:/app/uploads
+      - ./deployments:/app/deployments
+      - ./logs:/app/logs
+      - /var/run/docker.sock:/var/run/docker.sock  # For Docker VM manager
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Celery Worker (for background tasks)
+  celery-worker:
+    build: .
+    container_name: ninja-celery-worker
+    command: celery -A app.celery_app worker --loglevel=info
+    environment:
+      - DATABASE_URL=postgresql://ninja:ninja_password@postgres:5432/ninja_db
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+    volumes:
+      - ./app:/app/app
+      - ./uploads:/app/uploads
+      - ./deployments:/app/deployments
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - postgres
+      - redis
+      - backend
+
+  # Ollama (Local AI - Optional)
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ninja-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    profiles:
+      - with-ollama
+
+volumes:
+  postgres_data:
+  redis_data:
+  ollama_data:
+
+networks:
+  default:
+    name: ninja-network

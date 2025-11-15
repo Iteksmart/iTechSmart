@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProofLink.AI</title>
+  <link rel="stylesheet" href="popup.css">
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">
+        <img src="../icons/icon48.png" alt="ProofLink.AI">
+        <h1>ProofLink.AI</h1>
+      </div>
+      <div class="status" id="status">
+        <span class="status-dot"></span>
+        <span class="status-text">Connected</span>
+      </div>
+    </div>
+
+    <!-- Auth Section (shown when not logged in) -->
+    <div id="auth-section" class="section" style="display: none;">
+      <div class="auth-prompt">
+        <p>Sign in to create and manage proofs</p>
+        <button class="btn btn-primary" id="login-btn">Sign In</button>
+        <button class="btn btn-secondary" id="register-btn">Create Account</button>
+      </div>
+    </div>
+
+    <!-- Main Section (shown when logged in) -->
+    <div id="main-section" class="section">
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <button class="action-btn" id="proof-page-btn">
+          <span class="action-icon">📄</span>
+          <span class="action-text">Proof This Page</span>
+        </button>
+        
+        <button class="action-btn" id="proof-selection-btn">
+          <span class="action-icon">✂️</span>
+          <span class="action-text">Proof Selection</span>
+        </button>
+        
+        <button class="action-btn" id="verify-btn">
+          <span class="action-icon">✓</span>
+          <span class="action-text">Verify Proof</span>
+        </button>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-value" id="total-proofs">0</div>
+          <div class="stat-label">Total Proofs</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="this-month">0</div>
+          <div class="stat-label">This Month</div>
+        </div>
+      </div>
+
+      <!-- Recent Proofs -->
+      <div class="recent-section">
+        <h3>Recent Proofs</h3>
+        <div id="recent-proofs" class="recent-list">
+          <div class="empty-state">
+            <p>No proofs yet</p>
+            <p class="empty-hint">Create your first proof above</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <button class="footer-btn" id="settings-btn">
+        <span>⚙️</span> Settings
+      </button>
+      <button class="footer-btn" id="dashboard-btn">
+        <span>🏠</span> Dashboard
+      </button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+✅ Added image command cases to terminal!

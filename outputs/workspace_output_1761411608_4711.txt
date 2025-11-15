@@ -1,0 +1,10 @@
+$
+        } catch (error: any) {$
+            this.sendToTerminal({$
+                type: 'output',$
+                content: `Error: ${error.message}\n`,$
+                color: '#ff0000'$
+            });$
+        }$
+    }$
+}$

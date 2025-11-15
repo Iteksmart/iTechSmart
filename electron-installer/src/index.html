@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data:;"> 
+    <title>iTechSmart Installer</title>
+    <style>
+      body { font-family: Arial, Helvetica, sans-serif; margin: 18px; }
+      .card { border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.08); padding: 18px; }
+      .row { margin-bottom: 12px; }
+      label { display:block; font-weight:600; margin-bottom:6px; }
+      input[type=text], textarea { width:100%; padding:8px; border-radius:6px; border:1px solid #ccc }
+      button { padding:10px 16px; border-radius:8px; border:none; cursor:pointer }
+      .primary { background:#2563eb; color:#fff }
+      .secondary { background:#eeeeee }
+      #log { height:200px; overflow:auto; background:#0b1220; color:#e6e6e6; padding:8px; border-radius:6px; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h2>iTechSmart — Installer</h2>
+      <div class="row">
+        <button id="btn-select" class="secondary">Select installer script</button>
+        <span id="script-path">(will use bundled hardened_docker_install.sh)</span>
+      </div>
+
+      <div class="row">
+        <label>Environment variables (key=value per line)</label>
+        <textarea id="env-text" placeholder="DB_PASS=secret
+ADMIN_EMAIL=admin@example.com"></textarea>
+      </div>
+
+      <div class="row">
+        <button id="btn-run" class="primary">Run installer (elevated)</button>
+        <button id="btn-stop" style="display:none">Cancel</button>
+      </div>
+
+      <h3>Installer Log</h3>
+      <pre id="log">Log will appear here...</pre>
+    </div>
+
+    <script src="renderer.js"></script>
+  </body>
+</html>

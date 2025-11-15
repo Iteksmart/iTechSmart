@@ -1,0 +1,11 @@
+
+---
+
+## Product Catalog
+
+### Foundation Products (9)
+
+#### 1. iTechSmart Enterprise
+**Port:** 8001 | **Frontend:** 3001  
+**Description:** Integration Hub - Central coordination platform  
+**Key Features:**

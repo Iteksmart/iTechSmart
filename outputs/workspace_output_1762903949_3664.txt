@@ -1,0 +1,14 @@
+=== CHECKING EXISTING AGENTS ===
+
+Coder Agent:
+class CoderAgent(BaseAgent):
+    def __init__(self, ai_provider: str = "openai"):
+
+Writer Agent:
+class WriterAgent(BaseAgent):
+    def __init__(self, ai_provider: str = "openai"):
+
+Researcher Agent:
+class ResearcherAgent(BaseAgent):
+    def __init__(self, ai_provider: str = "openai"):
+    async def execute(self, task: Dict[str, Any]) -> Dict[str, Any]:

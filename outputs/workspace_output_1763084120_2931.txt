@@ -1,0 +1,11 @@
+#### 1. iTechSmart Enterprise (Integration Hub)
+**Port:** 8001 | **Frontend:** 3001
+
+**Purpose:** Central coordination platform for the entire suite
+
+**Key Features:**
+- Unified dashboard for all products
+- Service registration and discovery
+- Health monitoring and metrics
+- Cross-product routing
+- User authentication and authorization

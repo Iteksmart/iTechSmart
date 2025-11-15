@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8100:8100"
+    environment:
+      - DATABASE_URL=sqlite:///./port_manager.db
+    volumes:
+      - ./backend:/app
+      - port-manager-data:/app/data
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3100:3100"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  port-manager-data:

@@ -1,0 +1,103 @@
+## Product Catalog
+
+### Foundation Products (9)
+
+#### 1. iTechSmart Enterprise
+**Port:** 8001 | **Frontend:** 3001  
+**Description:** Integration Hub - Central coordination platform  
+**Key Features:**
+- Service registration and discovery
+- Health monitoring and metrics
+- Cross-product routing
+- Unified authentication
+- Configuration management
+
+#### 2. iTechSmart Ninja
+**Port:** 8002 | **Frontend:** 3002  
+**Description:** Self-Healing AI Agent  
+**Key Features:**
+- 99.7% error detection accuracy
+- 94.3% auto-fix success rate
+- Performance monitoring
+- Continuous health checks
+- Dependency management
+
+#### 3. iTechSmart Analytics
+**Port:** 8003 | **Frontend:** 3003  
+**Description:** ML-Powered Analytics Platform  
+**Key Features:**
+- Forecasting (Linear Regression, Random Forest)
+- Anomaly Detection (Isolation Forest)
+- Dashboard Builder (12 widget types)
+- Data Ingestion (100+ connectors)
+- Report Generator (5 formats)
+
+#### 4. iTechSmart Supreme
+**Port:** 8004 | **Frontend:** 3004  
+**Description:** Healthcare Management System  
+**Key Features:**
+- Patient management with MRN
+- Appointment scheduling
+- Medical records tracking
+- Prescription management
+- Billing and insurance
+- Lab test tracking
+- Inventory management
+
+#### 5. iTechSmart HL7
+**Port:** 8005 | **Frontend:** 3005  
+**Description:** Medical Data Integration  
+**Key Features:**
+- HL7 v2.x parsing
+- FHIR support
+- Message routing
+- Autonomous coding (7 AI models)
+- 200+ validation edits
+- 95%+ coding accuracy
+
+#### 6. ProofLink.AI
+**Port:** 8006 | **Frontend:** 3006  
+**Description:** Document Verification  
+**Key Features:**
+- AI-powered verification
+- Blockchain timestamping
+- Digital signatures
+- Tamper detection
+- Version control
+- Audit trails
+
+#### 7. PassPort
+**Port:** 8007 | **Frontend:** 3007  
+**Description:** Identity Management  
+**Key Features:**
+- Single Sign-On (SSO)
+- Multi-factor authentication
+- Role-based access control
+- OAuth2 integration
+- Session management
+- Audit logging
+
+#### 8. ImpactOS
+**Port:** 8008 | **Frontend:** 3008  
+**Description:** Impact Measurement  
+**Key Features:**
+- Impact metrics tracking
+- SDG alignment
+- ESG reporting
+- Stakeholder management
+- Custom frameworks
+- Automated reporting
+
+#### 9. LegalAI Pro
+**Port:** 8009 | **Frontend:** 3009  
+**Description:** Attorney Office Software  
+**Key Features:**
+- 8 AI features (document auto-fill, legal research, contract analysis, case prediction, deposition prep, legal writing, summarization, chat)
+- Client management
+- Case management
+- Document management
+- Time & billing
+- Calendar & docketing
+
+### Strategic Products (10)
+

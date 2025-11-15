@@ -1,0 +1,43 @@
+=== CHECKING FOR API DOCUMENTATION ===
+
+--- prooflink ---
+  ✓ FastAPI app has title
+  ✓ FastAPI app has description
+  ✓ FastAPI app has version
+  API endpoint files: 9
+
+--- passport ---
+  ✓ FastAPI app has title
+  ✓ FastAPI app has description
+  ✓ FastAPI app has version
+  API endpoint files: 9
+
+--- itechsmart-impactos ---
+  ✓ FastAPI app has title
+  ✓ FastAPI app has description
+  ✓ FastAPI app has version
+  API endpoint files: 6
+
+--- itechsmart-ninja ---
+  ✓ FastAPI app has title
+  ✓ FastAPI app has description
+  ✓ FastAPI app has version
+  API endpoint files: 23
+
+--- itechsmart-enterprise ---
+  ✓ FastAPI app has title
+  ✓ FastAPI app has description
+  ✓ FastAPI app has version
+
+--- itechsmart-hl7 ---
+  ✓ FastAPI app has title
+  ✓ FastAPI app has description
+  ✓ FastAPI app has version
+  API endpoint files: 15
+
+--- fitsnap-ai ---
+  ✓ FastAPI app has title
+  ✓ FastAPI app has description
+  ✓ FastAPI app has version
+  API endpoint files: 1
+

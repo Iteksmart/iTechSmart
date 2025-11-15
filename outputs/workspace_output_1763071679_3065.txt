@@ -1,0 +1,10 @@
+total 12
+drwxr-xr-x 1 root root   50 Nov 13 18:17 .
+drwxr-xr-x 1 root root   65 Nov 13 17:53 ..
+-rw-r--r-- 1 root root 5472 Nov 13 18:17 App.tsx
+drwxr-xr-x 2 root root   10 Nov 12 13:06 components
+-rw-r--r-- 1 root root  613 Nov 13 18:17 index.tsx
+drwxr-xr-x 2 root root   10 Nov 12 13:06 pages
+drwxr-xr-x 2 root root   10 Nov 12 13:06 services
+drwxr-xr-x 2 root root   10 Nov 12 13:06 styles
+drwxr-xr-x 2 root root   10 Nov 12 13:06 utils

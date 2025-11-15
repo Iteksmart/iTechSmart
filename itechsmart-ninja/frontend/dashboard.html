@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - iTechSmart Ninja</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-bolt"></i>
+                <span>iTechSmart Ninja</span>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-robot"></i>
+                <span>AI Agents</span>
+                <span class="badge">5</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-tasks"></i>
+                <span>Tasks</span>
+                <span class="badge">12</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-project-diagram"></i>
+                <span>Workflows</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-plug"></i>
+                <span>Integrations</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-comments"></i>
+                <span>Chat</span>
+                <span class="badge">3</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Analytics</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-folder"></i>
+                <span>Files</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <div class="user-name">John Doe</div>
+                    <div class="user-email">john@example.com</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search anything... (Ctrl+K)">
+                </div>
+            </div>
+            <div class="topbar-right">
+                <button class="icon-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+                <button class="icon-btn">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+                <button class="btn-primary">
+                    <i class="fas fa-plus"></i>
+                    New Task
+                </button>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <div class="welcome-text">
+                    <h1>Welcome back, John! 👋</h1>
+                    <p>Here's what's happening with your projects today.</p>
+                </div>
+                <div class="quick-actions">
+                    <button class="quick-action-btn">
+                        <i class="fas fa-robot"></i>
+                        <span>Run Agent</span>
+                    </button>
+                    <button class="quick-action-btn">
+                        <i class="fas fa-upload"></i>
+                        <span>Upload File</span>
+                    </button>
+                    <button class="quick-action-btn">
+                        <i class="fas fa-play"></i>
+                        <span>Start Workflow</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Stats Grid -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">1,234</div>
+                        <div class="stat-label">Active Tasks</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>12% from last month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">98.5%</div>
+                        <div class="stat-label">Success Rate</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>2.3% from last month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">45ms</div>
+                        <div class="stat-label">Avg Response Time</div>
+                        <div class="stat-change negative">
+                            <i class="fas fa-arrow-down"></i>
+                            <span>5ms faster</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">24</div>
+                        <div class="stat-label">Team Members</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>3 new this week</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section class="charts-section">
+                <div class="chart-card large">
+                    <div class="card-header">
+                        <h3>Task Performance</h3>
+                        <div class="card-actions">
+                            <select class="time-filter">
+                                <option>Last 7 days</option>
+                                <option>Last 30 days</option>
+                                <option>Last 90 days</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="card-header">
+                        <h3>AI Agent Usage</h3>
+                    </div>
+                    <div class="agent-stats">
+                        <div class="agent-stat-item">
+                            <div class="agent-info">
+                                <i class="fas fa-code"></i>
+                                <span>Coder Agent</span>
+                            </div>
+                            <div class="agent-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 85%"></div>
+                                </div>
+                                <span class="progress-value">85%</span>
+                            </div>
+                        </div>
+                        <div class="agent-stat-item">
+                            <div class="agent-info">
+                                <i class="fas fa-search"></i>
+                                <span>Researcher</span>
+                            </div>
+                            <div class="agent-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 72%"></div>
+                                </div>
+                                <span class="progress-value">72%</span>
+                            </div>
+                        </div>
+                        <div class="agent-stat-item">
+                            <div class="agent-info">
+                                <i class="fas fa-pen"></i>
+                                <span>Writer</span>
+                            </div>
+                            <div class="agent-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 68%"></div>
+                                </div>
+                                <span class="progress-value">68%</span>
+                            </div>
+                        </div>
+                        <div class="agent-stat-item">
+                            <div class="agent-info">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Analyst</span>
+                            </div>
+                            <div class="agent-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 55%"></div>
+                                </div>
+                                <span class="progress-value">55%</span>
+                            </div>
+                        </div>
+                        <div class="agent-stat-item">
+                            <div class="agent-info">
+                                <i class="fas fa-bug"></i>
+                                <span>Debugger</span>
+                            </div>
+                            <div class="agent-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 45%"></div>
+                                </div>
+                                <span class="progress-value">45%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Activity & Tasks -->
+            <section class="activity-section">
+                <div class="activity-card">
+                    <div class="card-header">
+                        <h3>Recent Activity</h3>
+                        <a href="#" class="view-all">View All</a>
+                    </div>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon blue">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">Coder Agent completed task</div>
+                                <div class="activity-description">Generated REST API for user management</div>
+                                <div class="activity-time">2 minutes ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon green">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">Workflow executed successfully</div>
+                                <div class="activity-description">Data processing pipeline completed</div>
+                                <div class="activity-time">15 minutes ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon purple">
+                                <i class="fas fa-upload"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">File uploaded</div>
+                                <div class="activity-description">document.pdf (2.4 MB)</div>
+                                <div class="activity-time">1 hour ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon orange">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">New team member added</div>
+                                <div class="activity-description">Sarah Johnson joined the workspace</div>
+                                <div class="activity-time">3 hours ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tasks-card">
+                    <div class="card-header">
+                        <h3>Active Tasks</h3>
+                        <a href="#" class="view-all">View All</a>
+                    </div>
+                    <div class="tasks-list">
+                        <div class="task-item">
+                            <div class="task-checkbox">
+                                <input type="checkbox" id="task1">
+                                <label for="task1"></label>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-title">Build authentication system</div>
+                                <div class="task-meta">
+                                    <span class="task-priority high">High Priority</span>
+                                    <span class="task-due">Due in 2 days</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-checkbox">
+                                <input type="checkbox" id="task2">
+                                <label for="task2"></label>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-title">Design landing page</div>
+                                <div class="task-meta">
+                                    <span class="task-priority medium">Medium Priority</span>
+                                    <span class="task-due">Due in 5 days</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-checkbox">
+                                <input type="checkbox" id="task3">
+                                <label for="task3"></label>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-title">Write API documentation</div>
+                                <div class="task-meta">
+                                    <span class="task-priority low">Low Priority</span>
+                                    <span class="task-due">Due in 1 week</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-checkbox">
+                                <input type="checkbox" id="task4">
+                                <label for="task4"></label>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-title">Setup CI/CD pipeline</div>
+                                <div class="task-meta">
+                                    <span class="task-priority high">High Priority</span>
+                                    <span class="task-due">Due tomorrow</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Integrations Status -->
+            <section class="integrations-section">
+                <div class="card-header">
+                    <h3>Connected Integrations</h3>
+                    <a href="#" class="view-all">Manage</a>
+                </div>
+                <div class="integrations-grid">
+                    <div class="integration-item connected">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub</span>
+                        <div class="status-dot"></div>
+                    </div>
+                    <div class="integration-item connected">
+                        <i class="fab fa-slack"></i>
+                        <span>Slack</span>
+                        <div class="status-dot"></div>
+                    </div>
+                    <div class="integration-item connected">
+                        <i class="fab fa-google-drive"></i>
+                        <span>Google Drive</span>
+                        <div class="status-dot"></div>
+                    </div>
+                    <div class="integration-item">
+                        <i class="fab fa-jira"></i>
+                        <span>Jira</span>
+                        <button class="connect-btn">Connect</button>
+                    </div>
+                    <div class="integration-item">
+                        <i class="fab fa-trello"></i>
+                        <span>Trello</span>
+                        <button class="connect-btn">Connect</button>
+                    </div>
+                    <div class="integration-item">
+                        <i class="fab fa-dropbox"></i>
+                        <span>Dropbox</span>
+                        <button class="connect-btn">Connect</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

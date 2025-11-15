@@ -1,0 +1,11 @@
+Added command: itechsmart.createTeam
+Added command: itechsmart.inviteTeamMember
+Added command: itechsmart.switchWorkspace
+Added command: itechsmart.addComment
+Added command: itechsmart.viewTeamActivity
+Added command: itechsmart.managePermissions
+Added command: itechsmart.listTeams
+Added command: itechsmart.createWorkspace
+
+Added 8 commands
+Total commands: 113

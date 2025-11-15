@@ -1,0 +1,12 @@
+backend/alembic/env.py
+backend/app/main.py
+backend/app/routers/__init__.py
+backend/app/routers/ai.py
+backend/app/routers/auth.py
+backend/app/routers/health.py
+backend/app/routers/integrations.py
+backend/app/routers/tickets.py
+backend/app/routers/users.py
+backend/tests/conftest.py
+backend/tests/test_health.py
+backend/conftest.py

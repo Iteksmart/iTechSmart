@@ -1,0 +1,150 @@
+            workflow_steps.append(step)
+        
+        workflow = Workflow(
+            name=name,
+            description=description,
+            trigger=trigger or {},
+            steps=workflow_steps
+        )
+        
+        self.workflows[workflow.id] = workflow
+        
+        return workflow
+    
+    async def execute_workflow(
+        self,
+        workflow_id: str,
+        context: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """Execute workflow"""
+        
+        if workflow_id not in self.workflows:
+            raise ValueError(f"Workflow not found: {workflow_id}")
+        
+        workflow = self.workflows[workflow_id]
+        workflow.status = WorkflowStatus.RUNNING
+        workflow.started_at = datetime.now()
+        
+        self.running_workflows[workflow_id] = workflow
+        
+        self.logger.info(f"Starting workflow: {workflow.name}")
+        
+        try:
+            for i, step in enumerate(workflow.steps):
+                workflow.current_step = i
+                
+                self.logger.info(f"Executing step {i+1}/{len(workflow.steps)}: {step.name}")
+                
+                # Check condition
+                if step.condition and not self._evaluate_condition(step.condition, context):
+                    self.logger.info(f"Skipping step {step.name} - condition not met")
+                    continue
+                
+                # Execute step
+                step.status = WorkflowStatus.RUNNING
+                result = await self._execute_step(step, context)
+                
+                if result['success']:
+                    step.status = WorkflowStatus.COMPLETED
+                    step.result = result
+                    
+                    # Update context with result
+                    context.update(result.get('output', {}))
+                    
+                    # Handle on_success
+                    if step.on_success:
+                        self.logger.info(f"Step succeeded, jumping to: {step.on_success}")
+                        # Find step by name and jump
+                        for j, s in enumerate(workflow.steps):
+                            if s.name == step.on_success:
+                                workflow.current_step = j - 1
+                                break
+                else:
+                    step.status = WorkflowStatus.FAILED
+                    step.result = result
+                    
+                    # Handle on_failure
+                    if step.on_failure:
+                        self.logger.info(f"Step failed, jumping to: {step.on_failure}")
+                        for j, s in enumerate(workflow.steps):
+                            if s.name == step.on_failure:
+                                workflow.current_step = j - 1
+                                break
+                    else:
+                        # Fail workflow
+                        workflow.status = WorkflowStatus.FAILED
+                        break
+            
+            if workflow.status == WorkflowStatus.RUNNING:
+                workflow.status = WorkflowStatus.COMPLETED
+            
+            workflow.completed_at = datetime.now()
+            
+            # Add to history
+            self.workflow_history.append({
+                'workflow_id': workflow_id,
+                'name': workflow.name,
+                'status': workflow.status.value,
+                'started_at': workflow.started_at.isoformat(),
+                'completed_at': workflow.completed_at.isoformat(),
+                'duration': (workflow.completed_at - workflow.started_at).total_seconds()
+            })
+            
+            return {
+                'success': workflow.status == WorkflowStatus.COMPLETED,
+                'workflow_id': workflow_id,
+                'status': workflow.status.value,
+                'context': context
+            }
+        
+        except Exception as e:
+            self.logger.error(f"Workflow execution error: {e}")
+            workflow.status = WorkflowStatus.FAILED
+            return {
+                'success': False,
+                'error': str(e)
+            }
+        
+        finally:
+            if workflow_id in self.running_workflows:
+                del self.running_workflows[workflow_id]
+    
+    async def _execute_step(
+        self,
+        step: WorkflowStep,
+        context: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """Execute individual workflow step"""
+        
+        try:
+            if step.action_type == 'command':
+                return await self._execute_command_step(step, context)
+            
+            elif step.action_type == 'notification':
+                return await self._execute_notification_step(step, context)
+            
+            elif step.action_type == 'approval':
+                return await self._execute_approval_step(step, context)
+            
+            elif step.action_type == 'wait':
+                return await self._execute_wait_step(step, context)
+            
+            elif step.action_type == 'check':
+                return await self._execute_check_step(step, context)
+            
+            elif step.action_type == 'http_check':
+                return await self._execute_http_check_step(step, context)
+            
+            elif step.action_type == 'log':
+                return await self._execute_log_step(step, context)
+            
+            elif step.action_type == 'ticket':
+                return await self._execute_ticket_step(step, context)
+            
+            elif step.action_type == 'manual':
+                return await self._execute_manual_step(step, context)
+            
+            else:
+                return {
+                    'success': False,
+                    'error': f"Unknown action type: {step.action_type}"

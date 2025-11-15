@@ -1,0 +1,17 @@
+/workspace/prooflink/frontend/src/app/page.tsx
+/workspace/prooflink/frontend/src/app/auth/login/page.tsx
+/workspace/prooflink/frontend/src/app/auth/register/page.tsx
+/workspace/prooflink/frontend/src/app/dashboard/page.tsx
+/workspace/prooflink/frontend/src/app/dashboard/create/page.tsx
+/workspace/prooflink/frontend/src/app/dashboard/proofs/page.tsx
+/workspace/prooflink/frontend/src/app/dashboard/proofs/[id]/page.tsx
+/workspace/prooflink/frontend/src/app/dashboard/settings/page.tsx
+/workspace/prooflink/frontend/src/app/dashboard/api-keys/page.tsx
+/workspace/prooflink/frontend/src/app/dashboard/analytics/page.tsx
+/workspace/prooflink/frontend/src/app/dashboard/integrations/page.tsx
+/workspace/prooflink/frontend/src/app/dashboard/batch/page.tsx
+/workspace/prooflink/frontend/src/app/verify/[link]/page.tsx
+/workspace/prooflink/frontend/src/app/help/page.tsx
+/workspace/prooflink/frontend/src/app/pricing/page.tsx
+/workspace/prooflink/frontend/src/app/docs/getting-started/page.tsx
+/workspace/prooflink/frontend/src/app/contact/page.tsx

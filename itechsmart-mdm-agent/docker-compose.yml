@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  mdm-agent:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: itechsmart-mdm-agent
+    ports:
+      - "8200:8200"
+    environment:
+      - DATABASE_URL=sqlite:///./mdm_agent.db
+      - HUB_URL=http://itechsmart-enterprise:8001
+      - NINJA_URL=http://itechsmart-ninja:8002
+      - PORT_MANAGER_URL=http://itechsmart-port-manager:8100
+      - SECRET_KEY=your-secret-key-change-in-production
+    volumes:
+      - ./backend:/app
+      - mdm-data:/app/data
+    restart: unless-stopped
+    networks:
+      - itechsmart-network
+
+  mdm-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: itechsmart-mdm-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - mdm-agent
+    restart: unless-stopped
+    networks:
+      - itechsmart-network
+
+volumes:
+  mdm-data:
+
+networks:
+  itechsmart-network:
+    external: true

@@ -1,0 +1,23 @@
+itechsmart-shield
+├── DEPLOYMENT.md
+├── PROJECT_COMPLETION_SUMMARY.md
+├── QUICK_REFERENCE.md
+├── README.md
+├── backend
+│   ├── Dockerfile
+│   ├── app
+│   ├── requirements.txt
+│   └── tests
+├── deployment
+├── docker-compose.yml
+├── docs
+├── frontend
+│   ├── Dockerfile
+│   ├── package.json
+│   ├── public
+│   └── src
+├── init-db.sql
+├── start.sh
+└── tests
+
+10 directories, 11 files

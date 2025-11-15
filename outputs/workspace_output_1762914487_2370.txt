@@ -1,0 +1,11 @@
+=== API Endpoint Files Count ===
+prooflink: 9 API files
+passport: 9 API files
+itechsmart-impactos: 6 API files
+itechsmart-ninja: 43 API files
+itechsmart-enterprise: 0 API files
+itechsmart-hl7: 15 API files
+fitsnap-ai: 1 API files
+
+=== iTechSmart Supreme (CLI Tool) ===
+Total Python files: 41

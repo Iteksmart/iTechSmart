@@ -1,0 +1,44 @@
+=== CHECKING CONFIGURATION FILES ===
+
+--- prooflink ---
+  Backend .env.example: 62 variables
+  Frontend .env.example: 7 variables
+  Frontend package.json: present
+  Backend requirements.txt: 142 packages
+
+--- passport ---
+  Backend .env.example: 39 variables
+  Frontend .env.example: 2 variables
+  Frontend package.json: present
+  Backend requirements.txt: 48 packages
+
+--- itechsmart-impactos ---
+  Backend .env.example: 73 variables
+  Frontend .env.example: 11 variables
+  Frontend package.json: present
+  Backend requirements.txt: 49 packages
+
+--- itechsmart-ninja ---
+  Backend .env.example: 49 variables
+  Frontend .env.example: 17 variables
+  Frontend package.json: present
+  Backend requirements.txt: 103 packages
+
+--- itechsmart-enterprise ---
+  Backend .env.example: 83 variables
+  Frontend .env.example: 25 variables
+  Frontend package.json: present
+  Backend requirements.txt: 75 packages
+
+--- itechsmart-hl7 ---
+  Backend .env.example: 90 variables
+  Frontend .env.example: 36 variables
+  Frontend package.json: present
+  Backend requirements.txt: 83 packages
+
+--- fitsnap-ai ---
+  Backend .env.example: 67 variables
+  Frontend .env.example: 14 variables
+  Frontend package.json: present
+  Backend requirements.txt: 50 packages
+

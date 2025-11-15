@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iTechSmart - Pricing & Product Summary</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: white;
+            color: #1a1a1a;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h1 {
+            font-size: 42px;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #666;
+            font-style: italic;
+        }
+
+        h2 {
+            font-size: 32px;
+            color: #667eea;
+            margin: 40px 0 25px 0;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .pricing-tiers {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .tier-card {
+            background: white;
+            border: 3px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tier-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+
+        .tier-badge {
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: #ffc107;
+            color: white;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .tier-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .tier-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            min-height: 60px;
+        }
+
+        .tier-price {
+            font-size: 36px;
+            font-weight: bold;
+            color: #28a745;
+            margin: 20px 0;
+        }
+
+        .tier-price-note {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 20px;
+        }
+
+        .tier-features {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .tier-features li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 14px;
+            color: #333;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .tier-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .tier-cta {
+            display: block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .tier-cta:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .product-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #667eea;
+            flex: 1;
+        }
+
+        .product-value {
+            background: #28a745;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+            margin-left: 10px;
+        }
+
+        .product-category {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-bottom: 10px;
+        }
+
+        .product-description {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .product-features {
+            font-size: 12px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .suite-summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .suite-summary h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .suite-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .suite-stat {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .suite-stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .suite-stat-label {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 40px 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .comparison-table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .comparison-table th {
+            padding: 18px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 15px 18px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 13px;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .highlight-row {
+            background: #f0f7ff !important;
+            font-weight: 600;
+        }
+
+        .value-props {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .value-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .value-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .value-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .value-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .contact-section {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .contact-section h3 {
+            font-size: 24px;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .contact-button {
+            display: inline-block;
+            padding: 15px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .primary-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .secondary-button {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .contact-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 1200px) {
+            .pricing-tiers {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .pricing-tiers,
+            .products-grid,
+            .value-props {
+                grid-template-columns: 1fr;
+            }
+            .suite-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .annual-pricing {
+            background: #f0fff4;
+            border: 2px solid #28a745;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .annual-pricing h4 {
+            color: #28a745;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .annual-pricing p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .discount-badge {
+            background: #28a745;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>iTechSmart Pricing & Product Summary</h1>
+            <div class="subtitle">Transparent, Scalable, Enterprise-Ready Pricing</div>
+        </div>
+
+        <div class="suite-summary">
+            <h3>Complete Suite Value</h3>
+            <p style="font-size: 18px; margin-bottom: 20px;">
+                26 Integrated Products | $16.5M - $23M+ Total Value
+            </p>
+            <div class="suite-stats">
+                <div class="suite-stat">
+                    <div class="suite-stat-number">28</div>
+                    <div class="suite-stat-label">Products</div>
+                </div>
+                <div class="suite-stat">
+                    <div class="suite-stat-number">350+</div>
+                    <div class="suite-stat-label">API Endpoints</div>
+                </div>
+                <div class="suite-stat">
+                    <div class="suite-stat-number">42</div>
+                    <div class="suite-stat-label">AI Models</div>
+                </div>
+                <div class="suite-stat">
+                    <div class="suite-stat-number">100+</div>
+                    <div class="suite-stat-label">Data Connectors</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>💰 Subscription Tiers</h2>
+
+        <div class="pricing-tiers">
+            <div class="tier-card">
+                <div class="tier-name">🚀 Startup</div>
+                <div class="tier-description">
+                    Perfect for startups and small teams getting started with AI-powered IT operations
+                </div>
+                <div class="tier-price">$0 - $500</div>
+                <div class="tier-price-note">per month</div>
+                <ul class="tier-features">
+                    <li>iTechSmart Core (Limited)</li>
+                    <li>5 AI queries/day</li>
+                    <li>Basic troubleshooting</li>
+                    <li>Community support</li>
+                    <li>Up to 5 users</li>
+                    <li>Single workspace</li>
+                </ul>
+                <a href="#" class="tier-cta">Start Free</a>
+            </div>
+
+            <div class="tier-card">
+                <div class="tier-name">🏢 Foundation</div>
+                <div class="tier-description">
+                    Core products for growing businesses needing robust IT operations
+                </div>
+                <div class="tier-price">$8K - $15K</div>
+                <div class="tier-price-note">per month</div>
+                <ul class="tier-features">
+                    <li>3-5 Core Products</li>
+                    <li>Unlimited AI queries</li>
+                    <li>Self-healing AI (Ninja)</li>
+                    <li>Priority support</li>
+                    <li>Up to 50 users</li>
+                    <li>Multiple workspaces</li>
+                    <li>API access</li>
+                </ul>
+                <a href="#" class="tier-cta">Get Started</a>
+            </div>
+
+            <div class="tier-card">
+                <div class="tier-badge">POPULAR</div>
+                <div class="tier-name">🎯 Strategic</div>
+                <div class="tier-description">
+                    Strategic modules for enterprises needing advanced capabilities
+                </div>
+                <div class="tier-price">$50K - $100K</div>
+                <div class="tier-price-note">per month</div>
+                <ul class="tier-features">
+                    <li>10-15 Products</li>
+                    <li>All Foundation features</li>
+                    <li>Advanced analytics</li>
+                    <li>Custom integrations</li>
+                    <li>Up to 200 users</li>
+                    <li>Dedicated support</li>
+                    <li>SLA guarantees</li>
+                    <li>Training included</li>
+                </ul>
+                <a href="#" class="tier-cta">Contact Sales</a>
+            </div>
+
+            <div class="tier-card">
+                <div class="tier-name">🏆 Enterprise</div>
+                <div class="tier-description">
+                    Complete suite for large enterprises requiring full platform capabilities
+                </div>
+                <div class="tier-price">$250K - $350K</div>
+                <div class="tier-price-note">per month</div>
+                <ul class="tier-features">
+                    <li>All 28 Products</li>
+                    <li>Unlimited everything</li>
+                    <li>White-glove onboarding</li>
+                    <li>24/7 premium support</li>
+                    <li>Custom development</li>
+                    <li>Success manager</li>
+                    <li>Executive reviews</li>
+                    <li>On-premise option</li>
+                </ul>
+                <a href="#" class="tier-cta">Contact Sales</a>
+            </div>
+        </div>
+
+        <div class="annual-pricing">
+            <h4>💎 Annual Commitment Discount</h4>
+            <p>
+                Save 20% with annual billing | Flexible payment terms available<br>
+                Enterprise customers: Custom pricing and multi-year agreements available
+            </p>
+            <span class="discount-badge">Save up to $840K/year</span>
+        </div>
+
+        <h2>📦 Product Catalog & Individual Pricing</h2>
+
+        <h3 style="color: #667eea; margin: 30px 0 20px 0; font-size: 24px;">Core Products (From iTechSmart.dev)</h3>
+
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-category">IT Operations</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Core</div>
+                    <div class="product-value">$8K-$12K/mo</div>
+                </div>
+                <div class="product-description">
+                    AI-Powered IT Troubleshooting Assistant with OSI model-based diagnostics
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> OSI troubleshooting, Script suggestions, Ticket automation, Knowledge base, AI chat
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">Enterprise Suite</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Supreme+</div>
+                    <div class="product-value">$15K-$25K/mo</div>
+                </div>
+                <div class="product-description">
+                    All-in-one IT ecosystem unifying diagnostics, automation, and knowledge management
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> Unified platform, Team collaboration, Living knowledge base, Workflow orchestration
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">Healthcare IT</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart HL7+</div>
+                    <div class="product-value">$12K-$20K/mo</div>
+                </div>
+                <div class="product-description">
+                    Self-healing IT for healthcare with HL7/FHIR support and HIPAA compliance
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> Zero-touch response, HL7 v2.x/FHIR, HIPAA encryption, Auto-repair
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">Security Infrastructure</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Citadel</div>
+                    <div class="product-value">$20K-$35K/mo</div>
+                </div>
+                <div class="product-description">
+                    Sovereign digital infrastructure with post-quantum crypto and zero-trust
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> Post-quantum crypto, Zero-trust, Air-gapped deployment, Defense-grade security
+                </div>
+            </div>
+        </div>
+
+        <h3 style="color: #667eea; margin: 40px 0 20px 0; font-size: 24px;">Foundation Products</h3>
+
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-category">Integration Hub</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Enterprise</div>
+                    <div class="product-value">$6K-$10K/mo</div>
+                </div>
+                <div class="product-description">
+                    Central integration hub orchestrating all products with unified authentication
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> Service registry, SSO, Health monitoring, API routing, Real-time dashboards
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">Self-Healing AI</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Ninja</div>
+                    <div class="product-value">$8K-$12K/mo</div>
+                </div>
+                <div class="product-description">
+                    Autonomous self-healing agent with 99.7% detection and 94.3% auto-fix success
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> Auto-fix, Self-debugging, Performance monitoring, Dependency management
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">ML Analytics</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Analytics</div>
+                    <div class="product-value">$5K-$8K/mo</div>
+                </div>
+                <div class="product-description">
+                    ML-powered analytics with forecasting, anomaly detection, and predictive insights
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> Forecasting, Anomaly detection, 12 widget types, Custom dashboards
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">Healthcare Management</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Supreme</div>
+                    <div class="product-value">$3K-$6K/mo</div>
+                </div>
+                <div class="product-description">
+                    Healthcare management system with patient care and clinical workflows
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> Patient management, EHR, Appointments, Billing, HIPAA compliance
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">Document Verification</div>
+                <div class="product-header">
+                    <div class="product-name">ProofLink.AI</div>
+                    <div class="product-value">$2K-$5K/mo</div>
+                </div>
+                <div class="product-description">
+                    AI-powered document verification with fraud detection and authenticity checks
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> AI analysis, Fraud detection, OCR, Blockchain timestamping
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">Identity Management</div>
+                <div class="product-header">
+                    <div class="product-name">PassPort</div>
+                    <div class="product-value">$3K-$6K/mo</div>
+                </div>
+                <div class="product-description">
+                    Enterprise identity & access management with SSO, MFA, and RBAC
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> SSO, MFA, RBAC, OAuth 2.0, User lifecycle, Session management
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">Impact Measurement</div>
+                <div class="product-header">
+                    <div class="product-name">ImpactOS</div>
+                    <div class="product-value">$2K-$4K/mo</div>
+                </div>
+                <div class="product-description">
+                    Social impact measurement platform tracking SDG alignment and ESG compliance
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> Impact metrics, SDG alignment, Stakeholder reporting, ESG compliance
+                </div>
+            </div>
+               <div class="product-card">
+                   <div class="product-category">Legal Management</div>
+                   <div class="product-header">
+                       <div class="product-name">LegalAI Pro</div>
+                       <div class="product-value">$6K-$12K/mo</div>
+                   </div>
+                   <div class="product-description">
+                       AI-powered legal management platform with 8 revolutionary AI features for law firms
+                   </div>
+                   <div class="product-features">
+                       <strong>Key Features:</strong> AI document auto-fill, Legal research, Contract analysis, Case prediction, Practice management
+                   </div>
+               </div>
+        </div>
+
+        <h3 style="color: #667eea; margin: 40px 0 20px 0; font-size: 24px;">Strategic Products</h3>
+
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-category">Data Pipeline</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart DataFlow</div>
+                    <div class="product-value">$4K-$8K/mo</div>
+                </div>
+                <div class="product-description">
+                    Enterprise ETL with 100+ connectors, real-time streaming, and self-healing pipelines
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> 100+ connectors, Real-time streaming, Data quality, Schema evolution
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">Real-Time Analytics</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Pulse</div>
+                    <div class="product-value">$6K-$12K/mo</div>
+                </div>
+                <div class="product-description">
+                    Real-time analytics & BI with predictive analytics and AI-powered insights
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> Live dashboards, Predictive analytics, NL queries, Automated alerts
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">API Management</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Connect</div>
+                    <div class="product-value">$5K-$8K/mo</div>
+                </div>
+                <div class="product-description">
+                    API gateway & integration platform with rate limiting and developer portal
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> API gateway, Rate limiting, Developer portal, GraphQL, Analytics
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">Secrets Management</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Vault</div>
+                    <div class="product-value">$3K-$6K/mo</div>
+                </div>
+                <div class="product-description">
+                    Enterprise secrets management with AES-256 encryption and dynamic secrets
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> AES-256, Dynamic secrets, Auto-rotation, Multi-cloud support
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">Notifications</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Notify</div>
+                    <div class="product-value">$2K-$5K/mo</div>
+                </div>
+                <div class="product-description">
+                    Omnichannel notifications across 6 channels with personalization and A/B testing
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> 6 channels, Templates, Personalization, A/B testing, Analytics
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">Blockchain Audit</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Ledger</div>
+                    <div class="product-value">$4K-$8K/mo</div>
+                </div>
+                <div class="product-description">
+                    Blockchain audit trail with smart contracts and immutable records
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> Blockchain audit, Smart contracts, Digital signatures, Timestamping
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">AI Assistant</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Copilot</div>
+                    <div class="product-value">$6K-$12K/mo</div>
+                </div>
+                <div class="product-description">
+                    Enterprise AI assistant with multi-modal support and 50+ languages
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> NL interface, Multi-modal, Task automation, 50+ languages
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">Cybersecurity</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Shield</div>
+                    <div class="product-value">$8K-$15K/mo</div>
+                </div>
+                <div class="product-description">
+                    Advanced cybersecurity with AI threat detection and automated response
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> Threat detection, AI anomaly detection, SOAR, Zero-trust
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">Process Automation</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Workflow</div>
+                    <div class="product-value">$5K-$10K/mo</div>
+                </div>
+                <div class="product-description">
+                    Business process automation with visual designer and low-code capabilities
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> Visual designer, Low-code, RPA, 100+ app integrations
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">App Marketplace</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Marketplace</div>
+                    <div class="product-value">$8K-$15K/mo</div>
+                </div>
+                <div class="product-description">
+                    Enterprise app store with plugin system and 70/30 revenue sharing
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> App marketplace, 70/30 split, Developer tools, Certification
+                </div>
+            </div>
+        </div>
+
+        <h3 style="color: #667eea; margin: 40px 0 20px 0; font-size: 24px;">Business Products</h3>
+
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-category">Multi-Cloud</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Cloud</div>
+                    <div class="product-value">$5K-$8K/mo</div>
+                </div>
+                <div class="product-description">
+                    Multi-cloud management for AWS, Azure, and GCP with cost optimization
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> Multi-cloud, Cost optimization, Auto-scaling, Disaster recovery
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">CI/CD</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart DevOps</div>
+                    <div class="product-value">$5K-$10K/mo</div>
+                </div>
+                <div class="product-description">
+                    CI/CD automation with container orchestration and GitOps workflow
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> CI/CD pipelines, Kubernetes, IaC, Blue-green deployment
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">Mobile Platform</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Mobile</div>
+                    <div class="product-value">$3K-$6K/mo</div>
+                </div>
+                <div class="product-description">
+                    Cross-platform mobile development with React Native framework
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> Cross-platform, React Native, Push notifications, Mobile CI/CD
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">ML Platform</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Inc.</div>
+                    <div class="product-value">$6K-$12K/mo</div>
+                </div>
+                <div class="product-description">
+                    Enterprise ML platform with AutoML and distributed training
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> Model training, AutoML, Feature store, MLOps pipeline
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">Compliance</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Compliance</div>
+                    <div class="product-value">$3K-$6K/mo</div>
+                </div>
+                <div class="product-description">
+                    Multi-standard compliance for SOC2, HIPAA, PCI DSS, GDPR, ISO 27001
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> 5+ standards, Automated audits, Policy management, Risk assessment
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">Data Governance</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Data Platform</div>
+                    <div class="product-value">$4K-$8K/mo</div>
+                </div>
+                <div class="product-description">
+                    Enterprise data governance with quality monitoring and lineage tracking
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> Data catalog, Quality monitoring, Lineage tracking, PII detection
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-category">Customer Success</div>
+                <div class="product-header">
+                    <div class="product-name">iTechSmart Customer Success</div>
+                    <div class="product-value">$3K-$6K/mo</div>
+                </div>
+                <div class="product-description">
+                    Customer success platform with health scoring and churn prediction
+                </div>
+                <div class="product-features">
+                    <strong>Key Features:</strong> Health scoring, Churn prediction, Automated playbooks, NPS tracking
+                </div>
+            </div>
+        </div>
+
+        <h2>📊 Pricing Comparison Table</h2>
+
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Tier</th>
+                    <th>Monthly</th>
+                    <th>Annual (20% off)</th>
+                    <th>Products Included</th>
+                    <th>Users</th>
+                    <th>Support</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Startup</strong></td>
+                    <td>$0 - $500</td>
+                    <td>$0 - $4,800</td>
+                    <td>1-2 products (limited)</td>
+                    <td>Up to 5</td>
+                    <td>Community</td>
+                </tr>
+                <tr>
+                    <td><strong>Foundation</strong></td>
+                    <td>$8K - $15K</td>
+                    <td>$76.8K - $144K</td>
+                    <td>3-5 core products</td>
+                    <td>Up to 50</td>
+                    <td>Priority</td>
+                </tr>
+                <tr class="highlight-row">
+                    <td><strong>Strategic</strong></td>
+                    <td>$50K - $100K</td>
+                    <td>$480K - $960K</td>
+                    <td>10-15 products</td>
+                    <td>Up to 200</td>
+                    <td>Dedicated</td>
+                </tr>
+                <tr>
+                    <td><strong>Enterprise</strong></td>
+                    <td>$250K - $350K</td>
+                    <td>$2.4M - $3.36M</td>
+                    <td>All 28 products</td>
+                    <td>Unlimited</td>
+                    <td>24/7 Premium</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>💎 Value Propositions</h2>
+
+        <div class="value-props">
+            <div class="value-card">
+                <div class="value-icon">💰</div>
+                <div class="value-title">60% Cost Reduction</div>
+                <div class="value-description">
+                    Compared to buying 28 separate products from different vendors. Unified platform eliminates integration costs and reduces operational overhead.
+                </div>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon">⚡</div>
+                <div class="value-title">10x Faster Resolution</div>
+                <div class="value-description">
+                    Self-healing AI resolves issues in 25-65 seconds vs. 4-6 hours industry average. 99.7% detection rate and 94.3% auto-fix success.
+                </div>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon">🔒</div>
+                <div class="value-title">Enterprise-Grade Security</div>
+                <div class="value-description">
+                    Post-quantum cryptography, zero-trust architecture, blockchain audit trails. SOC2, ISO 27001, HIPAA, PCI DSS, GDPR compliant.
+                </div>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon">🚀</div>
+                <div class="value-title">Rapid Deployment</div>
+                <div class="value-description">
+                    Production-ready in minutes with one-command deployment. Docker Compose or Kubernetes. No lengthy implementation projects.
+                </div>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon">🤝</div>
+                <div class="value-title">Flexible Contracts</div>
+                <div class="value-description">
+                    Monthly or annual billing. No long-term lock-in. Scale up or down as needed. Custom enterprise agreements available.
+                </div>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon">📈</div>
+                <div class="value-title">Proven ROI</div>
+                <div class="value-description">
+                    Average 300% ROI in first year. $200K+ annual savings per enterprise. Payback period of 3-6 months.
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-section">
+            <h3>Ready to Transform Your IT Operations?</h3>
+            <p style="font-size: 16px; color: #666; margin-bottom: 20px;">
+                Get a personalized demo and pricing quote tailored to your organization's needs
+            </p>
+            <div class="contact-buttons">
+                <a href="#" class="contact-button primary-button">Request Demo</a>
+                <a href="#" class="contact-button secondary-button">Get Custom Quote</a>
+                <a href="#" class="contact-button secondary-button">Start Free Trial</a>
+            </div>
+            <p style="font-size: 14px; color: #999; margin-top: 25px;">
+                Questions? Contact us at <strong>sales@itechsmart.dev</strong> or visit <strong>itechsmart.dev</strong>
+            </p>
+        </div>
+
+        <div style="margin-top: 40px; text-align: center; padding: 30px; background: #f8f9fa; border-radius: 10px;">
+            <p style="font-size: 12px; color: #999;">
+                © 2025 iTechSmart Inc. | All prices in USD | Prices subject to change | Custom enterprise pricing available
+            </p>
+        </div>
+    </div>
+</body>
+</html>

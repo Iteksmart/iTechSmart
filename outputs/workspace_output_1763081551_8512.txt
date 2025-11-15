@@ -1,0 +1,27 @@
+total 168
+drwxr-xr-x  1 root root  4096 Nov 13 22:33 .
+drwxr-xr-x  1 root root 16384 Nov 14 00:52 ..
+-rw-r--r--  1 root root    29 Oct 24 15:19 .created
+-rw-r--r--  1 root root   820 Nov 11 22:16 .dockerignore
+-rw-r--r--  1 root root  3728 Oct 25 02:52 .env.example
+-rw-r--r--  1 root root   647 Nov 11 22:21 .gitignore
+-rw-r--r--  1 root root  1211 Nov 11 22:05 Dockerfile.backend
+-rw-r--r--  1 root root  1205 Nov 11 22:05 Dockerfile.frontend
+-rw-r--r--  1 root root 12192 Nov 13 18:16 FINAL_SUMMARY.md
+-rw-r--r--  1 root root 20997 Nov 13 18:16 IMPLEMENTATION_GUIDE.md
+-rwxr-xr-x  1 root root  4293 Oct 24 10:27 PACKAGE_AND_DEPLOY.sh
+-rw-r--r--  1 root root 15963 Nov 13 18:16 README.md
+-rw-r--r--  1 root root 15963 Nov 13 18:16 README_BACKUP.md
+-rw-r--r--  1 root root 12582 Nov 13 22:33 SERVICE_CATALOG_ENHANCEMENT.md
+-rw-r--r--  1 root root  6912 Nov 13 18:16 VERIFICATION_CHECKLIST.md
+drwxr-xr-x  1 root root   103 Nov 13 18:17 backend
+drwxr-xr-x  1 root root    54 Nov 12 20:42 dist
+-rw-r--r--  1 root root  3070 Oct 24 10:25 docker-compose.yml
+drwxr-xr-x  1 root root    23 Nov 13 18:16 docs
+drwxr-xr-x  1 root root   158 Nov 13 18:17 frontend
+drwxr-xr-x  6 root root    87 Oct 24 10:16 infrastructure
+drwxr-xr-x 14 root root  4096 Oct 24 10:16 integrations
+drwxr-xr-x  1 root root    32 Oct 24 10:16 monitoring
+drwxr-xr-x  6 root root    86 Oct 24 10:16 scripts
+-rwxr-xr-x  1 root root  9426 Oct 24 10:25 setup.sh
+drwxr-xr-x  2 root root    10 Oct 24 10:15 tests

@@ -1,0 +1,11 @@
+.
+├── backend
+├── docs
+├── frontend
+├── infrastructure
+├── integrations
+├── monitoring
+├── scripts
+└── tests
+
+9 directories, 0 files

@@ -1,0 +1,26 @@
+itechsmart_supreme/
+├── __init__.py
+├── ai
+│   └── diagnosis_engine.py
+├── api
+│   ├── rest_api.py
+│   └── webhook_receiver.py
+├── config
+├── core
+│   ├── models.py
+│   └── orchestrator.py
+├── execution
+│   └── command_executor.py
+├── monitoring
+│   ├── event_log_collector.py
+│   ├── prometheus_monitor.py
+│   └── wazuh_monitor.py
+├── security
+│   └── credential_manager.py
+├── utils
+└── web
+    ├── dashboard.py
+    ├── static
+    └── templates
+
+12 directories, 12 files

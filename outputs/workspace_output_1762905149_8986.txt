@@ -1,0 +1,20 @@
+"""
+Virtual Machine Pool API Routes
+Provides endpoints for managing concurrent VMs
+"""
+
+from fastapi import APIRouter, Depends, HTTPException, Query
+from typing import List, Optional, Dict, Any
+from sqlalchemy.orm import Session
+from datetime import datetime
+
+from app.core.database import get_db
+from app.core.security import get_current_user
+from app.models.database import User, VirtualMachine, VMExecution
+from app.integrations.vm_pool_manager import VMPoolManager
+
+router = APIRouter(prefix="/api/vms", tags=["vms"])
+
+# Initialize VM pool manager
+vm_pool = VMPoolManager(max_vms_per_user=10, max_total_vms=100)
+

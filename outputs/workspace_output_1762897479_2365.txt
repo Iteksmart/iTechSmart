@@ -1,0 +1,1 @@
+-rw-r--r-- 1 root root 2609 Oct 25 03:47 /workspace/itechsmart-ninja/backend/docker-compose.yml

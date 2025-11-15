@@ -1,0 +1,197 @@
+version: '3.8'
+
+services:
+  # iTechSmart Supreme Main Application
+  itechsmart-supreme:
+    build: .
+    container_name: itechsmart-supreme
+    ports:
+      - "5000:5000"
+    environment:
+      # Core Settings
+      - MASTER_PASSWORD=change_me_in_production
+      - SECRET_KEY=change_me_in_production
+      - CREDENTIALS_PATH=/app/data/credentials.enc
+      
+      # AI Settings
+      - OFFLINE_MODE=false
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - OLLAMA_URL=http://ollama:11434
+      - OLLAMA_MODEL=llama2
+      
+      # Automation Settings
+      - AUTO_REMEDIATION=false
+      - REQUIRE_APPROVAL_HIGH_RISK=true
+      
+      # Monitoring Endpoints
+      - PROMETHEUS_ENDPOINTS=http://prometheus:9090
+      - WAZUH_ENDPOINTS=https://wazuh:55000:admin:admin
+      - ZABBIX_URL=http://zabbix-web:80/zabbix
+      - ZABBIX_USERNAME=Admin
+      - ZABBIX_PASSWORD=zabbix
+      
+      # Grafana
+      - GRAFANA_URL=http://grafana:3000
+      - GRAFANA_API_KEY=${GRAFANA_API_KEY:-}
+      
+      # Vault
+      - VAULT_URL=http://vault:8200
+      - VAULT_TOKEN=${VAULT_TOKEN:-}
+      
+      # Ansible
+      - ANSIBLE_INVENTORY=/app/inventory/hosts
+      
+      # Webhook Secrets
+      - GITHUB_WEBHOOK_SECRET=${GITHUB_WEBHOOK_SECRET:-}
+      - PROMETHEUS_WEBHOOK_SECRET=${PROMETHEUS_WEBHOOK_SECRET:-}
+      
+      # Server Settings
+      - HOST=0.0.0.0
+      - PORT=5000
+    
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./inventory:/app/inventory
+    
+    depends_on:
+      - prometheus
+      - grafana
+      - ollama
+      - vault
+    
+    restart: unless-stopped
+    networks:
+      - itechsmart-network
+
+  # Ollama - Local LLM
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    restart: unless-stopped
+    networks:
+      - itechsmart-network
+
+  # Prometheus - Metrics Monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+    networks:
+      - itechsmart-network
+
+  # Grafana - Visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_INSTALL_PLUGINS=grafana-clock-panel
+    volumes:
+      - grafana-data:/var/lib/grafana
+    restart: unless-stopped
+    networks:
+      - itechsmart-network
+
+  # HashiCorp Vault - Secrets Management
+  vault:
+    image: vault:latest
+    container_name: vault
+    ports:
+      - "8200:8200"
+    environment:
+      - VAULT_DEV_ROOT_TOKEN_ID=root
+      - VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - vault-data:/vault/data
+    command: server -dev
+    restart: unless-stopped
+    networks:
+      - itechsmart-network
+
+  # Zabbix Server
+  zabbix-server:
+    image: zabbix/zabbix-server-pgsql:latest
+    container_name: zabbix-server
+    environment:
+      - DB_SERVER_HOST=postgres
+      - POSTGRES_USER=zabbix
+      - POSTGRES_PASSWORD=zabbix
+      - POSTGRES_DB=zabbix
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - itechsmart-network
+
+  # Zabbix Web Interface
+  zabbix-web:
+    image: zabbix/zabbix-web-nginx-pgsql:latest
+    container_name: zabbix-web
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_SERVER_HOST=postgres
+      - POSTGRES_USER=zabbix
+      - POSTGRES_PASSWORD=zabbix
+      - POSTGRES_DB=zabbix
+      - ZBX_SERVER_HOST=zabbix-server
+      - PHP_TZ=UTC
+    depends_on:
+      - postgres
+      - zabbix-server
+    restart: unless-stopped
+    networks:
+      - itechsmart-network
+
+  # PostgreSQL for Zabbix
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=zabbix
+      - POSTGRES_PASSWORD=zabbix
+      - POSTGRES_DB=zabbix
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - itechsmart-network
+
+  # Node Exporter for Prometheus
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    ports:
+      - "9100:9100"
+    restart: unless-stopped
+    networks:
+      - itechsmart-network
+
+networks:
+  itechsmart-network:
+    driver: bridge
+
+volumes:
+  ollama-data:
+  prometheus-data:
+  grafana-data:
+  vault-data:
+  postgres-data:

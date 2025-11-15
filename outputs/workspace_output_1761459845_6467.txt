@@ -1,0 +1,50 @@
+    # Action details
+    action_id = Column(String, unique=True, index=True, nullable=False)
+    action_type = Column(String, nullable=False)
+    description = Column(String, nullable=False)
+    
+    # State information
+    previous_state = Column(JSON)
+    new_state = Column(JSON)
+    metadata = Column(JSON)
+    
+    # Status
+    undoable = Column(Boolean, default=True)
+    undone = Column(Boolean, default=False)
+    bookmarked = Column(Boolean, default=False)
+    
+    # Timestamp
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    
+    # Relationships
+    user = relationship("User")
+
+
+class VideoGeneration(Base):
+    """Video generation history"""
+    __tablename__ = "video_generations"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    
+    # Video details
+    video_id = Column(String, unique=True, index=True)
+    prompt = Column(Text, nullable=False)
+    provider = Column(String, nullable=False)
+    
+    # Video properties
+    duration = Column(Integer)  # seconds
+    resolution = Column(String)  # 720p, 1080p, 4k
+    video_url = Column(String)
+    
+    # Status
+    status = Column(String, default="pending")  # pending, processing, completed, failed
+    
+    # Metadata
+    metadata = Column(JSON)
+    
+    # Timestamp
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    
+    # Relationships
+    user = relationship("User")

@@ -1,0 +1,12 @@
+=== iTechSmart Ninja ===
+/workspace/itechsmart-ninja/backend
+/workspace/itechsmart-ninja/frontend
+=== iTechSmart Enterprise ===
+/workspace/itechsmart-enterprise/backend
+/workspace/itechsmart-enterprise/frontend
+=== iTechSmart Supreme ===
+ls: cannot access '/workspace/itechsmart_supreme/backend': No such file or directory
+ls: cannot access '/workspace/itechsmart_supreme/frontend': No such file or directory
+=== iTechSmart HL7 ===
+/workspace/itechsmart-hl7/backend
+/workspace/itechsmart-hl7/frontend

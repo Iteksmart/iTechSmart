@@ -1,0 +1,60 @@
+### Latest Products (3)
+
+#### 31. iTechSmart Sentinel
+**Port:** 8031 | **Frontend:** 3031  
+**Description:** Observability Platform  
+**Key Features:**
+- Distributed tracing
+- Smart alerting
+- Log aggregation
+- Incident management
+- SLO tracking
+- Error budget monitoring
+
+#### 32. iTechSmart Forge
+**Port:** 8032 | **Frontend:** 3032  
+**Description:** Low-Code App Builder  
+**Key Features:**
+- Visual app builder
+- AI-powered generation
+- 150+ components
+- Data connectors (all 31 products)
+- Workflow automation
+- One-click deployment
+
+   #### 33. iTechSmart Sandbox
+   **Port:** 8033 | **Frontend:** 3033  
+   **Description:** Secure Code Execution Environment  
+   **Key Features:**
+   - Docker-isolated sandboxes
+   - Multi-language support (Python, JavaScript, TypeScript, Java, C++, Go, Rust)
+   - GPU support (T4, A10G, V100, A100)
+   - Resource monitoring (CPU, memory, GPU, disk, network)
+   - Filesystem snapshots and restoration
+   - Port exposure with preview URLs
+   - Test execution framework for all 32 products
+   - Ultra-fast boot times (1-3 seconds)
+   - Auto-termination with configurable TTL
+   - Persistent storage volumes
+   - Integration with all iTechSmart products
+
+---
+
+## Technology Stack
+
+### Backend Technologies
+
+**Primary Framework:** FastAPI (Python 3.11+)
+- High performance async framework
+- Automatic OpenAPI documentation
+- Type hints and validation
+- WebSocket support
+
+**Databases:**
+- PostgreSQL 15+ (primary)
+- SQLite (development)
+- Redis 7+ (caching)
+- MongoDB (document storage)
+
+**Message Queuing:**
+- Apache Kafka 3.5+

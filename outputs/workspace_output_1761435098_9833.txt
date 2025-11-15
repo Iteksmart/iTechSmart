@@ -1,0 +1,41 @@
+                case 'whoami':
+                    await this.showCurrentUser();
+                    break;
+                default:
+                    this.sendToTerminal({
+                        type: 'output',
+                        content: `Unknown command: ${cmd}\nType 'help' for available commands.\n`,
+                        color: '#ff6b6b'
+                    });
+            }
+        } catch (error: any) {
+            this.sendToTerminal({
+                type: 'output',
+                content: `Error: ${error.message}\n`,
+                color: '#ff0000'
+            });
+        }
+
+        this.sendToTerminal({ type: 'ready' });
+    }
+
+    private async showHelp() {
+        const helpText = `
+Available Commands:
+═══════════════════════════════════════════════════════════════
+
+AI Commands:
+  generate <description>    Generate code from description
+  research <query>          Research a topic
+  analyze <data>            Analyze data
+  debug <code>              Debug code
+  explain <code>            Explain code
+
+Task Management:
+  tasks                     List all tasks
+  task <id>                 View task details
+  
+Information:
+  agents                    List available AI agents
+  files                     List uploaded files
+  status                    Show system status

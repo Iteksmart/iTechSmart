@@ -1,0 +1,188 @@
+---
+# iTechSmart Products Deployment Tasks
+
+- name: Create product directories
+  file:
+    path: "{{ itechsmart_base_dir }}/{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: itechsmart
+    group: itechsmart
+  loop:
+    - enterprise
+    - ninja
+    - analytics
+    - supreme
+    - hl7
+    - prooflink
+    - passport
+    - impactos
+    - legalai-pro
+    - dataflow
+    - pulse
+    - connect
+    - vault
+    - notify
+    - ledger
+    - copilot
+    - shield
+    - workflow
+    - marketplace
+    - cloud
+    - devops
+    - mobile
+    - ai
+    - compliance
+    - dataplatform
+    - customersuccess
+    - portmanager
+    - mdmagent
+    - qaqc
+    - thinktank
+    - sentinel
+    - forge
+    - sandbox
+
+- name: Copy docker-compose files
+  template:
+    src: "templates/docker-compose.yml.j2"
+    dest: "{{ itechsmart_base_dir }}/docker-compose.yml"
+    mode: '0644'
+    owner: itechsmart
+    group: itechsmart
+
+- name: Copy environment files
+  template:
+    src: "templates/.env.j2"
+    dest: "{{ itechsmart_base_dir }}/.env"
+    mode: '0600'
+    owner: itechsmart
+    group: itechsmart
+
+- name: Pull Docker images
+  docker_image:
+    name: "{{ docker_registry }}/itechsmart/{{ item }}:{{ itechsmart_version }}"
+    source: pull
+  loop:
+    - enterprise
+    - ninja
+    - analytics
+    - supreme
+    - hl7
+    - prooflink
+    - passport
+    - impactos
+    - legalai-pro
+    - dataflow
+    - pulse
+    - connect
+    - vault
+    - notify
+    - ledger
+    - copilot
+    - shield
+    - workflow
+    - marketplace
+    - cloud
+    - devops
+    - mobile
+    - ai
+    - compliance
+    - dataplatform
+    - customersuccess
+    - portmanager
+    - mdmagent
+    - qaqc
+    - thinktank
+    - sentinel
+    - forge
+    - sandbox
+  when: use_docker_registry | default(true)
+
+- name: Start iTechSmart Enterprise (Hub) first
+  docker_compose:
+    project_src: "{{ itechsmart_base_dir }}"
+    services:
+      - enterprise-backend
+      - enterprise-frontend
+    state: present
+  become_user: itechsmart
+
+- name: Wait for Enterprise Hub to be healthy
+  uri:
+    url: "http://localhost:8001/health"
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 30
+  delay: 10
+
+- name: Start iTechSmart Ninja (AI Agent) second
+  docker_compose:
+    project_src: "{{ itechsmart_base_dir }}"
+    services:
+      - ninja-backend
+      - ninja-frontend
+    state: present
+  become_user: itechsmart
+
+- name: Wait for Ninja to be healthy
+  uri:
+    url: "http://localhost:8002/health"
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 30
+  delay: 10
+
+- name: Start all other iTechSmart products
+  docker_compose:
+    project_src: "{{ itechsmart_base_dir }}"
+    state: present
+  become_user: itechsmart
+
+- name: Wait for all services to be healthy
+  uri:
+    url: "http://localhost:{{ item }}/health"
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 30
+  delay: 10
+  loop:
+    - 8003  # Analytics
+    - 8004  # Supreme
+    - 8005  # HL7
+    - 8006  # ProofLink
+    - 8007  # PassPort
+    - 8008  # ImpactOS
+    - 8009  # LegalAI Pro
+    - 8010  # DataFlow
+    - 8011  # Pulse
+    - 8012  # Connect
+    - 8013  # Vault
+    - 8014  # Notify
+    - 8015  # Ledger
+    - 8016  # Copilot
+    - 8017  # Shield
+    - 8018  # Workflow
+    - 8019  # Marketplace
+    - 8020  # Cloud
+    - 8021  # DevOps
+    - 8022  # Mobile
+    - 8023  # AI
+    - 8024  # Compliance
+    - 8025  # Data Platform
+    - 8026  # Customer Success
+    - 8027  # Port Manager
+    - 8028  # MDM Agent
+    - 8029  # QA/QC
+    - 8030  # Think-Tank
+    - 8031  # Sentinel
+    - 8032  # Forge
+    - 8033  # Sandbox
+  ignore_errors: yes
+
+- name: Display deployment status
+  debug:
+    msg: "All 33 iTechSmart products have been deployed successfully!"

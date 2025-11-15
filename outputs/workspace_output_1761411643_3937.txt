@@ -1,0 +1,5 @@
+                content: `Error: ${error.message}\n`,
+                color: '#ff0000'
+            });
+        }
+    }

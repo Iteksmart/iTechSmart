@@ -1,0 +1,11 @@
+=== Checking App.tsx files ===
+✅ itechsmart-ledger/frontend/src/App.tsx EXISTS
+✅ itechsmart-copilot/frontend/src/App.tsx EXISTS
+✅ itechsmart-marketplace/frontend/src/App.tsx EXISTS
+❌ itechsmart-mobile/frontend/src/App.tsx MISSING
+❌ itechsmart-cloud/frontend/src/App.tsx MISSING
+❌ itechsmart-analytics/frontend/src/App.tsx MISSING
+❌ itechsmart-compliance/frontend/src/App.tsx MISSING
+❌ itechsmart-devops/frontend/src/App.tsx MISSING
+❌ itechsmart-customer-success/frontend/src/App.tsx MISSING
+❌ itechsmart-data-platform/frontend/src/App.tsx MISSING

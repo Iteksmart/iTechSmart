@@ -1,0 +1,100 @@
+"""
+iTechSmart Workflow - Database Models
+"""
+
+from sqlalchemy import Column, String, Integer, DateTime, JSON, Text, Boolean, ForeignKey, Enum as SQLEnum
+from sqlalchemy.orm import relationship
+from datetime import datetime
+from enum import Enum
+
+
+class WorkflowStatus(str, Enum):
+    """Workflow status enumeration"""
+    DRAFT = "draft"
+    ACTIVE = "active"
+    PAUSED = "paused"
+    ARCHIVED = "archived"
+
+
+class ExecutionStatus(str, Enum):
+    """Execution status enumeration"""
+    PENDING = "pending"
+    RUNNING = "running"
+    COMPLETED = "completed"
+    FAILED = "failed"
+    CANCELLED = "cancelled"
+
+
+class Workflow:
+    """Workflow definition model"""
+    __tablename__ = "workflows"
+    
+    id = Column(String(36), primary_key=True)
+    name = Column(String(255), nullable=False)
+    description = Column(Text)
+    category = Column(String(100))
+    
+    # Workflow definition
+    nodes = Column(JSON, nullable=False)  # List of workflow nodes
+    edges = Column(JSON, nullable=False)  # List of connections between nodes
+    triggers = Column(JSON)  # List of workflow triggers
+    
+    # Metadata
+    status = Column(SQLEnum(WorkflowStatus), default=WorkflowStatus.DRAFT)
+    version = Column(Integer, default=1)
+    is_template = Column(Boolean, default=False)
+    
+    # Ownership
+    created_by = Column(String(36))
+    organization_id = Column(String(36))
+    
+    # Timestamps
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    # Relationships
+    executions = relationship("WorkflowExecution", back_populates="workflow")
+    tasks = relationship("WorkflowTask", back_populates="workflow")
+
+
+class WorkflowExecution:
+    """Workflow execution instance model"""
+    __tablename__ = "workflow_executions"
+    
+    id = Column(String(36), primary_key=True)
+    workflow_id = Column(String(36), ForeignKey("workflows.id"), nullable=False)
+    
+    # Execution data
+    input_data = Column(JSON)
+    context = Column(JSON)
+    output_data = Column(JSON)
+    
+    # Status tracking
+    status = Column(SQLEnum(ExecutionStatus), default=ExecutionStatus.PENDING)
+    current_node_id = Column(String(36))
+    completed_nodes = Column(JSON)  # List of completed node IDs
+    failed_nodes = Column(JSON)  # List of failed node IDs
+    
+    # Error handling
+    error_message = Column(Text)
+    error_details = Column(JSON)
+    
+    # Timing
+    started_at = Column(DateTime)
+    completed_at = Column(DateTime)
+    duration_seconds = Column(Integer)
+    
+    # Metadata
+    triggered_by = Column(String(100))  # manual, schedule, webhook, etc.
+    triggered_by_user_id = Column(String(36))
+    
+    # Timestamps
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    # Relationships
+    workflow = relationship("Workflow", back_populates="executions")
+    tasks = relationship("WorkflowTask", back_populates="execution")
+
+
+class WorkflowTask:

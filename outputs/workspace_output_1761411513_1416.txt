@@ -1,0 +1,50 @@
+                output += `Style: ${citationStyle.toUpperCase()}\n\n`;
+
+                this.sendToTerminal({
+                    type: 'output',
+                    content: output,
+                    color: '#4ecdc4'
+                });
+            }
+
+        } catch (error: any) {
+            this.sendToTerminal({
+                type: 'output',
+                content: `Error: ${error.message}\n`,
+                color: '#ff0000'
+            });
+        }
+    }
+
+    private async checkSourceCredibility(url: string) {
+        try {
+            this.sendToTerminal({
+                type: 'output',
+                content: `\n🔍 Checking credibility of: ${url}\n\n`,
+                color: '#4ecdc4'
+            });
+
+            const response = await this.client.post('/research/check-credibility', {
+                url: url,
+                title: 'Source',
+                content: ''
+            });
+
+            if (response.success) {
+                const score = response.credibility_score;
+                const level = response.credibility_level.replace('_', ' ').toUpperCase();
+                
+                let output = '\n📊 Credibility Report:\n';
+                output += '═'.repeat(80) + '\n\n';
+                output += `Score: ${score.toFixed(1)}/100\n`;
+                output += `Level: ${level}\n`;
+                output += `Type: ${response.source_type}\n`;
+                output += `Domain: ${response.domain}\n\n`;
+
+                output += 'Analysis:\n';
+                output += `  Has Author: ${response.analysis.has_author ? '✓' : '✗'}\n`;
+                output += `  Has Publication Date: ${response.analysis.has_publication_date ? '✓' : '✗'}\n`;
+                output += `  Has Publisher: ${response.analysis.has_publisher ? '✓' : '✗'}\n`;
+                output += `  Domain Reputation: ${response.analysis.domain_reputation}\n\n`;
+
+                output += '═'.repeat(80) + '\n\n';

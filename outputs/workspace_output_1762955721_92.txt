@@ -1,0 +1,29 @@
+itechsmart-dataflow
+├── README.md
+├── backend
+│   ├── Dockerfile
+│   ├── app
+│   │   ├── api
+│   │   ├── connectors
+│   │   ├── core
+│   │   ├── main.py
+│   │   ├── models
+│   │   ├── services
+│   │   └── transformers
+│   ├── requirements.txt
+│   └── tests
+├── deployment
+├── docker-compose.yml
+├── docs
+├── frontend
+│   ├── package.json
+│   ├── public
+│   └── src
+│       ├── App.tsx
+│       ├── components
+│       ├── pages
+│       ├── services
+│       └── utils
+└── tests
+
+20 directories, 7 files

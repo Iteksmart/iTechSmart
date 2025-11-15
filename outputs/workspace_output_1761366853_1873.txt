@@ -1,0 +1,11 @@
+        "title": "iTechSmart: Logout"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "itechsmart-sidebar",
+          "title": "iTechSmart Ninja",
+          "icon": "resources/icon.svg"
+        }
+      ]

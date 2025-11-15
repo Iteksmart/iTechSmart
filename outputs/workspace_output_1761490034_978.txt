@@ -1,0 +1,50 @@
+# iTechSmart Ninja - Complete Setup & Usage Guide
+
+## 📋 Table of Contents
+1. [System Requirements](#system-requirements)
+2. [Installation](#installation)
+3. [Configuration](#configuration)
+4. [Starting the System](#starting-the-system)
+5. [Using Each Feature](#using-each-feature)
+6. [Troubleshooting](#troubleshooting)
+7. [API Reference](#api-reference)
+
+---
+
+## System Requirements
+
+### Minimum Requirements
+- **OS**: Windows 10/11, macOS 10.15+, or Linux (Ubuntu 20.04+)
+- **Python**: 3.11 or higher
+- **Node.js**: 20.x or higher
+- **RAM**: 4GB minimum, 8GB recommended
+- **Disk Space**: 2GB free space
+- **Internet**: Stable internet connection required
+
+### Required Software
+- Python 3.11+
+- Node.js 20.x
+- npm (comes with Node.js)
+- VS Code (latest version)
+- Docker (optional, for containerized deployment)
+
+---
+
+## Installation
+
+### Step 1: Clone or Extract the Project
+
+```bash
+# If you have the project as a zip file
+unzip itechsmart-ninja.zip
+cd itechsmart-ninja
+
+# Or if cloning from git
+git clone <repository-url>
+cd itechsmart-ninja
+```
+
+### Step 2: Install Backend Dependencies
+
+```bash
+# Navigate to backend directory

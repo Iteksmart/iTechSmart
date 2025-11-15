@@ -1,0 +1,9 @@
+### 2. Calendar & Scheduling (2 days)
+- [ ] Implement calendar system
+- [ ] Add event management
+- [ ] Create scheduling service
+- [ ] Add reminders and notifications
+- [ ] Implement recurring events
+- [ ] Add calendar API endpoints
+- [ ] Test scheduling functionality
+

@@ -1,0 +1,73 @@
+                case 'task':
+                    await this.viewTask(parseInt(args[0]));
+                    break;
+                case 'agents':
+                    await this.listAgents();
+                    break;
+                case 'files':
+                    await this.listFiles();
+                    break;
+                case 'status':
+                    await this.showStatus();
+                    break;
+                case 'whoami':
+                    await this.showCurrentUser();
+                    break;
+                   case 'gh-repos':
+                       await this.listGitHubRepos();
+                       break;
+                   case 'gh-prs':
+                       await this.listGitHubPRs(args);
+                       break;
+                   case 'gh-issues':
+                       await this.listGitHubIssues(args);
+                       break;
+                   case 'gh-create-pr':
+                       await this.createGitHubPR(args);
+                       break;
+                   case 'gh-create-issue':
+                       await this.createGitHubIssue(args);
+                       break;
+                default:
+                      case 'doc':
+                    case 'document':
+                        await this.showDocumentHelp();
+                        break;
+                    case 'doc-upload':
+                    case 'upload-document':
+                        await this.uploadDocument(args);
+                        break;
+                    case 'doc-list':
+                    case 'list-documents':
+                        await this.listDocuments();
+                        break;
+                    case 'doc-extract':
+                    case 'extract-text':
+                        await this.extractDocumentText(args);
+                        break;
+                    case 'doc-tables':
+                    case 'extract-tables':
+                        await this.extractDocumentTables(args);
+                        break;
+                    case 'doc-ocr':
+                    case 'ocr-document':
+                        await this.ocrDocument(args);
+                        break;
+                    case 'doc-search':
+                    case 'search-document':
+                        await this.searchDocument(args);
+                        break;
+                    case 'chart':
+                    case 'create-chart':
+                        await this.createChart(args);
+                        break;
+                    case 'dashboard':
+                    case 'create-dashboard':
+                        await this.createDashboard(args);
+                        break;
+                    case 'list-charts':
+                        await this.listCharts();
+                        break;
+                    case 'export-chart':
+                        await this.exportChart(args);
+                        break;

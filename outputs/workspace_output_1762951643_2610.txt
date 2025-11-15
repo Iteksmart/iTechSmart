@@ -1,0 +1,10 @@
+=== iTechSmart Shield Directory Structure ===
+itechsmart-shield/backend/app/api/shield_api.py
+itechsmart-shield/backend/app/core/threat_detection_engine.py
+itechsmart-shield/backend/app/core/ai_anomaly_detector.py
+itechsmart-shield/backend/app/core/incident_responder.py
+itechsmart-shield/backend/app/core/vulnerability_scanner.py
+itechsmart-shield/backend/app/core/compliance_manager.py
+itechsmart-shield/backend/app/core/penetration_tester.py
+itechsmart-shield/backend/app/models/security.py
+itechsmart-shield/backend/app/integrations/shield_adapter.py

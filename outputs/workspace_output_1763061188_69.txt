@@ -1,0 +1,76 @@
+### Internal Products (2)
+
+#### 30. iTechSmart Think-Tank
+**Port:** 8030 | **Frontend:** 3030  
+**Description:** Internal Development Platform  
+**Key Features:**
+- SuperNinja AI agent
+- Code generation
+- Team collaboration
+- Project management
+- Client portal
+- Suite integration
+
+### Latest Products (2)
+
+#### 31. iTechSmart Sentinel
+**Port:** 8031 | **Frontend:** 3031  
+**Description:** Observability Platform  
+**Key Features:**
+- Distributed tracing
+- Smart alerting
+- Log aggregation
+- Incident management
+- SLO tracking
+- Error budget monitoring
+
+#### 32. iTechSmart Forge
+**Port:** 8032 | **Frontend:** 3032  
+**Description:** Low-Code App Builder  
+**Key Features:**
+- Visual app builder
+- AI-powered generation
+- 150+ components
+- Data connectors (all 31 products)
+- Workflow automation
+- One-click deployment
+
+---
+
+## Technology Stack
+
+### Backend Technologies
+
+**Primary Framework:** FastAPI (Python 3.11+)
+- High performance async framework
+- Automatic OpenAPI documentation
+- Type hints and validation
+- WebSocket support
+
+**Databases:**
+- PostgreSQL 15+ (primary)
+- SQLite (development)
+- Redis 7+ (caching)
+- MongoDB (document storage)
+
+**Message Queuing:**
+- Apache Kafka 3.5+
+- RabbitMQ
+- Redis Pub/Sub
+
+**AI/ML:**
+- scikit-learn
+- TensorFlow
+- PyTorch
+- LangChain
+- OpenAI API
+- Anthropic API
+
+### Frontend Technologies
+
+**Primary Framework:** React 18
+- TypeScript for type safety
+- Functional components with Hooks
+- Context API for state management
+
+**UI Library:** Material-UI (MUI) v5

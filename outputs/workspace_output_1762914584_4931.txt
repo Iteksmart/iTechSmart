@@ -1,0 +1,30 @@
+# 🎨 FitSnap.AI - Your Personal Style Scanner
+
+<div align="center">
+
+![FitSnap.AI Logo](https://via.placeholder.com/200x200?text=FitSnap.AI)
+
+**"Snap a selfie. Get outfit tips, matching accessories, and deals — instantly."**
+
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](package.json)
+[![Status](https://img.shields.io/badge/status-production--ready-success.svg)]()
+
+[Features](#features) • [Tech Stack](#tech-stack) • [Getting Started](#getting-started) • [API Docs](#api-documentation) • [Deployment](#deployment)
+
+</div>
+
+---
+
+## 🚀 Overview
+
+**FitSnap.AI** is an AI-powered fashion feedback SaaS that analyzes outfit selfies and provides instant style ratings, color harmony analysis, and personalized shopping recommendations for just **$1/month**.
+
+### 💡 The Problem We Solve
+
+- 😰 People struggle with outfit coordination
+- 💸 Personal stylists cost $100-$500/session
+- 🤔 Fashion advice is subjective and inconsistent
+- 🛍️ Finding matching items is time-consuming
+- 📱 No instant, affordable fashion feedback exists
+

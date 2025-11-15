@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iTechSmart Supreme - Autonomous Infrastructure Healing</title>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>🤖 iTechSmart Supreme</h1>
+                <p class="tagline">The End of IT Downtime. Forever.</p>
+            </div>
+            <div class="header-actions">
+                <button id="killswitch-btn" class="btn btn-danger">
+                    <span id="killswitch-icon">🛑</span>
+                    <span id="killswitch-text">Kill Switch</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Statistics Dashboard -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🚨</div>
+                <div class="stat-content">
+                    <h3>Active Alerts</h3>
+                    <div class="stat-value" id="active-alerts">0</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-content">
+                    <h3>Pending Actions</h3>
+                    <div class="stat-value" id="pending-actions">0</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-content">
+                    <h3>Resolved Today</h3>
+                    <div class="stat-value" id="resolved-alerts">0</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-content">
+                    <h3>Success Rate</h3>
+                    <div class="stat-value" id="success-rate">0%</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">🔧</div>
+                <div class="stat-content">
+                    <h3>Auto-Remediation</h3>
+                    <div class="stat-value" id="auto-remediation">OFF</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-content">
+                    <h3>Uptime</h3>
+                    <div class="stat-value" id="uptime">0h 0m</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="content-grid">
+            <!-- Active Alerts -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>🚨 Active Alerts</h2>
+                    <span class="badge" id="alerts-badge">0</span>
+                </div>
+                <div class="panel-content" id="alerts-container">
+                    <div class="empty-state">
+                        <p>No active alerts. System is healthy! 🎉</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Actions -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>⚡ Pending Actions</h2>
+                    <span class="badge" id="actions-badge">0</span>
+                </div>
+                <div class="panel-content" id="actions-container">
+                    <div class="empty-state">
+                        <p>No pending actions requiring approval.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="panel">
+            <div class="panel-header">
+                <h2>📊 Recent Activity</h2>
+            </div>
+            <div class="panel-content">
+                <div class="activity-timeline" id="activity-timeline">
+                    <div class="empty-state">
+                        <p>No recent activity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Status -->
+        <div class="panel">
+            <div class="panel-header">
+                <h2>💻 System Status</h2>
+            </div>
+            <div class="panel-content">
+                <div class="status-grid">
+                    <div class="status-item">
+                        <span class="status-label">AI Engine:</span>
+                        <span class="status-value" id="ai-status">
+                            <span class="status-indicator online"></span> Online
+                        </span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Monitoring:</span>
+                        <span class="status-value" id="monitoring-status">
+                            <span class="status-indicator online"></span> Active
+                        </span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Execution Engine:</span>
+                        <span class="status-value" id="execution-status">
+                            <span class="status-indicator online"></span> Ready
+                        </span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Monitored Hosts:</span>
+                        <span class="status-value" id="monitored-hosts">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Approval Modal -->
+    <div id="approval-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Action Approval Required</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="action-details">
+                    <p><strong>Description:</strong> <span id="modal-description"></span></p>
+                    <p><strong>Command:</strong> <code id="modal-command"></code></p>
+                    <p><strong>Risk Level:</strong> <span id="modal-risk" class="badge"></span></p>
+                    <p><strong>Host:</strong> <span id="modal-host"></span></p>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-success" onclick="approveAction()">✅ Approve</button>
+                    <button class="btn btn-danger" onclick="rejectAction()">❌ Reject</button>
+                    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

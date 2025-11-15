@@ -1,0 +1,4 @@
+  File "<string>", line 1
+    import json; data=json.load(open("AUDIT_RESULTS.json")); print(f"✅ Valid JSON with {len(data)} products"); print(f"Last product: {data[-1]["name"]}")
+                                                                                                                                                ^^^^
+SyntaxError: f-string: unmatched '['

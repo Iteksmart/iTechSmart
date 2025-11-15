@@ -1,0 +1,50 @@
+                color: '#ff0000'
+            });
+        }
+    }
+
+    private async listDocuments() {
+        try {
+            this.sendToTerminal({
+                type: 'output',
+                content: '\n📋 Listing documents...\n\n',
+                color: '#4ecdc4'
+            });
+
+            vscode.commands.executeCommand('itechsmart.listDocuments');
+
+        } catch (error: any) {
+            this.sendToTerminal({
+                type: 'output',
+                content: `Error: ${error.message}\n`,
+                color: '#ff0000'
+            });
+        }
+    }
+
+    private async extractDocumentText(args: string[]) {
+        try {
+            this.sendToTerminal({
+                type: 'output',
+                content: '\n📝 Extracting text...\n\n',
+                color: '#4ecdc4'
+            });
+
+            vscode.commands.executeCommand('itechsmart.extractText');
+
+        } catch (error: any) {
+            this.sendToTerminal({
+                type: 'output',
+                content: `Error: ${error.message}\n`,
+                color: '#ff0000'
+            });
+        }
+    }
+
+    private async extractDocumentTables(args: string[]) {
+        try {
+            this.sendToTerminal({
+                type: 'output',
+                content: '\n📊 Extracting tables...\n\n',
+                color: '#4ecdc4'
+            });

@@ -1,0 +1,8 @@
+total 12
+drwxr-xr-x 6 root root   102 Nov 13 17:06 .
+drwxr-xr-x 3 root root    75 Nov 13 17:07 ..
+drwxr-xr-x 2 root root    10 Nov 13 17:02 api
+drwxr-xr-x 2 root root   188 Nov 13 17:06 core
+drwxr-xr-x 2 root root    72 Nov 13 17:07 integrations
+-rw-r--r-- 1 root root 11850 Nov 13 17:06 main.py
+drwxr-xr-x 2 root root    31 Nov 13 17:03 models

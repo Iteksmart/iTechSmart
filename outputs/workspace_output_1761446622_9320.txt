@@ -1,0 +1,16 @@
+./.eslintrc.json
+./package.json
+./src/api/client.ts
+./src/auth/manager.ts
+./src/commands/modelCommands.ts
+./src/commands/researchCommands.ts
+./src/commands/editorCommands.ts
+./src/commands/githubCommands.ts
+./src/commands/imageCommands.ts
+./src/extension.ts
+./src/providers/agentsProvider.ts
+./src/providers/filesProvider.ts
+./src/providers/tasksProvider.ts
+./src/terminal/manager.ts
+./src/terminal/panel.ts
+./tsconfig.json

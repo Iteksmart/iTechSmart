@@ -1,0 +1,11 @@
+total 4
+drwxr-xr-x 10 root root  157 Oct 25 03:21 .
+drwxr-xr-x  3 root root   53 Oct 25 03:22 ..
+drwxr-xr-x  2 root root 4096 Oct 25 03:33 agents
+drwxr-xr-x  2 root root   10 Oct 25 03:21 api
+drwxr-xr-x  2 root root   77 Oct 25 03:23 core
+drwxr-xr-x  2 root root   37 Oct 25 03:36 integrations
+drwxr-xr-x  2 root root   33 Oct 25 03:23 models
+drwxr-xr-x  2 root root   35 Oct 25 03:35 sandbox
+drwxr-xr-x  2 root root   10 Oct 25 03:21 services
+drwxr-xr-x  2 root root   10 Oct 25 03:21 utils

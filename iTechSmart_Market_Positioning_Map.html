@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iTechSmart - Market Positioning Map</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: white;
+            color: #1a1a1a;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h1 {
+            font-size: 42px;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .positioning-chart {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+            position: relative;
+            height: 700px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .axis-label {
+            position: absolute;
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .x-axis-label {
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .y-axis-label {
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%) rotate(-90deg);
+        }
+
+        .quadrant-labels {
+            position: absolute;
+            font-size: 14px;
+            color: #999;
+            font-style: italic;
+        }
+
+        .competitor-dot {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .competitor-dot:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .itechsmart {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            width: 150px;
+            height: 150px;
+            font-size: 16px;
+            z-index: 10;
+        }
+
+        .servicenow {
+            background: #81b29a;
+            color: white;
+            border-color: #5a8f7b;
+        }
+
+        .datadog {
+            background: #632ca6;
+            color: white;
+            border-color: #4a1f7d;
+        }
+
+        .splunk {
+            background: #ff6b6b;
+            color: white;
+            border-color: #ee5a6f;
+        }
+
+        .palantir {
+            background: #4a5568;
+            color: white;
+            border-color: #2d3748;
+        }
+
+        .ibm {
+            background: #0f62fe;
+            color: white;
+            border-color: #0043ce;
+        }
+
+        .microsoft {
+            background: #00a4ef;
+            color: white;
+            border-color: #0078d4;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 40px 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .comparison-table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .comparison-table th {
+            padding: 20px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 13px;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .check {
+            color: #28a745;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .partial {
+            color: #ffc107;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .no {
+            color: #dc3545;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .feature-category {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        .differentiators-section {
+            margin: 50px 0;
+        }
+
+        .diff-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .diff-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s;
+        }
+
+        .diff-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .diff-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .diff-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .diff-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        h2 {
+            font-size: 32px;
+            color: #667eea;
+            margin: 40px 0 20px 0;
+            text-align: center;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-dot {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid;
+        }
+
+        .legend-label {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .axes {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 90%;
+        }
+
+        .axis-line {
+            position: absolute;
+            background: #ccc;
+        }
+
+        .vertical-axis {
+            width: 2px;
+            height: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .horizontal-axis {
+            height: 2px;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .quadrant-bg {
+            position: absolute;
+            width: 45%;
+            height: 45%;
+            opacity: 0.05;
+        }
+
+        .q1 { top: 5%; right: 5%; background: #28a745; }
+        .q2 { top: 5%; left: 5%; background: #ffc107; }
+        .q3 { bottom: 5%; left: 5%; background: #dc3545; }
+        .q4 { bottom: 5%; right: 5%; background: #17a2b8; }
+
+        @media print {
+            body {
+                padding: 20px;
+            }
+            .competitor-dot:hover {
+                transform: none;
+            }
+        }
+
+        .market-share {
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .share-bars {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            max-width: 800px;
+            margin: 30px auto;
+        }
+
+        .share-bar {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .share-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .share-fill {
+            height: 30px;
+            border-radius: 5px;
+            transition: width 1s ease-out;
+            display: flex;
+            align-items: center;
+            padding-left: 15px;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>iTechSmart Market Positioning Map</h1>
+            <div class="subtitle">Competitive Analysis: Autonomous IT Intelligence Ecosystem</div>
+        </div>
+
+        <h2>📊 Competitive Positioning Matrix</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 30px; font-size: 15px;">
+            Comparing AI Autonomy vs. Platform Integration across major enterprise IT vendors
+        </p>
+
+        <div class="positioning-chart">
+            <!-- Quadrant backgrounds -->
+            <div class="quadrant-bg q1"></div>
+            <div class="quadrant-bg q2"></div>
+            <div class="quadrant-bg q3"></div>
+            <div class="quadrant-bg q4"></div>
+
+            <!-- Axes -->
+            <div class="axes">
+                <div class="axis-line vertical-axis"></div>
+                <div class="axis-line horizontal-axis"></div>
+            </div>
+
+            <!-- Axis Labels -->
+            <div class="axis-label x-axis-label">Platform Integration & Cohesion →</div>
+            <div class="axis-label y-axis-label">AI Autonomy & Self-Healing →</div>
+
+            <!-- Quadrant Labels -->
+            <div class="quadrant-labels" style="top: 20px; right: 20px;">Leaders</div>
+            <div class="quadrant-labels" style="top: 20px; left: 20px;">Challengers</div>
+            <div class="quadrant-labels" style="bottom: 60px; left: 20px;">Niche Players</div>
+            <div class="quadrant-labels" style="bottom: 60px; right: 20px;">Visionaries</div>
+
+            <!-- Competitors -->
+            <div class="competitor-dot itechsmart" style="top: 8%; right: 8%;">
+                iTechSmart<br>
+                <small style="font-size: 11px; opacity: 0.9;">99.7% Detection<br>94.3% Auto-Fix</small>
+            </div>
+
+            <div class="competitor-dot servicenow" style="top: 35%; right: 25%;">
+                ServiceNow<br>
+                <small style="font-size: 10px;">ITSM Leader</small>
+            </div>
+
+            <div class="competitor-dot datadog" style="top: 45%; right: 35%;">
+                Datadog<br>
+                <small style="font-size: 10px;">Monitoring</small>
+            </div>
+
+            <div class="competitor-dot splunk" style="top: 50%; left: 30%;">
+                Splunk<br>
+                <small style="font-size: 10px;">Log Analytics</small>
+            </div>
+
+            <div class="competitor-dot palantir" style="top: 25%; left: 20%;">
+                Palantir<br>
+                <small style="font-size: 10px;">Data Platform</small>
+            </div>
+
+            <div class="competitor-dot ibm" style="bottom: 25%; left: 25%;">
+                IBM<br>
+                <small style="font-size: 10px;">Watson AIOps</small>
+            </div>
+
+            <div class="competitor-dot microsoft" style="top: 30%; right: 45%;">
+                Microsoft<br>
+                <small style="font-size: 10px;">Copilot</small>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-dot itechsmart"></div>
+                <span class="legend-label">iTechSmart (Leader)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot servicenow"></div>
+                <span class="legend-label">ServiceNow</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot datadog"></div>
+                <span class="legend-label">Datadog</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot splunk"></div>
+                <span class="legend-label">Splunk</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot palantir"></div>
+                <span class="legend-label">Palantir</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot ibm"></div>
+                <span class="legend-label">IBM Watson</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot microsoft"></div>
+                <span class="legend-label">Microsoft</span>
+            </div>
+        </div>
+
+        <h2>🔍 Detailed Feature Comparison</h2>
+
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">Feature / Capability</th>
+                    <th style="width: 12%;">iTechSmart</th>
+                    <th style="width: 12%;">ServiceNow</th>
+                    <th style="width: 12%;">Datadog</th>
+                    <th style="width: 12%;">Splunk</th>
+                    <th style="width: 12%;">Palantir</th>
+                    <th style="width: 12%;">Microsoft</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="feature-category">
+                    <td colspan="7">AI & AUTOMATION</td>
+                </tr>
+                <tr>
+                    <td><strong>Self-Healing AI</strong></td>
+                    <td><span class="check">✓</span> 99.7%/94.3%</td>
+                    <td><span class="partial">◐</span> Partial</td>
+                    <td><span class="partial">◐</span> Limited</td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="partial">◐</span> Limited</td>
+                </tr>
+                <tr>
+                    <td><strong>Multi-Model AI (42 models)</strong></td>
+                    <td><span class="check">✓</span> 11 providers</td>
+                    <td><span class="no">✗</span> Single</td>
+                    <td><span class="no">✗</span> Limited</td>
+                    <td><span class="no">✗</span> Limited</td>
+                    <td><span class="partial">◐</span> Custom</td>
+                    <td><span class="no">✗</span> Single</td>
+                </tr>
+                <tr>
+                    <td><strong>Autonomous Resolution</strong></td>
+                    <td><span class="check">✓</span> 25-65 sec</td>
+                    <td><span class="partial">◐</span> Manual</td>
+                    <td><span class="partial">◐</span> Alerts only</td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="partial">◐</span> Suggestions</td>
+                </tr>
+                <tr>
+                    <td><strong>Predictive Analytics</strong></td>
+                    <td><span class="check">✓</span> ML-powered</td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="partial">◐</span></td>
+                </tr>
+
+                <tr class="feature-category">
+                    <td colspan="7">ARCHITECTURE & INTEGRATION</td>
+                </tr>
+                <tr>
+                    <td><strong>OSI 7-Layer Architecture</strong></td>
+                    <td><span class="check">✓</span> Complete</td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="no">✗</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Native Product Integration</strong></td>
+                    <td><span class="check">✓</span> 28 products</td>
+                    <td><span class="partial">◐</span> Multiple</td>
+                    <td><span class="partial">◐</span> Limited</td>
+                    <td><span class="partial">◐</span> Limited</td>
+                    <td><span class="partial">◐</span> Custom</td>
+                    <td><span class="partial">◐</span> Multiple</td>
+                </tr>
+                <tr>
+                    <td><strong>Unified Platform</strong></td>
+                    <td><span class="check">✓</span> Single</td>
+                    <td><span class="partial">◐</span> Suite</td>
+                    <td><span class="no">✗</span> Fragmented</td>
+                    <td><span class="no">✗</span> Fragmented</td>
+                    <td><span class="partial">◐</span> Custom</td>
+                    <td><span class="partial">◐</span> Suite</td>
+                </tr>
+                <tr>
+                    <td><strong>API Ecosystem</strong></td>
+                    <td><span class="check">✓</span> 350+ APIs</td>
+                    <td><span class="check">✓</span> Extensive</td>
+                    <td><span class="check">✓</span> Good</td>
+                    <td><span class="check">✓</span> Good</td>
+                    <td><span class="check">✓</span> Custom</td>
+                    <td><span class="check">✓</span> Extensive</td>
+                </tr>
+
+                <tr class="feature-category">
+                    <td colspan="7">DATA & ANALYTICS</td>
+                </tr>
+                <tr>
+                    <td><strong>100+ Data Connectors</strong></td>
+                    <td><span class="check">✓</span> DataFlow</td>
+                    <td><span class="partial">◐</span> Limited</td>
+                    <td><span class="partial">◐</span> Limited</td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="partial">◐</span> Limited</td>
+                </tr>
+                <tr>
+                    <td><strong>Real-Time Analytics</strong></td>
+                    <td><span class="check">✓</span> Pulse</td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="partial">◐</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Data Governance</strong></td>
+                    <td><span class="check">✓</span> Built-in</td>
+                    <td><span class="partial">◐</span> Add-on</td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="partial">◐</span> Limited</td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="partial">◐</span> Purview</td>
+                </tr>
+
+                <tr class="feature-category">
+                    <td colspan="7">SECURITY & COMPLIANCE</td>
+                </tr>
+                <tr>
+                    <td><strong>Post-Quantum Cryptography</strong></td>
+                    <td><span class="check">✓</span> Citadel</td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="no">✗</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Zero-Trust Architecture</strong></td>
+                    <td><span class="check">✓</span> Native</td>
+                    <td><span class="partial">◐</span> Add-on</td>
+                    <td><span class="partial">◐</span> Limited</td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="check">✓</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Blockchain Audit Trail</strong></td>
+                    <td><span class="check">✓</span> Ledger</td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="partial">◐</span> Custom</td>
+                    <td><span class="no">✗</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Multi-Standard Compliance</strong></td>
+                    <td><span class="check">✓</span> 5+ standards</td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="partial">◐</span> Limited</td>
+                    <td><span class="partial">◐</span> Limited</td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="check">✓</span></td>
+                </tr>
+
+                <tr class="feature-category">
+                    <td colspan="7">SPECIALIZED CAPABILITIES</td>
+                </tr>
+                <tr>
+                    <td><strong>Healthcare (HL7/FHIR)</strong></td>
+                    <td><span class="check">✓</span> Native HL7+</td>
+                    <td><span class="partial">◐</span> Add-on</td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="partial">◐</span> Custom</td>
+                    <td><span class="no">✗</span></td>
+                </tr>
+                <tr>
+                    <td><strong>DevOps/CI-CD</strong></td>
+                    <td><span class="check">✓</span> Built-in</td>
+                    <td><span class="partial">◐</span> Limited</td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="check">✓</span> Azure DevOps</td>
+                </tr>
+                <tr>
+                    <td><strong>Multi-Cloud Management</strong></td>
+                    <td><span class="check">✓</span> AWS/Azure/GCP</td>
+                    <td><span class="partial">◐</span> Limited</td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="partial">◐</span> Azure-first</td>
+                </tr>
+                <tr>
+                    <td><strong>Developer Marketplace</strong></td>
+                    <td><span class="check">✓</span> 70/30 split</td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="partial">◐</span> Limited</td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="no">✗</span></td>
+                    <td><span class="check">✓</span></td>
+                </tr>
+
+                <tr class="feature-category">
+                    <td colspan="7">PRICING & VALUE</td>
+                </tr>
+                <tr>
+                    <td><strong>Entry Price Point</strong></td>
+                    <td>$0 (Freemium)</td>
+                    <td>$100/user/mo</td>
+                    <td>$15/host/mo</td>
+                    <td>$150/GB/mo</td>
+                    <td>Custom</td>
+                    <td>$30/user/mo</td>
+                </tr>
+                <tr>
+                    <td><strong>Enterprise Suite</strong></td>
+                    <td>$250K-$350K/mo</td>
+                    <td>$500K+/mo</td>
+                    <td>$100K+/mo</td>
+                    <td>$200K+/mo</td>
+                    <td>$1M+/mo</td>
+                    <td>$300K+/mo</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>🎯 iTechSmart Key Differentiators</h2>
+
+        <div class="diff-grid">
+            <div class="diff-card">
+                <div class="diff-icon">🤖</div>
+                <div class="diff-title">World's First Self-Healing AI</div>
+                <div class="diff-description">
+                    99.7% error detection and 94.3% auto-fix success rate. Autonomous resolution in 25-65 seconds without human intervention. No competitor comes close.
+                </div>
+            </div>
+
+            <div class="diff-card">
+                <div class="diff-icon">🧠</div>
+                <div class="diff-title">Multi-Model AI Fabric</div>
+                <div class="diff-description">
+                    42 AI models across 11 providers (OpenAI, Anthropic, Meta, Google, etc.). Hybrid intelligence approach that rivals major multi-LLM platforms.
+                </div>
+            </div>
+
+            <div class="diff-card">
+                <div class="diff-icon">🏗️</div>
+                <div class="diff-title">OSI 7-Layer Architecture</div>
+                <div class="diff-description">
+                    Only platform with complete OSI layer mapping. Enables systematic troubleshooting from physical infrastructure to application layer.
+                </div>
+            </div>
+
+            <div class="diff-card">
+                <div class="diff-icon">🔗</div>
+                <div class="diff-title">Native Integration</div>
+                <div class="diff-description">
+                    28 products natively integrated — no APIs needed for cross-product communication. True unified platform, not a suite of separate tools.
+                </div>
+            </div>
+
+            <div class="diff-card">
+                <div class="diff-icon">🏥</div>
+                <div class="diff-title">Healthcare Specialized</div>
+                <div class="diff-description">
+                    Dedicated HL7/FHIR support with HIPAA compliance built-in. Rare in general IT ecosystems. Perfect for healthcare infrastructure.
+                </div>
+            </div>
+
+            <div class="diff-card">
+                <div class="diff-icon">🔐</div>
+                <div class="diff-title">Post-Quantum Security</div>
+                <div class="diff-description">
+                    Citadel platform with post-quantum cryptography and zero-trust architecture. Future-proof security for sovereign data control.
+                </div>
+            </div>
+
+            <div class="diff-card">
+                <div class="diff-icon">📊</div>
+                <div class="diff-title">Complete Data Pipeline</div>
+                <div class="diff-description">
+                    100+ connectors, real-time streaming, ML analytics, and automated insights in one platform. From ingestion to action.
+                </div>
+            </div>
+
+            <div class="diff-card">
+                <div class="diff-icon">⚡</div>
+                <div class="diff-title">Rapid Deployment</div>
+                <div class="diff-description">
+                    One-command deployment to any environment with Docker Compose or Kubernetes. Production-ready in minutes, not months.
+                </div>
+            </div>
+
+            <div class="diff-card">
+                <div class="diff-icon">💰</div>
+                <div class="diff-title">Exceptional Value</div>
+                <div class="diff-description">
+                    $16M+ value delivered as unified suite vs. buying 28 separate products. 60% cost reduction compared to competitors.
+                </div>
+            </div>
+        </div>
+
+        <h2>📈 Market Share Opportunity</h2>
+
+        <div class="market-share">
+            <p style="color: #666; margin-bottom: 30px; font-size: 15px;">
+                Projected market share in Autonomous IT Operations (AIOps) by 2027
+            </p>
+
+            <div class="share-bars">
+                <div class="share-bar">
+                    <div class="share-label">
+                        <span>ServiceNow</span>
+                        <span>22%</span>
+                    </div>
+                    <div class="share-fill" style="width: 22%; background: #81b29a;">22%</div>
+                </div>
+
+                <div class="share-bar">
+                    <div class="share-label">
+                        <span>Microsoft</span>
+                        <span>18%</span>
+                    </div>
+                    <div class="share-fill" style="width: 18%; background: #00a4ef;">18%</div>
+                </div>
+
+                <div class="share-bar">
+                    <div class="share-label">
+                        <span>Datadog</span>
+                        <span>15%</span>
+                    </div>
+                    <div class="share-fill" style="width: 15%; background: #632ca6;">15%</div>
+                </div>
+
+                <div class="share-bar">
+                    <div class="share-label">
+                        <span>Splunk</span>
+                        <span>12%</span>
+                    </div>
+                    <div class="share-fill" style="width: 12%; background: #ff6b6b;">12%</div>
+                </div>
+
+                <div class="share-bar">
+                    <div class="share-label">
+                        <span>IBM Watson</span>
+                        <span>8%</span>
+                    </div>
+                    <div class="share-fill" style="width: 8%; background: #0f62fe;">8%</div>
+                </div>
+
+                <div class="share-bar">
+                    <div class="share-label">
+                        <span><strong>iTechSmart (Target)</strong></span>
+                        <span><strong>10-15%</strong></span>
+                    </div>
+                    <div class="share-fill" style="width: 15%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <strong>10-15%</strong>
+                    </div>
+                </div>
+
+                <div class="share-bar">
+                    <div class="share-label">
+                        <span>Others</span>
+                        <span>10-15%</span>
+                    </div>
+                    <div class="share-fill" style="width: 10%; background: #999;">10-15%</div>
+                </div>
+            </div>
+
+            <p style="color: #666; margin-top: 30px; font-size: 14px; font-style: italic;">
+                Based on $40B AIOps market by 2027, iTechSmart's 10-15% target represents $4B-$6B in annual revenue potential
+            </p>
+        </div>
+
+        <div style="margin-top: 60px; padding: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px; color: white; text-align: center;">
+            <h2 style="color: white; margin-bottom: 20px;">Why iTechSmart Wins</h2>
+            <p style="font-size: 18px; line-height: 1.8; margin-bottom: 20px;">
+                While competitors offer fragmented tools requiring extensive integration, iTechSmart delivers a truly unified, self-healing, AI-powered ecosystem that works out of the box.
+            </p>
+            <p style="font-size: 16px; opacity: 0.9;">
+                <strong>The market is ready for consolidation.</strong> Enterprises are tired of managing 10-20+ disconnected IT tools. iTechSmart is positioned to become the single platform that replaces them all.
+            </p>
+        </div>
+
+        <div style="margin-top: 40px; text-align: center; padding: 30px; background: #f8f9fa; border-radius: 10px;">
+            <p style="font-size: 12px; color: #999;">
+                © 2025 iTechSmart Inc. | Confidential & Proprietary | Market Positioning Analysis
+            </p>
+        </div>
+    </div>
+</body>
+</html>

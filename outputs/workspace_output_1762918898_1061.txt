@@ -1,0 +1,3 @@
+  337 integration_adapters/base_adapter.py
+  226 integration_adapters/hl7_adapter.py
+  563 total

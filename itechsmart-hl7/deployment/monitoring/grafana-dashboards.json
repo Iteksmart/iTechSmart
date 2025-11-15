@@ -1,0 +1,450 @@
+{
+  "dashboards": [
+    {
+      "name": "iTechSmart HL7 - Executive Dashboard",
+      "uid": "itechsmart-executive",
+      "description": "High-level overview for executives and stakeholders",
+      "panels": [
+        {
+          "title": "Total Patients",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "itechsmart_patients_total",
+              "legendFormat": "Total Patients"
+            }
+          ],
+          "gridPos": {"x": 0, "y": 0, "w": 6, "h": 4}
+        },
+        {
+          "title": "Messages Processed (24h)",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "sum(increase(itechsmart_messages_total[24h]))",
+              "legendFormat": "Messages"
+            }
+          ],
+          "gridPos": {"x": 6, "y": 0, "w": 6, "h": 4}
+        },
+        {
+          "title": "System Uptime",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "(time() - process_start_time_seconds) / 86400",
+              "legendFormat": "Days"
+            }
+          ],
+          "gridPos": {"x": 12, "y": 0, "w": 6, "h": 4}
+        },
+        {
+          "title": "Success Rate",
+          "type": "gauge",
+          "targets": [
+            {
+              "expr": "(sum(rate(itechsmart_messages_success[5m])) / sum(rate(itechsmart_messages_total[5m]))) * 100",
+              "legendFormat": "Success %"
+            }
+          ],
+          "gridPos": {"x": 18, "y": 0, "w": 6, "h": 4}
+        },
+        {
+          "title": "Message Processing Rate",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "rate(itechsmart_messages_total[5m])",
+              "legendFormat": "{{message_type}}"
+            }
+          ],
+          "gridPos": {"x": 0, "y": 4, "w": 12, "h": 8}
+        },
+        {
+          "title": "Response Time (p95)",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.95, rate(itechsmart_request_duration_seconds_bucket[5m]))",
+              "legendFormat": "p95"
+            }
+          ],
+          "gridPos": {"x": 12, "y": 4, "w": 12, "h": 8}
+        },
+        {
+          "title": "Error Rate by Type",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "rate(itechsmart_errors_total[5m])",
+              "legendFormat": "{{error_type}}"
+            }
+          ],
+          "gridPos": {"x": 0, "y": 12, "w": 12, "h": 8}
+        },
+        {
+          "title": "Active Connections",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "itechsmart_active_connections",
+              "legendFormat": "{{emr_system}}"
+            }
+          ],
+          "gridPos": {"x": 12, "y": 12, "w": 12, "h": 8}
+        }
+      ]
+    },
+    {
+      "name": "iTechSmart HL7 - Technical Dashboard",
+      "uid": "itechsmart-technical",
+      "description": "Detailed technical metrics for operations team",
+      "panels": [
+        {
+          "title": "CPU Usage",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "rate(process_cpu_seconds_total[5m]) * 100",
+              "legendFormat": "CPU %"
+            }
+          ],
+          "gridPos": {"x": 0, "y": 0, "w": 8, "h": 6}
+        },
+        {
+          "title": "Memory Usage",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "process_resident_memory_bytes / 1024 / 1024",
+              "legendFormat": "Memory (MB)"
+            }
+          ],
+          "gridPos": {"x": 8, "y": 0, "w": 8, "h": 6}
+        },
+        {
+          "title": "Database Connections",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "itechsmart_db_connections_active",
+              "legendFormat": "Active"
+            },
+            {
+              "expr": "itechsmart_db_connections_idle",
+              "legendFormat": "Idle"
+            }
+          ],
+          "gridPos": {"x": 16, "y": 0, "w": 8, "h": 6}
+        },
+        {
+          "title": "Cache Hit Rate",
+          "type": "gauge",
+          "targets": [
+            {
+              "expr": "(itechsmart_cache_hits / (itechsmart_cache_hits + itechsmart_cache_misses)) * 100",
+              "legendFormat": "Hit Rate %"
+            }
+          ],
+          "gridPos": {"x": 0, "y": 6, "w": 6, "h": 6}
+        },
+        {
+          "title": "Queue Depth",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "itechsmart_queue_depth",
+              "legendFormat": "{{queue_name}}"
+            }
+          ],
+          "gridPos": {"x": 6, "y": 6, "w": 9, "h": 6}
+        },
+        {
+          "title": "API Request Rate",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "rate(itechsmart_api_requests_total[5m])",
+              "legendFormat": "{{method}} {{endpoint}}"
+            }
+          ],
+          "gridPos": {"x": 15, "y": 6, "w": 9, "h": 6}
+        },
+        {
+          "title": "Database Query Performance",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.95, rate(itechsmart_db_query_duration_seconds_bucket[5m]))",
+              "legendFormat": "p95"
+            },
+            {
+              "expr": "histogram_quantile(0.99, rate(itechsmart_db_query_duration_seconds_bucket[5m]))",
+              "legendFormat": "p99"
+            }
+          ],
+          "gridPos": {"x": 0, "y": 12, "w": 12, "h": 8}
+        },
+        {
+          "title": "Network I/O",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "rate(node_network_receive_bytes_total[5m])",
+              "legendFormat": "Received"
+            },
+            {
+              "expr": "rate(node_network_transmit_bytes_total[5m])",
+              "legendFormat": "Transmitted"
+            }
+          ],
+          "gridPos": {"x": 12, "y": 12, "w": 12, "h": 8}
+        }
+      ]
+    },
+    {
+      "name": "iTechSmart HL7 - Clinical Dashboard",
+      "uid": "itechsmart-clinical",
+      "description": "Clinical operations and patient care metrics",
+      "panels": [
+        {
+          "title": "Patient Admissions (24h)",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "sum(increase(itechsmart_patient_admissions_total[24h]))",
+              "legendFormat": "Admissions"
+            }
+          ],
+          "gridPos": {"x": 0, "y": 0, "w": 6, "h": 4}
+        },
+        {
+          "title": "Active Medications",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "itechsmart_active_medications_total",
+              "legendFormat": "Medications"
+            }
+          ],
+          "gridPos": {"x": 6, "y": 0, "w": 6, "h": 4}
+        },
+        {
+          "title": "Lab Results Pending",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "itechsmart_lab_results_pending",
+              "legendFormat": "Pending"
+            }
+          ],
+          "gridPos": {"x": 12, "y": 0, "w": 6, "h": 4}
+        },
+        {
+          "title": "High-Risk Patients",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "itechsmart_high_risk_patients_total",
+              "legendFormat": "High Risk"
+            }
+          ],
+          "gridPos": {"x": 18, "y": 0, "w": 6, "h": 4}
+        },
+        {
+          "title": "Patient Flow",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "rate(itechsmart_patient_admissions_total[5m])",
+              "legendFormat": "Admissions"
+            },
+            {
+              "expr": "rate(itechsmart_patient_discharges_total[5m])",
+              "legendFormat": "Discharges"
+            }
+          ],
+          "gridPos": {"x": 0, "y": 4, "w": 12, "h": 8}
+        },
+        {
+          "title": "Clinical Alerts by Severity",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "rate(itechsmart_clinical_alerts_total[5m])",
+              "legendFormat": "{{severity}}"
+            }
+          ],
+          "gridPos": {"x": 12, "y": 4, "w": 12, "h": 8}
+        },
+        {
+          "title": "Top Diagnoses",
+          "type": "table",
+          "targets": [
+            {
+              "expr": "topk(10, itechsmart_diagnosis_count)",
+              "legendFormat": "{{diagnosis_code}}"
+            }
+          ],
+          "gridPos": {"x": 0, "y": 12, "w": 12, "h": 8}
+        },
+        {
+          "title": "Medication Orders",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "rate(itechsmart_medication_orders_total[5m])",
+              "legendFormat": "{{order_type}}"
+            }
+          ],
+          "gridPos": {"x": 12, "y": 12, "w": 12, "h": 8}
+        }
+      ]
+    },
+    {
+      "name": "iTechSmart HL7 - Security Dashboard",
+      "uid": "itechsmart-security",
+      "description": "Security monitoring and compliance tracking",
+      "panels": [
+        {
+          "title": "Failed Login Attempts",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "sum(increase(itechsmart_failed_logins_total[1h]))",
+              "legendFormat": "Failed Logins"
+            }
+          ],
+          "gridPos": {"x": 0, "y": 0, "w": 6, "h": 4}
+        },
+        {
+          "title": "Active Sessions",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "itechsmart_active_sessions",
+              "legendFormat": "Sessions"
+            }
+          ],
+          "gridPos": {"x": 6, "y": 0, "w": 6, "h": 4}
+        },
+        {
+          "title": "Audit Log Entries (24h)",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "sum(increase(itechsmart_audit_logs_total[24h]))",
+              "legendFormat": "Audit Logs"
+            }
+          ],
+          "gridPos": {"x": 12, "y": 0, "w": 6, "h": 4}
+        },
+        {
+          "title": "Security Alerts",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "sum(increase(itechsmart_security_alerts_total[1h]))",
+              "legendFormat": "Alerts"
+            }
+          ],
+          "gridPos": {"x": 18, "y": 0, "w": 6, "h": 4}
+        },
+        {
+          "title": "Authentication Events",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "rate(itechsmart_auth_events_total[5m])",
+              "legendFormat": "{{event_type}}"
+            }
+          ],
+          "gridPos": {"x": 0, "y": 4, "w": 12, "h": 8}
+        },
+        {
+          "title": "Access Control Violations",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "rate(itechsmart_access_violations_total[5m])",
+              "legendFormat": "{{violation_type}}"
+            }
+          ],
+          "gridPos": {"x": 12, "y": 4, "w": 12, "h": 8}
+        },
+        {
+          "title": "Data Access by Role",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "rate(itechsmart_data_access_total[5m])",
+              "legendFormat": "{{role}}"
+            }
+          ],
+          "gridPos": {"x": 0, "y": 12, "w": 12, "h": 8}
+        },
+        {
+          "title": "Encryption Operations",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "rate(itechsmart_encryption_operations_total[5m])",
+              "legendFormat": "{{operation}}"
+            }
+          ],
+          "gridPos": {"x": 12, "y": 12, "w": 12, "h": 8}
+        }
+      ]
+    }
+  ],
+  "alerts": [
+    {
+      "name": "High Error Rate",
+      "condition": "rate(itechsmart_errors_total[5m]) > 10",
+      "severity": "critical",
+      "description": "Error rate exceeds 10 per second"
+    },
+    {
+      "name": "High Response Time",
+      "condition": "histogram_quantile(0.95, rate(itechsmart_request_duration_seconds_bucket[5m])) > 1",
+      "severity": "warning",
+      "description": "95th percentile response time exceeds 1 second"
+    },
+    {
+      "name": "Low Cache Hit Rate",
+      "condition": "(itechsmart_cache_hits / (itechsmart_cache_hits + itechsmart_cache_misses)) < 0.7",
+      "severity": "warning",
+      "description": "Cache hit rate below 70%"
+    },
+    {
+      "name": "Database Connection Pool Exhausted",
+      "condition": "itechsmart_db_connections_active >= itechsmart_db_connections_max * 0.9",
+      "severity": "critical",
+      "description": "Database connection pool at 90% capacity"
+    },
+    {
+      "name": "High Memory Usage",
+      "condition": "process_resident_memory_bytes > 8000000000",
+      "severity": "warning",
+      "description": "Memory usage exceeds 8GB"
+    },
+    {
+      "name": "Failed Login Spike",
+      "condition": "rate(itechsmart_failed_logins_total[5m]) > 5",
+      "severity": "critical",
+      "description": "Possible brute force attack detected"
+    },
+    {
+      "name": "EMR Connection Down",
+      "condition": "itechsmart_emr_connection_status == 0",
+      "severity": "critical",
+      "description": "EMR system connection lost"
+    },
+    {
+      "name": "High Risk Patient Alert",
+      "condition": "increase(itechsmart_high_risk_patients_total[1h]) > 5",
+      "severity": "warning",
+      "description": "Significant increase in high-risk patients"
+    }
+  ]
+}

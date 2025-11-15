@@ -1,0 +1,93 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: hl7-postgres
+    environment:
+      POSTGRES_USER: hl7
+      POSTGRES_PASSWORD: hl7123
+      POSTGRES_DB: hl7
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hl7"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - hl7-network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: hl7-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - hl7-network
+
+  # Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: hl7-backend
+    environment:
+      DATABASE_URL: postgresql+asyncpg://hl7:hl7123@postgres:5432/hl7
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: ${SECRET_KEY:-dev-secret-key-change-in-production}
+      ENVIRONMENT: ${ENVIRONMENT:-development}
+      HIPAA_ENABLED: "true"
+      AUDIT_LOGGING_ENABLED: "true"
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - backend_uploads:/app/uploads
+      - backend_logs:/app/logs
+    networks:
+      - hl7-network
+    restart: unless-stopped
+
+  # Frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: hl7-frontend
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:8000
+      NEXT_PUBLIC_HIPAA_MODE: "true"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - hl7-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+  backend_uploads:
+  backend_logs:
+
+networks:
+  hl7-network:
+    driver: bridge

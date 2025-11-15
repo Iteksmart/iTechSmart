@@ -1,0 +1,6 @@
+106:app.include_router(auth.router, prefix="/api/v1/auth", tags=["Authentication"])
+107:app.include_router(tasks.router, prefix="/api/v1/tasks", tags=["Tasks"])
+108:app.include_router(agents.router, prefix="/api/v1/agents", tags=["Agents"])
+109:app.include_router(admin.router, prefix="/api/v1/admin", tags=["Admin"])
+110:app.include_router(files.router, prefix="/api/v1/files", tags=["Files"])
+111:app.include_router(deployments.router, prefix="/api/v1/deployments", tags=["Deployments"])

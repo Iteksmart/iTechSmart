@@ -1,0 +1,49 @@
+{
+  "name": "itechsmart-installer",
+  "version": "0.1.0",
+  "description": "Cross-platform GUI installer for iTechSmart (wraps hardened_docker_install.sh)",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "lint": "echo \"no lint configured\""
+  },
+  "build": {
+    "appId": "com.itechsmart.installer",
+    "productName": "iTechSmart Installer",
+    "files": [
+      "src/**/*",
+      "../hardened_docker_install.sh"
+    ],
+    "directories": {
+      "buildResources": "build"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Utility"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "pkg"
+      ]
+    }
+  },
+  "dependencies": {
+    "electron-store": "^8.0.0",
+    "sudo-prompt": "^9.2.1"
+  },
+  "devDependencies": {
+    "electron": "^26.0.0",
+    "electron-builder": "^24.0.0"
+  }
+}

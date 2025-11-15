@@ -1,0 +1,6 @@
+itechsmart-ninja/README_FEATURE1.md
+itechsmart-ninja/backend/README.md
+itechsmart-ninja/vscode-extension/README.md
+itechsmart-ninja/README_FEATURE3.md
+itechsmart-ninja/COMPLETE_SETUP_GUIDE.md
+itechsmart-ninja/README.md

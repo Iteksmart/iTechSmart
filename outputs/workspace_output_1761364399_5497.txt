@@ -1,0 +1,33 @@
+backend/app
+├── agents
+│   ├── analyst_agent.py
+│   ├── base_agent.py
+│   ├── coder_agent.py
+│   ├── debugger_agent.py
+│   ├── orchestrator.py
+│   ├── researcher_agent.py
+│   └── writer_agent.py
+├── api
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── agents.py
+│   ├── auth.py
+│   ├── deployments.py
+│   ├── files.py
+│   └── tasks.py
+├── core
+│   ├── config.py
+│   ├── database.py
+│   ├── init_db.py
+│   └── security.py
+├── integrations
+│   └── ai_providers.py
+├── main.py
+├── models
+│   └── database.py
+├── sandbox
+│   └── vm_manager.py
+├── services
+└── utils
+
+9 directories, 22 files

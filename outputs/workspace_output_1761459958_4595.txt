@@ -1,0 +1,10 @@
+Added command: itechsmart.analyzeError
+Added command: itechsmart.setSmartBreakpoint
+Added command: itechsmart.listBreakpoints
+Added command: itechsmart.inspectVariable
+Added command: itechsmart.profileCode
+Added command: itechsmart.detectMemoryLeaks
+Added command: itechsmart.viewCallStack
+Added command: itechsmart.getCodeCoverage
+
+Total commands: 98

@@ -1,0 +1,50 @@
+    const stepsHtml = steps.map(step => `
+        <div class="step">
+            <h3>Step ${step.step_number}: ${step.agent_type}</h3>
+            <p><strong>Status:</strong> ${step.status}</p>
+            <p><strong>Description:</strong> ${step.description}</p>
+            ${step.result ? `<pre>${JSON.stringify(step.result, null, 2)}</pre>` : ''}
+        </div>
+    `).join('');
+
+    return `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body { 
+                    font-family: Arial, sans-serif; 
+                    padding: 20px;
+                }
+                h1 { color: #007acc; }
+                .step {
+                    border: 1px solid #ddd;
+                    padding: 15px;
+                    margin: 10px 0;
+                    border-radius: 5px;
+                }
+                pre { 
+                    background: #f4f4f4; 
+                    padding: 10px; 
+                    border-radius: 5px;
+                    overflow-x: auto;
+                }
+            </style>
+        </head>
+        <body>
+            <h1>${task.title}</h1>
+            <p><strong>Type:</strong> ${task.task_type}</p>
+            <p><strong>Status:</strong> ${task.status}</p>
+            <p><strong>Progress:</strong> ${task.progress}%</p>
+            <p><strong>Description:</strong> ${task.description}</p>
+            <h2>Steps</h2>
+            ${stepsHtml}
+            ${task.result ? `<h2>Result</h2><pre>${JSON.stringify(task.result, null, 2)}</pre>` : ''}
+        </body>
+        </html>
+    `;
+}
+
+export function deactivate() {
+    console.log('iTechSmart Ninja extension is now deactivated');
+}

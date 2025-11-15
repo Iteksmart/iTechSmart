@@ -1,0 +1,50 @@
+                content: `Error: ${error.message}\n`,
+                color: '#ff0000'
+            });
+        }
+    }
+
+    private async generateImage(args: string[]) {
+        try {
+            this.sendToTerminal({
+                type: 'output',
+                content: '\n🎨 Generating image...\n\n',
+                color: '#4ecdc4'
+            });
+
+            vscode.commands.executeCommand('itechsmart.generateImage');
+
+        } catch (error: any) {
+            this.sendToTerminal({
+                type: 'output',
+                content: `Error: ${error.message}\n`,
+                color: '#ff0000'
+            });
+        }
+    }
+
+    private async transformImage(args: string[]) {
+        try {
+            this.sendToTerminal({
+                type: 'output',
+                content: '\n🔄 Transforming image...\n\n',
+                color: '#4ecdc4'
+            });
+
+            vscode.commands.executeCommand('itechsmart.imageToImage');
+
+        } catch (error: any) {
+            this.sendToTerminal({
+                type: 'output',
+                content: `Error: ${error.message}\n`,
+                color: '#ff0000'
+            });
+        }
+    }
+
+    private async upscaleImage(args: string[]) {
+        try {
+            this.sendToTerminal({
+                type: 'output',
+                content: '\n⬆️ Upscaling image...\n\n',
+                color: '#4ecdc4'

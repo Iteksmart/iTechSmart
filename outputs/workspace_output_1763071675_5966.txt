@@ -1,0 +1,7 @@
+total 8
+drwxr-xr-x 1 root root  65 Nov 13 17:53 .
+drwxr-xr-x 1 root root 116 Nov 13 18:16 ..
+-rw-r--r-- 1 root root 183 Nov 13 17:53 Dockerfile
+-rw-r--r-- 1 root root 548 Nov 12 13:08 package.json
+drwxr-xr-x 1 root root  32 Nov 13 18:17 public
+drwxr-xr-x 1 root root  50 Nov 13 18:17 src

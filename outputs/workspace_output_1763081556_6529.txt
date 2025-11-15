@@ -1,0 +1,9 @@
+total 40
+drwxr-xr-x 1 root root   168 Nov 13 22:46 .
+drwxr-xr-x 1 root root   107 Nov 13 18:17 ..
+-rw-r--r-- 1 root root  4160 Nov 13 18:17 Dashboard.jsx
+-rw-r--r-- 1 root root  5921 Nov 13 18:17 Integrations.jsx
+drwxr-xr-x 2 root root   127 Nov 13 22:48 ServiceCatalog
+-rw-r--r-- 1 root root  2229 Nov 13 18:17 Settings.jsx
+-rw-r--r-- 1 root root  2221 Nov 13 18:17 Tickets.jsx
+-rw-r--r-- 1 root root 13623 Nov 13 18:17 UnifiedDashboard.tsx

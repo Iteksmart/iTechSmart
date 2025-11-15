@@ -1,0 +1,50 @@
+            content: helpText,
+            color: '#4ecdc4'
+        });
+    }
+
+    private async generateVideo() {
+        try {
+            this.sendToTerminal({
+                type: 'output',
+                content: '\n🎬 Generating video...\n\n',
+                color: '#4ecdc4'
+            });
+
+            vscode.commands.executeCommand('itechsmart.generateVideoFromText');
+
+        } catch (error: any) {
+            this.sendToTerminal({
+                type: 'output',
+                content: `Error: ${error.message}\n`,
+                color: '#ff0000'
+            });
+        }
+    }
+
+    private async transformVideo() {
+        try {
+            this.sendToTerminal({
+                type: 'output',
+                content: '\n🎨 Transforming video...\n\n',
+                color: '#4ecdc4'
+            });
+
+            vscode.commands.executeCommand('itechsmart.transformVideo');
+
+        } catch (error: any) {
+            this.sendToTerminal({
+                type: 'output',
+                content: `Error: ${error.message}\n`,
+                color: '#ff0000'
+            });
+        }
+    }
+
+    private async upscaleVideo() {
+        try {
+            this.sendToTerminal({
+                type: 'output',
+                content: '\n📈 Upscaling video...\n\n',
+                color: '#4ecdc4'
+            });

@@ -1,0 +1,260 @@
+# Prometheus Alert Rules for iTechSmart HL7
+
+groups:
+  # Application Health Alerts
+  - name: application_health
+    interval: 30s
+    rules:
+      - alert: BackendDown
+        expr: up{job="backend"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          component: backend
+        annotations:
+          summary: "Backend service is down"
+          description: "Backend pod {{ $labels.pod }} in namespace {{ $labels.namespace }} has been down for more than 2 minutes."
+
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          component: backend
+        annotations:
+          summary: "High error rate detected"
+          description: "Error rate is {{ $value | humanizePercentage }} for {{ $labels.pod }}"
+
+      - alert: SlowResponseTime
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 2
+        for: 5m
+        labels:
+          severity: warning
+          component: backend
+        annotations:
+          summary: "Slow API response time"
+          description: "95th percentile response time is {{ $value }}s for {{ $labels.pod }}"
+
+  # Database Alerts
+  - name: database_health
+    interval: 30s
+    rules:
+      - alert: PostgresDown
+        expr: up{job="postgres"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: database
+        annotations:
+          summary: "PostgreSQL is down"
+          description: "PostgreSQL database has been down for more than 1 minute."
+
+      - alert: HighDatabaseConnections
+        expr: pg_stat_database_numbackends > 80
+        for: 5m
+        labels:
+          severity: warning
+          component: database
+        annotations:
+          summary: "High number of database connections"
+          description: "Database has {{ $value }} active connections"
+
+      - alert: DatabaseDiskSpaceHigh
+        expr: (pg_database_size_bytes / pg_settings_max_wal_size_bytes) > 0.8
+        for: 10m
+        labels:
+          severity: warning
+          component: database
+        annotations:
+          summary: "Database disk space usage high"
+          description: "Database disk usage is at {{ $value | humanizePercentage }}"
+
+      - alert: SlowQueries
+        expr: rate(pg_stat_statements_mean_exec_time[5m]) > 1000
+        for: 5m
+        labels:
+          severity: warning
+          component: database
+        annotations:
+          summary: "Slow database queries detected"
+          description: "Average query execution time is {{ $value }}ms"
+
+  # Cache Alerts
+  - name: cache_health
+    interval: 30s
+    rules:
+      - alert: RedisDown
+        expr: up{job="redis"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: cache
+        annotations:
+          summary: "Redis is down"
+          description: "Redis cache has been down for more than 1 minute."
+
+      - alert: HighCacheMissRate
+        expr: rate(redis_keyspace_misses_total[5m]) / rate(redis_keyspace_hits_total[5m]) > 0.5
+        for: 10m
+        labels:
+          severity: warning
+          component: cache
+        annotations:
+          summary: "High cache miss rate"
+          description: "Cache miss rate is {{ $value | humanizePercentage }}"
+
+      - alert: RedisMemoryHigh
+        expr: redis_memory_used_bytes / redis_memory_max_bytes > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          component: cache
+        annotations:
+          summary: "Redis memory usage high"
+          description: "Redis memory usage is at {{ $value | humanizePercentage }}"
+
+  # Resource Alerts
+  - name: resource_usage
+    interval: 30s
+    rules:
+      - alert: HighCPUUsage
+        expr: rate(container_cpu_usage_seconds_total[5m]) > 0.8
+        for: 10m
+        labels:
+          severity: warning
+          component: infrastructure
+        annotations:
+          summary: "High CPU usage"
+          description: "CPU usage is {{ $value | humanizePercentage }} for {{ $labels.pod }}"
+
+      - alert: HighMemoryUsage
+        expr: container_memory_usage_bytes / container_spec_memory_limit_bytes > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          component: infrastructure
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage is {{ $value | humanizePercentage }} for {{ $labels.pod }}"
+
+      - alert: PodRestartingFrequently
+        expr: rate(kube_pod_container_status_restarts_total[15m]) > 0
+        for: 5m
+        labels:
+          severity: warning
+          component: infrastructure
+        annotations:
+          summary: "Pod restarting frequently"
+          description: "Pod {{ $labels.pod }} is restarting frequently"
+
+      - alert: DiskSpaceHigh
+        expr: (node_filesystem_avail_bytes / node_filesystem_size_bytes) < 0.1
+        for: 10m
+        labels:
+          severity: critical
+          component: infrastructure
+        annotations:
+          summary: "Low disk space"
+          description: "Disk space is below 10% on {{ $labels.instance }}"
+
+  # Clinical System Alerts
+  - name: clinical_system
+    interval: 30s
+    rules:
+      - alert: HighDrugInteractionAlerts
+        expr: rate(drug_interaction_alerts_total{severity="critical"}[5m]) > 5
+        for: 5m
+        labels:
+          severity: warning
+          component: clinical
+        annotations:
+          summary: "High number of critical drug interaction alerts"
+          description: "{{ $value }} critical drug interaction alerts per second"
+
+      - alert: WorkflowStepsOverdue
+        expr: workflow_overdue_steps_total > 10
+        for: 10m
+        labels:
+          severity: warning
+          component: clinical
+        annotations:
+          summary: "Multiple workflow steps overdue"
+          description: "{{ $value }} workflow steps are overdue"
+
+      - alert: HighSepsisRiskAlerts
+        expr: rate(sepsis_risk_alerts_total{risk_level="critical"}[5m]) > 2
+        for: 5m
+        labels:
+          severity: critical
+          component: clinical
+        annotations:
+          summary: "Multiple critical sepsis risk alerts"
+          description: "{{ $value }} critical sepsis risk alerts detected"
+
+  # EMR Integration Alerts
+  - name: emr_integration
+    interval: 30s
+    rules:
+      - alert: EMRConnectionFailure
+        expr: emr_connection_failures_total > 5
+        for: 5m
+        labels:
+          severity: critical
+          component: integration
+        annotations:
+          summary: "EMR connection failures"
+          description: "{{ $value }} EMR connection failures for {{ $labels.emr_system }}"
+
+      - alert: HL7MessageProcessingDelay
+        expr: hl7_message_processing_delay_seconds > 60
+        for: 5m
+        labels:
+          severity: warning
+          component: integration
+        annotations:
+          summary: "HL7 message processing delayed"
+          description: "HL7 messages are delayed by {{ $value }}s"
+
+      - alert: HighHL7MessageFailureRate
+        expr: rate(hl7_message_failures_total[5m]) / rate(hl7_messages_total[5m]) > 0.1
+        for: 10m
+        labels:
+          severity: warning
+          component: integration
+        annotations:
+          summary: "High HL7 message failure rate"
+          description: "HL7 message failure rate is {{ $value | humanizePercentage }}"
+
+  # Security Alerts
+  - name: security
+    interval: 30s
+    rules:
+      - alert: HighFailedLoginAttempts
+        expr: rate(failed_login_attempts_total[5m]) > 10
+        for: 5m
+        labels:
+          severity: warning
+          component: security
+        annotations:
+          summary: "High number of failed login attempts"
+          description: "{{ $value }} failed login attempts per second"
+
+      - alert: UnauthorizedAccessAttempts
+        expr: rate(unauthorized_access_attempts_total[5m]) > 5
+        for: 5m
+        labels:
+          severity: critical
+          component: security
+        annotations:
+          summary: "Unauthorized access attempts detected"
+          description: "{{ $value }} unauthorized access attempts per second"
+
+      - alert: SuspiciousActivity
+        expr: rate(security_violations_total[5m]) > 1
+        for: 5m
+        labels:
+          severity: critical
+          component: security
+        annotations:
+          summary: "Suspicious security activity detected"
+          description: "{{ $value }} security violations per second"

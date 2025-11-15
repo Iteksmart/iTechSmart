@@ -1,0 +1,12 @@
+total 40
+drwxr-xr-x 1 root root    94 Oct 26 05:05 .
+drwxr-xr-x 1 root root  4096 Oct 26 11:56 ..
+-rw-r--r-- 1 root root  1972 Oct 25 15:57 .env.example
+-rw-r--r-- 1 root root   727 Oct 25 03:47 Dockerfile
+-rw-r--r-- 1 root root 10596 Oct 25 03:49 README.md
+drwxr-xr-x 1 root root   104 Oct 25 03:41 app
+-rw-r--r-- 1 root root  2609 Oct 25 03:47 docker-compose.yml
+-rw-r--r-- 1 root root  1533 Oct 26 06:07 requirements.txt
+-rwxr-xr-x 1 root root  1393 Oct 25 03:47 start.sh
+-rwxr-xr-x 1 root root   296 Oct 25 03:48 stop.sh
+drwxr-xr-x 2 root root   184 Oct 26 11:54 tests

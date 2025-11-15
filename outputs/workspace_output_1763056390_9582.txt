@@ -1,0 +1,55 @@
+Processing: itechsmart-data-platform
+Creating backend/main.py for itechsmart-data-platform
+Creating docker-compose.yml for itechsmart-data-platform
+Creating backend Dockerfile for itechsmart-data-platform
+Creating frontend Dockerfile for itechsmart-data-platform
+✓ Completed: itechsmart-data-platform
+
+Processing: itechsmart-customer-success
+Creating backend/main.py for itechsmart-customer-success
+Creating docker-compose.yml for itechsmart-customer-success
+Creating backend Dockerfile for itechsmart-customer-success
+Creating frontend Dockerfile for itechsmart-customer-success
+✓ Completed: itechsmart-customer-success
+
+Processing: itechsmart-compliance
+Creating backend/main.py for itechsmart-compliance
+Creating docker-compose.yml for itechsmart-compliance
+Creating backend Dockerfile for itechsmart-compliance
+Creating frontend Dockerfile for itechsmart-compliance
+✓ Completed: itechsmart-compliance
+
+Processing: itechsmart-cloud
+Creating backend/main.py for itechsmart-cloud
+Creating docker-compose.yml for itechsmart-cloud
+Creating backend Dockerfile for itechsmart-cloud
+Creating frontend Dockerfile for itechsmart-cloud
+✓ Completed: itechsmart-cloud
+
+Processing: itechsmart-ai
+Creating backend/main.py for itechsmart-ai
+Creating docker-compose.yml for itechsmart-ai
+Creating backend Dockerfile for itechsmart-ai
+✓ Completed: itechsmart-ai
+
+Processing: itechsmart-thinktank
+Creating docker-compose.yml for itechsmart-thinktank
+Creating backend Dockerfile for itechsmart-thinktank
+Creating frontend Dockerfile for itechsmart-thinktank
+✓ Completed: itechsmart-thinktank
+
+Processing: itechsmart-devops
+Creating backend/main.py for itechsmart-devops
+Creating docker-compose.yml for itechsmart-devops
+Creating backend Dockerfile for itechsmart-devops
+Creating frontend Dockerfile for itechsmart-devops
+✓ Completed: itechsmart-devops
+
+Processing: itechsmart-mobile
+Creating backend/main.py for itechsmart-mobile
+Creating docker-compose.yml for itechsmart-mobile
+Creating backend Dockerfile for itechsmart-mobile
+Creating frontend Dockerfile for itechsmart-mobile
+✓ Completed: itechsmart-mobile
+
+All products processed!

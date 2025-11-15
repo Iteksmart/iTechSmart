@@ -1,0 +1,50 @@
+            });
+
+            vscode.commands.executeCommand('itechsmart.listIssues');
+
+        } catch (error: any) {
+            this.sendToTerminal({
+                type: 'output',
+                content: `Error: ${error.message}\n`,
+                color: '#ff0000'
+            });
+        }
+    }
+
+    private async createGitHubPR(args: string[]) {
+        try {
+            this.sendToTerminal({
+                type: 'output',
+                content: '\n🔀 Creating pull request...\n\n',
+                color: '#4ecdc4'
+            });
+
+            vscode.commands.executeCommand('itechsmart.createPullRequest');
+
+        } catch (error: any) {
+            this.sendToTerminal({
+                type: 'output',
+                content: `Error: ${error.message}\n`,
+                color: '#ff0000'
+            });
+        }
+    }
+
+    private async createGitHubIssue(args: string[]) {
+        try {
+            this.sendToTerminal({
+                type: 'output',
+                content: '\n🐛 Creating issue...\n\n',
+                color: '#4ecdc4'
+            });
+
+            vscode.commands.executeCommand('itechsmart.createIssue');
+
+        } catch (error: any) {
+            this.sendToTerminal({
+                type: 'output',
+                content: `Error: ${error.message}\n`,
+                color: '#ff0000'
+            });
+        }
+    }

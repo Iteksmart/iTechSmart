@@ -1,0 +1,64 @@
+{
+  "name": "itechsmart-impactos",
+  "version": "1.0.0",
+  "description": "AI-Powered Community Impact Platform for Nonprofits",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently &quot;npm run dev:frontend&quot; &quot;npm run dev:backend&quot; &quot;npm run dev:mcp&quot;",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:mcp": "cd mcp-server && npm run dev",
+    "build": "npm run build:frontend && npm run build:backend && npm run build:mcp",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "build:mcp": "cd mcp-server && npm run build",
+    "start": "concurrently &quot;npm run start:frontend&quot; &quot;npm run start:backend&quot; &quot;npm run start:mcp&quot;",
+    "start:frontend": "cd frontend && npm start",
+    "start:backend": "cd backend && npm start",
+    "start:mcp": "cd mcp-server && npm start",
+    "test": "npm run test:frontend && npm run test:backend && npm run test:mcp",
+    "test:frontend": "cd frontend && npm test",
+    "test:backend": "cd backend && npm test",
+    "test:mcp": "cd mcp-server && npm test",
+    "lint": "npm run lint:frontend && npm run lint:backend && npm run lint:mcp",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:backend": "cd backend && npm run lint",
+    "lint:mcp": "cd mcp-server && npm run lint",
+    "db:migrate": "cd backend && npm run db:migrate",
+    "db:seed": "cd backend && npm run db:seed",
+    "db:reset": "cd backend && npm run db:reset",
+    "deploy:vercel": "vercel --prod",
+    "deploy:firebase": "firebase deploy",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install && cd ../mcp-server && npm install"
+  },
+  "keywords": [
+    "nonprofit",
+    "impact",
+    "ai",
+    "automation",
+    "grants",
+    "donors",
+    "mcp"
+  ],
+  "author": "iTechSmart Inc.",
+  "license": "PROPRIETARY",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/itechsmart/impactos.git"
+  },
+  "bugs": {
+    "url": "https://github.com/itechsmart/impactos/issues"
+  },
+  "homepage": "https://impactos.itechsmart.dev",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

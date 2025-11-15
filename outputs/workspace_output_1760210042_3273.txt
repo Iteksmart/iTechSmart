@@ -1,0 +1,56 @@
+                }
+            ]
+        }
+        
+        # Security incident response
+        self.workflow_templates['security_incident'] = {
+            'name': 'Security Incident Response',
+            'description': 'Automated security incident response',
+            'trigger': {
+                'type': 'alert',
+                'condition': 'severity == critical AND source == wazuh'
+            },
+            'steps': [
+                {
+                    'name': 'Isolate Host',
+                    'action_type': 'command',
+                    'parameters': {
+                        'command': 'iptables -A INPUT -j DROP'
+                    }
+                },
+                {
+                    'name': 'Collect Evidence',
+                    'action_type': 'command',
+                    'parameters': {
+                        'command': 'tar -czf /tmp/evidence.tar.gz /var/log /etc'
+                    }
+                },
+                {
+                    'name': 'Notify Security Team',
+                    'action_type': 'notification',
+                    'parameters': {
+                        'channel': 'pagerduty',
+                        'severity': 'critical',
+                        'message': 'Security incident on {host}'
+                    }
+                },
+                {
+                    'name': 'Create Ticket',
+                    'action_type': 'ticket',
+                    'parameters': {
+                        'system': 'servicenow',
+                        'priority': 'P1',
+                        'category': 'security'
+                    }
+                },
+                {
+                    'name': 'Wait for Investigation',
+                    'action_type': 'manual',
+                    'parameters': {
+                        'message': 'Security team investigating'
+                    }
+                }
+            ]
+        }
+    
+    def create_workflow_from_template(

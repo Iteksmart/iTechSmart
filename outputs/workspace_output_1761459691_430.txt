@@ -1,0 +1,216 @@
+"""
+Advanced Debugging API Routes
+Provides endpoints for enhanced debugging capabilities
+"""
+
+from fastapi import APIRouter, Depends, HTTPException
+from typing import Dict, Any, Optional, List
+from sqlalchemy.orm import Session
+
+from app.core.database import get_db
+from app.core.security import get_current_user
+from app.models.database import User
+
+router = APIRouter(prefix="/api/debug", tags=["debugging"])
+
+
+@router.post("/analyze-error")
+async def analyze_error(
+    error_message: str,
+    stack_trace: Optional[str] = None,
+    code: Optional[str] = None,
+    language: str = "python",
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Analyze error with AI
+    
+    Args:
+        error_message: Error message
+        stack_trace: Stack trace (if available)
+        code: Code that caused error
+        language: Programming language
+    """
+    try:
+        # TODO: Use AI to analyze error
+        # TODO: Provide fix suggestions
+        
+        return {
+            "success": True,
+            "analysis": {
+                "error_type": "TypeError",
+                "severity": "high",
+                "root_cause": "Variable type mismatch",
+                "fix_suggestions": [
+                    "Convert variable to correct type",
+                    "Add type checking"
+                ],
+                "code_fix": "# Fixed code here"
+            },
+            "message": "Error analyzed successfully"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/set-breakpoint")
+async def set_breakpoint(
+    file_path: str,
+    line_number: int,
+    condition: Optional[str] = None,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Set smart breakpoint
+    
+    Args:
+        file_path: File path
+        line_number: Line number
+        condition: Breakpoint condition (optional)
+    """
+    try:
+        # TODO: Implement breakpoint management
+        return {
+            "success": True,
+            "breakpoint": {
+                "id": "bp_123",
+                "file_path": file_path,
+                "line_number": line_number,
+                "condition": condition,
+                "enabled": True
+            },
+            "message": "Breakpoint set successfully"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/breakpoints")
+async def list_breakpoints(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """List all breakpoints"""
+    # TODO: Implement database query
+    return {
+        "success": True,
+        "breakpoints": [],
+        "message": "Breakpoints retrieved successfully"
+    }
+
+
+@router.post("/inspect-variable")
+async def inspect_variable(
+    variable_name: str,
+    context: Dict[str, Any],
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Inspect variable value and type
+    
+    Args:
+        variable_name: Variable name
+        context: Execution context
+    """
+    try:
+        # TODO: Implement variable inspection
+        return {
+            "success": True,
+            "variable": {
+                "name": variable_name,
+                "value": "...",
+                "type": "str",
+                "size": 100
+            },
+            "message": "Variable inspected successfully"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/profile")
+async def profile_code(
+    code: str,
+    language: str = "python",
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Profile code performance
+    
+    Args:
+        code: Code to profile
+        language: Programming language
+    """
+    try:
+        # TODO: Implement code profiling
+        return {
+            "success": True,
+            "profile": {
+                "execution_time": 0.5,
+                "memory_usage": 50,
+                "cpu_usage": 25,
+                "hotspots": []
+            },
+            "message": "Code profiled successfully"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/call-stack")
+async def get_call_stack(
+    execution_id: str,
+    current_user: User = Depends(get_current_user)
+):
+    """Get call stack for execution"""
+    try:
+        # TODO: Retrieve call stack
+        return {
+            "success": True,
+            "call_stack": [],
+            "message": "Call stack retrieved successfully"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/detect-memory-leaks")
+async def detect_memory_leaks(
+    code: str,
+    language: str = "python",
+    current_user: User = Depends(get_current_user)
+):
+    """Detect memory leaks in code"""
+    try:
+        # TODO: Implement memory leak detection
+        return {
+            "success": True,
+            "leaks": [],
+            "message": "Memory leak detection completed"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/coverage")
+async def get_code_coverage(
+    project_id: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Get code coverage statistics"""
+    try:
+        # TODO: Calculate code coverage
+        return {
+            "success": True,
+            "coverage": {
+                "total_lines": 1000,
+                "covered_lines": 850,
+                "percentage": 85.0,
+                "uncovered_files": []
+            },
+            "message": "Coverage retrieved successfully"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

@@ -1,0 +1,4 @@
+frontend/src/screens/HomeScreen.tsx
+frontend/src/screens/CameraScreen.tsx
+frontend/src/screens/AnalysisScreen.tsx
+frontend/src/screens/RecommendationsScreen.tsx

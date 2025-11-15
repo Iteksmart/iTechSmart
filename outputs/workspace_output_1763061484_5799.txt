@@ -1,0 +1,30 @@
+    "missing": []
+  }
+    },
+    {
+      "name": "iTechSmart Sandbox",
+      "dir": "itechsmart-sandbox",
+      "port": 8033,
+      "status": "COMPLETE",
+      "exists": true,
+      "completeness": "100.0%",
+      "components": {
+        "backend_dir": true,
+        "backend_main": true,
+        "backend_models": true,
+        "backend_api": true,
+        "backend_core": true,
+        "frontend_dir": true,
+        "frontend_src": true,
+        "frontend_app": true,
+        "frontend_package": true,
+        "docker_compose": true,
+        "dockerfile_backend": true,
+        "dockerfile_frontend": true,
+        "integration_module": true,
+        "readme": true,
+        "docs_dir": true
+      },
+      "missing": []
+    }
+  ]

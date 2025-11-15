@@ -1,0 +1,7 @@
+        },
+        {
+          "command": "itechsmart.listEditors",
+          "title": "iTechSmart: List Active Editors"
+        }
+        "title": "iTechSmart: View Citation Styles"
+      }

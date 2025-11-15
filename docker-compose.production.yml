@@ -1,0 +1,384 @@
+version: '3.8'
+
+# iTechSmart Suite - Production Docker Compose Configuration
+# This configuration is optimized for production deployment
+
+services:
+  # PostgreSQL Database - Primary
+  postgres-primary:
+    image: postgres:15-alpine
+    container_name: itechsmart-postgres-primary
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-itechsmart}
+      POSTGRES_USER: ${POSTGRES_USER:-itechsmart}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=en_US.UTF-8"
+    volumes:
+      - postgres_primary_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - itechsmart-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-itechsmart}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 2G
+
+  # PostgreSQL Database - Replica (Read-only)
+  postgres-replica:
+    image: postgres:15-alpine
+    container_name: itechsmart-postgres-replica
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-itechsmart}
+      POSTGRES_USER: ${POSTGRES_USER:-itechsmart}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_replica_data:/var/lib/postgresql/data
+    networks:
+      - itechsmart-network
+    depends_on:
+      - postgres-primary
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+
+  # Redis Cache - Primary
+  redis-primary:
+    image: redis:7-alpine
+    container_name: itechsmart-redis-primary
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redis_primary_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - itechsmart-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G
+
+  # Redis Cache - Replica
+  redis-replica:
+    image: redis:7-alpine
+    container_name: itechsmart-redis-replica
+    command: redis-server --slaveof redis-primary 6379 --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redis_replica_data:/data
+    networks:
+      - itechsmart-network
+    depends_on:
+      - redis-primary
+    restart: unless-stopped
+
+  # Apache Kafka
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: itechsmart-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - zookeeper_data:/var/lib/zookeeper/data
+      - zookeeper_logs:/var/lib/zookeeper/log
+    networks:
+      - itechsmart-network
+    restart: unless-stopped
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: itechsmart-kafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    ports:
+      - "9092:9092"
+    networks:
+      - itechsmart-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+
+  # iTechSmart Enterprise
+  enterprise:
+    build:
+      context: ./itechsmart-enterprise
+      dockerfile: Dockerfile.production
+    container_name: itechsmart-enterprise
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-itechsmart}:${POSTGRES_PASSWORD}@postgres-primary:5432/${POSTGRES_DB:-itechsmart}
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis-primary:6379
+      SECRET_KEY: ${SECRET_KEY}
+      ENVIRONMENT: production
+      LOG_LEVEL: info
+    ports:
+      - "8000:8000"
+    networks:
+      - itechsmart-network
+    depends_on:
+      postgres-primary:
+        condition: service_healthy
+      redis-primary:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 1G
+
+  # iTechSmart Analytics
+  analytics:
+    build:
+      context: ./itechsmart-analytics
+      dockerfile: Dockerfile.production
+    container_name: itechsmart-analytics
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-itechsmart}:${POSTGRES_PASSWORD}@postgres-primary:5432/${POSTGRES_DB:-itechsmart}
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis-primary:6379
+      KAFKA_BROKERS: kafka:9092
+      ENTERPRISE_API_URL: http://enterprise:8000
+      SECRET_KEY: ${SECRET_KEY}
+      ENVIRONMENT: production
+      LOG_LEVEL: info
+    ports:
+      - "8001:8000"
+    networks:
+      - itechsmart-network
+    depends_on:
+      - postgres-primary
+      - redis-primary
+      - kafka
+      - enterprise
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 2G
+
+  # iTechSmart Ninja
+  ninja:
+    build:
+      context: ./itechsmart-ninja
+      dockerfile: Dockerfile.production
+    container_name: itechsmart-ninja
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-itechsmart}:${POSTGRES_PASSWORD}@postgres-primary:5432/${POSTGRES_DB:-itechsmart}
+      ENTERPRISE_API_URL: http://enterprise:8000
+      SECRET_KEY: ${SECRET_KEY}
+      ENVIRONMENT: production
+      LOG_LEVEL: info
+    ports:
+      - "8002:8000"
+    networks:
+      - itechsmart-network
+    depends_on:
+      - enterprise
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+
+  # NGINX Load Balancer
+  nginx:
+    image: nginx:alpine
+    container_name: itechsmart-nginx
+    volumes:
+      - ./nginx/nginx.production.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - nginx_logs:/var/log/nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - itechsmart-network
+    depends_on:
+      - enterprise
+      - analytics
+      - ninja
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+
+  # Prometheus Monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: itechsmart-prometheus
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+    ports:
+      - "9090:9090"
+    networks:
+      - itechsmart-network
+    restart: unless-stopped
+
+  # Grafana Dashboards
+  grafana:
+    image: grafana/grafana:latest
+    container_name: itechsmart-grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
+      GF_INSTALL_PLUGINS: grafana-clock-panel
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources
+    ports:
+      - "3000:3000"
+    networks:
+      - itechsmart-network
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+  # Elasticsearch for Logging
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: itechsmart-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+      - xpack.security.enabled=false
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - itechsmart-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+
+  # Kibana for Log Visualization
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    container_name: itechsmart-kibana
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    networks:
+      - itechsmart-network
+    depends_on:
+      - elasticsearch
+    restart: unless-stopped
+
+  # Filebeat for Log Collection
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.11.0
+    container_name: itechsmart-filebeat
+    user: root
+    volumes:
+      - ./monitoring/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - itechsmart-network
+    depends_on:
+      - elasticsearch
+    restart: unless-stopped
+
+networks:
+  itechsmart-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  postgres_primary_data:
+    driver: local
+  postgres_replica_data:
+    driver: local
+  redis_primary_data:
+    driver: local
+  redis_replica_data:
+    driver: local
+  zookeeper_data:
+    driver: local
+  zookeeper_logs:
+    driver: local
+  kafka_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+  elasticsearch_data:
+    driver: local
+  nginx_logs:
+    driver: local

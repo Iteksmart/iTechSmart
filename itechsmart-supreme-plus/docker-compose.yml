@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: supremeplus-postgres
+    environment:
+      POSTGRES_DB: supremeplus
+      POSTGRES_USER: supremeplus
+      POSTGRES_PASSWORD: supremeplus
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - supremeplus-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: supremeplus-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - supremeplus-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: supremeplus-backend
+    environment:
+      DATABASE_URL: postgresql://supremeplus:supremeplus@postgres:5432/supremeplus
+      REDIS_URL: redis://redis:6379/4
+      DEBUG: "false"
+      AUTO_REMEDIATION_ENABLED: "true"
+      HUB_URL: http://hub:8000
+      NINJA_URL: http://ninja:8001
+    ports:
+      - "8034:8034"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - supremeplus-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: supremeplus-frontend
+    environment:
+      VITE_API_URL: http://localhost:8034
+    ports:
+      - "3034:3034"
+    depends_on:
+      - backend
+    networks:
+      - supremeplus-network
+    restart: unless-stopped
+
+networks:
+  supremeplus-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

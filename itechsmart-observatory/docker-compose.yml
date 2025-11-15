@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:14-alpine
+    container_name: observatory-postgres
+    environment:
+      POSTGRES_DB: observatory
+      POSTGRES_USER: observatory
+      POSTGRES_PASSWORD: observatory
+    ports:
+      - "5436:5432"
+    volumes:
+      - observatory-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U observatory"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: observatory-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - observatory-redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Observatory Backend
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: observatory-backend
+    environment:
+      DATABASE_URL: postgresql://observatory:observatory@postgres:5432/observatory
+      REDIS_URL: redis://redis:6379/0
+      PORT: 8036
+      HUB_URL: http://hub:8000
+    ports:
+      - "8036:8036"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app/backend
+    restart: unless-stopped
+
+  # Observatory Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: observatory-frontend
+    environment:
+      REACT_APP_API_URL: http://localhost:8036
+    ports:
+      - "3036:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  observatory-postgres-data:
+  observatory-redis-data:
+
+networks:
+  default:
+    name: itechsmart-network
+    external: true

@@ -1,0 +1,2 @@
+❌ Still invalid:
+Expecting property name enclosed in double quotes: line 858 column 7 (char 21418)

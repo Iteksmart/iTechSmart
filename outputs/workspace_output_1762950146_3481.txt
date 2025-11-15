@@ -1,0 +1,91 @@
+=== itechsmart-enterprise ===
+README exists - checking content...
+610 itechsmart-enterprise/README.md
+❌ Hub Integration missing
+❌ Ninja Integration missing
+❌ Standalone Mode missing
+
+=== itechsmart-ninja ===
+README exists - checking content...
+394 itechsmart-ninja/README.md
+❌ Hub Integration missing
+❌ Ninja Integration missing
+❌ Standalone Mode missing
+
+=== itechsmart-analytics ===
+README exists - checking content...
+211 itechsmart-analytics/README.md
+❌ Hub Integration missing
+❌ Ninja Integration missing
+❌ Standalone Mode missing
+
+=== itechsmart_supreme ===
+README exists - checking content...
+160 itechsmart_supreme/README.md
+❌ Hub Integration missing
+❌ Ninja Integration missing
+❌ Standalone Mode missing
+
+=== itechsmart-hl7 ===
+README exists - checking content...
+506 itechsmart-hl7/README.md
+❌ Hub Integration missing
+❌ Ninja Integration missing
+❌ Standalone Mode missing
+
+=== prooflink ===
+README exists - checking content...
+343 prooflink/README.md
+❌ Hub Integration missing
+❌ Ninja Integration missing
+❌ Standalone Mode missing
+
+=== passport ===
+README exists - checking content...
+349 passport/README.md
+❌ Hub Integration missing
+❌ Ninja Integration missing
+❌ Standalone Mode missing
+
+=== itechsmart-impactos ===
+README exists - checking content...
+328 itechsmart-impactos/README.md
+❌ Hub Integration missing
+❌ Ninja Integration missing
+❌ Standalone Mode missing
+
+=== fitsnap-ai ===
+README exists - checking content...
+649 fitsnap-ai/README.md
+❌ Hub Integration missing
+❌ Ninja Integration missing
+❌ Standalone Mode missing
+
+=== itechsmart-shield ===
+README exists - checking content...
+531 itechsmart-shield/README.md
+❌ Hub Integration missing
+❌ Ninja Integration missing
+❌ Standalone Mode missing
+
+=== itechsmart-mobile ===
+README exists - checking content...
+410 itechsmart-mobile/README.md
+❌ Hub Integration missing
+❌ Ninja Integration missing
+❌ Standalone Mode missing
+
+=== itechsmart-workflow ===
+README exists - checking content...
+345 itechsmart-workflow/README.md
+❌ Hub Integration missing
+❌ Ninja Integration missing
+❌ Standalone Mode missing
+
+=== itechsmart-ai ===
+README exists - checking content...
+340 itechsmart-ai/README.md
+❌ Hub Integration missing
+❌ Ninja Integration missing
+❌ Standalone Mode missing
+

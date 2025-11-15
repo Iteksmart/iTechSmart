@@ -1,0 +1,34 @@
+
+### Latest Products (2)
+
+#### 31. iTechSmart Sentinel
+**Port:** 8031 | **Frontend:** 3031  
+**Description:** Observability Platform  
+**Key Features:**
+- Distributed tracing
+- Smart alerting
+- Log aggregation
+- Incident management
+- SLO tracking
+- Error budget monitoring
+
+#### 32. iTechSmart Forge
+**Port:** 8032 | **Frontend:** 3032  
+**Description:** Low-Code App Builder  
+**Key Features:**
+- Visual app builder
+- AI-powered generation
+- 150+ components
+- Data connectors (all 31 products)
+- Workflow automation
+- One-click deployment
+
+---
+
+## Technology Stack
+
+### Backend Technologies
+
+**Primary Framework:** FastAPI (Python 3.11+)
+- High performance async framework
+- Automatic OpenAPI documentation

@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iTechSmart Supreme - Autonomous IT Infrastructure Healing Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --dark-light: #334155;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --text: #0f172a;
+            --text-light: #64748b;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Dashboard Grid */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-title {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-item {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .sidebar-item:hover {
+            background: var(--light);
+            color: var(--primary);
+        }
+
+        .sidebar-item.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .sidebar-icon {
+            font-size: 1.25rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .stat-icon.warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .stat-icon.danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .stat-icon.primary {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .stat-change {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .stat-change.positive {
+            color: var(--success);
+        }
+
+        .stat-change.negative {
+            color: var(--danger);
+        }
+
+        /* Content Cards */
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        /* AI Models Grid */
+        .ai-models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .ai-model-card {
+            padding: 1.5rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .ai-model-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.2);
+        }
+
+        .ai-model-card.active {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .model-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .model-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .model-status {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .status-badge.online {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-badge.offline {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        /* Activity Feed */
+        .activity-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            background: var(--light);
+            transition: all 0.3s;
+        }
+
+        .activity-item:hover {
+            background: var(--border);
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .activity-icon.success {
+            background: var(--success);
+            color: white;
+        }
+
+        .activity-icon.warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .activity-icon.info {
+            background: var(--primary);
+            color: white;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-description {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+
+        /* Integrations Grid */
+        .integrations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .integration-card {
+            padding: 1.5rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .integration-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .integration-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .integration-name {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        /* Command Terminal */
+        .terminal {
+            background: var(--dark);
+            border-radius: 12px;
+            padding: 1.5rem;
+            font-family: 'Monaco', 'Courier New', monospace;
+            color: #00ff00;
+            font-size: 0.875rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .terminal-line {
+            margin-bottom: 0.5rem;
+        }
+
+        .terminal-prompt {
+            color: var(--primary);
+        }
+
+        /* Workflow Designer */
+        .workflow-canvas {
+            background: var(--light);
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            min-height: 400px;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .tab:hover {
+            color: var(--primary);
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s;
+        }
+
+        /* Notification Badge */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">🛡️</div>
+                <span>iTechSmart Supreme</span>
+            </div>
+            <nav class="nav">
+                <a href="#" class="nav-link" onclick="showSection('dashboard')">Dashboard</a>
+                <a href="#" class="nav-link" onclick="showSection('ai-models')">AI Models</a>
+                <a href="#" class="nav-link" onclick="showSection('workflows')">Workflows</a>
+                <a href="#" class="nav-link" onclick="showSection('integrations')">Integrations</a>
+                <a href="#" class="nav-link" onclick="showSection('monitoring')">Monitoring</a>
+                <button class="btn btn-primary">Launch CLI</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="dashboard">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Main</div>
+                    <a href="#" class="sidebar-item active" onclick="showSection('dashboard')">
+                        <span class="sidebar-icon">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="sidebar-item" onclick="showSection('ai-models')">
+                        <span class="sidebar-icon">🤖</span>
+                        <span>AI Models</span>
+                    </a>
+                    <a href="#" class="sidebar-item" onclick="showSection('workflows')">
+                        <span class="sidebar-icon">🔄</span>
+                        <span>Workflows</span>
+                    </a>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Infrastructure</div>
+                    <a href="#" class="sidebar-item" onclick="showSection('integrations')">
+                        <span class="sidebar-icon">🔌</span>
+                        <span>Integrations</span>
+                    </a>
+                    <a href="#" class="sidebar-item" onclick="showSection('monitoring')">
+                        <span class="sidebar-icon">📈</span>
+                        <span>Monitoring</span>
+                    </a>
+                    <a href="#" class="sidebar-item" onclick="showSection('security')">
+                        <span class="sidebar-icon">🔐</span>
+                        <span>Security</span>
+                    </a>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-title">System</div>
+                    <a href="#" class="sidebar-item" onclick="showSection('notifications')">
+                        <span class="sidebar-icon">🔔</span>
+                        <span>Notifications</span>
+                    </a>
+                    <a href="#" class="sidebar-item" onclick="showSection('settings')">
+                        <span class="sidebar-icon">⚙️</span>
+                        <span>Settings</span>
+                    </a>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Dashboard Section -->
+                <div id="dashboard-section" class="content-section">
+                    <!-- Stats Cards -->
+                    <div class="stats-grid fade-in">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div>
+                                    <div class="stat-value">99.9%</div>
+                                    <div class="stat-label">System Uptime</div>
+                                </div>
+                                <div class="stat-icon success">✓</div>
+                            </div>
+                            <div class="stat-change positive">↑ 0.2% from last month</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div>
+                                    <div class="stat-value">247</div>
+                                    <div class="stat-label">Issues Resolved</div>
+                                </div>
+                                <div class="stat-icon primary">🔧</div>
+                            </div>
+                            <div class="stat-change positive">↑ 23 from yesterday</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div>
+                                    <div class="stat-value">12</div>
+                                    <div class="stat-label">Active Alerts</div>
+                                </div>
+                                <div class="stat-icon warning">⚠️</div>
+                            </div>
+                            <div class="stat-change negative">↑ 3 new alerts</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div>
+                                    <div class="stat-value">5</div>
+                                    <div class="stat-label">AI Models Active</div>
+                                </div>
+                                <div class="stat-icon success">🤖</div>
+                            </div>
+                            <div class="stat-change positive">All systems operational</div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <h2 class="card-title">Recent Activity</h2>
+                            <button class="btn btn-primary">View All</button>
+                        </div>
+                        <div class="activity-feed">
+                            <div class="activity-item">
+                                <div class="activity-icon success">✓</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Database Connection Restored</div>
+                                    <div class="activity-description">AI detected and resolved connection timeout issue</div>
+                                    <div class="activity-time">2 minutes ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon warning">⚠️</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">High Memory Usage Detected</div>
+                                    <div class="activity-description">Server-03 memory usage at 87% - investigating</div>
+                                    <div class="activity-time">15 minutes ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon success">✓</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">SSL Certificate Renewed</div>
+                                    <div class="activity-description">Automatic renewal completed for api.example.com</div>
+                                    <div class="activity-time">1 hour ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon info">ℹ️</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Workflow Execution Completed</div>
+                                    <div class="activity-description">Backup workflow finished successfully</div>
+                                    <div class="activity-time">2 hours ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Health -->
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <h2 class="card-title">System Health</h2>
+                        </div>
+                        <div style="display: grid; gap: 1rem;">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span>CPU Usage</span>
+                                    <span style="font-weight: 600;">45%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 45%;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span>Memory Usage</span>
+                                    <span style="font-weight: 600;">62%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 62%;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span>Disk Usage</span>
+                                    <span style="font-weight: 600;">38%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 38%;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span>Network Traffic</span>
+                                    <span style="font-weight: 600;">71%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 71%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Models Section -->
+                <div id="ai-models-section" class="content-section" style="display: none;">
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <h2 class="card-title">AI Model Management</h2>
+                            <button class="btn btn-primary">Configure Models</button>
+                        </div>
+                        <div class="ai-models-grid">
+                            <div class="ai-model-card active">
+                                <div class="model-icon">🧠</div>
+                                <div class="model-name">OpenAI GPT-4</div>
+                                <div class="model-status">Primary Model</div>
+                                <span class="status-badge online">Online</span>
+                            </div>
+                            <div class="ai-model-card active">
+                                <div class="model-icon">🤖</div>
+                                <div class="model-name">Claude 3</div>
+                                <div class="model-status">Backup Model</div>
+                                <span class="status-badge online">Online</span>
+                            </div>
+                            <div class="ai-model-card active">
+                                <div class="model-icon">💎</div>
+                                <div class="model-name">Gemini Pro</div>
+                                <div class="model-status">Analysis Model</div>
+                                <span class="status-badge online">Online</span>
+                            </div>
+                            <div class="ai-model-card active">
+                                <div class="model-icon">🦙</div>
+                                <div class="model-name">Ollama</div>
+                                <div class="model-status">Local Model</div>
+                                <span class="status-badge online">Online</span>
+                            </div>
+                            <div class="ai-model-card">
+                                <div class="model-icon">🔮</div>
+                                <div class="model-name">Mistral</div>
+                                <div class="model-status">Optional Model</div>
+                                <span class="status-badge offline">Offline</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <h2 class="card-title">Model Performance</h2>
+                        </div>
+                        <div class="terminal">
+                            <div class="terminal-line"><span class="terminal-prompt">$</span> Model: OpenAI GPT-4</div>
+                            <div class="terminal-line">  Response Time: 1.2s</div>
+                            <div class="terminal-line">  Success Rate: 99.8%</div>
+                            <div class="terminal-line">  Requests Today: 1,247</div>
+                            <div class="terminal-line"></div>
+                            <div class="terminal-line"><span class="terminal-prompt">$</span> Model: Claude 3</div>
+                            <div class="terminal-line">  Response Time: 0.9s</div>
+                            <div class="terminal-line">  Success Rate: 99.9%</div>
+                            <div class="terminal-line">  Requests Today: 892</div>
+                            <div class="terminal-line"></div>
+                            <div class="terminal-line"><span class="terminal-prompt">$</span> Model: Gemini Pro</div>
+                            <div class="terminal-line">  Response Time: 1.5s</div>
+                            <div class="terminal-line">  Success Rate: 98.7%</div>
+                            <div class="terminal-line">  Requests Today: 634</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Workflows Section -->
+                <div id="workflows-section" class="content-section" style="display: none;">
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <h2 class="card-title">Workflow Designer</h2>
+                            <button class="btn btn-primary">Create New Workflow</button>
+                        </div>
+                        <div class="workflow-canvas">
+                            <div style="text-align: center;">
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">🔄</div>
+                                <h3>Visual Workflow Designer</h3>
+                                <p>Drag and drop to create automated healing workflows</p>
+                                <button class="btn btn-primary" style="margin-top: 1rem;">Get Started</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <h2 class="card-title">Active Workflows</h2>
+                        </div>
+                        <div style="display: grid; gap: 1rem;">
+                            <div class="activity-item">
+                                <div class="activity-icon success">✓</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Database Health Check</div>
+                                    <div class="activity-description">Runs every 5 minutes - Last run: 2 min ago</div>
+                                    <div class="progress-bar" style="margin-top: 0.5rem;">
+                                        <div class="progress-fill" style="width: 100%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon info">⏳</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Backup Automation</div>
+                                    <div class="activity-description">Runs daily at 2:00 AM - Next run: 6 hours</div>
+                                    <div class="progress-bar" style="margin-top: 0.5rem;">
+                                        <div class="progress-fill" style="width: 45%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon success">✓</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">SSL Certificate Monitor</div>
+                                    <div class="activity-description">Runs hourly - Last run: 15 min ago</div>
+                                    <div class="progress-bar" style="margin-top: 0.5rem;">
+                                        <div class="progress-fill" style="width: 100%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Integrations Section -->
+                <div id="integrations-section" class="content-section" style="display: none;">
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <h2 class="card-title">Connected Integrations</h2>
+                            <button class="btn btn-primary">Add Integration</button>
+                        </div>
+                        <div class="integrations-grid">
+                            <div class="integration-card">
+                                <div class="integration-icon">🦙</div>
+                                <div class="integration-name">Ollama</div>
+                                <span class="status-badge online">Connected</span>
+                            </div>
+                            <div class="integration-card">
+                                <div class="integration-icon">📜</div>
+                                <div class="integration-name">Ansible</div>
+                                <span class="status-badge online">Connected</span>
+                            </div>
+                            <div class="integration-card">
+                                <div class="integration-icon">🧂</div>
+                                <div class="integration-name">SaltStack</div>
+                                <span class="status-badge online">Connected</span>
+                            </div>
+                            <div class="integration-card">
+                                <div class="integration-icon">🔐</div>
+                                <div class="integration-name">Vault</div>
+                                <span class="status-badge online">Connected</span>
+                            </div>
+                            <div class="integration-card">
+                                <div class="integration-icon">📊</div>
+                                <div class="integration-name">Zabbix</div>
+                                <span class="status-badge online">Connected</span>
+                            </div>
+                            <div class="integration-card">
+                                <div class="integration-icon">📈</div>
+                                <div class="integration-name">Grafana</div>
+                                <span class="status-badge online">Connected</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monitoring Section -->
+                <div id="monitoring-section" class="content-section" style="display: none;">
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <h2 class="card-title">Monitoring Tools</h2>
+                        </div>
+                        <div class="integrations-grid">
+                            <div class="integration-card">
+                                <div class="integration-icon">🔥</div>
+                                <div class="integration-name">Prometheus</div>
+                                <span class="status-badge online">Active</span>
+                            </div>
+                            <div class="integration-card">
+                                <div class="integration-icon">🛡️</div>
+                                <div class="integration-name">Wazuh</div>
+                                <span class="status-badge online">Active</span>
+                            </div>
+                            <div class="integration-card">
+                                <div class="integration-icon">📝</div>
+                                <div class="integration-name">Event Logs</div>
+                                <span class="status-badge online">Active</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <h2 class="card-title">Real-Time Metrics</h2>
+                        </div>
+                        <div class="terminal">
+                            <div class="terminal-line"><span class="terminal-prompt">$</span> prometheus_metrics</div>
+                            <div class="terminal-line">  CPU: 45.2% | Memory: 62.1% | Disk: 38.7%</div>
+                            <div class="terminal-line">  Network In: 125 MB/s | Network Out: 87 MB/s</div>
+                            <div class="terminal-line">  Active Connections: 1,247</div>
+                            <div class="terminal-line"></div>
+                            <div class="terminal-line"><span class="terminal-prompt">$</span> wazuh_alerts</div>
+                            <div class="terminal-line">  Critical: 0 | High: 2 | Medium: 8 | Low: 15</div>
+                            <div class="terminal-line">  Last Alert: 15 minutes ago</div>
+                            <div class="terminal-line"></div>
+                            <div class="terminal-line"><span class="terminal-prompt">$</span> event_logs</div>
+                            <div class="terminal-line">  Total Events Today: 12,847</div>
+                            <div class="terminal-line">  Errors: 23 | Warnings: 156 | Info: 12,668</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Section -->
+                <div id="security-section" class="content-section" style="display: none;">
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <h2 class="card-title">Security Components</h2>
+                        </div>
+                        <div class="integrations-grid">
+                            <div class="integration-card">
+                                <div class="integration-icon">🔑</div>
+                                <div class="integration-name">Credential Manager</div>
+                                <span class="status-badge online">Active</span>
+                            </div>
+                            <div class="integration-card">
+                                <div class="integration-icon">🛡️</div>
+                                <div class="integration-name">Zero Trust</div>
+                                <span class="status-badge online">Active</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <h2 class="card-title">Security Status</h2>
+                        </div>
+                        <div class="activity-feed">
+                            <div class="activity-item">
+                                <div class="activity-icon success">✓</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">All Systems Secure</div>
+                                    <div class="activity-description">No security threats detected</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon success">✓</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Credentials Encrypted</div>
+                                    <div class="activity-description">All credentials stored securely in Vault</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon success">✓</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Zero Trust Active</div>
+                                    <div class="activity-description">All access requests verified</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notifications Section -->
+                <div id="notifications-section" class="content-section" style="display: none;">
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <h2 class="card-title">Notification Channels</h2>
+                            <button class="btn btn-primary">Configure Channels</button>
+                        </div>
+                        <div class="integrations-grid">
+                            <div class="integration-card">
+                                <div class="integration-icon">📧</div>
+                                <div class="integration-name">Email</div>
+                                <span class="status-badge online">Enabled</span>
+                            </div>
+                            <div class="integration-card">
+                                <div class="integration-icon">💬</div>
+                                <div class="integration-name">Slack</div>
+                                <span class="status-badge online">Enabled</span>
+                            </div>
+                            <div class="integration-card">
+                                <div class="integration-icon">📱</div>
+                                <div class="integration-name">SMS</div>
+                                <span class="status-badge online">Enabled</span>
+                            </div>
+                            <div class="integration-card">
+                                <div class="integration-icon">🔔</div>
+                                <div class="integration-name">PagerDuty</div>
+                                <span class="status-badge online">Enabled</span>
+                            </div>
+                            <div class="integration-card">
+                                <div class="integration-icon">💬</div>
+                                <div class="integration-name">Teams</div>
+                                <span class="status-badge online">Enabled</span>
+                            </div>
+                            <div class="integration-card">
+                                <div class="integration-icon">📞</div>
+                                <div class="integration-name">Webhook</div>
+                                <span class="status-badge online">Enabled</span>
+                            </div>
+                            <div class="integration-card">
+                                <div class="integration-icon">💬</div>
+                                <div class="integration-name">Discord</div>
+                                <span class="status-badge offline">Disabled</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Section -->
+                <div id="settings-section" class="content-section" style="display: none;">
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <h2 class="card-title">System Settings</h2>
+                            <button class="btn btn-primary">Save Changes</button>
+                        </div>
+                        <div class="tabs">
+                            <div class="tab active" onclick="showTab('general')">General</div>
+                            <div class="tab" onclick="showTab('ai')">AI Configuration</div>
+                            <div class="tab" onclick="showTab('notifications')">Notifications</div>
+                            <div class="tab" onclick="showTab('advanced')">Advanced</div>
+                        </div>
+                        <div id="general-tab" class="tab-content active">
+                            <h3>General Settings</h3>
+                            <p>Configure general system settings and preferences.</p>
+                        </div>
+                        <div id="ai-tab" class="tab-content">
+                            <h3>AI Configuration</h3>
+                            <p>Configure AI model preferences and behavior.</p>
+                        </div>
+                        <div id="notifications-tab" class="tab-content">
+                            <h3>Notification Settings</h3>
+                            <p>Configure notification channels and alert preferences.</p>
+                        </div>
+                        <div id="advanced-tab" class="tab-content">
+                            <h3>Advanced Settings</h3>
+                            <p>Configure advanced system options and integrations.</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionName) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Show selected section
+            const selectedSection = document.getElementById(sectionName + '-section');
+            if (selectedSection) {
+                selectedSection.style.display = 'block';
+            }
+
+            // Update sidebar active state
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+            sidebarItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Find and activate the clicked sidebar item
+            event.target.closest('.sidebar-item')?.classList.add('active');
+        }
+
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Show selected tab content
+            const selectedTab = document.getElementById(tabName + '-tab');
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
+
+            // Update tab active state
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Simulate real-time updates
+        setInterval(() => {
+            // Update random stats
+            const statValues = document.querySelectorAll('.stat-value');
+            statValues.forEach(stat => {
+                if (stat.textContent.includes('%')) {
+                    const currentValue = parseFloat(stat.textContent);
+                    const newValue = (currentValue + (Math.random() - 0.5) * 0.1).toFixed(1);
+                    stat.textContent = newValue + '%';
+                }
+            });
+        }, 5000);
+    </script>
+</body>
+</html>

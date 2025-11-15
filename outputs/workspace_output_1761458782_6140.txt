@@ -1,0 +1,6 @@
+## [ ] Phase 8: Feature 12 - Video Generation
+- [ ] Review FEATURE12_SPEC.md specification
+- [ ] Implement backend integration (video_generation.py)
+- [ ] Create API routes (videos.py)
+- [ ] Add database models
+- [ ] Create VS Code commands

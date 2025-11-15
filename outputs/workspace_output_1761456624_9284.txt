@@ -1,0 +1,100 @@
+    container_id = Column(String)
+    
+    # Resource limits
+    cpu_limit = Column(Float, default=1.0)  # CPU cores
+    memory_limit = Column(Integer, default=512)  # MB
+    disk_limit = Column(Integer, default=1024)  # MB
+    
+    # Timestamps
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    started_at = Column(DateTime(timezone=True))
+    stopped_at = Column(DateTime(timezone=True))
+    
+    # Relationships
+    user = relationship("User")
+    executions = relationship("VMExecution", back_populates="vm", cascade="all, delete-orphan")
+
+
+class VMExecution(Base):
+    """VM code execution history"""
+    __tablename__ = "vm_executions"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    vm_id = Column(Integer, ForeignKey("virtual_machines.id"), nullable=False)
+    
+    # Execution details
+    code = Column(Text, nullable=False)
+    output = Column(Text)
+    error = Column(Text)
+    exit_code = Column(Integer, default=0)
+    
+    # Performance
+    execution_time = Column(Float)  # seconds
+    
+    # Timestamp
+    executed_at = Column(DateTime(timezone=True), server_default=func.now())
+    
+    # Relationships
+    vm = relationship("VirtualMachine", back_populates="executions")
+
+
+class ScheduledTask(Base):
+    """Scheduled tasks for automated execution"""
+    __tablename__ = "scheduled_tasks"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    
+    # Task configuration
+    task_id = Column(String, unique=True, index=True, nullable=False)
+    name = Column(String, nullable=False)
+    description = Column(Text)
+    schedule = Column(String, nullable=False)  # Cron expression or interval
+    
+    # Code to execute
+    code = Column(Text, nullable=False)
+    language = Column(String, default="python")
+    
+    # Status
+    enabled = Column(Boolean, default=True)
+    last_run = Column(DateTime(timezone=True))
+    next_run = Column(DateTime(timezone=True))
+    last_status = Column(String)  # success, failure, running
+    
+    # Retry configuration
+    retry_count = Column(Integer, default=0)
+    max_retries = Column(Integer, default=3)
+    timeout = Column(Integer, default=300)  # seconds
+    
+    # Timestamps
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    
+    # Relationships
+    user = relationship("User")
+    executions = relationship("TaskExecution", back_populates="task", cascade="all, delete-orphan")
+
+
+class TaskExecution(Base):
+    """Task execution history"""
+    __tablename__ = "task_executions"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    task_id = Column(Integer, ForeignKey("scheduled_tasks.id"), nullable=False)
+    
+    # Execution details
+    execution_id = Column(String, unique=True, index=True)
+    status = Column(String, nullable=False)  # success, failure, running, timeout
+    output = Column(Text)
+    error = Column(Text)
+    exit_code = Column(Integer, default=0)
+    
+    # Performance
+    execution_time = Column(Float)  # seconds
+    
+    # Timestamps
+    started_at = Column(DateTime(timezone=True), server_default=func.now())
+    completed_at = Column(DateTime(timezone=True))
+    
+    # Relationships
+    task = relationship("ScheduledTask", back_populates="executions")

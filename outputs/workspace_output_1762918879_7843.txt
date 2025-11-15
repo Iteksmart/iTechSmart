@@ -1,0 +1,4 @@
+  775 itechsmart-ninja/backend/app/core/self_healing_engine.py
+  554 itechsmart-ninja/backend/app/core/auto_evolution_engine.py
+  648 itechsmart-ninja/backend/app/core/suite_controller.py
+ 1977 total

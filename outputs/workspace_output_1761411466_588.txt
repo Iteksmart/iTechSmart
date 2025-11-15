@@ -1,0 +1,38 @@
+                case 'research':
+                    await this.research(args.join(' '));
+                    break;
+                case 'analyze':
+                    await this.analyze(args.join(' '));
+                    break;
+                case 'debug':
+                    await this.debug(args.join(' '));
+                    break;
+                case 'explain':
+                    await this.explain(args.join(' '));
+                    break;
+                case 'tasks':
+                    await this.listTasks();
+                    break;
+                case 'task':
+                    await this.viewTask(parseInt(args[0]));
+                    break;
+                case 'agents':
+                    await this.listAgents();
+                    break;
+                case 'files':
+                    await this.listFiles();
+                    break;
+                case 'status':
+                    await this.showStatus();
+                    break;
+                case 'whoami':
+                    await this.showCurrentUser();
+                    break;
+                default:
+                    this.sendToTerminal({
+                        type: 'output',
+                        content: `Unknown command: ${cmd}\nType 'help' for available commands.\n`,
+                        color: '#ff6b6b'
+                    });
+            }
+        } catch (error: any) {

@@ -1,0 +1,111 @@
+# iTechSmart Supreme Configuration File
+
+# Remediation mode: manual, semi_auto, or full_auto
+mode: semi_auto
+
+# Monitoring configuration
+monitoring:
+  prometheus:
+    endpoints:
+      - http://prometheus-server:9090
+      # Add more Prometheus endpoints as needed
+  
+  wazuh:
+    endpoints:
+      - url: https://wazuh-server:55000
+        username: admin
+        password: your_wazuh_password
+      # Add more Wazuh endpoints as needed
+
+# AI configuration
+ai:
+  # OpenAI API key for online AI diagnosis (optional)
+  api_key: null
+  # Use offline mode if no API key provided
+  offline_mode: true
+
+# Cloud provider configuration (optional)
+cloud:
+  # AWS configuration
+  aws:
+    region: us-east-1
+    access_key: YOUR_AWS_ACCESS_KEY
+    secret_key: YOUR_AWS_SECRET_KEY
+  
+  # Google Cloud configuration
+  gcp:
+    project_id: your-project-id
+    credentials_file: /path/to/service-account.json
+  
+  # Azure configuration
+  azure:
+    subscription_id: your-subscription-id
+    tenant_id: your-tenant-id
+    client_id: your-client-id
+    client_secret: your-client-secret
+
+# Domain configuration (for Windows environments)
+domain:
+  domain_controller: dc.example.com
+  domain: example.com
+  admin_username: administrator
+  admin_password: your_admin_password
+  remediation_ou: OU=ServiceAccounts,DC=example,DC=com
+
+# Network device configuration
+network:
+  devices:
+    - host: switch-01.example.com
+      username: admin
+      password: switch_password
+      device_type: cisco_ios
+      enable_password: enable_password
+    # Add more network devices as needed
+
+# Logging configuration
+logging:
+  level: INFO
+  file: logs/supreme.log
+  max_size: 100MB
+  backup_count: 10
+
+# Performance tuning
+performance:
+  workers: 2
+  queue_size: 1000
+  cache_enabled: true
+  cache_ttl: 300
+
+# Security settings
+security:
+  # Enable global kill switch by default
+  kill_switch_enabled: false
+  
+  # Approval timeout in minutes
+  approval_timeout: 60
+  
+  # Command validation
+  validate_commands: true
+  
+  # Audit logging
+  audit_enabled: true
+  audit_file: logs/audit.log
+
+# Notification settings
+notifications:
+  email:
+    enabled: false
+    smtp_server: smtp.example.com
+    smtp_port: 587
+    username: alerts@example.com
+    password: email_password
+    recipients:
+      - admin@example.com
+  
+  slack:
+    enabled: false
+    webhook_url: https://hooks.slack.com/services/YOUR/WEBHOOK/URL
+  
+  pagerduty:
+    enabled: false
+    api_key: your_pagerduty_api_key

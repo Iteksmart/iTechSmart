@@ -1,0 +1,18 @@
+total 176
+drwxr-xr-x 1 root root  4096 Oct 26 04:48 .
+drwxr-xr-x 1 root root    74 Oct 25 04:31 ..
+-rw-r--r-- 1 root root  1991 Oct 26 04:48 collaborationCommands.ts
+-rw-r--r-- 1 root root  1709 Oct 26 04:48 debugCommands.ts
+-rw-r--r-- 1 root root  2234 Oct 26 04:47 documentCommands.ts
+-rw-r--r-- 1 root root 40120 Oct 25 16:56 editorCommands.ts
+-rw-r--r-- 1 root root 27713 Oct 25 23:30 githubCommands.ts
+-rw-r--r-- 1 root root  1590 Oct 26 04:47 historyCommands.ts
+-rw-r--r-- 1 root root 18911 Oct 26 00:05 imageCommands.ts
+-rw-r--r-- 1 root root  1716 Oct 26 04:47 mcpCommands.ts
+-rw-r--r-- 1 root root 21350 Oct 25 04:31 modelCommands.ts
+-rw-r--r-- 1 root root 19723 Oct 25 14:32 researchCommands.ts
+-rw-r--r-- 1 root root  2248 Oct 26 04:47 schedulerCommands.ts
+-rw-r--r-- 1 root root  1677 Oct 26 04:48 videoCommands.ts
+-rw-r--r-- 1 root root  3189 Oct 26 04:47 visualizationCommands.ts
+-rw-r--r-- 1 root root  2329 Oct 26 04:47 vmCommands.ts
+-rw-r--r-- 1 root root  1743 Oct 26 04:48 workflowCommands.ts

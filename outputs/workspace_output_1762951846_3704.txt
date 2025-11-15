@@ -1,0 +1,30 @@
+# 🛡️ iTechSmart Shield - Cybersecurity & Threat Detection Platform
+
+## 🎯 Overview
+
+**iTechSmart Shield** is an enterprise-grade cybersecurity platform that provides real-time threat detection, automated incident response, vulnerability management, and compliance monitoring.
+
+### Key Features:
+- ✅ **Real-time threat detection** - AI-powered threat identification
+- ✅ **Automated incident response** - 8 response playbooks
+- ✅ **Vulnerability scanning** - Network, web app, and config scanning
+- ✅ **Compliance management** - SOC2, ISO27001, GDPR, HIPAA
+- ✅ **AI anomaly detection** - Behavioral analysis and zero-day detection
+- ✅ **Penetration testing** - Automated security testing
+- ✅ **Suite integration** - Works with all iTechSmart products
+- ✅ **Standalone capable** - Can operate independently
+
+---
+
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+cd itechsmart-shield/backend
+pip install -r requirements.txt
+```
+
+### Configuration
+
+```bash

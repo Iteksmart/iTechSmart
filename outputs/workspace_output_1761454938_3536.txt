@@ -1,0 +1,8 @@
+Added: itechsmart.createChart
+Added: itechsmart.createDashboard
+Added: itechsmart.listCharts
+Added: itechsmart.viewChart
+Added: itechsmart.exportChart
+Added: itechsmart.analyzeData
+Added: itechsmart.getChartTypes
+✓ Visualization commands added to package.json

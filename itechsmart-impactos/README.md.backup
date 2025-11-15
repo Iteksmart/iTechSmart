@@ -1,0 +1,329 @@
+# 🌟 iTechSmart ImpactOS
+
+**The AI-Powered Community Impact Platform**
+
+> Make your impact undeniable. Auto-generate grant-ready reports, personalized donor stories, and verifiable evidence — free for nonprofits.
+
+---
+
+## 🎯 What is ImpactOS?
+
+ImpactOS lets nonprofits prove, tell, and scale impact automatically — stitching program data, finance, CRM, and social metrics into verified impact stories, grant-ready proposals, donor updates, and an investable "impact score."
+
+### Core Value Propositions
+
+✅ **Auto-generated Impact Reports** - Grant-ready PDFs with citations to source data  
+✅ **Impact Narratives** - Personalized donor updates, social cards, and micro-videos  
+✅ **Grant & Proposal Assistant** - AI drafts tailored proposals from real metrics  
+✅ **Impact Score & Evidence Ledger** - Standardized score with traceable evidence  
+✅ **Partner Marketplace** - Match with corporate CSR programs and impact investors  
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18+ and npm
+- PostgreSQL 15+
+- Redis (optional, for caching)
+- Google OAuth credentials
+- OpenAI API key (or other AI provider)
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/itechsmart/impactos.git
+cd itechsmart-impactos
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your credentials
+
+# Run database migrations
+npm run db:migrate
+
+# Start development server
+npm run dev
+```
+
+### Access the Application
+
+- **Frontend:** http://localhost:3000
+- **Backend API:** http://localhost:8000
+- **MCP Server:** http://localhost:8001
+- **Admin Dashboard:** http://localhost:3000/admin
+
+---
+
+## 🏗️ Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    iTechSmart ImpactOS                       │
+├─────────────────────────────────────────────────────────────┤
+│                                                               │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
+│  │   Frontend   │  │   Backend    │  │  MCP Server  │      │
+│  │   Next.js    │◄─┤   Node.js    │◄─┤  Connectors  │      │
+│  │  TypeScript  │  │  TypeScript  │  │   & Vault    │      │
+│  └──────────────┘  └──────────────┘  └──────────────┘      │
+│                                                               │
+├─────────────────────────────────────────────────────────────┤
+│                    Data & AI Layer                            │
+├─────────────────────────────────────────────────────────────┤
+│                                                               │
+│  ┌──────────┐  ┌────────┐  ┌──────────┐  ┌────────────┐   │
+│  │PostgreSQL│  │ Redis  │  │   AI     │  │  Evidence  │   │
+│  │          │  │ Cache  │  │  Models  │  │   Ledger   │   │
+│  └──────────┘  └────────┘  └──────────┘  └────────────┘   │
+│                                                               │
+├─────────────────────────────────────────────────────────────┤
+│                    External Integrations                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                               │
+│  ┌────────┐  ┌────────┐  ┌──────────┐  ┌────────────┐     │
+│  │ Stripe │  │ Google │  │Salesforce│  │ QuickBooks │     │
+│  │        │  │ Sheets │  │          │  │            │     │
+│  └────────┘  └────────┘  └──────────┘  └────────────┘     │
+│                                                               │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🎨 Key Features
+
+### For Nonprofits (Free Tier)
+
+- ✅ Auto-generated impact reports
+- ✅ Donor update generator
+- ✅ Basic analytics dashboard
+- ✅ 3 connector integrations
+- ✅ 50 reports/month
+- ✅ Community support
+
+### For Foundations & Corporate (Paid)
+
+- ✅ Unlimited reports
+- ✅ Advanced analytics
+- ✅ Custom integrations
+- ✅ White-label options
+- ✅ Partner marketplace access
+- ✅ Priority support
+- ✅ Data audit services
+
+### For Enterprises
+
+- ✅ Everything in Paid tier
+- ✅ Custom SLAs
+- ✅ Dedicated support
+- ✅ On-premise deployment
+- ✅ Custom AI training
+- ✅ Advanced security features
+
+---
+
+## 🔌 MCP Server & Connectors
+
+### Available Connectors
+
+| Connector | Type | Status |
+|-----------|------|--------|
+| Google Sheets | Data Source | ✅ Available |
+| Stripe | Donations | ✅ Available |
+| Mailchimp | Email | ✅ Available |
+| Salesforce | CRM | ✅ Available |
+| QuickBooks | Accounting | ✅ Available |
+| Bloomerang | CRM | ✅ Available |
+| Donorbox | Donations | ✅ Available |
+| Slack | Communication | 🔄 Coming Soon |
+| Airtable | Data Source | 🔄 Coming Soon |
+
+### MCP Functions
+
+```typescript
+// Get recent donations
+get_recent_donations(org_id, since_timestamp)
+
+// Get program outcomes
+get_program_outcomes(program_id, period)
+
+// Create impact report
+create_impact_report(org_id, template_id, evidence_refs[])
+
+// Send donor update
+send_donor_update(email, template_id, personalization)
+
+// Register evidence hash
+register_evidence_hash(org_id, evidence_blob)
+```
+
+---
+
+## 🤖 AI Model Support
+
+ImpactOS supports multiple AI models that can be configured from the admin dashboard:
+
+- **OpenAI GPT-4** - Best for complex reasoning and report generation
+- **Anthropic Claude** - Excellent for long-form content and analysis
+- **Google Gemini** - Great for multimodal content and fast responses
+- **Local Models** - Ollama support for on-premise deployments
+
+### Configuring AI Models
+
+1. Navigate to Admin Dashboard → AI Models
+2. Click "Add New Model"
+3. Enter API credentials
+4. Configure model parameters
+5. Test connection
+6. Set as default (optional)
+
+---
+
+## 📊 Impact Score Algorithm
+
+The Impact Score is calculated based on:
+
+1. **Reach** (30%) - Number of beneficiaries served
+2. **Outcomes** (40%) - Measurable results achieved
+3. **Efficiency** (15%) - Cost per beneficiary
+4. **Sustainability** (15%) - Long-term impact indicators
+
+Score Range: 0-100 (Higher is better)
+
+---
+
+## 🔒 Security & Compliance
+
+### Security Features
+
+- ✅ OAuth 2.0 authentication
+- ✅ End-to-end encryption
+- ✅ Secure vault for API keys
+- ✅ Role-based access control (RBAC)
+- ✅ Audit logging
+- ✅ PII redaction
+- ✅ Data minimization
+
+### Compliance
+
+- ✅ SOC2 Type II
+- ✅ GDPR compliant
+- ✅ HIPAA ready (for health-related programs)
+- ✅ Nonprofit data handling protocols
+
+---
+
+## 📚 Documentation
+
+- **[User Guide](docs/USER_GUIDE.md)** - Complete user manual
+- **[Admin Guide](docs/ADMIN_GUIDE.md)** - Admin dashboard guide
+- **[API Documentation](docs/API_DOCUMENTATION.md)** - API reference
+- **[Deployment Guide](docs/DEPLOYMENT_GUIDE.md)** - Production deployment
+- **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Common issues
+- **[Scaling Guide](docs/SCALING_GUIDE.md)** - Scale to thousands of orgs
+
+---
+
+## 🚀 Deployment
+
+### Vercel Deployment
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel --prod
+```
+
+### Firebase Deployment
+
+```bash
+# Install Firebase CLI
+npm i -g firebase-tools
+
+# Login
+firebase login
+
+# Deploy
+firebase deploy
+```
+
+### Docker Deployment
+
+```bash
+# Build image
+docker build -t impactos .
+
+# Run container
+docker run -p 3000:3000 impactos
+```
+
+---
+
+## 💰 Pricing
+
+### Nonprofits (Free)
+- **$0/month**
+- Core features
+- 3 connectors
+- 50 reports/month
+- Community support
+
+### Foundations ($3,000-$12,000/year)
+- Everything in Free
+- Unlimited reports
+- All connectors
+- Advanced analytics
+- Priority support
+
+### Enterprise (Custom)
+- Everything in Foundations
+- White-label
+- Custom integrations
+- SLAs
+- Dedicated support
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+
+---
+
+## 📞 Support
+
+- **Email:** support@itechsmart.dev
+- **Website:** https://itechsmart.dev
+- **Documentation:** https://docs.impactos.itechsmart.dev
+- **Community:** https://community.itechsmart.dev
+
+---
+
+## 📄 License
+
+Copyright © 2024 iTechSmart Inc. All rights reserved.
+
+See [LICENSE](LICENSE) for details.
+
+---
+
+## 🙏 Acknowledgments
+
+Built with ❤️ by the iTechSmart team to empower nonprofits worldwide.
+
+Special thanks to:
+- The nonprofit community for their feedback
+- Our pilot partners
+- Open source contributors
+
+---
+
+**Make your impact undeniable with iTechSmart ImpactOS** 🌟

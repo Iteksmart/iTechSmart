@@ -1,0 +1,216 @@
+"""
+Visualization API Routes
+Provides endpoints for data visualization and dashboard creation
+"""
+
+from fastapi import APIRouter, Depends, HTTPException
+from typing import List, Optional, Dict, Any
+from datetime import datetime
+from sqlalchemy.orm import Session
+
+from app.core.database import get_db
+from app.core.security import get_current_user
+from app.models.database import User
+from app.integrations.data_visualization import DataVisualizationClient
+
+router = APIRouter(prefix="/api/visualization", tags=["visualization"])
+
+# Initialize visualization client
+viz_client = DataVisualizationClient()
+
+
+@router.post("/charts/create")
+async def create_chart(
+    chart_type: str,
+    data: Dict[str, Any],
+    options: Optional[Dict[str, Any]] = None,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Create a new chart
+    
+    Args:
+        chart_type: Type of chart (bar, line, pie, etc.)
+        data: Chart data
+        options: Chart options (title, colors, etc.)
+    
+    Returns:
+        Chart object with ID and configuration
+    """
+    try:
+        chart = await viz_client.create_chart(chart_type, data, options)
+        
+        # TODO: Save chart to database
+        # chart_db = Chart(
+        #     user_id=current_user.id,
+        #     chart_type=chart_type,
+        #     data=data,
+        #     options=options
+        # )
+        # db.add(chart_db)
+        # db.commit()
+        
+        return {
+            "success": True,
+            "chart": chart,
+            "message": "Chart created successfully"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/charts")
+async def list_charts(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """List all charts for current user"""
+    # TODO: Implement database query
+    return {
+        "success": True,
+        "charts": [],
+        "message": "Charts retrieved successfully"
+    }
+
+
+@router.get("/charts/{chart_id}")
+async def get_chart(
+    chart_id: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Get specific chart by ID"""
+    # TODO: Implement database query
+    return {
+        "success": True,
+        "chart": {},
+        "message": "Chart retrieved successfully"
+    }
+
+
+@router.put("/charts/{chart_id}")
+async def update_chart(
+    chart_id: str,
+    data: Optional[Dict[str, Any]] = None,
+    options: Optional[Dict[str, Any]] = None,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Update existing chart"""
+    # TODO: Implement update logic
+    return {
+        "success": True,
+        "message": "Chart updated successfully"
+    }
+
+
+@router.delete("/charts/{chart_id}")
+async def delete_chart(
+    chart_id: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Delete chart"""
+    # TODO: Implement delete logic
+    return {
+        "success": True,
+        "message": "Chart deleted successfully"
+    }
+
+
+@router.post("/charts/{chart_id}/export")
+async def export_chart(
+    chart_id: str,
+    format: str = "png",
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Export chart to specified format
+    
+    Args:
+        chart_id: Chart ID
+        format: Export format (png, svg, pdf, html, json)
+    """
+    try:
+        result = await viz_client.export_chart(chart_id, format)
+        return {
+            "success": True,
+            "export": result,
+            "message": f"Chart exported as {format}"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/dashboards/create")
+async def create_dashboard(
+    title: str,
+    charts: List[str],
+    layout: Optional[Dict[str, Any]] = None,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Create dashboard with multiple charts"""
+    try:
+        # TODO: Implement dashboard creation
+        return {
+            "success": True,
+            "dashboard": {},
+            "message": "Dashboard created successfully"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/dashboards")
+async def list_dashboards(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """List all dashboards"""
+    # TODO: Implement database query
+    return {
+        "success": True,
+        "dashboards": [],
+        "message": "Dashboards retrieved successfully"
+    }
+
+
+@router.post("/analyze")
+async def analyze_data(
+    data: List[float],
+    analysis_type: str = "basic",
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Analyze data and provide statistics
+    
+    Args:
+        data: Data to analyze
+        analysis_type: Type of analysis (basic, advanced, statistical)
+    """
+    try:
+        result = await viz_client.analyze_data(data, analysis_type)
+        return {
+            "success": True,
+            "analysis": result,
+            "message": "Data analyzed successfully"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/chart-types")
+async def get_chart_types():
+    """Get list of supported chart types"""
+    try:
+        chart_types = await viz_client.get_chart_types()
+        return {
+            "success": True,
+            "chart_types": chart_types,
+            "message": "Chart types retrieved successfully"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

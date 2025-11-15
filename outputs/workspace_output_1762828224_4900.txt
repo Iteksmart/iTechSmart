@@ -1,0 +1,5 @@
+  569 itechsmart-impactos/docs/ADMIN_GUIDE.md
+  515 itechsmart-impactos/docs/DEPLOYMENT_GUIDE.md
+  560 itechsmart-impactos/docs/FRONTEND_COMPLETION_GUIDE.md
+  483 itechsmart-impactos/docs/USER_MANUAL.md
+ 2127 total

@@ -1,0 +1,5 @@
+39:Thank you for choosing the iTechSmart Suite, the most comprehensive enterprise software platform available today. This manual will guide you through the installation, configuration, and operation of all 33 integrated products in the suite.
+52:✅ **Complete Integration** - All 33 products work seamlessly together  
+249:The iTechSmart Suite consists of 33 integrated products organized into 5 categories:
+601:- **Product Launcher:** Quick access to all 33 products
+1769:The iTechSmart Suite is designed as a fully integrated ecosystem where all 33 products communicate seamlessly.

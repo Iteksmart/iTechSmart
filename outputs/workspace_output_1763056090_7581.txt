@@ -1,0 +1,8 @@
+total 80
+drwxr-xr-x 2 root root   170 Nov 12 05:01 .
+drwxr-xr-x 5 root root    65 Nov 12 20:48 ..
+-rw-r--r-- 1 root root 14673 Nov 12 04:41 analytics_engine.py
+-rw-r--r-- 1 root root 12580 Nov 12 04:42 dashboard_builder.py
+-rw-r--r-- 1 root root 14455 Nov 12 04:59 data_ingestion.py
+-rw-r--r-- 1 root root 11598 Nov 12 05:01 enterprise_integration.py
+-rw-r--r-- 1 root root 19311 Nov 12 05:00 report_generator.py

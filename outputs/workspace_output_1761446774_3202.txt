@@ -1,0 +1,6 @@
+93: '      {\n'
+94: '        "command": "itechsmart.viewCitationStyles"\n'
+95: '           "title": "iTechSmart: View Citation Styles"\n'
+96: '         },\n'
+97: '        {\n'
+98: '          "command": "itechsmart.openMonacoEditor",\n'

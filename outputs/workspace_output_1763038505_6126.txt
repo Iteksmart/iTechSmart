@@ -1,0 +1,20 @@
+28:        background: rgba(255, 255, 255, 0.95);
+61:        background: rgba(255, 255, 255, 0.95);
+79:        margin: 25px 0 15px 0;
+91:        gap: 25px;
+97:        padding: 25px;
+144:        padding-left: 25px;
+160:        padding: 25px;
+266:        padding: 25px;
+284:        padding: 25px;
+367:      <div class="total-value">Total Suite Value: $16.1M - $22.2M+</div>
+368:      <div class="c499"><strong>28 Products</strong> | <strong>250,000+ Lines of Code</strong> | <strong>350+ API
+376:          <div class="stat-label">Total Products</div>
+379:          <div class="stat-number">250K+</div>
+469:            <li>HIPAA-Compliant Encryption (AES-256)</li>
+492:            industries (Coming Q4 2025)
+516:      <div class="c2741"><strong>Total Value:</strong> $3.7M - $5.4M
+668:      <div class="c4617"><strong>Total Value:</strong> $6.6M - $12.6M
+744:            Enterprise Secrets &amp; Configuration Management - AES-256 encryption with dynamic secrets
+747:            <li>AES-256 Encryption</li>
+895:      <div class="c7492"><strong>Total Value:</strong> $5.4M - $9.4M

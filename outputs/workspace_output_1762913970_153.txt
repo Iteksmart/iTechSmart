@@ -1,0 +1,6 @@
+./todo.md
+./prooflink/todo.md
+./itechsmart-impactos/todo.md
+./itechsmart-ninja/todo.md
+./itechsmart-ninja/TODO.md
+./itechsmart-hl7/todo.md

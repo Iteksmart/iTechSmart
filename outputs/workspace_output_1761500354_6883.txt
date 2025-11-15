@@ -1,0 +1,10 @@
+-rw-r--r-- 1 root root  29K Oct 26 17:33 GTM_COMPREHENSIVE_FAQ.md
+-rw-r--r-- 1 root root 7.2K Oct 26 17:39 GTM_MANUAL_README.md
+-rw-r--r-- 1 root root  21K Oct 26 17:31 GTM_OVERALL_BUSINESS_STRATEGY.md
+-rw-r--r-- 1 root root  24K Oct 26 17:19 GTM_PRODUCT_1_ITECHSMART_CORE.md
+-rw-r--r-- 1 root root  26K Oct 26 17:23 GTM_PRODUCT_2_ITECHSMART_NINJA.md
+-rw-r--r-- 1 root root  29K Oct 26 17:26 GTM_PRODUCT_3_ITECHSMART_SUPREME.md
+-rw-r--r-- 1 root root  18K Oct 26 17:28 GTM_PRODUCT_4_ENTERPRISE_HL7_CITADEL.md
+-rw-r--r-- 1 root root 153K Oct 26 17:37 ITECHSMART_GTM_COMPLETE_MANUAL.md
+-rw-r--r-- 1 root root  94K Oct 26 17:37 iTechSmart_GTM_Master_Manual.docx
+-rw-r--r-- 1 root root 350K Oct 26 17:37 iTechSmart_GTM_Master_Manual.pdf

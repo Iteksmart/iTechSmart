@@ -1,0 +1,3 @@
+./itechsmart-ninja/FEATURE_COMPARISON.md
+./itechsmart-ninja/IMPLEMENTATION_PLAN.md
+./itechsmart-ninja/NEW_FEATURES_SUMMARY.md

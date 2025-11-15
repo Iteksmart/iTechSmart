@@ -1,0 +1,84 @@
+# Core Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+pydantic==2.5.3
+pydantic-settings==2.1.0
+
+# Database
+sqlalchemy==2.0.25
+alembic==1.13.1
+psycopg2-binary==2.9.9
+asyncpg==0.29.0
+
+# HL7 Processing
+python-hl7==0.4.5
+hl7apy==1.3.4
+fhir.resources==7.1.0
+
+# AI Providers
+openai==1.10.0
+anthropic==0.8.1
+google-generativeai==0.3.2
+langchain==0.1.4
+langchain-openai==0.0.5
+langchain-anthropic==0.0.1
+
+# EMR Integrations
+requests==2.31.0
+httpx==0.26.0
+aiohttp==3.9.1
+
+# Security & Encryption
+cryptography==42.0.0
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# Authentication
+python-oauth2==1.1.1
+authlib==1.3.0
+
+# Monitoring & Logging
+prometheus-client==0.19.0
+python-json-logger==2.0.7
+structlog==24.1.0
+
+# Real-time & Messaging
+redis==5.0.1
+celery==5.3.6
+websockets==12.0
+
+# Utilities
+python-dotenv==1.0.0
+pyyaml==6.0.1
+click==8.1.7
+rich==13.7.0
+
+# Testing
+pytest==7.4.4
+pytest-asyncio==0.23.3
+pytest-cov==4.1.0
+httpx==0.26.0
+
+# Development
+black==24.1.1
+flake8==7.0.0
+mypy==1.8.0
+pre-commit==3.6.0
+
+# Medical/Healthcare Specific
+pydicom==2.4.4  # DICOM support
+hl7-dotnetcore==2.0.0  # Additional HL7 support
+fhirclient==4.1.0  # FHIR client
+
+# Date/Time
+python-dateutil==2.8.2
+pytz==2023.3
+
+# Data Processing
+pandas==2.1.4
+numpy==1.26.3
+
+# API Documentation
+fastapi-pagination==0.12.14
+fastapi-cache2==0.2.1

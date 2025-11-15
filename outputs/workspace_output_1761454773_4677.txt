@@ -1,0 +1,9 @@
+total 28
+drwxr-xr-x 1 root root    74 Oct 25 04:31 .
+drwxr-xr-x 1 root root    80 Oct 26 02:48 ..
+drwxr-xr-x 2 root root    23 Oct 25 04:09 api
+drwxr-xr-x 2 root root    32 Oct 25 04:09 auth
+drwxr-xr-x 1 root root  4096 Oct 26 04:48 commands
+-rw-r--r-- 1 root root 20912 Oct 26 04:48 extension.ts
+drwxr-xr-x 2 root root    79 Oct 25 04:11 providers
+drwxr-xr-x 1 root root    30 Oct 25 23:32 terminal
