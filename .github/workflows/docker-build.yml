@@ -50,15 +50,29 @@ jobs:
         run: |
           echo "Finding products with Docker support..."
           
-          # Use find to get products with Dockerfiles
-          PRODUCTS=$(find . -maxdepth 2 -name "Dockerfile.backend" -type f | sed 's|^\./||' | sed 's|/Dockerfile.backend||' | jq -R . | jq -s .)
+          # Create a temporary file for the JSON array
+          TEMP_FILE=$(mktemp)
           
+          # Find products and build JSON array properly
+          find . -maxdepth 2 -name "Dockerfile.backend" -type f | \
+            sed 's|^\./||' | \
+            sed 's|/Dockerfile.backend||' | \
+            jq -R . | \
+            jq -s . > "$TEMP_FILE"
+          
+          # Read the JSON and set output
+          PRODUCTS=$(cat "$TEMP_FILE")
           echo "list=$PRODUCTS" >> $GITHUB_OUTPUT
+          
+          # Display results
           echo ""
           echo "Products found:"
           echo "$PRODUCTS" | jq -r '.[]' | sed 's/^/  ✓ /'
           echo ""
           echo "Total products with Docker support: $(echo "$PRODUCTS" | jq -r '. | length')"
+          
+          # Cleanup
+          rm "$TEMP_FILE"
 
   build-docker-images:
     name: Build Docker Image
