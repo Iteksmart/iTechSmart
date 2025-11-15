@@ -1,0 +1,172 @@
+name: Build iTechSmart Suite Docker Images
+
+on:
+  push:
+    branches: [ main, develop ]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version Number'
+        required: false
+        default: 'auto'
+
+env:
+  REGISTRY: ghcr.io
+  PYTHON_VERSION: '3.11'
+  NODE_VERSION: '20'
+
+jobs:
+  prepare:
+    name: Prepare Build Environment
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      products: ${{ steps.products.outputs.list }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine version
+        id: version
+        run: |
+          if [[ "${{ github.event.inputs.version }}" != "" && "${{ github.event.inputs.version }}" != "auto" ]]; then
+            VERSION="${{ github.event.inputs.version }}"
+          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/v}
+          else
+            VERSION="$(date +%Y.%m.%d)-$(git rev-parse --short HEAD)"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Building version: $VERSION"
+
+      - name: Identify products with Dockerfiles
+        id: products
+        run: |
+          echo "Finding products with Docker support..."
+          PRODUCTS=()
+          
+          for dir in itechsmart-* legalai-pro prooflink passport; do
+            if [ -d "$dir" ] && [ -f "$dir/Dockerfile.backend" ]; then
+              PRODUCTS+=("$dir")
+              echo "  ✓ $dir"
+            fi
+          done
+          
+          # Convert to JSON array
+          PRODUCTS_JSON=$(printf '%s\n' "${PRODUCTS[@]}" | jq -R . | jq -s .)
+          echo "list=$PRODUCTS_JSON" >> $GITHUB_OUTPUT
+          echo ""
+          echo "Total products with Docker support: ${#PRODUCTS[@]}"
+
+  build-docker-images:
+    name: Build Docker Image
+    needs: prepare
+    runs-on: ubuntu-latest
+    if: ${{ needs.prepare.outputs.products != '[]' }}
+    strategy:
+      matrix:
+        product: ${{ fromJson(needs.prepare.outputs.products) }}
+      fail-fast: false
+    
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for backend
+        id: meta-backend
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ matrix.product }}-backend
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha
+            type=raw,value=${{ needs.prepare.outputs.version }}
+
+      - name: Build and push backend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./${{ matrix.product }}
+          file: ./${{ matrix.product }}/Dockerfile.backend
+          push: true
+          tags: ${{ steps.meta-backend.outputs.tags }}
+          labels: ${{ steps.meta-backend.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Extract metadata for frontend
+        id: meta-frontend
+        if: hashFiles(format('{0}/Dockerfile.frontend', matrix.product)) != ''
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ matrix.product }}-frontend
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha
+            type=raw,value=${{ needs.prepare.outputs.version }}
+
+      - name: Build and push frontend image
+        if: hashFiles(format('{0}/Dockerfile.frontend', matrix.product)) != ''
+        uses: docker/build-push-action@v5
+        with:
+          context: ./${{ matrix.product }}
+          file: ./${{ matrix.product }}/Dockerfile.frontend
+          push: true
+          tags: ${{ steps.meta-frontend.outputs.tags }}
+          labels: ${{ steps.meta-frontend.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  summary:
+    name: Build Summary
+    needs: [prepare, build-docker-images]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Display summary
+        run: |
+          echo "=========================================="
+          echo "iTechSmart Suite Docker Build Summary"
+          echo "=========================================="
+          echo ""
+          echo "Version: ${{ needs.prepare.outputs.version }}"
+          echo "Products built: $(echo '${{ needs.prepare.outputs.products }}' | jq -r '. | length')"
+          echo ""
+          echo "Docker images published to:"
+          echo "  Registry: ${{ env.REGISTRY }}/${{ github.repository_owner }}"
+          echo ""
+          echo "Products:"
+          echo '${{ needs.prepare.outputs.products }}' | jq -r '.[]' | sed 's/^/  - /'
+          echo ""
+          echo "=========================================="
+          if [ "${{ needs.build-docker-images.result }}" == "success" ]; then
+            echo "✓ All builds successful"
+          else
+            echo "⚠ Some builds failed - check logs above"
+          fi
+          echo "=========================================="
