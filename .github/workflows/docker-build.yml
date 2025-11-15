@@ -49,31 +49,9 @@ jobs:
         id: products
         run: |
           echo "Finding products with Docker support..."
-          
-          # Find all directories with Dockerfile.backend
-          PRODUCTS=$(find . -maxdepth 2 -name "Dockerfile.backend" -type f | sed 's|/Dockerfile.backend||' | sed 's|^\./||' | sort)
-          
-          # Convert to JSON array
-          PRODUCTS_JSON="["
-          FIRST=true
-          for product in $PRODUCTS; do
-            if [ "$FIRST" = true ]; then
-              PRODUCTS_JSON="${PRODUCTS_JSON}&quot;${product}&quot;"
-              FIRST=false
-            else
-              PRODUCTS_JSON="${PRODUCTS_JSON},&quot;${product}&quot;"
-            fi
-          done
-          PRODUCTS_JSON="${PRODUCTS_JSON}]"
-          
-          # Output the JSON array
-          echo "list=$PRODUCTS_JSON" >> $GITHUB_OUTPUT
-          
-          echo ""
-          echo "Products found:"
-          echo "$PRODUCTS" | sed 's/^/  ✓ /'
-          echo ""
-          echo "Total products with Docker support: $(echo "$PRODUCTS" | wc -l)"
+          PRODUCTS=$(find . -maxdepth 2 -name "Dockerfile.backend" -type f | sed 's|/Dockerfile.backend||' | sed 's|^\./||' | sort | jq -R -s -c 'split("\n")[:-1]')
+          echo "list=$PRODUCTS" >> $GITHUB_OUTPUT
+          echo "Products found: $PRODUCTS"
 
   build-docker-images:
     name: Build Docker Image
