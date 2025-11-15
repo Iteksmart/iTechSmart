@@ -1,0 +1,362 @@
+name: Build All iTechSmart Products
+
+on:
+  push:
+    branches: [ main, develop ]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Build Type'
+        required: true
+        default: 'full'
+        type: choice
+        options:
+          - full
+          - demo
+          - suite
+      version:
+        description: 'Version Number'
+        required: false
+        default: 'auto'
+
+env:
+  PYTHON_VERSION: '3.11'
+  NODE_VERSION: '20'
+
+jobs:
+  prepare:
+    name: Prepare Build Environment
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      products: ${{ steps.products.outputs.list }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine version
+        id: version
+        run: |
+          if [[ "${{ github.event.inputs.version }}" != "" && "${{ github.event.inputs.version }}" != "auto" ]]; then
+            VERSION="${{ github.event.inputs.version }}"
+          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/v}
+          else
+            VERSION="$(date +%Y.%m.%d)-$(git rev-parse --short HEAD)"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Building version: $VERSION"
+
+      - name: Identify products
+        id: products
+        run: |
+          PRODUCTS=$(find . -maxdepth 1 -type d \( -name "itechsmart-*" -o -name "legalai-pro" -o -name "prooflink" -o -name "passport" \) | sed 's|^\./||' | jq -R -s -c 'split("\n")[:-1]')
+          echo "list=$PRODUCTS" >> $GITHUB_OUTPUT
+          echo "Products found: $PRODUCTS"
+
+  build-windows:
+    name: Build Windows Executables
+    needs: prepare
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        product: ${{ fromJson(needs.prepare.outputs.products) }}
+      fail-fast: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller pyarmor cryptography pillow psutil requests
+
+      - name: Install product dependencies
+        run: |
+          if (Test-Path "${{ matrix.product }}/backend/requirements.txt") {
+            pip install -r "${{ matrix.product }}/backend/requirements.txt"
+          }
+        shell: pwsh
+
+      - name: Build executable
+        run: |
+          python build-tools/build_windows_exe.py "${{ matrix.product }}" "${{ needs.prepare.outputs.version }}"
+        shell: pwsh
+
+      - name: Create installer
+        run: |
+          python build-tools/create_windows_installer.py "${{ matrix.product }}" "${{ needs.prepare.outputs.version }}"
+        shell: pwsh
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-${{ matrix.product }}-${{ needs.prepare.outputs.version }}
+          path: |
+            dist/windows/${{ matrix.product }}/*.exe
+            dist/windows/${{ matrix.product }}/*.msi
+          retention-days: 30
+
+  build-macos:
+    name: Build macOS Applications
+    needs: prepare
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        product: ${{ fromJson(needs.prepare.outputs.products) }}
+      fail-fast: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller py2app cryptography pillow psutil requests
+
+      - name: Install product dependencies
+        run: |
+          if [ -f "${{ matrix.product }}/backend/requirements.txt" ]; then
+            pip install -r "${{ matrix.product }}/backend/requirements.txt"
+          fi
+
+      - name: Build application
+        run: |
+          python build-tools/build_macos_app.py "${{ matrix.product }}" "${{ needs.prepare.outputs.version }}"
+
+      - name: Create DMG
+        run: |
+          python build-tools/create_macos_dmg.py "${{ matrix.product }}" "${{ needs.prepare.outputs.version }}"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-${{ matrix.product }}-${{ needs.prepare.outputs.version }}
+          path: |
+            dist/macos/${{ matrix.product }}/*.app
+            dist/macos/${{ matrix.product }}/*.dmg
+          retention-days: 30
+
+  build-linux:
+    name: Build Linux Packages
+    needs: prepare
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        product: ${{ fromJson(needs.prepare.outputs.products) }}
+      fail-fast: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller cryptography pillow psutil requests
+
+      - name: Install product dependencies
+        run: |
+          if [ -f "${{ matrix.product }}/backend/requirements.txt" ]; then
+            pip install -r "${{ matrix.product }}/backend/requirements.txt"
+          fi
+
+      - name: Build executable
+        run: |
+          python build-tools/build_linux_binary.py "${{ matrix.product }}" "${{ needs.prepare.outputs.version }}"
+
+      - name: Create packages
+        run: |
+          python build-tools/create_linux_packages.py "${{ matrix.product }}" "${{ needs.prepare.outputs.version }}"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-${{ matrix.product }}-${{ needs.prepare.outputs.version }}
+          path: |
+            dist/linux/${{ matrix.product }}/*.AppImage
+            dist/linux/${{ matrix.product }}/*.deb
+            dist/linux/${{ matrix.product }}/*.rpm
+          retention-days: 30
+
+  build-demo-versions:
+    name: Build Demo Versions
+    needs: [prepare, build-windows, build-macos, build-linux]
+    runs-on: ubuntu-latest
+    if: github.event.inputs.build_type == 'demo' || github.event.inputs.build_type == 'full'
+    strategy:
+      matrix:
+        product: ${{ fromJson(needs.prepare.outputs.products) }}
+        platform: [windows, macos, linux]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.platform }}-${{ matrix.product }}-${{ needs.prepare.outputs.version }}
+          path: dist/${{ matrix.platform }}/${{ matrix.product }}
+
+      - name: Create demo version
+        run: |
+          python build-tools/create_demo_version.py \
+            "${{ matrix.product }}" \
+            "${{ matrix.platform }}" \
+            "${{ needs.prepare.outputs.version }}"
+
+      - name: Upload demo artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-${{ matrix.platform }}-${{ matrix.product }}-${{ needs.prepare.outputs.version }}
+          path: dist/demo/${{ matrix.platform }}/${{ matrix.product }}/*
+          retention-days: 30
+
+  build-suite-installer:
+    name: Build Complete Suite Installer
+    needs: [prepare, build-windows, build-macos, build-linux]
+    runs-on: ${{ matrix.os }}
+    if: github.event.inputs.build_type == 'suite' || github.event.inputs.build_type == 'full'
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            platform: windows
+          - os: macos-latest
+            platform: macos
+          - os: ubuntu-latest
+            platform: linux
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all product artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ${{ matrix.platform }}-*-${{ needs.prepare.outputs.version }}
+          path: dist/${{ matrix.platform }}/
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Build web installer
+        run: |
+          cd electron-installer
+          npm install
+          npm run build
+
+      - name: Create suite installer
+        run: |
+          python build-tools/create_suite_installer.py \
+            "${{ matrix.platform }}" \
+            "${{ needs.prepare.outputs.version }}"
+
+      - name: Upload suite installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: suite-${{ matrix.platform }}-${{ needs.prepare.outputs.version }}
+          path: dist/suite/${{ matrix.platform }}/*
+          retention-days: 90
+
+  create-release:
+    name: Create GitHub Release
+    needs: [prepare, build-windows, build-macos, build-linux, build-suite-installer]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts/
+
+      - name: Create release notes
+        run: |
+          python build-tools/generate_release_notes.py \
+            "${{ needs.prepare.outputs.version }}" \
+            > release-notes.md
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: iTechSmart Suite v${{ needs.prepare.outputs.version }}
+          body_path: release-notes.md
+          files: release-artifacts/**/*
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  test-executables:
+    name: Test Built Executables
+    needs: [prepare, build-windows, build-macos, build-linux]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            platform: windows
+          - os: macos-latest
+            platform: macos
+          - os: ubuntu-latest
+            platform: linux
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ${{ matrix.platform }}-*-${{ needs.prepare.outputs.version }}
+          path: dist/${{ matrix.platform }}/
+
+      - name: Run integration tests
+        run: |
+          python integration-tests/test_executables.py \
+            "${{ matrix.platform }}" \
+            "${{ needs.prepare.outputs.version }}"
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results-${{ matrix.platform }}
+          path: test-results/
+          retention-days: 30
