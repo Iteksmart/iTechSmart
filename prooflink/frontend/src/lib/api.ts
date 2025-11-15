@@ -150,4 +150,18 @@ export const apiKeysAPI = {
   },
 };
 
-export default api;
+// Alias exports for backward compatibility
+  export { api };
+  export const proofsAPI = verificationAPI;
+  export const usersAPI = {
+    list: async () => {
+      const response = await api.get('/users');
+      return response.data;
+    },
+    get: async (id: string) => {
+      const response = await api.get(`/users/${id}`);
+      return response.data;
+    },
+  };
+
+  export default api;

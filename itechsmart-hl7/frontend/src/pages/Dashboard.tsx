@@ -26,7 +26,6 @@ export default function Dashboard() {
   const { isConnected, lastMessage } = useWebSocket('default')
 
   const stats = connectionStats?.data || {}
-  const health = healthData?.data || {}
 
   const statCards = [
     {
