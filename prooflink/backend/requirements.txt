@@ -132,7 +132,7 @@ lxml==4.9.3
 
 # URL Processing
 validators==0.22.0
-urllib3==2.1.0
+urllib3>=1.26.11,<2.1
 
 # Compression
 zstandard==0.22.0

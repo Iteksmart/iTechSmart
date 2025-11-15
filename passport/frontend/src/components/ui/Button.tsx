@@ -34,6 +34,8 @@ export default function Button({
     lg: "px-6 py-3 text-lg",
   };
 
+  const { onAnimationStart, onAnimationEnd, ...buttonProps } = props;
+  
   return (
     <motion.button
       whileHover={{ scale: disabled || isLoading ? 1 : 1.02 }}
@@ -42,7 +44,7 @@ export default function Button({
         disabled || isLoading ? "opacity-50 cursor-not-allowed" : ""
       } ${className}`}
       disabled={disabled || isLoading}
-      {...props}
+      {...buttonProps}
     >
       {isLoading ? (
         <>
