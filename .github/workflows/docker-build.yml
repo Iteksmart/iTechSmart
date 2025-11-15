@@ -51,7 +51,7 @@ jobs:
           echo "Finding products with Docker support..."
           
           # Find products and create JSON array
-          PRODUCTS_JSON=$(find . -maxdepth 2 -name "Dockerfile.backend" -type f -exec dirname {} \; | sed 's|^\./||' | sort | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          PRODUCTS_JSON=$(find . -maxdepth 2 -name "Dockerfile.backend" -type f -exec dirname {} \; | sed 's|^\.\/||'  | sort | jq -R . | jq -s -c .)
           
           # Set output directly
           echo "list=$PRODUCTS_JSON" >> $GITHUB_OUTPUT
