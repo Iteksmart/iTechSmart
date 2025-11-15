@@ -61,4 +61,12 @@ All fixes are complete and committed. To proceed:
    ./scripts/prepare_release.sh 1.0.0
    ```
 
+## 📚 Documentation Available
+
+- **NEXT_STEPS.md** - Step-by-step deployment guide
+- **HANDOFF_SUMMARY.md** - Complete handoff document
+- **BUILD_FIXES_SUMMARY.md** - All fixes applied
+- **VISUAL_STATUS.md** - Visual status dashboard
+- **FINAL_BUILD_SYSTEM_REPORT.md** - Comprehensive report
+
 See NEXT_STEPS.md for detailed instructions.
