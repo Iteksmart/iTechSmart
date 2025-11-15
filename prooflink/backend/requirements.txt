@@ -93,7 +93,6 @@ ecdsa==0.18.0
 slowapi==0.1.9
 
 # CORS
-python-cors==1.0.0
 
 # WebSocket
 websockets==12.0
