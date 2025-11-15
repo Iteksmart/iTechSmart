@@ -49,20 +49,16 @@ jobs:
         id: products
         run: |
           echo "Finding products with Docker support..."
-          PRODUCTS=()
           
-          for dir in itechsmart-* legalai-pro prooflink passport; do
-            if [ -d "$dir" ] && [ -f "$dir/Dockerfile.backend" ]; then
-              PRODUCTS+=("$dir")
-              echo "  ✓ $dir"
-            fi
-          done
+          # Use find to get products with Dockerfiles
+          PRODUCTS=$(find . -maxdepth 2 -name "Dockerfile.backend" -type f | sed 's|^\./||' | sed 's|/Dockerfile.backend||' | jq -R . | jq -s .)
           
-          # Convert to JSON array
-          PRODUCTS_JSON=$(printf '%s\n' "${PRODUCTS[@]}" | jq -R . | jq -s .)
-          echo "list=$PRODUCTS_JSON" >> $GITHUB_OUTPUT
+          echo "list=$PRODUCTS" >> $GITHUB_OUTPUT
           echo ""
-          echo "Total products with Docker support: ${#PRODUCTS[@]}"
+          echo "Products found:"
+          echo "$PRODUCTS" | jq -r '.[]' | sed 's/^/  ✓ /'
+          echo ""
+          echo "Total products with Docker support: $(echo "$PRODUCTS" | jq -r '. | length')"
 
   build-docker-images:
     name: Build Docker Image
@@ -116,9 +112,18 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Check for frontend Dockerfile
+        id: check-frontend
+        run: |
+          if [ -f "${{ matrix.product }}/Dockerfile.frontend" ]; then
+            echo "has_frontend=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_frontend=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Extract metadata for frontend
         id: meta-frontend
-        if: hashFiles(format('{0}/Dockerfile.frontend', matrix.product)) != ''
+        if: steps.check-frontend.outputs.has_frontend == 'true'
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ matrix.product }}-frontend
@@ -131,7 +136,7 @@ jobs:
             type=raw,value=${{ needs.prepare.outputs.version }}
 
       - name: Build and push frontend image
-        if: hashFiles(format('{0}/Dockerfile.frontend', matrix.product)) != ''
+        if: steps.check-frontend.outputs.has_frontend == 'true'
         uses: docker/build-push-action@v5
         with:
           context: ./${{ matrix.product }}
