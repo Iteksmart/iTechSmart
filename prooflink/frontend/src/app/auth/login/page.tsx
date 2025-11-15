@@ -20,7 +20,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const response = await authAPI.login({ email, password });
+      const response = await authAPI.login(email, password);
       const { access_token, refresh_token, user } = response.data;
 
       // Store tokens

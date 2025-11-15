@@ -42,11 +42,11 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      const response = await authAPI.register({
-        email: formData.email,
-        password: formData.password,
-        full_name: formData.full_name,
-      });
+      const response = await authAPI.register(
+        formData.email,
+        formData.password,
+        formData.full_name
+      );
 
       const { access_token, refresh_token, user } = response.data;
 
