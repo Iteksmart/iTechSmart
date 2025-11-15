@@ -161,7 +161,13 @@ export const apiKeysAPI = {
 
 // Alias exports for backward compatibility
   export { api };
-  export const proofsAPI = verificationAPI;
+  export const proofsAPI = {
+    ...verificationAPI,
+    getMyProofs: async (page: number = 1, limit: number = 10) => {
+      const response = await api.get('/proofs/my', { params: { page, limit } });
+      return response.data;
+    },
+  };
   export const usersAPI = {
     list: async () => {
       const response = await api.get('/users');
@@ -169,6 +175,14 @@ export const apiKeysAPI = {
     },
     get: async (id: string) => {
       const response = await api.get(`/users/${id}`);
+      return response.data;
+    },
+    getProfile: async () => {
+      const response = await api.get('/users/profile');
+      return response.data;
+    },
+    getStats: async () => {
+      const response = await api.get('/users/stats');
       return response.data;
     },
   };
