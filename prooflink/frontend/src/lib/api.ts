@@ -80,6 +80,15 @@ export const documentsAPI = {
 
 // Verification API
 export const verificationAPI = {
+  create: async (formData: FormData) => {
+    const response = await api.post('/proofs', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  },
+  
   verify: async (documentId: string, options?: any) => {
     const response = await api.post('/verify', { documentId, ...options });
     return response.data;
