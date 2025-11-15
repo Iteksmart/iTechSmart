@@ -50,19 +50,15 @@ jobs:
         run: |
           echo "Finding products with Docker support..."
           
-          # Find products and create JSON array properly
+          # Find products and create JSON array
           PRODUCTS_JSON=$(find . -maxdepth 2 -name "Dockerfile.backend" -type f -exec dirname {} \; | sed 's|^\./||' | sort | jq -R -s -c 'split("\n") | map(select(length > 0))')
           
-          # Set output using heredoc
-          {
-            echo "list<<EOF"
-            echo "$PRODUCTS_JSON"
-            echo "EOF"
-          } >> $GITHUB_OUTPUT
+          # Set output directly
+          echo "list=$PRODUCTS_JSON" >> $GITHUB_OUTPUT
           
           echo ""
           echo "Products found:"
-          echo "$PRODUCTS_JSON" | jq -r '.[]' | sed 's/^/  ✓ /'
+          echo "$PRODUCTS_JSON" | jq -r '.[]' | sed 's/^/  - /'
           echo ""
           echo "Total products with Docker support: $(echo "$PRODUCTS_JSON" | jq -r '. | length')"
 
