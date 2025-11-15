@@ -50,21 +50,30 @@ jobs:
         run: |
           echo "Finding products with Docker support..."
           
-          # Find products and create JSON array properly
-          PRODUCTS_JSON=$(find . -maxdepth 2 -name "Dockerfile.backend" -type f -exec dirname {} \; | sed 's|^\./||' | sort | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          # Find all directories with Dockerfile.backend
+          PRODUCTS=$(find . -maxdepth 2 -name "Dockerfile.backend" -type f | sed 's|/Dockerfile.backend||' | sed 's|^\./||' | sort)
           
-          # Set output using heredoc
-          {
-            echo "list<<EOF"
-            echo "$PRODUCTS_JSON"
-            echo "EOF"
-          } >> $GITHUB_OUTPUT
+          # Convert to JSON array
+          PRODUCTS_JSON="["
+          FIRST=true
+          for product in $PRODUCTS; do
+            if [ "$FIRST" = true ]; then
+              PRODUCTS_JSON="${PRODUCTS_JSON}&quot;${product}&quot;"
+              FIRST=false
+            else
+              PRODUCTS_JSON="${PRODUCTS_JSON},&quot;${product}&quot;"
+            fi
+          done
+          PRODUCTS_JSON="${PRODUCTS_JSON}]"
+          
+          # Output the JSON array
+          echo "list=$PRODUCTS_JSON" >> $GITHUB_OUTPUT
           
           echo ""
           echo "Products found:"
-          echo "$PRODUCTS_JSON" | jq -r '.[]' | sed 's/^/  ✓ /'
+          echo "$PRODUCTS" | sed 's/^/  ✓ /'
           echo ""
-          echo "Total products with Docker support: $(echo "$PRODUCTS_JSON" | jq -r '. | length')"
+          echo "Total products with Docker support: $(echo "$PRODUCTS" | wc -l)"
 
   build-docker-images:
     name: Build Docker Image
@@ -166,13 +175,10 @@ jobs:
           echo "=========================================="
           echo ""
           echo "Version: ${{ needs.prepare.outputs.version }}"
-          echo "Products built: $(echo '${{ needs.prepare.outputs.products }}' | jq -r '. | length')"
+          echo "Products: ${{ needs.prepare.outputs.products }}"
           echo ""
           echo "Docker images published to:"
           echo "  Registry: ${{ env.REGISTRY }}/${{ github.repository_owner }}"
-          echo ""
-          echo "Products:"
-          echo '${{ needs.prepare.outputs.products }}' | jq -r '.[]' | sed 's/^/  - /'
           echo ""
           echo "=========================================="
           if [ "${{ needs.build-docker-images.result }}" == "success" ]; then
