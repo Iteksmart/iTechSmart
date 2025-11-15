@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 
-const WS_BASE_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:8000'
+const WS_BASE_URL = (import.meta as any).env?.VITE_WS_URL || 'ws://localhost:8000'
 
 interface WebSocketMessage {
   type: string
@@ -20,7 +20,7 @@ export function useWebSocket(channel: string = 'default'): UseWebSocketReturn {
   const [lastMessage, setLastMessage] = useState<WebSocketMessage | null>(null)
   const [error, setError] = useState<Error | null>(null)
   const wsRef = useRef<WebSocket | null>(null)
-  const reconnectTimeoutRef = useRef<NodeJS.Timeout>()
+  const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout>>()
 
   const connect = () => {
     try {
