@@ -30,7 +30,7 @@ This guide explains how to create fully customized installers for your clients w
 - Legal information
 
 ### ✅ Product Configuration
-- Product selection (which of the 36 products to include)
+- Product selection (which of the 35 products to include)
 - Feature enablement
 - Default settings
 - License restrictions

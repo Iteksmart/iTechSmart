@@ -28,7 +28,6 @@
 6. ProofLink.AI - Document Verification
 7. PassPort - Identity Management
 8. ImpactOS - Impact Measurement
-9. FitSnap.AI - Fitness Tracking
 
 **Expansion (10 products)**
 10. iTechSmart Shield - Cybersecurity

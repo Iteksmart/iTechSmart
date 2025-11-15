@@ -60,7 +60,6 @@
 - Healthcare workflows
 - Compliance (HIPAA)
 
-### 8. FitSnap AI
 **Fitness & Wellness AI**
 - Personalized fitness plans
 - Nutrition tracking

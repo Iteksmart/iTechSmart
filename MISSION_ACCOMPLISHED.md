@@ -56,7 +56,6 @@
 15. ✅ **ProofLink.AI** - Document Verification
 16. ✅ **PassPort** - Identity Management
 17. ✅ **ImpactOS** - Impact Measurement
-18. ✅ **FitSnap.AI** - Fitness Tracking
 19. ✅ **iTechSmart Customer Success** - Customer Success
 
 ---

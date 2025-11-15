@@ -21,7 +21,7 @@
 9. [Configuration Basics](#configuration-basics)
 10. [Common Tasks](#common-tasks)
 
-## PART 3: PRODUCT DOCUMENTATION (36 Products)
+## PART 3: PRODUCT DOCUMENTATION (35 products)
 11. [Foundation Products](#foundation-products) (9 products)
 12. [Strategic Products](#strategic-products) (10 products)
 13. [Business Products](#business-products) (7 products)
@@ -78,7 +78,7 @@ iTechSmart Suite is the world's first fully integrated, self-healing, AI-powered
 ### Key Differentiators
 
 **1. Complete Integration**
-- All 36 products natively integrated
+- All 35 products natively integrated
 - Zero-configuration cross-product communication
 - Unified authentication and authorization
 - Centralized monitoring and management

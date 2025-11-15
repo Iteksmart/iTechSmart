@@ -65,7 +65,7 @@ brew install create-dmg
 ### Required Files
 
 - ✅ Logo file: `logo itechsmart.JPG`
-- ✅ All 36 product source directories
+- ✅ All 35 products source directories
 - ✅ License system code
 - ✅ Auto-update system code
 - ✅ Telemetry system code
@@ -132,7 +132,7 @@ python build-tools/master_build.py --platform macos
 # 1. Prepare assets
 python build-tools/prepare_assets.py
 
-# 2. Build all 36 products
+# 2. Build all 35 products
 python build-tools/build_all_products.py --platform windows
 
 # 3. Create installers
@@ -184,7 +184,7 @@ python build-tools/build_all_products.py
 # Output:
 # - dist/itechsmart-enterprise.exe
 # - dist/itechsmart-ninja.exe
-# - ... (all 36 products)
+# - ... (all 35 products)
 ```
 
 ### Phase 4: Installer Creation
@@ -347,7 +347,7 @@ license_data["machine_id"] = machine_id
 # Test each product
 ./dist/itechsmart-enterprise.exe
 ./dist/itechsmart-ninja.exe
-# ... test all 36 products
+# ... test all 35 products
 ```
 
 ### Test Installers

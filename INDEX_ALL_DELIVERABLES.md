@@ -218,7 +218,6 @@
     ├── prooflink/
     ├── itechsmart-impactos/
     ├── itechsmart-hl7/
-    └── fitsnap-ai/
 ```
 
 ---

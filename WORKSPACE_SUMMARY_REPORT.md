@@ -41,7 +41,6 @@ The iTechSmart Suite is a comprehensive enterprise software ecosystem consisting
 │   ├── prooflink/                      Document Verification
 │   ├── passport/                       Identity Management
 │   ├── itechsmart-impactos/            Impact Measurement
-│   └── fitsnap-ai/                     Fitness Tracking
 │
 ├── 🚀 Strategic Products (10)
 │   ├── itechsmart-dataflow/            Data Pipeline & ETL (100+ connectors)
@@ -142,7 +141,6 @@ TOTAL:                  26 (100%) ███████████████�
 - **Integration & Communication:** 4 products (Enterprise, Connect, Notify, Marketplace)
 - **AI & Automation:** 4 products (Ninja, Copilot, AI, Workflow)
 - **Cloud & DevOps:** 3 products (Cloud, DevOps, Mobile)
-- **Healthcare & Specialized:** 4 products (HL7, Supreme, ProofLink, FitSnap, ImpactOS)
 - **Business Operations:** 2 products (Customer Success, Marketplace)
 
 ---
@@ -390,7 +388,6 @@ docker-compose logs -f
 
 ### Product Directories
 All products are located in `/workspace/` with the following naming:
-- Foundation: `itechsmart-*`, `passport`, `prooflink`, `fitsnap-ai`, `itechsmart_supreme`
 - Strategic: `itechsmart-*`
 - Business: `itechsmart-*`
 

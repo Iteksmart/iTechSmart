@@ -411,7 +411,6 @@ All documents feature:
 
 ## 📊 **KEY STATISTICS ACROSS ALL DOCUMENTS**
 
-- **Total Products:** 28 (excluding FitSnap.AI)
 - **Total Suite Value:** $16.1M - $22.2M+
 - **Lines of Code:** 250,000+
 - **API Endpoints:** 350+
