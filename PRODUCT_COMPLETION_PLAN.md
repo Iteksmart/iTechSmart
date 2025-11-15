@@ -24,7 +24,6 @@ Ensure all 26 products are:
 9. ✅ itechsmart-workflow
 10. ✅ prooflink
 11. ✅ passport
-12. ✅ fitsnap-ai
 13. ✅ itechsmart_supreme
 
 ### Products Missing README (13/26) ❌

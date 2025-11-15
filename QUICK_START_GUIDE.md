@@ -16,7 +16,6 @@ This guide will help you quickly understand and deploy the iTechSmart platform w
 5. **ProofLink** - Blockchain verification
 6. **ImpactOS** - Analytics & insights
 7. **HL7** - Healthcare integration
-8. **FitSnap AI** - Fitness & wellness
 
 ### New Products (10)
 1. **DataFlow** ✅ - Data pipeline & ETL (COMPLETE)

@@ -48,8 +48,6 @@ I have successfully built **all 19 products** of the iTechSmart Suite, creating 
    - Location: `/itechsmart-impactos`
    - Status: ✅ Complete with SDG tracking
 
-9. **FitSnap.AI** - Fitness Tracking
-   - Location: `/fitsnap-ai`
    - Status: ✅ Complete with AI recommendations
 
 ### Phase 2: Strategic Expansion (10 Products) ✅

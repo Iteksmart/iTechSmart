@@ -16,7 +16,6 @@ This document outlines the architecture and integration strategy for expanding t
 5. **ProofLink** - Blockchain verification
 6. **ImpactOS** - Analytics and insights
 7. **HL7 Integration** - Healthcare data exchange
-8. **FitSnap AI** - Fitness and wellness AI
 
 ### Technology Stack
 - **Backend**: Python 3.11, FastAPI, asyncio
@@ -467,7 +466,6 @@ Passport             PostgreSQL        Redis         -
 ProofLink            MongoDB           Redis         -
 ImpactOS             PostgreSQL        Redis         -
 HL7                  PostgreSQL        Redis         RabbitMQ
-FitSnap AI           MongoDB           Redis         -
 DataFlow             PostgreSQL        Redis         Kafka
 Shield               PostgreSQL        Redis         RabbitMQ
 Pulse                ClickHouse        Redis         -

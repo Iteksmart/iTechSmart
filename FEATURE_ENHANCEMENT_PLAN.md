@@ -369,7 +369,7 @@ These enhancements position iTechSmart Suite as a comprehensive, enterprise-grad
 
 **Total Enhancement Value**: $8M - $12M additional market value  
 **New Suite Value**: $33M - $52M total market value  
-**Product Count**: 36 products (35 existing + 1 new)
+**Product Count**: 35 products (35 existing + 1 new)
 
 ---
 

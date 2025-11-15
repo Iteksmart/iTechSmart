@@ -17,7 +17,6 @@
 6. ✅ **ProofLink.AI** - Document Verification System
 7. ✅ **PassPort** - Identity Management Platform
 8. ✅ **ImpactOS** - Impact Measurement System
-9. ✅ **FitSnap.AI** - AI-Powered Fitness Tracking
 
 ### Key Accomplishments
 
@@ -124,7 +123,6 @@ iTechSmart Enterprise (Central Hub)
         ├── ProofLink.AI (Document Verification)
         ├── PassPort (Identity Management)
         ├── ImpactOS (Impact Measurement)
-        └── FitSnap.AI (Fitness Tracking)
 ```
 
 ---

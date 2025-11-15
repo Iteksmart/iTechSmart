@@ -133,7 +133,6 @@ The iTechSmart Suite is a comprehensive, production-ready ecosystem of 9 integra
 
 ---
 
-### 9. **FitSnap.AI** ✅
 **Status**: Production Ready
 
 **Key Features**:

@@ -378,7 +378,6 @@ Response: {
 - **Type:** Document verification
 - **Capabilities:** Document verification, blockchain proofs
 
-**Note:** FitSnap.AI is separate and not part of the suite
 
 ---
 

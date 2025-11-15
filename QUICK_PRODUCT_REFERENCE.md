@@ -18,7 +18,6 @@
 | 6 | **ProofLink.AI** | `/prooflink` | Verification engines | Document Verification & Blockchain Audit |
 | 7 | **PassPort** | `/passport` | `passport_engine.py` | Identity & Access Management |
 | 8 | **ImpactOS** | `/itechsmart-impactos` | Impact measurement engines | Impact Measurement & Social Good Tracking |
-| 9 | **FitSnap.AI** | `/fitsnap-ai` | `fitsnap_engine.py` | Fitness Tracking & Health Analytics |
 
 ### Strategic Products (10)
 
@@ -169,7 +168,6 @@ docker-compose down
 | ProofLink | 8005 | 3005 |
 | PassPort | 8006 | 3006 |
 | ImpactOS | 8007 | 3007 |
-| FitSnap | 8008 | 3008 |
 | DataFlow | 8009 | 3009 |
 | Pulse | 8010 | 3010 |
 | Connect | 8011 | 3011 |
@@ -226,7 +224,6 @@ docker-compose down
 - **HL7:** HL7 v2.x, FHIR R4, EMR integration
 - **Supreme:** Healthcare management, auto-remediation
 - **ProofLink:** Document verification, blockchain audit
-- **FitSnap:** Fitness tracking, AI recommendations
 - **ImpactOS:** Impact measurement, SDG alignment
 
 ### Business Operations

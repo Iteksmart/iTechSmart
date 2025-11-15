@@ -52,7 +52,6 @@ Before deploying any project, ensure you have:
 **Market:** SMBs, enterprises  
 **Revenue Potential:** Medium  
 
-### Option 8: FitSnap.AI (Fashion Feedback)
 **Best for:** Fashion tech, e-commerce  
 **Market:** Consumers, retailers  
 **Revenue Potential:** Medium  
@@ -74,7 +73,6 @@ cd /workspace/<project-name>
 - `passport` - PassPort
 - `itechsmart_supreme` - iTechSmart Supreme
 - `itechsmart-enterprise` - iTechSmart Enterprise
-- `fitsnap-ai` - FitSnap.AI
 
 ### Step 2: Configure Environment
 ```bash
@@ -225,9 +223,7 @@ docker-compose exec backend alembic upgrade head
 # API: http://localhost:8000/docs
 ```
 
-### FitSnap.AI (Mobile App)
 ```bash
-cd /workspace/fitsnap-ai
 
 # Backend
 cp backend/.env.example backend/.env
