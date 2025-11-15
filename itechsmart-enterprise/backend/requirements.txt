@@ -58,7 +58,7 @@ simple-salesforce==1.12.5
 
 # Date/Time
 python-dateutil==2.8.2
-pytz==2023.3
+pytz==2019.3
 
 # Validation
 email-validator==2.1.0
