@@ -4,9 +4,7 @@ import {
   Database,
   Users,
   FileText,
-  AlertCircle,
   CheckCircle,
-  TrendingUp,
   Clock,
 } from 'lucide-react'
 import { connectionsAPI, healthAPI } from '../lib/api'
@@ -15,7 +13,7 @@ import { useWebSocket } from '../lib/websocket'
 export default function Dashboard() {
   const { data: connectionStats } = useQuery({
     queryKey: ['connection-stats'],
-    queryFn: () => connectionsAPI.getStats(),
+    queryFn: () => connectionsAPI.stats(),
     refetchInterval: 30000, // Refetch every 30 seconds
   })
 

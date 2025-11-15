@@ -11,6 +11,7 @@ interface WebSocketMessage {
 interface UseWebSocketReturn {
   isConnected: boolean
   lastMessage: WebSocketMessage | null
+  messages: WebSocketMessage[]
   sendMessage: (message: any) => void
   error: Error | null
 }
@@ -18,6 +19,7 @@ interface UseWebSocketReturn {
 export function useWebSocket(channel: string = 'default'): UseWebSocketReturn {
   const [isConnected, setIsConnected] = useState(false)
   const [lastMessage, setLastMessage] = useState<WebSocketMessage | null>(null)
+  const [messages, setMessages] = useState<WebSocketMessage[]>([])
   const [error, setError] = useState<Error | null>(null)
   const wsRef = useRef<WebSocket | null>(null)
   const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout>>()
@@ -40,6 +42,7 @@ export function useWebSocket(channel: string = 'default'): UseWebSocketReturn {
         try {
           const message = JSON.parse(event.data)
           setLastMessage(message)
+          setMessages(prev => [...prev, message])
         } catch (err) {
           console.error('Failed to parse WebSocket message:', err)
         }
@@ -90,6 +93,7 @@ export function useWebSocket(channel: string = 'default'): UseWebSocketReturn {
   return {
     isConnected,
     lastMessage,
+    messages,
     sendMessage,
     error,
   }

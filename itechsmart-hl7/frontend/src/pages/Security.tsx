@@ -4,7 +4,7 @@ import { useWebSocket } from '../lib/websocket'
 export default function Security() {
   const { messages, isConnected } = useWebSocket('alerts')
 
-  const securityAlerts = messages.filter((msg) => msg.type === 'alert')
+  const securityAlerts = messages.filter((msg: any) => msg.type === 'alert')
 
   return (
     <div className="space-y-6">
@@ -76,7 +76,7 @@ export default function Security() {
         </h3>
         <div className="space-y-4">
           {securityAlerts.length > 0 ? (
-            securityAlerts.map((alert, index) => (
+            securityAlerts.map((alert: any, index: number) => (
               <div
                 key={index}
                 className="flex items-start p-4 bg-warning-50 dark:bg-warning-900 rounded-lg"

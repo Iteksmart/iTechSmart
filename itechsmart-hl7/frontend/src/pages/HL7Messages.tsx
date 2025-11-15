@@ -6,7 +6,7 @@ export default function HL7Messages() {
   const [filter, setFilter] = useState('all')
   const { messages } = useWebSocket('hl7')
 
-  const hl7Messages = messages.filter((msg) => msg.type === 'hl7_message')
+  const hl7Messages = messages.filter((msg: any) => msg.type === 'hl7_message')
 
   return (
     <div className="space-y-6">
@@ -38,7 +38,7 @@ export default function HL7Messages() {
       {/* Messages List */}
       <div className="space-y-4">
         {hl7Messages.length > 0 ? (
-          hl7Messages.map((message, index) => (
+          hl7Messages.map((message: any, index: number) => (
             <div key={index} className="card p-6">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
