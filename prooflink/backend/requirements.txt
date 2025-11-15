@@ -41,7 +41,7 @@ google-cloud-storage==2.10.0
 dropbox==11.36.2
 
 # Email
-python-email-validator==2.1.0
+email-validator==2.1.0
 emails==0.6
 
 # HTTP & API
