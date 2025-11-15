@@ -213,7 +213,6 @@ All products can operate independently:
 - [ ] Verify prooflink
 - [ ] Verify passport
 - [ ] Verify itechsmart-impactos
-- [ ] Verify fitsnap-ai
 - [ ] Verify itechsmart-shield
 - [ ] Verify itechsmart-mobile
 - [ ] Verify itechsmart-workflow

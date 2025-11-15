@@ -18,7 +18,6 @@
 6. **ProofLink.AI** - Document Verification & Blockchain Audit
 7. **PassPort** - Identity & Access Management
 8. **ImpactOS** - Impact Measurement & Social Good Tracking
-9. **FitSnap.AI** - Fitness Tracking & Health Analytics
 
 ### Strategic Products (10)
 10. **iTechSmart DataFlow** - Data Pipeline & ETL (100+ connectors)
@@ -290,10 +289,7 @@
 
 ---
 
-### 9. FitSnap.AI
-**Location:** `/workspace/fitsnap-ai`
 
-**Core Engine:** `backend/app/core/fitsnap_engine.py`
 
 **Key Features:**
 - Fitness tracking and activity monitoring

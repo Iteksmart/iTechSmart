@@ -29,7 +29,6 @@
 | 5 | **iTechSmart Enterprise** | ✅ 100% | $100K-$150K | Enterprise management, collaboration |
 | 6 | **iTechSmart HL7** | ✅ 100% | $150K-$200K | Healthcare integration, HIPAA, 4 EMRs |
 | 7 | **iTechSmart Supreme** | ✅ 95% | $100K-$150K | Self-healing, 13 vendors, auto-remediation |
-| 8 | **FitSnap.AI** | ✅ 100% | $100K-$150K | Fashion feedback, 5 AI models, mobile |
 
 **Total Portfolio Value:** $1.05M - $1.5M (Current) | $5M - $50M (3-Year)
 
@@ -118,7 +117,6 @@ docker-compose up -d
 ├── itechsmart-enterprise/  # iTechSmart Enterprise
 ├── itechsmart-hl7/         # iTechSmart HL7
 ├── itechsmart_supreme/     # iTechSmart Supreme
-└── fitsnap-ai/             # FitSnap.AI
 ```
 
 Each project contains:

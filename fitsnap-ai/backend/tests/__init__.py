@@ -1,1 +1,0 @@
-# FitSnap.AI Tests

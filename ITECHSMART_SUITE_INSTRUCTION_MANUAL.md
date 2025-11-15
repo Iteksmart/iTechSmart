@@ -49,7 +49,7 @@ Your iTechSmart Suite includes:
 
 ### Key Benefits
 
-✅ **Complete Integration** - All 36 products work seamlessly together  
+✅ **Complete Integration** - All 35 products work seamlessly together  
 ✅ **AI-Powered** - Intelligent automation and self-healing capabilities  
 ✅ **Enterprise-Grade** - Built for healthcare and enterprise environments  
 ✅ **Scalable** - Grows with your organization  
@@ -601,7 +601,7 @@ Configure security:
 
 The Enterprise Hub is your central control panel:
 - **Dashboard:** Overview of all products
-- **Product Launcher:** Quick access to all 36 products
+- **Product Launcher:** Quick access to all 35 products
 - **System Status:** Health monitoring
 - **User Management:** Manage users and permissions
 - **Settings:** System-wide configuration
@@ -1869,7 +1869,7 @@ Configure SSO for seamless access:
 
 ### How Products Work Together
 
-The iTechSmart Suite is designed as a fully integrated ecosystem where all 36 products communicate seamlessly.
+The iTechSmart Suite is designed as a fully integrated ecosystem where all 35 products communicate seamlessly.
 
 #### Hub-and-Spoke Architecture
 

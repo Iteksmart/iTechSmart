@@ -221,7 +221,6 @@ The iTechSmart portfolio consists of 8 enterprise-grade SaaS platforms, all of w
 
 ---
 
-### 8. **FitSnap.AI** - Fashion Feedback Platform
 - **Status:** ✅ 100% Complete MVP
 - **Files:** 39 files (11 Python, 8 JS/TS)
 - **Features:**
@@ -249,7 +248,6 @@ The iTechSmart portfolio consists of 8 enterprise-grade SaaS platforms, all of w
 5. iTechSmart Enterprise: $100K - $150K
 6. iTechSmart HL7: $150K - $200K
 7. iTechSmart Supreme: $100K - $150K
-8. FitSnap.AI: $100K - $150K
 
 ### 3-Year Potential: $5M - $50M
 

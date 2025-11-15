@@ -197,7 +197,6 @@ iTechSmart Enterprise (Central Hub)
 │   ├── ProofLink.AI
 │   ├── PassPort
 │   ├── ImpactOS
-│   └── FitSnap.AI
 │
 └── Phase 2 Products (10 products)
     ├── iTechSmart Security ✅

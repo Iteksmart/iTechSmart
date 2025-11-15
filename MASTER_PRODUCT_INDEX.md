@@ -52,7 +52,6 @@
 | [ProofLink](#6-prooflink) | `/prooflink` | [README](prooflink/README.md) | Verification engines | ✅ |
 | [PassPort](#7-passport) | `/passport` | [README](passport/README.md) | `passport_engine.py` | ✅ |
 | [ImpactOS](#8-impactos) | `/itechsmart-impactos` | [README](itechsmart-impactos/README.md) | Impact engines | ✅ |
-| [FitSnap](#9-fitsnap) | `/fitsnap-ai` | [README](fitsnap-ai/README.md) | `fitsnap_engine.py` | ✅ |
 
 #### 🚀 Strategic Products (10)
 | Product | Directory | README | Core Engine | Status |
@@ -309,13 +308,10 @@
 
 ---
 
-### 9. FitSnap.AI
 **Fitness Tracking & Health Analytics**
 
-**Location:** `/workspace/fitsnap-ai`
 
 **Key Files:**
-- `backend/app/core/fitsnap_engine.py` - FitSnap engine
 - `frontend/App.tsx` - React UI
 
 **Ports:** Backend: 8008, Frontend: 3008
@@ -330,8 +326,6 @@
 - Progress tracking
 
 **Documentation:**
-- [README](fitsnap-ai/README.md)
-- [Project Summary](fitsnap-ai/PROJECT_SUMMARY.md)
 
 ---
 
@@ -805,7 +799,6 @@
 - [HL7](#5-itechsmart-hl7) - Medical data
 - [Supreme](#4-itechsmart-supreme) - Healthcare management
 - [ProofLink](#6-prooflink) - Document verification
-- [FitSnap](#9-fitsnap) - Fitness tracking
 - [ImpactOS](#8-impactos) - Impact measurement
 
 **Business Operations:**

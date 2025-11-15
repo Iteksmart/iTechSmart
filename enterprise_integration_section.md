@@ -50,7 +50,6 @@ Enterprise Hub works closely with iTechSmart Ninja for:
 5. ProofLink.AI - Document Verification
 6. PassPort - Identity Management
 7. ImpactOS - Impact Measurement
-8. FitSnap.AI - Fitness Tracking
 
 **Expansion Products:**
 9. iTechSmart Shield - Security Suite

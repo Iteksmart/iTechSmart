@@ -177,7 +177,6 @@ The iTechSmart Suite is now complete with **19 fully integrated products** cover
 - Stakeholder management
 - Impact visualization
 
-#### 18. FitSnap.AI
 **Fitness Tracking**
 - AI-powered recommendations
 - Progress analytics
@@ -246,7 +245,6 @@ The iTechSmart Suite is now complete with **19 fully integrated products** cover
     |       |           |         |          |         |
 Security  AI       Mobile   Data      ProofLink  PassPort
     |       |           |         |          |         |
-Workflow Compliance Marketplace Customer  ImpactOS FitSnap
                                 Success
 ```
 
