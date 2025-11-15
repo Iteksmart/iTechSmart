@@ -17,7 +17,7 @@ export default function Dashboard() {
     refetchInterval: 30000, // Refetch every 30 seconds
   })
 
-  const { data: healthData } = useQuery({
+  useQuery({
     queryKey: ['health'],
     queryFn: () => healthAPI.detailed(),
     refetchInterval: 10000, // Refetch every 10 seconds
