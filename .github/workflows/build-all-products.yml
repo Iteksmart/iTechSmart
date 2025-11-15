@@ -56,7 +56,7 @@ jobs:
       - name: Identify products
         id: products
         run: |
-          PRODUCTS=$(find . -maxdepth 1 -type d -name "itechsmart-*" -o -name "*-ai" -o -name "prooflink" -o -name "passport" -o -name "legalai-pro" | sed 's|^\./||' | jq -R -s -c 'split("\n")[:-1]')
+          PRODUCTS=$(find . -maxdepth 1 -type d \( -name "itechsmart-*" -o -name "legalai-pro" -o -name "prooflink" -o -name "passport" \) | sed 's|^\./||' | jq -R -s -c 'split("\n")[:-1]')
           echo "list=$PRODUCTS" >> $GITHUB_OUTPUT
           echo "Products found: $PRODUCTS"
 
