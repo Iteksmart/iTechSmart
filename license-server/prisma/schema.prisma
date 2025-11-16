@@ -1,0 +1,276 @@
+// Prisma Schema for iTechSmart License Server
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Organizations (Companies/Customers)
+model Organization {
+  id            String   @id @default(uuid())
+  name          String
+  domain        String   @unique
+  email         String
+  phone         String?
+  address       String?
+  country       String?
+  
+  // Billing
+  stripeCustomerId String? @unique
+  
+  // Metadata
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  licenses      License[]
+  users         User[]
+  apiKeys       ApiKey[]
+  usage         UsageRecord[]
+  
+  @@index([domain])
+  @@index([email])
+}
+
+// License Tiers
+enum LicenseTier {
+  TRIAL
+  STARTER
+  PROFESSIONAL
+  ENTERPRISE
+  UNLIMITED
+}
+
+// License Status
+enum LicenseStatus {
+  ACTIVE
+  SUSPENDED
+  EXPIRED
+  CANCELLED
+}
+
+// Licenses
+model License {
+  id              String        @id @default(uuid())
+  licenseKey      String        @unique
+  
+  // Organization
+  organizationId  String
+  organization    Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  
+  // License Details
+  tier            LicenseTier
+  status          LicenseStatus @default(ACTIVE)
+  
+  // Limits
+  maxUsers        Int           @default(5)
+  maxProducts     Int           @default(3)
+  maxApiCalls     Int           @default(10000)  // per day
+  maxStorage      BigInt        @default(10737418240) // 10 GB in bytes
+  
+  // Products Access (JSON array of product IDs)
+  allowedProducts Json          @default("[]")
+  
+  // Features
+  features        Json          @default("{}")
+  
+  // Validity
+  startDate       DateTime      @default(now())
+  expiresAt       DateTime?
+  
+  // Trial
+  isTrial         Boolean       @default(false)
+  trialEndsAt     DateTime?
+  
+  // Machine Locking (for desktop apps)
+  machineIds      Json          @default("[]")
+  maxMachines     Int           @default(1)
+  
+  // Metadata
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  lastValidated   DateTime?
+  
+  // Relations
+  validations     LicenseValidation[]
+  usage           UsageRecord[]
+  
+  @@index([organizationId])
+  @@index([licenseKey])
+  @@index([status])
+  @@index([tier])
+}
+
+// Users (for organization access)
+model User {
+  id              String        @id @default(uuid())
+  email           String        @unique
+  passwordHash    String
+  name            String
+  role            String        @default("user") // admin, user, viewer
+  
+  // Organization
+  organizationId  String
+  organization    Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  
+  // Status
+  isActive        Boolean       @default(true)
+  emailVerified   Boolean       @default(false)
+  
+  // Metadata
+  lastLogin       DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  // Relations
+  apiKeys         ApiKey[]
+  
+  @@index([organizationId])
+  @@index([email])
+}
+
+// API Keys (for programmatic access)
+model ApiKey {
+  id              String        @id @default(uuid())
+  key             String        @unique
+  name            String
+  
+  // Owner
+  organizationId  String
+  organization    Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  
+  userId          String?
+  user            User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  // Permissions
+  scopes          Json          @default("[]") // ["read", "write", "admin"]
+  
+  // Status
+  isActive        Boolean       @default(true)
+  expiresAt       DateTime?
+  
+  // Usage
+  lastUsed        DateTime?
+  usageCount      Int           @default(0)
+  
+  // Metadata
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  @@index([organizationId])
+  @@index([key])
+}
+
+// License Validations (audit log)
+model LicenseValidation {
+  id              String        @id @default(uuid())
+  
+  // License
+  licenseId       String
+  license         License       @relation(fields: [licenseId], references: [id], onDelete: Cascade)
+  
+  // Validation Details
+  isValid         Boolean
+  reason          String?
+  
+  // Request Info
+  ipAddress       String?
+  userAgent       String?
+  machineId       String?
+  productId       String?
+  
+  // Metadata
+  validatedAt     DateTime      @default(now())
+  
+  @@index([licenseId])
+  @@index([validatedAt])
+}
+
+// Usage Records (for metering)
+model UsageRecord {
+  id              String        @id @default(uuid())
+  
+  // Organization & License
+  organizationId  String
+  organization    Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  
+  licenseId       String
+  license         License       @relation(fields: [licenseId], references: [id], onDelete: Cascade)
+  
+  // Usage Details
+  productId       String
+  eventType       String        // api_call, storage_used, user_login, etc.
+  quantity        Int           @default(1)
+  
+  // Metadata
+  metadata        Json          @default("{}")
+  recordedAt      DateTime      @default(now())
+  
+  @@index([organizationId])
+  @@index([licenseId])
+  @@index([productId])
+  @@index([recordedAt])
+}
+
+// Pricing Plans (for reference)
+model PricingPlan {
+  id              String        @id @default(uuid())
+  name            String        @unique
+  tier            LicenseTier   @unique
+  
+  // Pricing
+  monthlyPrice    Int           // in cents
+  annualPrice     Int           // in cents
+  
+  // Limits
+  maxUsers        Int
+  maxProducts     Int
+  maxApiCalls     Int
+  maxStorage      BigInt
+  
+  // Features
+  features        Json          @default("[]")
+  
+  // Stripe
+  stripePriceId   String?
+  
+  // Status
+  isActive        Boolean       @default(true)
+  
+  // Metadata
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  @@index([tier])
+}
+
+// Webhooks (for integrations)
+model Webhook {
+  id              String        @id @default(uuid())
+  
+  // Organization
+  organizationId  String
+  
+  // Webhook Details
+  url             String
+  events          Json          @default("[]") // ["license.activated", "license.expired", etc.]
+  secret          String
+  
+  // Status
+  isActive        Boolean       @default(true)
+  
+  // Stats
+  lastTriggered   DateTime?
+  successCount    Int           @default(0)
+  failureCount    Int           @default(0)
+  
+  // Metadata
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  @@index([organizationId])
+}

@@ -1,0 +1,168 @@
+{
+  "name": "itechsmart-suite-launcher",
+  "version": "1.0.0",
+  "description": "iTechSmart Suite Desktop Launcher - Manage all 35 products from one application",
+  "main": "dist/main/index.js",
+  "author": "iTechSmart Inc.",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dev": "concurrently &quot;npm run dev:main&quot; &quot;npm run dev:renderer&quot;",
+    "dev:main": "tsc -p tsconfig.main.json && electron .",
+    "dev:renderer": "vite",
+    "build": "npm run build:main && npm run build:renderer",
+    "build:main": "tsc -p tsconfig.main.json",
+    "build:renderer": "vite build",
+    "package": "electron-builder",
+    "package:win": "electron-builder --win",
+    "package:mac": "electron-builder --mac",
+    "package:linux": "electron-builder --linux",
+    "package:all": "electron-builder -mwl"
+  },
+  "dependencies": {
+    "dockerode": "^4.0.0",
+    "electron-store": "^8.1.0",
+    "electron-updater": "^6.1.7",
+    "axios": "^1.6.2",
+    "node-machine-id": "^1.1.12",
+    "systeminformation": "^5.21.20"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@types/dockerode": "^3.3.23",
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@vitejs/plugin-react": "^4.2.1",
+    "tailwindcss": "^3.4.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "lucide-react": "^0.294.0",
+    "concurrently": "^8.2.2"
+  },
+  "build": {
+    "appId": "com.itechsmart.suite",
+    "productName": "iTechSmart Suite",
+    "copyright": "Copyright © 2025 iTechSmart Inc.",
+    "directories": {
+      "output": "release",
+      "buildResources": "assets"
+    },
+    "files": [
+      "dist/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "resources",
+        "to": "resources"
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "icon": "assets/icons/icon.icns",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "pkg",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist"
+    },
+    "dmg": {
+      "title": "iTechSmart Suite",
+      "icon": "assets/icons/icon.icns",
+      "background": "assets/dmg-background.png",
+      "contents": [
+        {
+          "x": 410,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 150,
+          "type": "file"
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64", "ia32"]
+        },
+        {
+          "target": "msi",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "assets/icons/icon.ico",
+      "publisherName": "iTechSmart Inc.",
+      "verifyUpdateCodeSignature": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "iTechSmart Suite",
+      "installerIcon": "assets/icons/icon.ico",
+      "uninstallerIcon": "assets/icons/icon.ico",
+      "installerHeaderIcon": "assets/icons/icon.ico",
+      "license": "LICENSE.txt",
+      "warningsAsErrors": false,
+      "perMachine": false,
+      "allowElevation": true
+    },
+    "msi": {
+      "oneClick": false,
+      "perMachine": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb",
+        "rpm"
+      ],
+      "icon": "assets/icons/",
+      "category": "Development",
+      "maintainer": "support@itechsmart.com",
+      "vendor": "iTechSmart Inc.",
+      "synopsis": "iTechSmart Suite - Complete IT Management Platform",
+      "description": "iTechSmart Suite provides 35 enterprise-grade applications for IT management, automation, security, and operations."
+    },
+    "deb": {
+      "depends": [
+        "docker.io",
+        "docker-compose"
+      ]
+    },
+    "rpm": {
+      "depends": [
+        "docker",
+        "docker-compose"
+      ]
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "Iteksmart",
+      "repo": "iTechSmart"
+    }
+  }
+}
