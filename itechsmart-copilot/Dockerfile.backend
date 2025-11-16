@@ -1,4 +1,6 @@
-# Multi-stage build for iTechSmart itechsmart-copilot Backend
+# Optimized build for iTechSmart itechsmart-copilot Backend
+# Key optimization: Pre-install heavy dependencies before copying requirements.txt
+
 FROM python:3.11-slim as builder
 
 WORKDIR /app
@@ -10,7 +12,18 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and install dependencies
+# PRE-INSTALL HEAVY DEPENDENCIES FIRST (for better caching)
+# These are the slowest to install and rarely change
+RUN pip install --no-cache-dir --user \
+    sentence-transformers==2.2.2 \
+    chromadb==0.4.18 \
+    langchain==0.0.350 \
+    openai==1.3.7 \
+    anthropic==0.7.7 \
+    google-generativeai==0.3.1 \
+    tiktoken==0.5.2
+
+# Now install remaining dependencies from requirements.txt
 COPY backend/requirements.txt .
 RUN pip install --no-cache-dir --user -r requirements.txt
 
