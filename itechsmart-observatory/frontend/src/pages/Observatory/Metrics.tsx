@@ -162,7 +162,7 @@ const ObservatoryMetrics: React.FC = () => {
     }
 
     const ChartComponent = chartType === 'line' ? LineChart : chartType === 'area' ? AreaChart : BarChart;
-    const DataComponent = chartType === 'line' ? Line : chartType === 'area' ? Area : Bar;
+    const DataComponent: any = chartType === 'line' ? Line : chartType === 'area' ? Area : Bar;
 
     return (
       <ResponsiveContainer width="100%" height={400}>
