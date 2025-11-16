@@ -33,7 +33,7 @@ jobs:
         
     - name: Install dependencies
       working-directory: desktop-launcher
-      run: npm ci
+      run: npm install
       
     - name: Build application
       working-directory: desktop-launcher
@@ -63,7 +63,7 @@ jobs:
         
     - name: Install dependencies
       working-directory: desktop-launcher
-      run: npm ci
+      run: npm install
       
     - name: Build application
       working-directory: desktop-launcher
@@ -93,7 +93,7 @@ jobs:
         
     - name: Install dependencies
       working-directory: desktop-launcher
-      run: npm ci
+      run: npm install
       
     - name: Build application
       working-directory: desktop-launcher
