@@ -376,7 +376,7 @@ const ControlsManagement: React.FC = () => {
                     </TableCell>
                     <TableCell>
                       <Chip
-                        icon={getStatusIcon(control.status)}
+                        icon={getStatusIcon(control.status) as React.ReactElement}
                         label={control.status.replace('_', ' ')}
                         color={getStatusColor(control.status) as any}
                         size="small"
