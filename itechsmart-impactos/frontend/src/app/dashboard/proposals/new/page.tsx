@@ -6,6 +6,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, FileText, Save } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export default function NewProposalPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
