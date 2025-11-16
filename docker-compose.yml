@@ -1,72 +1,158 @@
 version: '3.8'
 
-services:
-  itechsmart-supreme:
-    build: .
-    container_name: itechsmart-supreme
-    ports:
-      - "5000:5000"
-    environment:
-      # Core Settings
-      - MASTER_PASSWORD=change_me_in_production
-      - SECRET_KEY=change_me_in_production
-      - CREDENTIALS_PATH=/app/data/credentials.enc
-      
-      # AI Settings
-      - OFFLINE_MODE=true
-      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
-      
-      # Automation Settings
-      - AUTO_REMEDIATION=false
-      - REQUIRE_APPROVAL_HIGH_RISK=true
-      
-      # Monitoring Endpoints
-      - PROMETHEUS_ENDPOINTS=http://prometheus:9090
-      - WAZUH_ENDPOINTS=https://wazuh:55000:admin:admin
-      
-      # Webhook Secrets
-      - GITHUB_WEBHOOK_SECRET=${GITHUB_WEBHOOK_SECRET:-}
-      - PROMETHEUS_WEBHOOK_SECRET=${PROMETHEUS_WEBHOOK_SECRET:-}
-      
-      # Server Settings
-      - HOST=0.0.0.0
-      - PORT=5000
-    
-    volumes:
-      - ./data:/app/data
-      - ./logs:/app/logs
-    
-    restart: unless-stopped
-    
-    networks:
-      - itechsmart-network
-    
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+# iTechSmart Suite - Docker Compose Configuration
+# This file allows you to run all services locally for development and testing
 
-  # Optional: Prometheus for monitoring
-  prometheus:
-    image: prom/prometheus:latest
-    container_name: prometheus
+services:
+  # Core Infrastructure Services
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: itechsmart
+      POSTGRES_PASSWORD: itechsmart_dev
+      POSTGRES_DB: itechsmart
     ports:
-      - "9090:9090"
+      - "5432:5432"
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus-data:/prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - itechsmart-network
-    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - itechsmart-network
+
+  # Example Product Services (Add more as needed)
+  
+  # iTechSmart AI
+  itechsmart-ai-backend:
+    image: ghcr.io/iteksmart/itechsmart-ai-backend:main
+    environment:
+      - DATABASE_URL=postgresql://itechsmart:itechsmart_dev@postgres:5432/itechsmart
+      - REDIS_URL=redis://redis:6379
+      - API_PORT=8000
+    ports:
+      - "8001:8000"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - itechsmart-network
+
+  itechsmart-ai-frontend:
+    image: ghcr.io/iteksmart/itechsmart-ai-frontend:main
+    environment:
+      - VITE_API_URL=http://localhost:8001
+    ports:
+      - "3001:80"
+    depends_on:
+      - itechsmart-ai-backend
+    networks:
+      - itechsmart-network
+
+  # iTechSmart Ninja
+  itechsmart-ninja-backend:
+    image: ghcr.io/iteksmart/itechsmart-ninja-backend:main
+    environment:
+      - DATABASE_URL=postgresql://itechsmart:itechsmart_dev@postgres:5432/itechsmart
+      - REDIS_URL=redis://redis:6379
+      - API_PORT=8000
+    ports:
+      - "8002:8000"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - itechsmart-network
+
+  itechsmart-ninja-frontend:
+    image: ghcr.io/iteksmart/itechsmart-ninja-frontend:main
+    environment:
+      - VITE_API_URL=http://localhost:8002
+    ports:
+      - "3002:80"
+    depends_on:
+      - itechsmart-ninja-backend
+    networks:
+      - itechsmart-network
+
+  # Passport
+  passport-backend:
+    image: ghcr.io/iteksmart/passport-backend:main
+    environment:
+      - DATABASE_URL=postgresql://itechsmart:itechsmart_dev@postgres:5432/itechsmart
+      - REDIS_URL=redis://redis:6379
+      - API_PORT=8000
+    ports:
+      - "8003:8000"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - itechsmart-network
+
+  passport-frontend:
+    image: ghcr.io/iteksmart/passport-frontend:main
+    environment:
+      - VITE_API_URL=http://localhost:8003
+    ports:
+      - "3003:80"
+    depends_on:
+      - passport-backend
+    networks:
+      - itechsmart-network
+
+  # ProofLink
+  prooflink-backend:
+    image: ghcr.io/iteksmart/prooflink-backend:main
+    environment:
+      - DATABASE_URL=postgresql://itechsmart:itechsmart_dev@postgres:5432/itechsmart
+      - REDIS_URL=redis://redis:6379
+      - API_PORT=8000
+    ports:
+      - "8004:8000"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - itechsmart-network
+
+  prooflink-frontend:
+    image: ghcr.io/iteksmart/prooflink-frontend:main
+    environment:
+      - VITE_API_URL=http://localhost:8004
+    ports:
+      - "3004:80"
+    depends_on:
+      - prooflink-backend
+    networks:
+      - itechsmart-network
 
 networks:
   itechsmart-network:
     driver: bridge
 
 volumes:
-  prometheus-data:
+  postgres_data:
+    driver: local
+
+# Usage:
+# 1. Start all services: docker-compose up -d
+# 2. Start specific service: docker-compose up -d itechsmart-ai-backend
+# 3. View logs: docker-compose logs -f
+# 4. Stop all services: docker-compose down
+# 5. Stop and remove volumes: docker-compose down -v
+#
+# Access services:
+# - iTechSmart AI: http://localhost:3001
+# - iTechSmart Ninja: http://localhost:3002
+# - Passport: http://localhost:3003
+# - ProofLink: http://localhost:3004
+# - PostgreSQL: localhost:5432
+# - Redis: localhost:6379
+#
+# Add more services by following the pattern above.
+# Increment port numbers for each new service (8005, 3005, etc.)
