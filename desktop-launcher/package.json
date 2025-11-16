@@ -61,7 +61,8 @@
     "extraResources": [
       {
         "from": "resources",
-        "to": "resources"
+        "to": "resources",
+        "filter": ["**/*"]
       }
     ],
     "mac": {
@@ -71,16 +72,10 @@
         {
           "target": "dmg",
           "arch": ["x64", "arm64"]
-        },
-        {
-          "target": "pkg",
-          "arch": ["x64", "arm64"]
         }
       ],
-      "hardenedRuntime": true,
-      "gatekeeperAssess": false,
-      "entitlements": "build/entitlements.mac.plist",
-      "entitlementsInherit": "build/entitlements.mac.plist"
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false
     },
     "dmg": {
       "title": "iTechSmart Suite",
@@ -103,10 +98,6 @@
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64", "ia32"]
-        },
-        {
-          "target": "msi",
           "arch": ["x64"]
         }
       ],
@@ -123,22 +114,13 @@
       "installerIcon": "assets/icons/icon.ico",
       "uninstallerIcon": "assets/icons/icon.ico",
       "installerHeaderIcon": "assets/icons/icon.ico",
-      "license": "LICENSE.txt",
       "warningsAsErrors": false,
       "perMachine": false,
       "allowElevation": true
     },
-    "msi": {
-      "oneClick": false,
-      "perMachine": true,
-      "createDesktopShortcut": true,
-      "createStartMenuShortcut": true
-    },
     "linux": {
       "target": [
-        "AppImage",
-        "deb",
-        "rpm"
+        "AppImage"
       ],
       "icon": "assets/icons/",
       "category": "Development",
@@ -146,18 +128,6 @@
       "vendor": "iTechSmart Inc.",
       "synopsis": "iTechSmart Suite - Complete IT Management Platform",
       "description": "iTechSmart Suite provides 35 enterprise-grade applications for IT management, automation, security, and operations."
-    },
-    "deb": {
-      "depends": [
-        "docker.io",
-        "docker-compose"
-      ]
-    },
-    "rpm": {
-      "depends": [
-        "docker",
-        "docker-compose"
-      ]
     },
     "publish": {
       "provider": "github",
