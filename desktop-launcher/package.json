@@ -5,6 +5,7 @@
   "main": "dist/main/index.js",
   "author": "iTechSmart Inc.",
   "license": "MIT",
+  "homepage": "https://itechsmart.com",
   "scripts": {
     "start": "electron .",
     "dev": "concurrently &quot;npm run dev:main&quot; &quot;npm run dev:renderer&quot;",
@@ -84,7 +85,6 @@
     "dmg": {
       "title": "iTechSmart Suite",
       "icon": "assets/icons/icon.icns",
-      "background": "assets/dmg-background.png",
       "contents": [
         {
           "x": 410,
