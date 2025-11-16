@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, Cube, ArrowLeftRight, FileCode } from 'lucide-react';
+import { Search, Box, ArrowLeftRight, FileCode } from 'lucide-react';
 
 interface Block {
   id: number;
@@ -186,7 +186,7 @@ export default function Explorer() {
           <div className="p-5">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <Cube className="h-6 w-6 text-indigo-600" />
+                <Box className="h-6 w-6 text-indigo-600" />
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
@@ -222,7 +222,7 @@ export default function Explorer() {
           <div className="p-5">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <Cube className="h-6 w-6 text-orange-600" />
+                <Box className="h-6 w-6 text-orange-600" />
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
@@ -289,7 +289,7 @@ export default function Explorer() {
                 <tr key={block.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <Cube className="w-5 h-5 text-indigo-600 mr-2" />
+                      <Box className="w-5 h-5 text-indigo-600 mr-2" />
                       <span className="text-sm font-medium text-indigo-600">
                         #{block.block_number.toLocaleString()}
                       </span>

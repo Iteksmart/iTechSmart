@@ -20,7 +20,11 @@
     "date-fns": "^2.30.0",
     "react-flow-renderer": "^10.3.17",
     "react-hook-form": "^7.48.2",
-    "zustand": "^4.4.7"
+    "zustand": "^4.4.7",
+    "@mui/material": "^5.14.0",
+    "@mui/icons-material": "^5.14.0",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
