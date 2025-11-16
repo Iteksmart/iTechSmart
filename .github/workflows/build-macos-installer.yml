@@ -1,0 +1,88 @@
+name: Build macOS Installer
+
+on:
+  workflow_dispatch:  # Manual trigger
+  push:
+    branches:
+      - main
+    paths:
+      - 'desktop-launcher/**'
+  release:
+    types: [created]
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: desktop-launcher/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: desktop-launcher
+        run: npm ci
+      
+      - name: Build application
+        working-directory: desktop-launcher
+        run: npm run build
+      
+      - name: Build macOS installers
+        working-directory: desktop-launcher
+        run: npm run package:mac
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: List built files
+        working-directory: desktop-launcher
+        run: |
+          echo "Built installers:"
+          ls -lh release/*.dmg || echo "No DMG found"
+          ls -lh release/*.pkg || echo "No PKG found"
+          ls -lh release/*.zip || echo "No ZIP found"
+      
+      - name: Upload DMG artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-dmg-installer
+          path: desktop-launcher/release/*.dmg
+          if-no-files-found: warn
+      
+      - name: Upload PKG artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-pkg-installer
+          path: desktop-launcher/release/*.pkg
+          if-no-files-found: warn
+      
+      - name: Upload to release (if release event)
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            desktop-launcher/release/*.dmg
+            desktop-launcher/release/*.pkg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build summary
+        run: |
+          echo "## macOS Build Complete! 🎉" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Built Installers:" >> $GITHUB_STEP_SUMMARY
+          echo "- DMG installer (drag-and-drop)" >> $GITHUB_STEP_SUMMARY
+          echo "- PKG installer (traditional)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Architectures:" >> $GITHUB_STEP_SUMMARY
+          echo "- x64 (Intel)" >> $GITHUB_STEP_SUMMARY
+          echo "- arm64 (Apple Silicon)" >> $GITHUB_STEP_SUMMARY
+          echo "- Universal Binary (both)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Download:" >> $GITHUB_STEP_SUMMARY
+          echo "Check the 'Artifacts' section above to download the installers." >> $GITHUB_STEP_SUMMARY

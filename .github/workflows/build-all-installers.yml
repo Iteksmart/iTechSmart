@@ -1,0 +1,174 @@
+name: Build All Platform Installers
+
+on:
+  workflow_dispatch:  # Manual trigger
+  release:
+    types: [created]
+
+jobs:
+  build-windows:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: desktop-launcher/package-lock.json
+      
+      - name: Install Wine
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y wine wine64 wine32
+      
+      - name: Install dependencies
+        working-directory: desktop-launcher
+        run: npm ci
+      
+      - name: Build application
+        working-directory: desktop-launcher
+        run: npm run build
+      
+      - name: Build Windows installer
+        working-directory: desktop-launcher
+        run: npm run package:win
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Upload Windows installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer
+          path: |
+            desktop-launcher/release/*.exe
+            desktop-launcher/release/*.msi
+          if-no-files-found: warn
+      
+      - name: Upload to release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            desktop-launcher/release/*.exe
+            desktop-launcher/release/*.msi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-linux:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: desktop-launcher/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: desktop-launcher
+        run: npm ci
+      
+      - name: Build application
+        working-directory: desktop-launcher
+        run: npm run build
+      
+      - name: Build Linux installer
+        working-directory: desktop-launcher
+        run: npm run package:linux
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Upload Linux installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-installer
+          path: |
+            desktop-launcher/release/*.AppImage
+            desktop-launcher/release/*.deb
+            desktop-launcher/release/*.rpm
+          if-no-files-found: warn
+      
+      - name: Upload to release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            desktop-launcher/release/*.AppImage
+            desktop-launcher/release/*.deb
+            desktop-launcher/release/*.rpm
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-macos:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: desktop-launcher/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: desktop-launcher
+        run: npm ci
+      
+      - name: Build application
+        working-directory: desktop-launcher
+        run: npm run build
+      
+      - name: Build macOS installers
+        working-directory: desktop-launcher
+        run: npm run package:mac
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Upload macOS installers
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-installers
+          path: |
+            desktop-launcher/release/*.dmg
+            desktop-launcher/release/*.pkg
+          if-no-files-found: warn
+      
+      - name: Upload to release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            desktop-launcher/release/*.dmg
+            desktop-launcher/release/*.pkg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  summary:
+    needs: [build-windows, build-linux, build-macos]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Build Summary
+        run: |
+          echo "## 🎉 All Platform Installers Built!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Platforms:" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Windows (NSIS installer)" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Linux (AppImage)" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ macOS (DMG and PKG)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Download:" >> $GITHUB_STEP_SUMMARY
+          echo "Check the 'Artifacts' section to download all installers." >> $GITHUB_STEP_SUMMARY
