@@ -10,6 +10,7 @@ let tray: Tray | null = null;
 let dockerManager: DockerManager;
 let licenseManager: LicenseManager;
 let updateManager: UpdateManager;
+let isQuitting = false;
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -42,7 +43,7 @@ function createWindow() {
   });
 
   mainWindow.on('close', (event) => {
-    if (!app.isQuitting) {
+    if (!isQuitting) {
       event.preventDefault();
       mainWindow?.hide();
     }
@@ -78,7 +79,7 @@ function createTray() {
     {
       label: 'Quit',
       click: () => {
-        app.isQuitting = true;
+        isQuitting = true;
         app.quit();
       }
     }
@@ -202,7 +203,7 @@ ipcMain.handle('app:version', () => {
 });
 
 ipcMain.handle('app:quit', () => {
-  app.isQuitting = true;
+  isQuitting = true;
   app.quit();
 });
 
@@ -226,7 +227,7 @@ app.on('window-all-closed', () => {
 });
 
 app.on('before-quit', () => {
-  app.isQuitting = true;
+  isQuitting = true;
 });
 
 // Handle uncaught exceptions
