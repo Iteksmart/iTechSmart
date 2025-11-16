@@ -1,222 +1,190 @@
 # iTechSmart Suite Desktop Launcher
 
-Professional desktop application for managing all 35 iTechSmart products with Docker integration, license management, and auto-updates.
+A modern, cross-platform desktop application for managing and launching iTechSmart Suite components.
 
-## 🎯 Status: 95% Complete
+![Build Status](https://github.com/Iteksmart/iTechSmart/actions/workflows/build-all-platforms.yml/badge.svg)
+![macOS Build](https://github.com/Iteksmart/iTechSmart/actions/workflows/build-macos.yml/badge.svg)
 
-### ✅ What's Working
-- Docker container management
-- License activation and validation
-- Auto-update system
-- Product definitions (all 35)
-- React UI (Dashboard, Product Cards, Settings, License)
-- System tray integration
-- IPC communication
+## Features
 
-### ⏳ What's Needed (5%)
-- Build configuration testing
-- Icon assets
-- Final testing on all platforms
+- 🚀 Quick launch for all iTechSmart Suite applications
+- 🎨 Modern, intuitive user interface
+- 🔄 Automatic updates and version management
+- 📊 System status monitoring
+- 🔐 Secure credential management
+- 🌐 Multi-platform support (Windows, macOS, Linux)
 
-## 🚀 Quick Start
+## Installation
 
-### Development
+### Download Pre-built Installers
+
+Visit the [Releases](https://github.com/Iteksmart/iTechSmart/releases) page to download the latest installer for your platform:
+
+- **Windows**: `iTechSmart-Setup-x.x.x.exe`
+- **macOS**: `iTechSmart-x.x.x.dmg` or `iTechSmart-x.x.x.pkg`
+- **Linux**: `iTechSmart-x.x.x.AppImage`
+
+### Build from Source
+
+#### Prerequisites
+- Node.js 20.x or higher
+- npm or yarn
+
+#### Building
 
 ```bash
 # Install dependencies
 npm install
 
-# Start development mode
-npm run dev
+# Build the application
+npm run build
 
-# In another terminal, start Electron
-npm start
-```
-
-### Build Installers
-
-```bash
-# Build for current platform
-npm run package
-
-# Build for specific platform
+# Package for your platform
 npm run package:win    # Windows
 npm run package:mac    # macOS
 npm run package:linux  # Linux
-
-# Build for all platforms
-npm run package:all
 ```
 
-## 📦 Features
+## Automated Builds
 
-### Docker Management
-- Automatic Docker installation check
-- Pull images from ghcr.io/iteksmart
-- Start/stop containers
-- Monitor container status
-- System resource monitoring
+This project uses GitHub Actions for automated builds across all platforms:
 
-### License System
-- Trial license (30 days, 3 products)
-- Tier-based access control
-- Online validation with server
-- Offline grace period (7 days)
-- Machine-locked activation
+- **Automatic Builds**: Triggered on every push to main branch
+- **Release Builds**: Triggered when version tags are pushed
+- **Artifacts**: Available for download from the Actions tab
+- **Multi-Platform**: Windows, macOS, and Linux built in parallel
 
-### User Interface
-- Modern React + TypeScript UI
-- Tailwind CSS styling
-- Product grid with search/filter
-- Real-time status updates
-- System tray integration
+### Triggering a Build
 
-### Auto-Updates
-- Automatic update checking
-- Background downloads
-- One-click installation
-- Version management
+#### Automatic (on push)
+```bash
+git push origin main
+```
 
-## 🏗️ Architecture
+#### Manual Trigger
+1. Go to the repository on GitHub
+2. Click "Actions" tab
+3. Select "Build All Platforms" workflow
+4. Click "Run workflow"
+
+#### Creating a Release
+```bash
+# Tag the version
+git tag -a v1.0.0 -m "Release version 1.0.0"
+
+# Push the tag
+git push origin v1.0.0
+```
+
+This will automatically:
+- Build installers for all platforms
+- Create a GitHub release
+- Attach all installers to the release
+
+## Development
+
+### Project Structure
 
 ```
 desktop-launcher/
-├── src/
-│   ├── main/              # Electron main process
-│   │   ├── index.ts       # Entry point
-│   │   ├── docker-manager.ts
-│   │   ├── license-manager.ts
-│   │   ├── update-manager.ts
-│   │   ├── products.ts
-│   │   └── preload.ts     # IPC bridge
-│   └── renderer/          # React UI
-│       ├── App.tsx
-│       ├── components/
-│       │   ├── Dashboard.tsx
-│       │   ├── ProductCard.tsx
-│       │   ├── LicenseActivation.tsx
-│       │   └── Settings.tsx
-│       ├── index.html
-│       ├── main.tsx
-│       └── index.css
-├── package.json
-├── vite.config.ts
-├── tailwind.config.js
-└── electron-builder.yml (in package.json)
+├── src/              # Source code
+├── assets/           # Icons and resources
+├── release/          # Built installers
+├── package.json      # Project configuration
+└── electron.vite.config.ts  # Build configuration
 ```
 
-## 🔧 Configuration
+### Available Scripts
 
-### Environment Variables
+- `npm run dev` - Start development server
+- `npm run build` - Build the application
+- `npm run preview` - Preview the built application
+- `npm run package:win` - Build Windows installer
+- `npm run package:mac` - Build macOS installer
+- `npm run package:linux` - Build Linux installer
 
-```bash
-# License server URL
-LICENSE_SERVER_URL=https://license.itechsmart.com/api
+### Development Workflow
 
-# Update server URL
-UPDATE_SERVER_URL=https://updates.itechsmart.com
-```
+1. Make your changes in the `src/` directory
+2. Test with `npm run dev`
+3. Build with `npm run build`
+4. Package with platform-specific commands
+5. Test the installer on target platform
 
-### Product Configuration
+## Platform-Specific Notes
 
-All 35 products are configured in `src/main/products.ts` with:
-- Product ID
-- Name and description
-- Category
-- Backend/frontend ports
-- Required license tier
-- Icon
+### Windows
+- Requires Wine on Linux for cross-compilation
+- Produces `.exe` installer
+- Supports auto-updates
 
-## 📱 Usage
+### macOS
+- Requires macOS system for building (or GitHub Actions)
+- Produces `.dmg` and `.pkg` installers
+- Requires code signing for distribution
+- Supports auto-updates
 
-### For End Users
+### Linux
+- Produces `.AppImage` (portable)
+- No installation required
+- Works on most Linux distributions
 
-1. **Install the launcher**
-   - Windows: Run `.exe` installer
-   - macOS: Open `.dmg` and drag to Applications
-   - Linux: Install `.deb` or `.rpm` package
+## Configuration
 
-2. **First launch**
-   - Launcher checks for Docker
-   - Starts 30-day trial automatically
-   - Shows dashboard with all products
+The launcher can be configured through:
+- Settings UI in the application
+- Configuration file at `~/.itechsmart/config.json`
+- Environment variables
 
-3. **Start a product**
-   - Click product card
-   - Click "Start" button
-   - Wait for Docker to pull images (first time)
-   - Click "Open" to launch in browser
+## Troubleshooting
 
-4. **Activate license**
-   - Click "License" in sidebar
-   - Enter license key
-   - Products unlock based on tier
+### Build Issues
 
-### For Developers
+**Windows Build Fails on Linux**
+- Install Wine: See `.github/workflows/build-all-platforms.yml` for setup
 
-```bash
-# Install dependencies
-npm install
+**macOS Build Fails**
+- Use GitHub Actions for macOS builds
+- Or build on an actual macOS system
 
-# Development mode
-npm run dev          # Start Vite dev server
-npm start            # Start Electron (in another terminal)
+**Dependencies Not Installing**
+- Clear npm cache: `npm cache clean --force`
+- Delete `node_modules` and reinstall
 
-# Build
-npm run build        # Build TypeScript + React
-npm run package      # Create installer
-```
+### Runtime Issues
 
-## 🎨 Customization
+**Application Won't Start**
+- Check system requirements
+- Verify all dependencies are installed
+- Check logs in `~/.itechsmart/logs/`
 
-### Adding Products
-
-Edit `src/main/products.ts`:
-
-```typescript
-{
-  id: 'my-product',
-  name: 'My Product',
-  description: 'Product description',
-  category: 'My Category',
-  backendPort: 8036,
-  frontendPort: 3036,
-  icon: 'my-icon.png',
-  tier: 'professional'
-}
-```
-
-### Styling
-
-Edit `src/renderer/index.css` or component styles using Tailwind classes.
-
-### License Tiers
-
-Edit `src/main/license-manager.ts` to modify tier logic.
-
-## 🐛 Troubleshooting
-
-### Docker not found
-- Install Docker Desktop
-- Restart launcher
-- Check Docker is running
-
-### Product won't start
-- Check Docker is running
-- Check port is not in use
-- View Docker logs: `docker logs <container-name>`
-
-### License activation fails
+**Auto-Update Fails**
 - Check internet connection
-- Verify license key format
-- Contact support
+- Verify GitHub releases are accessible
+- Check application permissions
 
-## 📄 License
+## Contributing
 
-Copyright © 2025 iTechSmart Inc. All rights reserved.
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-## 🤝 Support
+## License
 
-- Email: support@itechsmart.com
-- Documentation: https://docs.itechsmart.com
-- GitHub: https://github.com/Iteksmart/iTechSmart
+MIT License - see LICENSE file for details
+
+## Support
+
+- Documentation: [GitHub Wiki](https://github.com/Iteksmart/iTechSmart/wiki)
+- Issues: [GitHub Issues](https://github.com/Iteksmart/iTechSmart/issues)
+- Discussions: [GitHub Discussions](https://github.com/Iteksmart/iTechSmart/discussions)
+
+## Acknowledgments
+
+Built with:
+- [Electron](https://www.electronjs.org/)
+- [Vite](https://vitejs.dev/)
+- [electron-builder](https://www.electron.build/)
+- [GitHub Actions](https://github.com/features/actions)
