@@ -99,8 +99,6 @@ jobs:
         with:
           context: ./${{ matrix.product }}
           file: ./${{ matrix.product }}/Dockerfile.backend
-          cache-from: type=gha,scope=${{ matrix.product }}-backend
-          cache-to: type=gha,mode=max,scope=${{ matrix.product }}-backend
           push: true
           tags: ${{ steps.meta-backend.outputs.tags }}
           labels: ${{ steps.meta-backend.outputs.labels }}
