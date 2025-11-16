@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -8,7 +8,7 @@ import { ArrowLeft, FileText, Save } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
-export default function NewProposalPage() {
+function NewProposalForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const grantId = searchParams.get('grant');
@@ -243,5 +243,16 @@ export default function NewProposalPage() {
         </div>
       </form>
     </div>
+  );
+}
+export default function NewProposalPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    }>
+      <NewProposalForm />
+    </Suspense>
   );
 }
