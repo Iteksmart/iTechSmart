@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  output: 'standalone',
   images: {
     domains: ['localhost', 'impactos.itechsmart.dev'],
     formats: ['image/avif', 'image/webp'],
