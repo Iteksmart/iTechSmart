@@ -43,7 +43,7 @@ export default function RegisterPage() {
   const onSubmit = async (data: RegisterFormData) => {
     setIsLoading(true)
     try {
-      await authApi.register(data.email, data.password, data.full_name, data.organization_name)
+      await authApi.register(data.email, data.password, data.full_name)
 
       toast.success('Account created! Please check your email to verify.')
       router.push('/auth/login')
