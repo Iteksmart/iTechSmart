@@ -30,7 +30,7 @@ weasyprint==60.1
 
 # Email
 fastapi-mail==1.4.1
-aiosmtplib==3.0.1
+aiosmtplib
 
 # Calendar & Scheduling
 icalendar==5.0.11
