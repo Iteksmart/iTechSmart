@@ -1,0 +1,25 @@
+<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="240" fill="url(#grad1)"/>
+  
+  <!-- iTechSmart monogram -->
+  <text x="256" y="320" font-family="Arial, sans-serif" font-size="200" font-weight="bold" 
+        fill="white" text-anchor="middle">iTS</text>
+  
+  <!-- Tech circuit pattern -->
+  <circle cx="120" cy="120" r="8" fill="white" opacity="0.3"/>
+  <circle cx="392" cy="120" r="8" fill="white" opacity="0.3"/>
+  <circle cx="120" cy="392" r="8" fill="white" opacity="0.3"/>
+  <circle cx="392" cy="392" r="8" fill="white" opacity="0.3"/>
+  <line x1="120" y1="120" x2="392" y2="120" stroke="white" stroke-width="2" opacity="0.3"/>
+  <line x1="120" y1="392" x2="392" y2="392" stroke="white" stroke-width="2" opacity="0.3"/>
+  <line x1="120" y1="120" x2="120" y2="392" stroke="white" stroke-width="2" opacity="0.3"/>
+  <line x1="392" y1="120" x2="392" y2="392" stroke="white" stroke-width="2" opacity="0.3"/>
+</svg>
