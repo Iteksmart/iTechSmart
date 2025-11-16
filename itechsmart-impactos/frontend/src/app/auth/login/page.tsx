@@ -32,7 +32,7 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true)
     try {
-      const response = await authApi.login(data)
+      const response = await authApi.login(data.email, data.password)
       const { access_token, refresh_token } = response.data
 
       localStorage.setItem('access_token', access_token)

@@ -167,6 +167,10 @@ export const apiKeysAPI = {
       const response = await api.get('/proofs/my', { params: { page, limit } });
       return response.data;
     },
+    verifyByLink: async (link: string) => {
+      const response = await api.get(`/verify/link/${encodeURIComponent(link)}`);
+      return response.data;
+    },
   };
   export const usersAPI = {
     list: async () => {
