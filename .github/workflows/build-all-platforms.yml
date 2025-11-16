@@ -21,8 +21,6 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
-        cache: 'npm'
-        cache-dependency-path: desktop-launcher/package-lock.json
         
     - name: Install Wine
       run: |
@@ -62,8 +60,6 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
-        cache: 'npm'
-        cache-dependency-path: desktop-launcher/package-lock.json
         
     - name: Install dependencies
       working-directory: desktop-launcher
@@ -94,8 +90,6 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
-        cache: 'npm'
-        cache-dependency-path: desktop-launcher/package-lock.json
         
     - name: Install dependencies
       working-directory: desktop-launcher
