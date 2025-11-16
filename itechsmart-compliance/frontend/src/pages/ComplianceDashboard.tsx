@@ -110,7 +110,7 @@ const ComplianceDashboard: React.FC = () => {
     }
   };
 
-  const getStatusIcon = (status: string) => {
+  const getStatusIcon = (status: string): React.ReactElement => {
     switch (status) {
       case 'compliant':
         return <CheckCircle />;
