@@ -128,11 +128,6 @@
       "vendor": "iTechSmart Inc.",
       "synopsis": "iTechSmart Suite - Complete IT Management Platform",
       "description": "iTechSmart Suite provides 35 enterprise-grade applications for IT management, automation, security, and operations."
-    },
-    "publish": {
-      "provider": "github",
-      "owner": "Iteksmart",
-      "repo": "iTechSmart"
     }
   }
 }
