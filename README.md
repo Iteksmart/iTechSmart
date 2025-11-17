@@ -4,7 +4,7 @@
 
 Complete suite of 37+ products for IT automation, monitoring, security, and management - now with integrated agent-based monitoring.
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![Version](https://img.shields.io/badge/version-1.2.0-blue)
 ![Products](https://img.shields.io/badge/products-37-green)
 ![License](https://img.shields.io/badge/license-Proprietary-orange)
 ![Status](https://img.shields.io/badge/status-Production%20Ready-success)
@@ -29,10 +29,10 @@ iTechSmart Suite is a comprehensive platform that combines AI-powered automation
 - ✅ **Cross-Platform** - Windows, macOS, Linux (Intel & ARM)
 
 **Download Agent:**
-- [Linux (AMD64)](https://github.com/Iteksmart/iTechSmart/releases/download/v1.0.0/itechsmart-agent-linux-amd64)
-- [Windows (AMD64)](https://github.com/Iteksmart/iTechSmart/releases/download/v1.0.0/itechsmart-agent-windows-amd64.exe)
-- [macOS (Intel)](https://github.com/Iteksmart/iTechSmart/releases/download/v1.0.0/itechsmart-agent-darwin-amd64)
-- [macOS (Apple Silicon)](https://github.com/Iteksmart/iTechSmart/releases/download/v1.0.0/itechsmart-agent-darwin-arm64)
+- [Linux (AMD64)](https://github.com/Iteksmart/iTechSmart/releases/download/v1.2.0/itechsmart-agent-linux-amd64)
+- [Windows (AMD64)](https://github.com/Iteksmart/iTechSmart/releases/download/v1.2.0/itechsmart-agent-windows-amd64.exe)
+- [macOS (Intel)](https://github.com/Iteksmart/iTechSmart/releases/download/v1.2.0/itechsmart-agent-darwin-amd64)
+- [macOS (Apple Silicon)](https://github.com/Iteksmart/iTechSmart/releases/download/v1.2.0/itechsmart-agent-darwin-arm64)
 
 **Documentation:**
 - [Agent Installation Guide](itechsmart-agent/README.md)
@@ -127,7 +127,7 @@ open http://localhost:3000
 
 ```bash
 # Download agent for your platform
-wget https://github.com/Iteksmart/iTechSmart/releases/download/v1.0.0/itechsmart-agent-linux-amd64
+wget https://github.com/Iteksmart/iTechSmart/releases/download/v1.2.0/itechsmart-agent-linux-amd64
 
 # Make executable
 chmod +x itechsmart-agent-linux-amd64

@@ -1,6 +1,6 @@
 {
   "name": "itechsmart-workflow-frontend",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "iTechSmart Workflow - Business Process Automation Platform",
   "private": true,
   "type": "module",

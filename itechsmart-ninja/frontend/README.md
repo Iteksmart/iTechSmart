@@ -417,5 +417,5 @@ The iTechSmart Ninja frontend is a **world-class, production-ready** web applica
 ---
 
 *Last Updated: 2025*
-*Version: 1.0.0*
+*Version: 1.2.0*
 *Status: Production Ready*

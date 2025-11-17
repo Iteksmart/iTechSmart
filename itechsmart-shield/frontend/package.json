@@ -1,6 +1,6 @@
 {
   "name": "itechsmart-shield-frontend",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "iTechSmart Shield - Cybersecurity & Threat Detection Platform Frontend",
   "private": true,
   "scripts": {

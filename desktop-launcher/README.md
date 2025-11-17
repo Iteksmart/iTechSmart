@@ -70,10 +70,10 @@ git push origin main
 #### Creating a Release
 ```bash
 # Tag the version
-git tag -a v1.0.0 -m "Release version 1.0.0"
+git tag -a v1.2.0 -m "Release version 1.0.0"
 
 # Push the tag
-git push origin v1.0.0
+git push origin v1.2.0
 ```
 
 This will automatically:

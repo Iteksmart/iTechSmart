@@ -32,6 +32,27 @@ iTechSmart Agent is a lightweight, cross-platform system monitoring and manageme
 - Remote software installation/uninstallation
 - Automated patch management
 
+✅ **Failure Prediction** (NEW in v1.2.0)
+- ML-based prediction models
+- Historical data analysis
+- Anomaly detection
+- Proactive failure alerts
+- Confidence scoring
+
+✅ **Automated Remediation** (NEW in v1.2.0)
+- Automatic issue resolution
+- Configurable remediation rules
+- Action execution engine
+- Remediation history tracking
+- Approval workflows
+
+✅ **Capacity Planning** (NEW in v1.2.0)
+- Resource forecasting
+- Trend analysis
+- Growth rate calculation
+- Time-to-exhaustion estimates
+- Capacity reports and recommendations
+
 ✅ **Remote Management**
 - Remote command execution
 - Script execution (PowerShell, Bash)
@@ -121,20 +142,20 @@ curl -fsSL https://downloads.itechsmart.dev/agent/install.sh | sudo bash -s -- -
 **Windows**:
 ```powershell
 # Download from GitHub releases
-Invoke-WebRequest -Uri "https://github.com/Iteksmart/iTechSmart/releases/download/v1.0.0/itechsmart-agent-windows-amd64.exe" -OutFile "itechsmart-agent.exe"
+Invoke-WebRequest -Uri "https://github.com/Iteksmart/iTechSmart/releases/download/v1.2.0/itechsmart-agent-windows-amd64.exe" -OutFile "itechsmart-agent.exe"
 ```
 
 **macOS**:
 ```bash
 # Download from GitHub releases
-curl -L -o itechsmart-agent "https://github.com/Iteksmart/iTechSmart/releases/download/v1.0.0/itechsmart-agent-darwin-amd64"
+curl -L -o itechsmart-agent "https://github.com/Iteksmart/iTechSmart/releases/download/v1.2.0/itechsmart-agent-darwin-amd64"
 chmod +x itechsmart-agent
 ```
 
 **Linux**:
 ```bash
 # Download from GitHub releases
-curl -L -o itechsmart-agent "https://github.com/Iteksmart/iTechSmart/releases/download/v1.0.0/itechsmart-agent-linux-amd64"
+curl -L -o itechsmart-agent "https://github.com/Iteksmart/iTechSmart/releases/download/v1.2.0/itechsmart-agent-linux-amd64"
 chmod +x itechsmart-agent
 ```
 

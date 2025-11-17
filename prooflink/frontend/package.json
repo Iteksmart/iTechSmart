@@ -1,6 +1,6 @@
 {
   "name": "prooflink-frontend",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "ProofLink.AI - The World's Trust Layer",
   "private": true,
   "scripts": {

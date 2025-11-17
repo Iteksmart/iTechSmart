@@ -1,6 +1,6 @@
 {
   "name": "itechsmart-sandbox-frontend",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "iTechSmart Sandbox - Secure Code Execution Environment",
   "private": true,
   "scripts": {

@@ -24,7 +24,7 @@ services:
 
   # ClickHouse Analytics Database
   clickhouse:
-    image: clickhouse/clickhouse-server:latest
+    image: clickhouse/clickhouse-server:1.2.0
     container_name: pulse-clickhouse
     environment:
       CLICKHOUSE_DB: analytics
@@ -84,7 +84,7 @@ services:
 
   # MinIO Object Storage
   minio:
-    image: minio/minio:latest
+    image: minio/minio:1.2.0
     container_name: pulse-minio
     command: server /data --console-address ":9001"
     environment:

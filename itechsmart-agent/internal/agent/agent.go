@@ -5,11 +5,14 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/iteksmart/itechsmart-agent/internal/capacity"
 	"github.com/iteksmart/itechsmart-agent/internal/collector"
 	"github.com/iteksmart/itechsmart-agent/internal/communicator"
 	"github.com/iteksmart/itechsmart-agent/internal/config"
 	"github.com/iteksmart/itechsmart-agent/internal/executor"
 	"github.com/iteksmart/itechsmart-agent/internal/logger"
+	"github.com/iteksmart/itechsmart-agent/internal/predictor"
+	"github.com/iteksmart/itechsmart-agent/internal/remediator"
 )
 
 // Agent represents the main agent
@@ -21,6 +24,9 @@ type Agent struct {
 	systemCollector   *collector.SystemCollector
 	securityCollector *collector.SecurityCollector
 	softwareCollector *collector.SoftwareCollector
+	predictor         *predictor.Predictor
+	remediator        *remediator.Remediator
+	capacityPlanner   *capacity.Planner
 	ctx               context.Context
 	cancel            context.CancelFunc
 }
@@ -40,6 +46,43 @@ func New(cfg *config.Config, log *logger.Logger) (*Agent, error) {
 	securityCollector := collector.NewSecurityCollector()
 	softwareCollector := collector.NewSoftwareCollector()
 	
+	// Create predictor with configuration
+	predictorCfg := &predictor.Config{
+		HistoryWindow:      24 * time.Hour,
+		PredictionWindow:   4 * time.Hour,
+		MinDataPoints:      10,
+		ConfidenceLevel:    0.85,
+		AnomalyThreshold:   2.0,
+		UpdateInterval:     5 * time.Minute,
+		EnableMLPrediction: true,
+	}
+	pred := predictor.New(predictorCfg, log)
+	
+	// Create remediator with configuration
+	remediatorCfg := &remediator.Config{
+		EnableAutoRemediation: true,
+		MaxRetries:            3,
+		RetryDelay:            30 * time.Second,
+		ActionTimeout:         5 * time.Minute,
+		DryRun:                false,
+		RequireApproval:       false,
+	}
+	rem := remediator.New(remediatorCfg, log)
+	
+	// Initialize default remediation rules
+	rem.InitializeDefaultRules()
+	
+	// Create capacity planner with configuration
+	capacityCfg := &capacity.Config{
+		ForecastWindow:  30 * 24 * time.Hour,
+		HistoryWindow:   90 * 24 * time.Hour,
+		MinDataPoints:   20,
+		GrowthThreshold: 10.0,
+		UpdateInterval:  1 * time.Hour,
+		EnableAlerts:    true,
+	}
+	cap := capacity.New(capacityCfg, log)
+	
 	agent := &Agent{
 		cfg:               cfg,
 		log:               log,
@@ -48,6 +91,9 @@ func New(cfg *config.Config, log *logger.Logger) (*Agent, error) {
 		systemCollector:   systemCollector,
 		securityCollector: securityCollector,
 		softwareCollector: softwareCollector,
+		predictor:         pred,
+		remediator:        rem,
+		capacityPlanner:   cap,
 		ctx:               ctx,
 		cancel:            cancel,
 	}
@@ -57,10 +103,11 @@ func New(cfg *config.Config, log *logger.Logger) (*Agent, error) {
 
 // Start starts the agent
 func (a *Agent) Start(ctx context.Context) error {
-	a.log.Info("Starting iTechSmart Agent",
+	a.log.Info("Starting iTechSmart Agent v1.2.0",
 		"agent_id", a.cfg.AgentID,
 		"organization", a.cfg.Organization,
 		"platform", a.cfg.Platform,
+		"features", "failure_prediction,automated_remediation,capacity_planning",
 	)
 	
 	// Start communicator
@@ -72,6 +119,20 @@ func (a *Agent) Start(ctx context.Context) error {
 	if err := a.exec.Start(ctx); err != nil {
 		return fmt.Errorf("failed to start executor: %w", err)
 	}
+	
+	// Start predictor
+	go func() {
+		if err := a.predictor.Start(ctx); err != nil {
+			a.log.Error("Predictor stopped", "error", err)
+		}
+	}()
+	
+	// Start capacity planner
+	go func() {
+		if err := a.capacityPlanner.Start(ctx); err != nil {
+			a.log.Error("Capacity planner stopped", "error", err)
+		}
+	}()
 	
 	// Start collection loops
 	if a.cfg.EnableSystemMonitoring {
@@ -95,7 +156,7 @@ func (a *Agent) Start(ctx context.Context) error {
 		go a.enterpriseIntegrationLoop()
 	}
 	
-	a.log.Info("iTechSmart Agent started successfully")
+	a.log.Info("iTechSmart Agent started successfully with advanced features")
 	
 	return nil
 }
@@ -150,8 +211,23 @@ func (a *Agent) collectAndSendSystemMetrics() {
 	
 	a.log.Debug("System metrics sent successfully")
 	
-	// Check for alerts
+	// Add data to predictor
+	a.predictor.AddDataPoint("cpu_usage", metrics.CPUInfo.UsagePercent, map[string]string{"type": "percentage"})
+	a.predictor.AddDataPoint("memory_usage", metrics.MemoryInfo.UsedPercent, map[string]string{"type": "percentage"})
+	
+	// Add data to capacity planner
+	a.capacityPlanner.AddMeasurement("cpu", metrics.CPUInfo.UsagePercent, 100.0, map[string]string{"cores": fmt.Sprintf("%d", metrics.CPUInfo.Cores)})
+	a.capacityPlanner.AddMeasurement("memory", float64(metrics.MemoryInfo.Used), float64(metrics.MemoryInfo.Total), map[string]string{"unit": "bytes"})
+	
+	for _, disk := range metrics.DiskInfo {
+		a.predictor.AddDataPoint(fmt.Sprintf("disk_usage_%s", disk.MountPoint), disk.UsedPercent, map[string]string{"type": "percentage", "mount": disk.MountPoint})
+		a.capacityPlanner.AddMeasurement(fmt.Sprintf("disk_%s", disk.MountPoint), float64(disk.Used), float64(disk.Total), map[string]string{"mount": disk.MountPoint, "unit": "bytes"})
+	}
+	
+	// Check for alerts and predictions
 	a.checkSystemAlerts(metrics)
+	a.checkPredictions(metrics)
+	a.checkCapacityAlerts(metrics)
 }
 
 // checkSystemAlerts checks for system alerts
@@ -164,6 +240,13 @@ func (a *Agent) checkSystemAlerts(metrics *collector.SystemMetrics) {
 				"cpu_usage": metrics.CPUInfo.UsagePercent,
 			},
 		)
+		
+		// Evaluate remediation
+		rules := a.remediator.EvaluateCondition("cpu_usage", metrics.CPUInfo.UsagePercent)
+		if len(rules) > 0 {
+			a.log.Info("Triggering remediation for high CPU", "rules", len(rules))
+			go a.remediator.ExecuteRemediation(a.ctx, rules)
+		}
 	}
 	
 	// Memory alert
@@ -174,6 +257,13 @@ func (a *Agent) checkSystemAlerts(metrics *collector.SystemMetrics) {
 				"memory_usage": metrics.MemoryInfo.UsedPercent,
 			},
 		)
+		
+		// Evaluate remediation
+		rules := a.remediator.EvaluateCondition("memory_usage", metrics.MemoryInfo.UsedPercent)
+		if len(rules) > 0 {
+			a.log.Info("Triggering remediation for high memory", "rules", len(rules))
+			go a.remediator.ExecuteRemediation(a.ctx, rules)
+		}
 	}
 	
 	// Disk alert
@@ -186,6 +276,85 @@ func (a *Agent) checkSystemAlerts(metrics *collector.SystemMetrics) {
 					"used_percent": disk.UsedPercent,
 				},
 			)
+			
+			// Evaluate remediation
+			rules := a.remediator.EvaluateCondition("disk_usage", disk.UsedPercent)
+			if len(rules) > 0 {
+				a.log.Info("Triggering remediation for low disk space", "mount", disk.MountPoint, "rules", len(rules))
+				go a.remediator.ExecuteRemediation(a.ctx, rules)
+			}
+		}
+	}
+}
+
+// checkPredictions checks predictions and sends alerts
+func (a *Agent) checkPredictions(metrics *collector.SystemMetrics) {
+	// Check CPU prediction
+	if pred, err := a.predictor.PredictFailure(a.ctx, "cpu_usage"); err == nil {
+		if pred.FailureProbability > 0.5 {
+			a.comm.SendAlert("info", "CPU Failure Prediction",
+				fmt.Sprintf("CPU usage predicted to reach %.2f%% (current: %.2f%%). %s", 
+					pred.PredictedValue, pred.CurrentValue, pred.Recommendation),
+				map[string]interface{}{
+					"current_value":       pred.CurrentValue,
+					"predicted_value":     pred.PredictedValue,
+					"failure_probability": pred.FailureProbability,
+					"confidence":          pred.Confidence,
+					"risk_level":          pred.RiskLevel,
+				},
+			)
+		}
+	}
+	
+	// Check memory prediction
+	if pred, err := a.predictor.PredictFailure(a.ctx, "memory_usage"); err == nil {
+		if pred.FailureProbability > 0.5 {
+			a.comm.SendAlert("info", "Memory Failure Prediction",
+				fmt.Sprintf("Memory usage predicted to reach %.2f%% (current: %.2f%%). %s", 
+					pred.PredictedValue, pred.CurrentValue, pred.Recommendation),
+				map[string]interface{}{
+					"current_value":       pred.CurrentValue,
+					"predicted_value":     pred.PredictedValue,
+					"failure_probability": pred.FailureProbability,
+					"confidence":          pred.Confidence,
+					"risk_level":          pred.RiskLevel,
+				},
+			)
+		}
+	}
+}
+
+// checkCapacityAlerts checks capacity forecasts and sends alerts
+func (a *Agent) checkCapacityAlerts(metrics *collector.SystemMetrics) {
+	// Check CPU capacity
+	if forecast, err := a.capacityPlanner.ForecastCapacity(a.ctx, "cpu"); err == nil {
+		if len(forecast.Alerts) > 0 {
+			for _, alert := range forecast.Alerts {
+				a.comm.SendAlert(alert.Severity, "CPU Capacity Alert", alert.Message,
+					map[string]interface{}{
+						"current_usage":      forecast.CurrentUsage,
+						"forecasted_usage":   forecast.ForecastedUsage,
+						"growth_rate":        forecast.GrowthRate,
+						"time_to_exhaustion": forecast.TimeToExhaustion,
+					},
+				)
+			}
+		}
+	}
+	
+	// Check memory capacity
+	if forecast, err := a.capacityPlanner.ForecastCapacity(a.ctx, "memory"); err == nil {
+		if len(forecast.Alerts) > 0 {
+			for _, alert := range forecast.Alerts {
+				a.comm.SendAlert(alert.Severity, "Memory Capacity Alert", alert.Message,
+					map[string]interface{}{
+						"current_usage":      forecast.CurrentUsage,
+						"forecasted_usage":   forecast.ForecastedUsage,
+						"growth_rate":        forecast.GrowthRate,
+						"time_to_exhaustion": forecast.TimeToExhaustion,
+					},
+				)
+			}
 		}
 	}
 }

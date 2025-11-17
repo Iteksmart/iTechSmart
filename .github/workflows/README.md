@@ -70,10 +70,10 @@ To create a new release with installers:
 
 ```bash
 # Tag the current commit
-git tag -a v1.0.0 -m "Release version 1.0.0"
+git tag -a v1.2.0 -m "Release version 1.0.0"
 
 # Push the tag to GitHub
-git push origin v1.0.0
+git push origin v1.2.0
 ```
 
 The `build-all-platforms` workflow will automatically:
@@ -115,7 +115,7 @@ The workflows require the following permissions (automatically granted):
 
 ### Release Creation Issues
 - Ensure you're pushing a tag (not just a commit)
-- Tag must start with 'v' (e.g., v1.0.0)
+- Tag must start with 'v' (e.g., v1.2.0)
 - Check that GITHUB_TOKEN has sufficient permissions
 
 ## Customization

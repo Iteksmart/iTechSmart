@@ -268,7 +268,7 @@ services:
 
   # Prometheus Monitoring
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:1.2.0
     container_name: itechsmart-prometheus
     volumes:
       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
@@ -285,7 +285,7 @@ services:
 
   # Grafana Dashboards
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:1.2.0
     container_name: itechsmart-grafana
     environment:
       GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
