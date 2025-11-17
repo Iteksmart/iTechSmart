@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deployment Guide - iTechSmart Suite</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .doc-content {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .doc-content h1 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        .doc-content h2 {
+            color: var(--secondary-color);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+        .doc-content h3 {
+            color: var(--accent-color);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .doc-content code {
+            background: var(--light-bg);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', monospace;
+        }
+        .doc-content pre {
+            background: var(--light-bg);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+        }
+        .doc-content ul, .doc-content ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../index.html" class="logo">iTechSmart Suite</a>
+            <ul class="nav-links">
+                <li><a href="../index.html#features">Features</a></li>
+                <li><a href="../index.html#products">Products</a></li>
+                <li><a href="../index.html#documentation">Documentation</a></li>
+                <li><a href="../index.html#about">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <a href="../index.html#documentation" class="back-link">← Back to Documentation</a>
+        <div class="doc-content">
+            <h1>iTechSmart Suite - Deployment Guide</h1>
+            
+            <h2>Overview</h2>
+            <p>This guide provides comprehensive instructions for deploying the iTechSmart Suite across various environments.</p>
+
+            <h2>Prerequisites</h2>
+            <ul>
+                <li>Docker and Docker Compose installed</li>
+                <li>Kubernetes cluster (for production deployments)</li>
+                <li>PostgreSQL 15+ database</li>
+                <li>Redis 7+ for caching</li>
+                <li>Node.js 20+ for frontend applications</li>
+                <li>Python 3.11+ for backend services</li>
+            </ul>
+
+            <h2>Quick Start - Docker Compose</h2>
+            <h3>1. Clone the Repository</h3>
+            <pre><code>git clone https://github.com/yourusername/iTechSmart.git
+cd iTechSmart</code></pre>
+
+            <h3>2. Configure Environment Variables</h3>
+            <pre><code>cp .env.example .env
+# Edit .env with your configuration</code></pre>
+
+            <h3>3. Start Services</h3>
+            <pre><code>docker-compose up -d</code></pre>
+
+            <h2>Production Deployment</h2>
+            <h3>Kubernetes Deployment</h3>
+            <pre><code># Apply Kubernetes configurations
+kubectl apply -f k8s/namespace.yaml
+kubectl apply -f k8s/configmap.yaml
+kubectl apply -f k8s/secrets.yaml
+kubectl apply -f k8s/deployments/
+kubectl apply -f k8s/services/</code></pre>
+
+            <h3>Helm Chart Installation</h3>
+            <pre><code>helm repo add itechsmart https://charts.itechsmart.io
+helm install itechsmart itechsmart/suite --namespace itechsmart</code></pre>
+
+            <h2>Configuration</h2>
+            <h3>Database Setup</h3>
+            <pre><code># Initialize database
+python manage.py migrate
+python manage.py createsuperuser</code></pre>
+
+            <h3>Service Configuration</h3>
+            <p>Configure each service by editing the respective configuration files in the <code>config/</code> directory.</p>
+
+            <h2>Monitoring and Maintenance</h2>
+            <ul>
+                <li>Access Grafana dashboard at <code>http://localhost:3000</code></li>
+                <li>View logs: <code>docker-compose logs -f</code></li>
+                <li>Health checks: <code>curl http://localhost:8000/health</code></li>
+            </ul>
+
+            <h2>Troubleshooting</h2>
+            <h3>Common Issues</h3>
+            <ul>
+                <li><strong>Port conflicts:</strong> Check if ports 8000, 3000, 5432, 6379 are available</li>
+                <li><strong>Database connection:</strong> Verify PostgreSQL is running and credentials are correct</li>
+                <li><strong>Memory issues:</strong> Ensure Docker has at least 4GB RAM allocated</li>
+            </ul>
+
+            <h2>Support</h2>
+            <p>For additional support:</p>
+            <ul>
+                <li>GitHub Issues: <a href="https://github.com/yourusername/iTechSmart/issues">Report a bug</a></li>
+                <li>Documentation: <a href="ITECHSMART_SUITE_COMPLETE_DOCUMENTATION.html">Complete Documentation</a></li>
+                <li>Community: <a href="https://github.com/yourusername/iTechSmart/discussions">Join discussions</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>iTechSmart Suite</h3>
+                <p>AI-Powered IT Management Platform</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 iTechSmart Suite. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

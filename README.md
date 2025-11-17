@@ -2,12 +2,23 @@
 
 **Enterprise-Grade AI-Powered IT Management Platform**
 
-Complete suite of 37+ products for IT automation, monitoring, security, and management - now with integrated agent-based monitoring.
+Complete suite of 40+ products for IT automation, monitoring, security, and management - now with integrated agent-based monitoring.
 
-![Version](https://img.shields.io/badge/version-1.3.0-blue)
-![Products](https://img.shields.io/badge/products-37-green)
+![Version](https://img.shields.io/badge/version-1.4.0-blue)
+![Products](https://img.shields.io/badge/products-40+-green)
 ![License](https://img.shields.io/badge/license-Proprietary-orange)
 ![Status](https://img.shields.io/badge/status-Production%20Ready-success)
+
+## 🌐 Website &amp; Documentation
+
+**📱 Visit our website:** [iTechSmart Suite Website](https://8050-4e3e6dbe-4567-44ca-a9cd-36cc5d8cf07b.proxy.daytona.works) *(Update with your GitHub Pages URL after deployment)*
+
+**📚 Complete Documentation:**
+- [Full Suite Documentation](website/docs/ITECHSMART_SUITE_COMPLETE_DOCUMENTATION.html)
+- [Executive Presentation](website/docs/EXECUTIVE_PRESENTATION.html)
+- [Architecture Guide](website/docs/iTechSmart_Complete_Architecture.html)
+- [API Documentation](website/docs/API_DOCUMENTATION.html)
+- [Deployment Guide](website/docs/DEPLOYMENT_GUIDE.html)
 
 ---
 

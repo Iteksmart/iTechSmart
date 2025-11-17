@@ -1,0 +1,56 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'website/**'
+      - '.github/workflows/deploy-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Build website
+        run: |
+          # Copy website files to build directory
+          mkdir -p _site
+          cp -r website/* _site/
+          
+          # Create .nojekyll to prevent Jekyll processing
+          touch _site/.nojekyll
+          
+          # Update GitHub repository links in HTML files
+          find _site -name "*.html" -type f -exec sed -i 's|https://github.com/yourusername/iTechSmart|${{ github.server_url }}/${{ github.repository }}|g' {} +
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

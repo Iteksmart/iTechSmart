@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - iTechSmart Suite</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .doc-content {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .doc-content h1 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        .doc-content h2 {
+            color: var(--secondary-color);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+        .doc-content h3 {
+            color: var(--accent-color);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .doc-content code {
+            background: var(--light-bg);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', monospace;
+        }
+        .doc-content pre {
+            background: var(--light-bg);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+        }
+        .endpoint {
+            background: var(--light-bg);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--primary-color);
+        }
+        .method {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        .method.get { background: #10b981; color: white; }
+        .method.post { background: #3b82f6; color: white; }
+        .method.put { background: #f59e0b; color: white; }
+        .method.delete { background: #ef4444; color: white; }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../index.html" class="logo">iTechSmart Suite</a>
+            <ul class="nav-links">
+                <li><a href="../index.html#features">Features</a></li>
+                <li><a href="../index.html#products">Products</a></li>
+                <li><a href="../index.html#documentation">Documentation</a></li>
+                <li><a href="../index.html#about">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <a href="../index.html#documentation" class="back-link">← Back to Documentation</a>
+        <div class="doc-content">
+            <h1>iTechSmart Suite - API Documentation</h1>
+            
+            <h2>Overview</h2>
+            <p>The iTechSmart Suite provides a comprehensive REST API for programmatic access to all platform features.</p>
+
+            <h2>Authentication</h2>
+            <p>All API requests require authentication using JWT tokens.</p>
+            <pre><code>Authorization: Bearer YOUR_JWT_TOKEN</code></pre>
+
+            <h3>Obtaining a Token</h3>
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <code>/api/v1/auth/token</code>
+                <pre><code>{
+  "username": "your_username",
+  "password": "your_password"
+}</code></pre>
+            </div>
+
+            <h2>Core Endpoints</h2>
+
+            <h3>Monitoring</h3>
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <code>/api/v1/monitoring/metrics</code>
+                <p>Retrieve system metrics and performance data</p>
+            </div>
+
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <code>/api/v1/monitoring/alerts</code>
+                <p>Get active alerts and notifications</p>
+            </div>
+
+            <h3>Incident Management</h3>
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <code>/api/v1/incidents</code>
+                <p>List all incidents</p>
+            </div>
+
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <code>/api/v1/incidents</code>
+                <p>Create a new incident</p>
+                <pre><code>{
+  "title": "Database connection timeout",
+  "severity": "high",
+  "description": "Production database experiencing connection timeouts",
+  "assigned_to": "user_id"
+}</code></pre>
+            </div>
+
+            <div class="endpoint">
+                <span class="method put">PUT</span>
+                <code>/api/v1/incidents/{id}</code>
+                <p>Update an existing incident</p>
+            </div>
+
+            <h3>Automation</h3>
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <code>/api/v1/automation/workflows</code>
+                <p>List all automation workflows</p>
+            </div>
+
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <code>/api/v1/automation/workflows</code>
+                <p>Create a new workflow</p>
+                <pre><code>{
+  "name": "Auto-scale on high CPU",
+  "trigger": "cpu_threshold",
+  "actions": [
+    {
+      "type": "scale_up",
+      "parameters": {"instances": 2}
+    }
+  ]
+}</code></pre>
+            </div>
+
+            <h3>Cloud Management</h3>
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <code>/api/v1/cloud/resources</code>
+                <p>List cloud resources across all providers</p>
+            </div>
+
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <code>/api/v1/cloud/deploy</code>
+                <p>Deploy resources to cloud providers</p>
+            </div>
+
+            <h2>Response Format</h2>
+            <p>All API responses follow this standard format:</p>
+            <pre><code>{
+  "status": "success",
+  "data": {
+    // Response data
+  },
+  "message": "Operation completed successfully",
+  "timestamp": "2024-11-17T10:15:00Z"
+}</code></pre>
+
+            <h2>Error Handling</h2>
+            <p>Error responses include detailed information:</p>
+            <pre><code>{
+  "status": "error",
+  "error": {
+    "code": "INVALID_REQUEST",
+    "message": "Missing required field: title",
+    "details": {}
+  },
+  "timestamp": "2024-11-17T10:15:00Z"
+}</code></pre>
+
+            <h2>Rate Limiting</h2>
+            <p>API requests are rate-limited to:</p>
+            <ul>
+                <li>1000 requests per hour for authenticated users</li>
+                <li>100 requests per hour for unauthenticated requests</li>
+            </ul>
+
+            <h2>Webhooks</h2>
+            <p>Configure webhooks to receive real-time notifications:</p>
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <code>/api/v1/webhooks</code>
+                <pre><code>{
+  "url": "https://your-app.com/webhook",
+  "events": ["incident.created", "alert.triggered"],
+  "secret": "your_webhook_secret"
+}</code></pre>
+            </div>
+
+            <h2>SDK Support</h2>
+            <p>Official SDKs available for:</p>
+            <ul>
+                <li>Python: <code>pip install itechsmart-sdk</code></li>
+                <li>JavaScript/Node.js: <code>npm install @itechsmart/sdk</code></li>
+                <li>Go: <code>go get github.com/itechsmart/sdk-go</code></li>
+            </ul>
+
+            <h2>Support</h2>
+            <p>For API support:</p>
+            <ul>
+                <li>GitHub Issues: <a href="https://github.com/yourusername/iTechSmart/issues">Report API issues</a></li>
+                <li>API Status: <a href="https://status.itechsmart.io">Check API status</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>iTechSmart Suite</h3>
+                <p>AI-Powered IT Management Platform</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 iTechSmart Suite. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
