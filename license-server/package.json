@@ -1,6 +1,6 @@
 {
   "name": "itechsmart-license-server",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "iTechSmart Suite License Management API Server",
   "main": "dist/index.js",
   "scripts": {

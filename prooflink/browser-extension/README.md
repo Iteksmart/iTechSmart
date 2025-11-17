@@ -241,7 +241,7 @@ Copyright © 2025 ProofLink.AI. All rights reserved.
 
 ## Version History
 
-### v1.2.0 (2025-01-15)
+### v1.3.0 (2025-01-15)
 - Initial release
 - Context menu integration
 - Keyboard shortcuts

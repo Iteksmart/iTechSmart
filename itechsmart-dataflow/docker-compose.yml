@@ -99,7 +99,7 @@ services:
 
   # MinIO (S3-compatible storage)
   minio:
-    image: minio/minio:1.2.0
+    image: minio/minio:1.3.0
     ports:
       - "9000:9000"
       - "9001:9001"

@@ -1,6 +1,6 @@
 {
   "name": "itechsmart-supreme-plus-frontend",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "iTechSmart Supreme Plus - AI-Powered Infrastructure Auto-Remediation Platform Frontend",
   "private": true,
   "scripts": {
