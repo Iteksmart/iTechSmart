@@ -413,9 +413,9 @@ jobs:
     
     steps:
       - name: Slack Notification
-        if: ${{ secrets.SLACK_WEBHOOK != '' }}
         continue-on-error: true
         uses: 8398a7/action-slack@v3
+        if: always()
         with:
           status: ${{ job.status }}
           text: |
@@ -425,9 +425,9 @@ jobs:
           webhook_url: ${{ secrets.SLACK_WEBHOOK }}
       
       - name: Email Notification
-        if: ${{ secrets.EMAIL_USERNAME != '' && secrets.EMAIL_PASSWORD != '' }}
         continue-on-error: true
         uses: dawidd6/action-send-mail@v3
+        if: always()
         with:
           server_address: smtp.gmail.com
           server_port: 465
