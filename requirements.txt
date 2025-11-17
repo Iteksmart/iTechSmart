@@ -113,4 +113,5 @@ python-telegram-bot==20.7
 
 # Ticketing Systems
 jira==3.6.0
-python-servicenow==2.0.0
+# python-servicenow==2.0.0  # Package not available on PyPI - using pysnow instead
+pysnow==0.7.17
