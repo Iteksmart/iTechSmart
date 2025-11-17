@@ -9,7 +9,7 @@ from contextlib import asynccontextmanager
 import logging
 
 from app.core.database import init_db
-from app.api import patients, appointments, billing, dashboard
+from app.api import patients, appointments, billing, dashboard, system_agents
 
 # Configure logging
 logging.basicConfig(
@@ -55,6 +55,7 @@ app.include_router(patients.router)
 app.include_router(appointments.router)
 app.include_router(billing.router)
 app.include_router(dashboard.router)
+app.include_router(system_agents.router, prefix="/api/v1/system-agents", tags=["System Agents"])
 
 
 @app.get("/")
