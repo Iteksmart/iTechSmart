@@ -1,0 +1,53 @@
+# iTechSmart Agent Configuration
+# Copyright © 2025 iTechSmart Inc. All rights reserved.
+
+# Agent identification
+agent_id: ""  # Auto-generated if not set
+agent_name: ""  # Friendly name for this agent
+organization: ""  # Organization name
+
+# Server configuration
+server_url: "https://api.itechsmart.dev"
+websocket_url: "wss://api.itechsmart.dev/agent/ws"
+api_key: ""  # Required - Get from iTechSmart Console
+api_secret: ""  # Optional - For enhanced security
+
+# Communication settings
+reconnect_interval: 30  # seconds
+heartbeat_interval: 60  # seconds
+
+# Collection intervals (seconds)
+system_metrics_interval: 60      # System metrics (CPU, Memory, Disk, Network)
+process_metrics_interval: 300    # Process metrics
+network_metrics_interval: 60     # Network metrics
+security_check_interval: 3600    # Security checks (1 hour)
+software_inventory_interval: 86400  # Software inventory (24 hours)
+
+# Features
+enable_system_monitoring: true
+enable_security_checks: true
+enable_software_inventory: true
+enable_remote_commands: true
+enable_patch_management: true
+enable_audit_logging: true
+
+# Logging
+log_level: "info"  # debug, info, warn, error
+log_file: "/var/log/itechsmart/agent.log"
+
+# Security
+tls_enabled: true
+tls_cert_file: ""
+tls_key_file: ""
+tls_ca_file: ""
+certificate_pinning: true
+
+# Product integration
+ninja_enabled: true
+ninja_url: "https://ninja.itechsmart.dev"
+enterprise_enabled: true
+enterprise_url: "https://enterprise.itechsmart.dev"
+
+# Data retention
+metrics_retention_days: 30
+logs_retention_days: 90
