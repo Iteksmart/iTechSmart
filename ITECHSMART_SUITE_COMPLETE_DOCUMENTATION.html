@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iTechSmart Suite v1.5.0 - Complete Documentation</title>
+    <title>iTechSmart Suite v1.5.0 - Complete Documentation (34 Products)</title>
     <style>
         * {
             margin: 0;
@@ -58,6 +58,12 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
         
+        .product-count {
+            font-size: 1.5rem;
+            margin-top: 0.5rem;
+            opacity: 0.9;
+        }
+        
         .intro {
             padding: 3rem 2rem;
             background: linear-gradient(to bottom, #f9fafb, white);
@@ -73,8 +79,35 @@
         .intro p {
             font-size: 1.2rem;
             max-width: 900px;
-            margin: 0 auto;
+            margin: 0 auto 2rem;
             color: #4b5563;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
         }
         
         .tier-section {
@@ -99,6 +132,12 @@
             font-weight: bold;
         }
         
+        .tier-header .tier-count {
+            font-size: 1.2rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+        
         .product-card {
             background: white;
             border-radius: 15px;
@@ -117,7 +156,7 @@
         .product-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             margin-bottom: 1.5rem;
             padding-bottom: 1.5rem;
             border-bottom: 3px solid #667eea;
@@ -133,9 +172,20 @@
             margin-bottom: 0.5rem;
         }
         
-        .product-title p {
+        .product-category {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-description {
             color: #6b7280;
             font-size: 1.1rem;
+            margin-top: 0.5rem;
         }
         
         .product-meta {
@@ -146,29 +196,6 @@
             font-size: 2rem;
             font-weight: bold;
             color: #10b981;
-            margin-bottom: 0.5rem;
-        }
-        
-        .product-tier {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            display: inline-block;
-        }
-        
-        .product-description {
-            background: #f9fafb;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-bottom: 2rem;
-            border-left: 4px solid #667eea;
-        }
-        
-        .product-description p {
-            font-size: 1.1rem;
-            color: #4b5563;
         }
         
         .features-section {
@@ -229,33 +256,6 @@
             content: "🚀";
         }
         
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-        
-        .stat-label {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-        
         footer {
             background: #1f2937;
             color: white;
@@ -265,16 +265,6 @@
         
         footer p {
             margin: 0.5rem 0;
-        }
-        
-        .api-badge {
-            background: #3b82f6;
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            display: inline-block;
-            margin-top: 0.5rem;
         }
         
         @media (max-width: 768px) {
@@ -288,11 +278,10 @@
             
             .product-header {
                 flex-direction: column;
-                text-align: center;
             }
             
             .product-meta {
-                text-align: center;
+                text-align: left;
                 margin-top: 1rem;
             }
             
@@ -308,61 +297,68 @@
             <h1>iTechSmart Suite</h1>
             <div class="version-badge">Version 1.5.0</div>
             <p style="font-size: 1.3rem; margin-top: 1rem;">Complete AI-Powered IT Management Platform</p>
-            <div class="total-value">Total Portfolio Value: $30.4M</div>
+            <div class="total-value">Total Portfolio Value: $72.1M</div>
+            <div class="product-count">34 Enterprise Products</div>
         </header>
         
         <div class="intro">
-            <h2>Comprehensive Enterprise IT Management Solution</h2>
+            <h2>The Most Comprehensive IT Management Suite</h2>
             <p>
-                The iTechSmart Suite is a complete, enterprise-grade IT management platform featuring 12 advanced products 
-                across 3 tiers. With cutting-edge AI capabilities, multi-cloud optimization, and comprehensive automation, 
-                our suite delivers unparalleled value for organizations of all sizes. From basic monitoring to advanced 
-                threat detection and AI-powered analytics, iTechSmart Suite provides everything you need to manage, 
-                secure, and optimize your IT infrastructure.
+                The iTechSmart Suite is the industry's most complete enterprise IT management platform, featuring 
+                34 advanced products across 3 tiers. With cutting-edge AI capabilities, multi-cloud 
+                optimization, comprehensive automation, and enterprise-grade security, our suite delivers unparalleled 
+                value for organizations of all sizes.
             </p>
             
             <div class="stats-grid">
                 <div class="stat-card">
-                    <span class="stat-number">12</span>
+                    <span class="stat-number">34</span>
                     <span class="stat-label">Enterprise Products</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">200+</span>
-                    <span class="stat-label">API Endpoints</span>
+                    <span class="stat-number">$72.1M</span>
+                    <span class="stat-label">Total Value</span>
                 </div>
                 <div class="stat-card">
                     <span class="stat-number">1000+</span>
                     <span class="stat-label">ML Models</span>
                 </div>
                 <div class="stat-card">
+                    <span class="stat-number">200+</span>
+                    <span class="stat-label">Integrations</span>
+                </div>
+                <div class="stat-card">
                     <span class="stat-number">40%</span>
                     <span class="stat-label">Cost Savings</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Autonomous Ops</span>
                 </div>
             </div>
         </div>
 
         <div class="tier-section">
             <div class="tier-header">
-                <h2>Tier 1 - Foundation Products</h2>
+                <h2>Tier 1 - Core Platform Products</h2>
                 <div class="tier-value">Total Value: $13.3M</div>
-                <p style="margin-top: 1rem; color: #6b7280;">Essential enterprise-grade products for comprehensive IT management</p>
+                <div class="tier-count">5 Products - Essential enterprise-grade products for comprehensive IT management</div>
             </div>
 
             <div class="product-card">
                 <div class="product-header">
                     <div class="product-title">
                         <h3>iTechSmart Ninja</h3>
-                        <p>AI-powered IT automation and orchestration platform with advanced machine learning capabilities</p>
-                        <span class="api-badge">20+ API Endpoints</span>
+                        <p class="product-category">Core Platform</p>
+                        <p class="product-description">AI-powered IT automation and orchestration platform with advanced machine learning</p>
                     </div>
                     <div class="product-meta">
                         <div class="product-value">$2.5M</div>
-                        <span class="product-tier">Tier 1</span>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>Core Features (v1.4.0)</h4>
+                    <h4>Core Features (v1.4.0) - 20 Features</h4>
                     <div class="features-list">
                         <div class="feature-item">AI-powered workflow optimization with machine learning</div>
                         <div class="feature-item">Natural language task creation and automation</div>
@@ -375,25 +371,25 @@
                         <div class="feature-item">Automated incident detection and response</div>
                         <div class="feature-item">Integration with 100+ third-party tools</div>
                         <div class="feature-item">Role-based access control (RBAC)</div>
-                        <div class="feature-item">API-first architecture with comprehensive REST APIs</div>
+                        <div class="feature-item">API-first architecture</div>
                         <div class="feature-item">Real-time monitoring and alerting</div>
-                        <div class="feature-item">Custom workflow builder with drag-and-drop interface</div>
-                        <div class="feature-item">Advanced security features and compliance</div>
-                        <div class="feature-item">Multi-tenant architecture support</div>
+                        <div class="feature-item">Custom workflow builder</div>
+                        <div class="feature-item">Advanced security features</div>
+                        <div class="feature-item">Multi-tenant architecture</div>
                         <div class="feature-item">Automated backup and disaster recovery</div>
-                        <div class="feature-item">Performance optimization recommendations</div>
-                        <div class="feature-item">Cost analysis and optimization tools</div>
+                        <div class="feature-item">Performance optimization</div>
+                        <div class="feature-item">Cost analysis and optimization</div>
                         <div class="feature-item">24/7 autonomous operations</div>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>New in v1.5.0 🆕</h4>
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-5-0-features">Advanced ML model marketplace with 1000+ pre-trained models</div>
-                        <div class="feature-item v1-5-0-features">Automated workflow templates library with industry best practices</div>
-                        <div class="feature-item v1-5-0-features">Enhanced multi-cloud cost optimization with 40% savings</div>
-                        <div class="feature-item v1-5-0-features">Real-time collaboration with integrated video conferencing</div>
+                        <div class="feature-item v1-5-0-features">Advanced ML model marketplace (1000+ models)</div>
+                        <div class="feature-item v1-5-0-features">Automated workflow templates library</div>
+                        <div class="feature-item v1-5-0-features">Enhanced multi-cloud cost optimization (40% savings)</div>
+                        <div class="feature-item v1-5-0-features">Real-time collaboration with video conferencing</div>
                         <div class="feature-item v1-5-0-features">Neural architecture search for AutoML</div>
                         <div class="feature-item v1-5-0-features">Advanced predictive analytics engine</div>
                         <div class="feature-item v1-5-0-features">Enhanced natural language processing</div>
@@ -402,18 +398,18 @@
                 </div>
                 
                 <div class="features-section">
-                    <h4>Coming in v1.6.0 🚀</h4>
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-6-0-features">Quantum computing integration for complex optimizations</div>
+                        <div class="feature-item v1-6-0-features">Quantum computing integration</div>
                         <div class="feature-item v1-6-0-features">Advanced edge computing capabilities</div>
                         <div class="feature-item v1-6-0-features">Enhanced AI model training with federated learning</div>
                         <div class="feature-item v1-6-0-features">Real-time multi-language translation (50+ languages)</div>
-                        <div class="feature-item v1-6-0-features">Advanced blockchain integration for audit trails</div>
-                        <div class="feature-item v1-6-0-features">Improved AR/VR collaboration features</div>
+                        <div class="feature-item v1-6-0-features">Advanced blockchain integration</div>
+                        <div class="feature-item v1-6-0-features">AR/VR collaboration features</div>
                         <div class="feature-item v1-6-0-features">Enhanced IoT device management</div>
-                        <div class="feature-item v1-6-0-features">Advanced predictive maintenance with 99% accuracy</div>
-                        <div class="feature-item v1-6-0-features">Automated compliance reporting for 20+ frameworks</div>
-                        <div class="feature-item v1-6-0-features">Enhanced mobile app with offline-first architecture</div>
+                        <div class="feature-item v1-6-0-features">Predictive maintenance (99% accuracy)</div>
+                        <div class="feature-item v1-6-0-features">Automated compliance (20+ frameworks)</div>
+                        <div class="feature-item v1-6-0-features">Enhanced mobile app with offline-first</div>
                     </div>
                 </div>
             </div>
@@ -422,35 +418,34 @@
                 <div class="product-header">
                     <div class="product-title">
                         <h3>iTechSmart Enterprise</h3>
-                        <p>Enterprise-grade IT management and monitoring platform with comprehensive compliance and governance</p>
-                        <span class="api-badge">20+ API Endpoints</span>
+                        <p class="product-category">Core Platform</p>
+                        <p class="product-description">Enterprise-grade IT management and monitoring with comprehensive compliance</p>
                     </div>
                     <div class="product-meta">
                         <div class="product-value">$3.0M</div>
-                        <span class="product-tier">Tier 1</span>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>Core Features (v1.4.0)</h4>
+                    <h4>Core Features (v1.4.0) - 20 Features</h4>
                     <div class="features-list">
                         <div class="feature-item">Advanced compliance reporting (SOC 2, ISO 27001, HIPAA, GDPR)</div>
-                        <div class="feature-item">Custom dashboard builder with drag-and-drop interface</div>
-                        <div class="feature-item">Integration marketplace with 100+ connectors</div>
+                        <div class="feature-item">Custom dashboard builder</div>
+                        <div class="feature-item">Integration marketplace (100+ connectors)</div>
                         <div class="feature-item">AI-powered insights and recommendations</div>
                         <div class="feature-item">Automated incident response workflows</div>
                         <div class="feature-item">Multi-tenant architecture enhancements</div>
-                        <div class="feature-item">Advanced role-based access control (RBAC)</div>
+                        <div class="feature-item">Advanced RBAC</div>
                         <div class="feature-item">Real-time collaboration and team workspaces</div>
-                        <div class="feature-item">Enterprise-grade security features</div>
-                        <div class="feature-item">Advanced audit logging and tracking</div>
+                        <div class="feature-item">Enterprise-grade security</div>
+                        <div class="feature-item">Advanced audit logging</div>
                         <div class="feature-item">Custom reporting engine</div>
                         <div class="feature-item">Automated policy enforcement</div>
-                        <div class="feature-item">Integration with ITSM platforms</div>
+                        <div class="feature-item">ITSM platform integration</div>
                         <div class="feature-item">Advanced data visualization</div>
-                        <div class="feature-item">Performance monitoring and optimization</div>
+                        <div class="feature-item">Performance monitoring</div>
                         <div class="feature-item">Capacity planning tools</div>
-                        <div class="feature-item">Cost management and optimization</div>
+                        <div class="feature-item">Cost management</div>
                         <div class="feature-item">Service catalog management</div>
                         <div class="feature-item">Change management automation</div>
                         <div class="feature-item">Asset lifecycle management</div>
@@ -458,12 +453,12 @@
                 </div>
                 
                 <div class="features-section">
-                    <h4>New in v1.5.0 🆕</h4>
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-5-0-features">AI-powered compliance automation across all frameworks</div>
-                        <div class="feature-item v1-5-0-features">Advanced dashboard templates marketplace with 500+ templates</div>
-                        <div class="feature-item v1-5-0-features">Enhanced integration with 200+ enterprise connectors</div>
-                        <div class="feature-item v1-5-0-features">Predictive incident prevention with ML</div>
+                        <div class="feature-item v1-5-0-features">AI-powered compliance automation</div>
+                        <div class="feature-item v1-5-0-features">Advanced dashboard templates (500+)</div>
+                        <div class="feature-item v1-5-0-features">Enhanced integration (200+ connectors)</div>
+                        <div class="feature-item v1-5-0-features">Predictive incident prevention</div>
                         <div class="feature-item v1-5-0-features">Automated remediation workflows</div>
                         <div class="feature-item v1-5-0-features">Enhanced multi-tenant isolation</div>
                         <div class="feature-item v1-5-0-features">Advanced analytics and reporting</div>
@@ -472,18 +467,18 @@
                 </div>
                 
                 <div class="features-section">
-                    <h4>Coming in v1.6.0 🚀</h4>
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-6-0-features">Zero-trust security architecture implementation</div>
-                        <div class="feature-item v1-6-0-features">Advanced threat intelligence integration</div>
+                        <div class="feature-item v1-6-0-features">Zero-trust security architecture</div>
+                        <div class="feature-item v1-6-0-features">Advanced threat intelligence</div>
                         <div class="feature-item v1-6-0-features">Automated security orchestration (SOAR)</div>
-                        <div class="feature-item v1-6-0-features">Enhanced compliance automation for emerging regulations</div>
-                        <div class="feature-item v1-6-0-features">Advanced data governance and privacy controls</div>
-                        <div class="feature-item v1-6-0-features">Improved integration with 300+ enterprise tools</div>
-                        <div class="feature-item v1-6-0-features">Enhanced mobile management capabilities</div>
+                        <div class="feature-item v1-6-0-features">Enhanced compliance for emerging regulations</div>
+                        <div class="feature-item v1-6-0-features">Advanced data governance</div>
+                        <div class="feature-item v1-6-0-features">Integration with 300+ tools</div>
+                        <div class="feature-item v1-6-0-features">Enhanced mobile management</div>
                         <div class="feature-item v1-6-0-features">Advanced workflow automation with AI</div>
-                        <div class="feature-item v1-6-0-features">Improved disaster recovery and business continuity</div>
-                        <div class="feature-item v1-6-0-features">Enhanced API gateway and management</div>
+                        <div class="feature-item v1-6-0-features">Improved disaster recovery</div>
+                        <div class="feature-item v1-6-0-features">Enhanced API gateway</div>
                     </div>
                 </div>
             </div>
@@ -492,48 +487,47 @@
                 <div class="product-header">
                     <div class="product-title">
                         <h3>iTechSmart Supreme Plus</h3>
-                        <p>Premium IT operations and analytics platform with advanced predictive capabilities</p>
-                        <span class="api-badge">21+ API Endpoints</span>
+                        <p class="product-category">Core Platform</p>
+                        <p class="product-description">Premium IT operations and analytics with advanced predictive capabilities</p>
                     </div>
                     <div class="product-meta">
                         <div class="product-value">$2.8M</div>
-                        <span class="product-tier">Tier 1</span>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>Core Features (v1.4.0)</h4>
+                    <h4>Core Features (v1.4.0) - 20 Features</h4>
                     <div class="features-list">
                         <div class="feature-item">Predictive maintenance scheduling with AI</div>
                         <div class="feature-item">Advanced trend analysis and forecasting</div>
-                        <div class="feature-item">Custom report templates and automation</div>
-                        <div class="feature-item">Mobile app integration (iOS and Android)</div>
+                        <div class="feature-item">Custom report templates</div>
+                        <div class="feature-item">Mobile app integration (iOS/Android)</div>
                         <div class="feature-item">Real-time alerting with smart notifications</div>
-                        <div class="feature-item">Integration with ITSM platforms (ServiceNow, Jira)</div>
-                        <div class="feature-item">Advanced data visualization tools</div>
-                        <div class="feature-item">Automated capacity planning recommendations</div>
+                        <div class="feature-item">ITSM platform integration</div>
+                        <div class="feature-item">Advanced data visualization</div>
+                        <div class="feature-item">Automated capacity planning</div>
                         <div class="feature-item">Performance optimization engine</div>
                         <div class="feature-item">Advanced analytics dashboard</div>
                         <div class="feature-item">Custom KPI tracking</div>
-                        <div class="feature-item">Automated reporting and distribution</div>
-                        <div class="feature-item">Integration with business intelligence tools</div>
+                        <div class="feature-item">Automated reporting</div>
+                        <div class="feature-item">BI tools integration</div>
                         <div class="feature-item">Advanced forecasting algorithms</div>
-                        <div class="feature-item">Resource optimization recommendations</div>
-                        <div class="feature-item">Cost analysis and optimization</div>
+                        <div class="feature-item">Resource optimization</div>
+                        <div class="feature-item">Cost analysis</div>
                         <div class="feature-item">Service level management</div>
-                        <div class="feature-item">Advanced monitoring capabilities</div>
+                        <div class="feature-item">Advanced monitoring</div>
                         <div class="feature-item">Custom alerting rules</div>
                         <div class="feature-item">Historical data analysis</div>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>New in v1.5.0 🆕</h4>
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-5-0-features">Enhanced AI-powered predictive maintenance with 95% accuracy</div>
-                        <div class="feature-item v1-5-0-features">Advanced mobile app features with full offline mode</div>
-                        <div class="feature-item v1-5-0-features">Real-time collaboration on mobile devices</div>
-                        <div class="feature-item v1-5-0-features">Deep integration with ServiceNow and Jira</div>
+                        <div class="feature-item v1-5-0-features">Enhanced AI predictive maintenance (95% accuracy)</div>
+                        <div class="feature-item v1-5-0-features">Advanced mobile app with offline mode</div>
+                        <div class="feature-item v1-5-0-features">Real-time mobile collaboration</div>
+                        <div class="feature-item v1-5-0-features">Deep ServiceNow and Jira integration</div>
                         <div class="feature-item v1-5-0-features">Enhanced trend analysis with ML</div>
                         <div class="feature-item v1-5-0-features">Improved forecasting accuracy</div>
                         <div class="feature-item v1-5-0-features">Advanced mobile notifications</div>
@@ -542,16 +536,16 @@
                 </div>
                 
                 <div class="features-section">
-                    <h4>Coming in v1.6.0 🚀</h4>
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-6-0-features">Advanced predictive analytics with quantum computing</div>
-                        <div class="feature-item v1-6-0-features">Enhanced mobile app with AR capabilities</div>
-                        <div class="feature-item v1-6-0-features">Real-time collaboration with holographic displays</div>
-                        <div class="feature-item v1-6-0-features">Advanced integration with Microsoft Teams and Slack</div>
-                        <div class="feature-item v1-6-0-features">Improved AI-powered recommendations</div>
+                        <div class="feature-item v1-6-0-features">Predictive analytics with quantum computing</div>
+                        <div class="feature-item v1-6-0-features">Mobile app with AR capabilities</div>
+                        <div class="feature-item v1-6-0-features">Holographic collaboration displays</div>
+                        <div class="feature-item v1-6-0-features">Advanced Teams and Slack integration</div>
+                        <div class="feature-item v1-6-0-features">Improved AI recommendations</div>
                         <div class="feature-item v1-6-0-features">Enhanced capacity planning with ML</div>
-                        <div class="feature-item v1-6-0-features">Advanced mobile security features</div>
-                        <div class="feature-item v1-6-0-features">Improved offline capabilities with edge computing</div>
+                        <div class="feature-item v1-6-0-features">Advanced mobile security</div>
+                        <div class="feature-item v1-6-0-features">Offline capabilities with edge computing</div>
                         <div class="feature-item v1-6-0-features">Enhanced data synchronization</div>
                         <div class="feature-item v1-6-0-features">Advanced mobile workflow automation</div>
                     </div>
@@ -562,48 +556,47 @@
                 <div class="product-header">
                     <div class="product-title">
                         <h3>iTechSmart Citadel</h3>
-                        <p>Enterprise security and compliance management platform with advanced threat detection</p>
-                        <span class="api-badge">22+ API Endpoints</span>
+                        <p class="product-category">Security</p>
+                        <p class="product-description">Enterprise security and compliance management with advanced threat detection</p>
                     </div>
                     <div class="product-meta">
                         <div class="product-value">$3.5M</div>
-                        <span class="product-tier">Tier 1</span>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>Core Features (v1.4.0)</h4>
+                    <h4>Core Features (v1.4.0) - 20 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item">Threat intelligence integration (MITRE ATT&CK framework)</div>
+                        <div class="feature-item">Threat intelligence (MITRE ATT&CK)</div>
                         <div class="feature-item">Automated incident response playbooks</div>
-                        <div class="feature-item">Zero-trust architecture implementation</div>
-                        <div class="feature-item">Advanced forensics and investigation tools</div>
-                        <div class="feature-item">Security orchestration and automation (SOAR)</div>
-                        <div class="feature-item">Compliance automation for multiple frameworks</div>
-                        <div class="feature-item">Vulnerability management and automated patching</div>
-                        <div class="feature-item">Security posture scoring and benchmarking</div>
-                        <div class="feature-item">Advanced threat detection and prevention</div>
+                        <div class="feature-item">Zero-trust architecture</div>
+                        <div class="feature-item">Advanced forensics tools</div>
+                        <div class="feature-item">Security orchestration (SOAR)</div>
+                        <div class="feature-item">Compliance automation</div>
+                        <div class="feature-item">Vulnerability management</div>
+                        <div class="feature-item">Security posture scoring</div>
+                        <div class="feature-item">Advanced threat detection</div>
                         <div class="feature-item">Real-time security monitoring</div>
                         <div class="feature-item">Automated security assessments</div>
-                        <div class="feature-item">Integration with SIEM platforms</div>
+                        <div class="feature-item">SIEM platform integration</div>
                         <div class="feature-item">Advanced malware detection</div>
                         <div class="feature-item">Network security monitoring</div>
                         <div class="feature-item">Endpoint detection and response (EDR)</div>
                         <div class="feature-item">Security compliance reporting</div>
-                        <div class="feature-item">Risk assessment and management</div>
+                        <div class="feature-item">Risk assessment</div>
                         <div class="feature-item">Security policy enforcement</div>
-                        <div class="feature-item">Advanced encryption and data protection</div>
-                        <div class="feature-item">Security awareness training integration</div>
+                        <div class="feature-item">Advanced encryption</div>
+                        <div class="feature-item">Security awareness training</div>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>New in v1.5.0 🆕</h4>
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-5-0-features">AI-powered threat hunting with behavioral analysis</div>
-                        <div class="feature-item v1-5-0-features">Advanced behavioral analytics and anomaly detection</div>
-                        <div class="feature-item v1-5-0-features">Automated penetration testing framework</div>
-                        <div class="feature-item v1-5-0-features">Enhanced SOAR capabilities with 50+ integrations</div>
+                        <div class="feature-item v1-5-0-features">AI-powered threat hunting</div>
+                        <div class="feature-item v1-5-0-features">Advanced behavioral analytics</div>
+                        <div class="feature-item v1-5-0-features">Automated penetration testing</div>
+                        <div class="feature-item v1-5-0-features">Enhanced SOAR (50+ integrations)</div>
                         <div class="feature-item v1-5-0-features">Advanced threat intelligence feeds</div>
                         <div class="feature-item v1-5-0-features">Improved incident response automation</div>
                         <div class="feature-item v1-5-0-features">Enhanced forensics capabilities</div>
@@ -612,18 +605,18 @@
                 </div>
                 
                 <div class="features-section">
-                    <h4>Coming in v1.6.0 🚀</h4>
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-6-0-features">Quantum-resistant encryption implementation</div>
-                        <div class="feature-item v1-6-0-features">Advanced AI-powered threat prediction</div>
+                        <div class="feature-item v1-6-0-features">Quantum-resistant encryption</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI threat prediction</div>
                         <div class="feature-item v1-6-0-features">Enhanced zero-trust architecture</div>
                         <div class="feature-item v1-6-0-features">Automated security posture management</div>
                         <div class="feature-item v1-6-0-features">Advanced deception technology</div>
                         <div class="feature-item v1-6-0-features">Enhanced threat intelligence with ML</div>
                         <div class="feature-item v1-6-0-features">Improved incident response with AI</div>
                         <div class="feature-item v1-6-0-features">Advanced security analytics</div>
-                        <div class="feature-item v1-6-0-features">Enhanced compliance automation for new regulations</div>
-                        <div class="feature-item v1-6-0-features">Improved integration with security tools</div>
+                        <div class="feature-item v1-6-0-features">Enhanced compliance for new regulations</div>
+                        <div class="feature-item v1-6-0-features">Improved security tool integration</div>
                     </div>
                 </div>
             </div>
@@ -632,62 +625,61 @@
                 <div class="product-header">
                     <div class="product-title">
                         <h3>Desktop Launcher</h3>
-                        <p>Unified desktop application for seamless access to all iTechSmart products</p>
-                        <span class="api-badge">15+ IPC Methods API Endpoints</span>
+                        <p class="product-category">Platform</p>
+                        <p class="product-description">Unified desktop application for seamless access to all iTechSmart products</p>
                     </div>
                     <div class="product-meta">
                         <div class="product-value">$1.5M</div>
-                        <span class="product-tier">Tier 1</span>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>Core Features (v1.4.0)</h4>
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item">Quick actions menu with customizable shortcuts</div>
+                        <div class="feature-item">Quick actions menu with shortcuts</div>
                         <div class="feature-item">Centralized notification center</div>
-                        <div class="feature-item">Plugin system for third-party integrations</div>
-                        <div class="feature-item">Offline mode with local caching</div>
+                        <div class="feature-item">Plugin system for integrations</div>
+                        <div class="feature-item">Offline mode with caching</div>
                         <div class="feature-item">Multi-monitor support</div>
                         <div class="feature-item">Keyboard shortcuts and hotkeys</div>
                         <div class="feature-item">Theme customization and dark mode</div>
-                        <div class="feature-item">Auto-update mechanism with rollback</div>
+                        <div class="feature-item">Auto-update with rollback</div>
                         <div class="feature-item">System tray integration</div>
                         <div class="feature-item">Quick search functionality</div>
                         <div class="feature-item">Customizable dashboard</div>
-                        <div class="feature-item">Integration with all iTechSmart products</div>
+                        <div class="feature-item">Integration with all products</div>
                         <div class="feature-item">Performance monitoring</div>
-                        <div class="feature-item">Resource usage optimization</div>
-                        <div class="feature-item">Cross-platform support (Windows, macOS, Linux)</div>
+                        <div class="feature-item">Resource optimization</div>
+                        <div class="feature-item">Cross-platform support</div>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>New in v1.5.0 🆕</h4>
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-5-0-features">Voice command integration with natural language</div>
-                        <div class="feature-item v1-5-0-features">Advanced plugin marketplace with 100+ plugins</div>
-                        <div class="feature-item v1-5-0-features">Enhanced offline capabilities with full functionality</div>
-                        <div class="feature-item v1-5-0-features">Cross-device synchronization across all platforms</div>
-                        <div class="feature-item v1-5-0-features">Improved performance and startup time</div>
+                        <div class="feature-item v1-5-0-features">Voice command integration</div>
+                        <div class="feature-item v1-5-0-features">Advanced plugin marketplace (100+ plugins)</div>
+                        <div class="feature-item v1-5-0-features">Enhanced offline capabilities</div>
+                        <div class="feature-item v1-5-0-features">Cross-device synchronization</div>
+                        <div class="feature-item v1-5-0-features">Improved performance</div>
                         <div class="feature-item v1-5-0-features">Enhanced security features</div>
-                        <div class="feature-item v1-5-0-features">Advanced customization options</div>
+                        <div class="feature-item v1-5-0-features">Advanced customization</div>
                         <div class="feature-item v1-5-0-features">Improved user experience</div>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>Coming in v1.6.0 🚀</h4>
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-6-0-features">Advanced AI assistant integration</div>
-                        <div class="feature-item v1-6-0-features">Enhanced voice commands with 30+ languages</div>
-                        <div class="feature-item v1-6-0-features">Improved plugin system with hot-reloading</div>
-                        <div class="feature-item v1-6-0-features">Advanced cross-device synchronization</div>
-                        <div class="feature-item v1-6-0-features">Enhanced offline mode with edge computing</div>
-                        <div class="feature-item v1-6-0-features">Improved performance with native compilation</div>
-                        <div class="feature-item v1-6-0-features">Advanced security with biometric authentication</div>
-                        <div class="feature-item v1-6-0-features">Enhanced customization with themes marketplace</div>
-                        <div class="feature-item v1-6-0-features">Improved integration with cloud services</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI assistant</div>
+                        <div class="feature-item v1-6-0-features">Voice commands (30+ languages)</div>
+                        <div class="feature-item v1-6-0-features">Plugin hot-reloading</div>
+                        <div class="feature-item v1-6-0-features">Advanced cross-device sync</div>
+                        <div class="feature-item v1-6-0-features">Enhanced offline with edge computing</div>
+                        <div class="feature-item v1-6-0-features">Native compilation performance</div>
+                        <div class="feature-item v1-6-0-features">Biometric authentication</div>
+                        <div class="feature-item v1-6-0-features">Themes marketplace</div>
+                        <div class="feature-item v1-6-0-features">Cloud services integration</div>
                         <div class="feature-item v1-6-0-features">Advanced workflow automation</div>
                     </div>
                 </div>
@@ -696,72 +688,71 @@
 
         <div class="tier-section">
             <div class="tier-header">
-                <h2>Tier 2 - Advanced Products</h2>
-                <div class="tier-value">Total Value: $10.8M</div>
-                <p style="margin-top: 1rem; color: #6b7280;">Advanced analytics, security, and automation capabilities</p>
+                <h2>Tier 2 - Advanced Capabilities</h2>
+                <div class="tier-value">Total Value: $21.9M</div>
+                <div class="tier-count">11 Products - Advanced analytics, security, automation, and specialized capabilities</div>
             </div>
 
             <div class="product-card">
                 <div class="product-header">
                     <div class="product-title">
                         <h3>iTechSmart Analytics</h3>
-                        <p>Advanced data analytics and visualization platform with machine learning capabilities</p>
-                        <span class="api-badge">18+ API Endpoints</span>
+                        <p class="product-category">Analytics</p>
+                        <p class="product-description">Advanced data analytics and visualization with machine learning</p>
                     </div>
                     <div class="product-meta">
                         <div class="product-value">$2.2M</div>
-                        <span class="product-tier">Tier 2</span>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>Core Features (v1.4.0)</h4>
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item">Real-time data streaming and processing</div>
-                        <div class="feature-item">Custom visualization builder with 50+ chart types</div>
-                        <div class="feature-item">Machine learning models for predictive analytics</div>
-                        <div class="feature-item">Advanced statistical analysis tools</div>
-                        <div class="feature-item">Data export in multiple formats (CSV, JSON, Excel, PDF)</div>
+                        <div class="feature-item">Real-time data streaming</div>
+                        <div class="feature-item">Custom visualization builder (50+ charts)</div>
+                        <div class="feature-item">ML models for predictive analytics</div>
+                        <div class="feature-item">Advanced statistical analysis</div>
+                        <div class="feature-item">Data export (CSV, JSON, Excel, PDF)</div>
                         <div class="feature-item">Scheduled reports and dashboards</div>
                         <div class="feature-item">Natural language query interface</div>
-                        <div class="feature-item">Integration with BI tools (Tableau, Power BI, Looker)</div>
+                        <div class="feature-item">BI tools integration</div>
                         <div class="feature-item">Advanced data transformation</div>
                         <div class="feature-item">Custom metrics and KPIs</div>
                         <div class="feature-item">Real-time alerting</div>
                         <div class="feature-item">Data quality monitoring</div>
-                        <div class="feature-item">Advanced filtering and segmentation</div>
+                        <div class="feature-item">Advanced filtering</div>
                         <div class="feature-item">Historical data analysis</div>
                         <div class="feature-item">Trend detection and forecasting</div>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>New in v1.5.0 🆕</h4>
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-5-0-features">AI-powered data insights with automated analysis</div>
-                        <div class="feature-item v1-5-0-features">Advanced ML model marketplace with 500+ models</div>
-                        <div class="feature-item v1-5-0-features">Enhanced real-time streaming with Apache Kafka</div>
-                        <div class="feature-item v1-5-0-features">Automated anomaly detection with 98% accuracy</div>
-                        <div class="feature-item v1-5-0-features">Improved visualization capabilities</div>
-                        <div class="feature-item v1-5-0-features">Enhanced natural language processing</div>
+                        <div class="feature-item v1-5-0-features">AI-powered data insights</div>
+                        <div class="feature-item v1-5-0-features">ML model marketplace (500+ models)</div>
+                        <div class="feature-item v1-5-0-features">Enhanced streaming with Kafka</div>
+                        <div class="feature-item v1-5-0-features">Automated anomaly detection (98% accuracy)</div>
+                        <div class="feature-item v1-5-0-features">Improved visualization</div>
+                        <div class="feature-item v1-5-0-features">Enhanced NLP</div>
                         <div class="feature-item v1-5-0-features">Advanced predictive analytics</div>
-                        <div class="feature-item v1-5-0-features">Improved integration with BI tools</div>
+                        <div class="feature-item v1-5-0-features">Improved BI integration</div>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>Coming in v1.6.0 🚀</h4>
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-6-0-features">Quantum computing for complex analytics</div>
-                        <div class="feature-item v1-6-0-features">Advanced AI-powered insights generation</div>
-                        <div class="feature-item v1-6-0-features">Enhanced ML model training and deployment</div>
-                        <div class="feature-item v1-6-0-features">Improved real-time processing with edge computing</div>
-                        <div class="feature-item v1-6-0-features">Advanced data governance and lineage</div>
-                        <div class="feature-item v1-6-0-features">Enhanced visualization with 3D and AR</div>
-                        <div class="feature-item v1-6-0-features">Improved natural language queries with GPT integration</div>
+                        <div class="feature-item v1-6-0-features">Quantum computing analytics</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI insights generation</div>
+                        <div class="feature-item v1-6-0-features">Enhanced ML training and deployment</div>
+                        <div class="feature-item v1-6-0-features">Real-time processing with edge computing</div>
+                        <div class="feature-item v1-6-0-features">Advanced data governance</div>
+                        <div class="feature-item v1-6-0-features">3D and AR visualization</div>
+                        <div class="feature-item v1-6-0-features">GPT-integrated natural language queries</div>
                         <div class="feature-item v1-6-0-features">Advanced predictive modeling</div>
                         <div class="feature-item v1-6-0-features">Enhanced data quality management</div>
-                        <div class="feature-item v1-6-0-features">Improved integration with data lakes</div>
+                        <div class="feature-item v1-6-0-features">Data lakes integration</div>
                     </div>
                 </div>
             </div>
@@ -770,43 +761,42 @@
                 <div class="product-header">
                     <div class="product-title">
                         <h3>iTechSmart Copilot</h3>
-                        <p>AI-powered IT assistant and automation platform with advanced natural language capabilities</p>
-                        <span class="api-badge">16+ API Endpoints</span>
+                        <p class="product-category">AI Assistant</p>
+                        <p class="product-description">AI-powered IT assistant with advanced natural language capabilities</p>
                     </div>
                     <div class="product-meta">
                         <div class="product-value">$2.0M</div>
-                        <span class="product-tier">Tier 2</span>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>Core Features (v1.4.0)</h4>
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item">Advanced natural language processing (NLP)</div>
-                        <div class="feature-item">Context-aware suggestions and recommendations</div>
-                        <div class="feature-item">Learning from user behavior and patterns</div>
-                        <div class="feature-item">Voice command support with speech recognition</div>
-                        <div class="feature-item">Multi-language support (10+ languages)</div>
-                        <div class="feature-item">Integration with communication platforms (Slack, Teams)</div>
+                        <div class="feature-item">Advanced NLP</div>
+                        <div class="feature-item">Context-aware suggestions</div>
+                        <div class="feature-item">Learning from user behavior</div>
+                        <div class="feature-item">Voice command support</div>
+                        <div class="feature-item">Multi-language support (10+)</div>
+                        <div class="feature-item">Communication platform integration</div>
                         <div class="feature-item">Automated documentation generation</div>
-                        <div class="feature-item">Intelligent code completion and suggestions</div>
-                        <div class="feature-item">Task automation and scheduling</div>
+                        <div class="feature-item">Intelligent code completion</div>
+                        <div class="feature-item">Task automation</div>
                         <div class="feature-item">Knowledge base integration</div>
                         <div class="feature-item">Conversational AI interface</div>
                         <div class="feature-item">Custom command creation</div>
-                        <div class="feature-item">Integration with development tools</div>
+                        <div class="feature-item">Development tools integration</div>
                         <div class="feature-item">Automated workflow suggestions</div>
                         <div class="feature-item">Smart search capabilities</div>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>New in v1.5.0 🆕</h4>
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-5-0-features">Enhanced AI conversation capabilities with GPT-4</div>
-                        <div class="feature-item v1-5-0-features">Support for 20+ languages with real-time translation</div>
-                        <div class="feature-item v1-5-0-features">Advanced code generation with multiple languages</div>
-                        <div class="feature-item v1-5-0-features">Integration with GitHub Copilot and other AI tools</div>
+                        <div class="feature-item v1-5-0-features">Enhanced AI with GPT-4</div>
+                        <div class="feature-item v1-5-0-features">Support for 20+ languages</div>
+                        <div class="feature-item v1-5-0-features">Advanced code generation</div>
+                        <div class="feature-item v1-5-0-features">GitHub Copilot integration</div>
                         <div class="feature-item v1-5-0-features">Improved context awareness</div>
                         <div class="feature-item v1-5-0-features">Enhanced learning capabilities</div>
                         <div class="feature-item v1-5-0-features">Advanced voice recognition</div>
@@ -815,16 +805,16 @@
                 </div>
                 
                 <div class="features-section">
-                    <h4>Coming in v1.6.0 🚀</h4>
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-6-0-features">Advanced AI with GPT-5 integration</div>
-                        <div class="feature-item v1-6-0-features">Support for 50+ languages with dialect recognition</div>
-                        <div class="feature-item v1-6-0-features">Enhanced code generation with AI pair programming</div>
-                        <div class="feature-item v1-6-0-features">Advanced integration with development ecosystems</div>
+                        <div class="feature-item v1-6-0-features">GPT-5 integration</div>
+                        <div class="feature-item v1-6-0-features">50+ languages with dialects</div>
+                        <div class="feature-item v1-6-0-features">AI pair programming</div>
+                        <div class="feature-item v1-6-0-features">Advanced development ecosystem integration</div>
                         <div class="feature-item v1-6-0-features">Improved natural language understanding</div>
                         <div class="feature-item v1-6-0-features">Enhanced personalization with ML</div>
-                        <div class="feature-item v1-6-0-features">Advanced voice commands with emotion detection</div>
-                        <div class="feature-item v1-6-0-features">Improved automation with predictive suggestions</div>
+                        <div class="feature-item v1-6-0-features">Voice commands with emotion detection</div>
+                        <div class="feature-item v1-6-0-features">Predictive automation suggestions</div>
                         <div class="feature-item v1-6-0-features">Enhanced documentation generation</div>
                         <div class="feature-item v1-6-0-features">Advanced knowledge management</div>
                     </div>
@@ -835,24 +825,23 @@
                 <div class="product-header">
                     <div class="product-title">
                         <h3>iTechSmart Shield</h3>
-                        <p>Advanced threat detection and response platform with behavioral analytics</p>
-                        <span class="api-badge">19+ API Endpoints</span>
+                        <p class="product-category">Security</p>
+                        <p class="product-description">Advanced threat detection and response with behavioral analytics</p>
                     </div>
                     <div class="product-meta">
                         <div class="product-value">$2.5M</div>
-                        <span class="product-tier">Tier 2</span>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>Core Features (v1.4.0)</h4>
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
                     <div class="features-list">
                         <div class="feature-item">Behavioral analysis and anomaly detection</div>
-                        <div class="feature-item">Automated threat hunting capabilities</div>
-                        <div class="feature-item">Integration with SIEM platforms (Splunk, QRadar)</div>
-                        <div class="feature-item">Threat intelligence feeds (real-time from 50+ sources)</div>
-                        <div class="feature-item">Advanced malware detection and prevention</div>
-                        <div class="feature-item">Network traffic analysis and monitoring</div>
+                        <div class="feature-item">Automated threat hunting</div>
+                        <div class="feature-item">SIEM platform integration</div>
+                        <div class="feature-item">Real-time threat intelligence (50+ sources)</div>
+                        <div class="feature-item">Advanced malware detection</div>
+                        <div class="feature-item">Network traffic analysis</div>
                         <div class="feature-item">Endpoint detection and response (EDR)</div>
                         <div class="feature-item">Security compliance automation</div>
                         <div class="feature-item">Advanced threat correlation</div>
@@ -866,12 +855,12 @@
                 </div>
                 
                 <div class="features-section">
-                    <h4>New in v1.5.0 🆕</h4>
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-5-0-features">AI-powered threat prediction with 95% accuracy</div>
+                        <div class="feature-item v1-5-0-features">AI-powered threat prediction (95% accuracy)</div>
                         <div class="feature-item v1-5-0-features">Advanced behavioral analytics with ML</div>
                         <div class="feature-item v1-5-0-features">Automated incident response with playbooks</div>
-                        <div class="feature-item v1-5-0-features">Enhanced EDR capabilities with AI</div>
+                        <div class="feature-item v1-5-0-features">Enhanced EDR with AI</div>
                         <div class="feature-item v1-5-0-features">Improved threat intelligence</div>
                         <div class="feature-item v1-5-0-features">Advanced malware detection</div>
                         <div class="feature-item v1-5-0-features">Enhanced network monitoring</div>
@@ -880,18 +869,18 @@
                 </div>
                 
                 <div class="features-section">
-                    <h4>Coming in v1.6.0 🚀</h4>
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
                     <div class="features-list">
                         <div class="feature-item v1-6-0-features">Quantum-resistant threat detection</div>
-                        <div class="feature-item v1-6-0-features">Advanced AI-powered threat hunting</div>
-                        <div class="feature-item v1-6-0-features">Enhanced behavioral analytics with deep learning</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI threat hunting</div>
+                        <div class="feature-item v1-6-0-features">Behavioral analytics with deep learning</div>
                         <div class="feature-item v1-6-0-features">Automated security orchestration</div>
                         <div class="feature-item v1-6-0-features">Improved threat intelligence with AI</div>
-                        <div class="feature-item v1-6-0-features">Advanced EDR with autonomous response</div>
+                        <div class="feature-item v1-6-0-features">Autonomous EDR response</div>
                         <div class="feature-item v1-6-0-features">Enhanced network security with AI</div>
                         <div class="feature-item v1-6-0-features">Improved compliance for emerging threats</div>
                         <div class="feature-item v1-6-0-features">Advanced forensics with AI</div>
-                        <div class="feature-item v1-6-0-features">Enhanced integration with security ecosystem</div>
+                        <div class="feature-item v1-6-0-features">Enhanced security ecosystem integration</div>
                     </div>
                 </div>
             </div>
@@ -900,28 +889,27 @@
                 <div class="product-header">
                     <div class="product-title">
                         <h3>iTechSmart Sentinel</h3>
-                        <p>24/7 monitoring and alerting system with intelligent correlation</p>
-                        <span class="api-badge">17+ API Endpoints</span>
+                        <p class="product-category">Monitoring</p>
+                        <p class="product-description">24/7 monitoring and alerting with intelligent correlation</p>
                     </div>
                     <div class="product-meta">
                         <div class="product-value">$1.8M</div>
-                        <span class="product-tier">Tier 2</span>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>Core Features (v1.4.0)</h4>
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
                     <div class="features-list">
                         <div class="feature-item">Smart alert grouping and correlation</div>
-                        <div class="feature-item">Escalation policies with multiple channels</div>
+                        <div class="feature-item">Escalation policies (multiple channels)</div>
                         <div class="feature-item">On-call scheduling and rotation</div>
-                        <div class="feature-item">Mobile push notifications (iOS/Android)</div>
-                        <div class="feature-item">Integration with incident management tools</div>
-                        <div class="feature-item">Custom alert rules and conditions</div>
-                        <div class="feature-item">Historical alert analysis and trends</div>
+                        <div class="feature-item">Mobile push notifications</div>
+                        <div class="feature-item">Incident management integration</div>
+                        <div class="feature-item">Custom alert rules</div>
+                        <div class="feature-item">Historical alert analysis</div>
                         <div class="feature-item">Automated alert remediation</div>
                         <div class="feature-item">Multi-channel notifications</div>
-                        <div class="feature-item">Alert suppression and maintenance windows</div>
+                        <div class="feature-item">Alert suppression</div>
                         <div class="feature-item">Custom dashboards</div>
                         <div class="feature-item">Real-time monitoring</div>
                         <div class="feature-item">Performance metrics tracking</div>
@@ -931,12 +919,12 @@
                 </div>
                 
                 <div class="features-section">
-                    <h4>New in v1.5.0 🆕</h4>
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-5-0-features">AI-powered alert prioritization with ML</div>
-                        <div class="feature-item v1-5-0-features">Advanced correlation engine with pattern recognition</div>
-                        <div class="feature-item v1-5-0-features">Enhanced mobile app features with offline support</div>
-                        <div class="feature-item v1-5-0-features">Integration with Slack and Microsoft Teams</div>
+                        <div class="feature-item v1-5-0-features">AI-powered alert prioritization</div>
+                        <div class="feature-item v1-5-0-features">Advanced correlation engine</div>
+                        <div class="feature-item v1-5-0-features">Enhanced mobile app with offline support</div>
+                        <div class="feature-item v1-5-0-features">Slack and Teams integration</div>
                         <div class="feature-item v1-5-0-features">Improved alert grouping</div>
                         <div class="feature-item v1-5-0-features">Enhanced escalation policies</div>
                         <div class="feature-item v1-5-0-features">Advanced mobile notifications</div>
@@ -945,12 +933,12 @@
                 </div>
                 
                 <div class="features-section">
-                    <h4>Coming in v1.6.0 🚀</h4>
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-6-0-features">Advanced AI-powered alert prediction</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI alert prediction</div>
                         <div class="feature-item v1-6-0-features">Enhanced correlation with deep learning</div>
-                        <div class="feature-item v1-6-0-features">Improved mobile app with AR notifications</div>
-                        <div class="feature-item v1-6-0-features">Advanced integration with collaboration tools</div>
+                        <div class="feature-item v1-6-0-features">Mobile app with AR notifications</div>
+                        <div class="feature-item v1-6-0-features">Advanced collaboration tools integration</div>
                         <div class="feature-item v1-6-0-features">Enhanced alert intelligence</div>
                         <div class="feature-item v1-6-0-features">Improved escalation with AI</div>
                         <div class="feature-item v1-6-0-features">Advanced mobile features with voice</div>
@@ -965,29 +953,28 @@
                 <div class="product-header">
                     <div class="product-title">
                         <h3>iTechSmart DevOps</h3>
-                        <p>CI/CD pipeline management and automation platform with GitOps workflows</p>
-                        <span class="api-badge">18+ API Endpoints</span>
+                        <p class="product-category">DevOps</p>
+                        <p class="product-description">CI/CD pipeline management with GitOps workflows</p>
                     </div>
                     <div class="product-meta">
                         <div class="product-value">$2.3M</div>
-                        <span class="product-tier">Tier 2</span>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>Core Features (v1.4.0)</h4>
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
                     <div class="features-list">
                         <div class="feature-item">GitOps workflows and automation</div>
-                        <div class="feature-item">Container orchestration (Kubernetes, Docker Swarm)</div>
-                        <div class="feature-item">Infrastructure as code (Terraform, CloudFormation, Ansible)</div>
+                        <div class="feature-item">Container orchestration (Kubernetes, Docker)</div>
+                        <div class="feature-item">Infrastructure as code (Terraform, CloudFormation)</div>
                         <div class="feature-item">Automated testing and quality gates</div>
                         <div class="feature-item">Blue-green and canary deployments</div>
-                        <div class="feature-item">Pipeline templates and reusable components</div>
-                        <div class="feature-item">Integration with version control systems (Git, SVN)</div>
-                        <div class="feature-item">Performance monitoring and optimization</div>
-                        <div class="feature-item">Automated rollback capabilities</div>
-                        <div class="feature-item">Multi-cloud deployment support</div>
-                        <div class="feature-item">Security scanning integration</div>
+                        <div class="feature-item">Pipeline templates</div>
+                        <div class="feature-item">Version control integration</div>
+                        <div class="feature-item">Performance monitoring</div>
+                        <div class="feature-item">Automated rollback</div>
+                        <div class="feature-item">Multi-cloud deployment</div>
+                        <div class="feature-item">Security scanning</div>
                         <div class="feature-item">Artifact management</div>
                         <div class="feature-item">Environment management</div>
                         <div class="feature-item">Release management</div>
@@ -996,12 +983,12 @@
                 </div>
                 
                 <div class="features-section">
-                    <h4>New in v1.5.0 🆕</h4>
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-5-0-features">AI-powered pipeline optimization with ML</div>
-                        <div class="feature-item v1-5-0-features">Advanced GitOps workflows with automation</div>
-                        <div class="feature-item v1-5-0-features">Enhanced Kubernetes integration with Helm</div>
-                        <div class="feature-item v1-5-0-features">Automated rollback capabilities with AI</div>
+                        <div class="feature-item v1-5-0-features">AI-powered pipeline optimization</div>
+                        <div class="feature-item v1-5-0-features">Advanced GitOps workflows</div>
+                        <div class="feature-item v1-5-0-features">Enhanced Kubernetes with Helm</div>
+                        <div class="feature-item v1-5-0-features">Automated rollback with AI</div>
                         <div class="feature-item v1-5-0-features">Improved container orchestration</div>
                         <div class="feature-item v1-5-0-features">Enhanced infrastructure as code</div>
                         <div class="feature-item v1-5-0-features">Advanced testing automation</div>
@@ -1010,18 +997,402 @@
                 </div>
                 
                 <div class="features-section">
-                    <h4>Coming in v1.6.0 🚀</h4>
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-6-0-features">Advanced AI-powered pipeline intelligence</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI pipeline intelligence</div>
                         <div class="feature-item v1-6-0-features">Enhanced GitOps with predictive automation</div>
                         <div class="feature-item v1-6-0-features">Improved Kubernetes with service mesh</div>
                         <div class="feature-item v1-6-0-features">Advanced rollback with AI prediction</div>
                         <div class="feature-item v1-6-0-features">Enhanced container security</div>
                         <div class="feature-item v1-6-0-features">Improved IaC with policy as code</div>
                         <div class="feature-item v1-6-0-features">Advanced testing with AI</div>
-                        <div class="feature-item v1-6-0-features">Enhanced deployment with progressive delivery</div>
-                        <div class="feature-item v1-6-0-features">Improved monitoring with observability</div>
-                        <div class="feature-item v1-6-0-features">Advanced integration with cloud-native tools</div>
+                        <div class="feature-item v1-6-0-features">Enhanced progressive delivery</div>
+                        <div class="feature-item v1-6-0-features">Improved observability monitoring</div>
+                        <div class="feature-item v1-6-0-features">Advanced cloud-native tools integration</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart Workflow</h3>
+                        <p class="product-category">Automation</p>
+                        <p class="product-description">Advanced workflow automation and orchestration engine</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$1.9M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">Visual workflow designer</div>
+                        <div class="feature-item">Pre-built workflow templates</div>
+                        <div class="feature-item">Custom workflow creation</div>
+                        <div class="feature-item">Conditional logic and branching</div>
+                        <div class="feature-item">Integration with all iTechSmart products</div>
+                        <div class="feature-item">Third-party API integration</div>
+                        <div class="feature-item">Scheduled workflow execution</div>
+                        <div class="feature-item">Event-driven triggers</div>
+                        <div class="feature-item">Workflow versioning</div>
+                        <div class="feature-item">Approval workflows</div>
+                        <div class="feature-item">Error handling and retry logic</div>
+                        <div class="feature-item">Workflow analytics</div>
+                        <div class="feature-item">Performance monitoring</div>
+                        <div class="feature-item">Audit logging</div>
+                        <div class="feature-item">Role-based workflow access</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">AI-powered workflow optimization</div>
+                        <div class="feature-item v1-5-0-features">Smart workflow recommendations</div>
+                        <div class="feature-item v1-5-0-features">Enhanced visual designer</div>
+                        <div class="feature-item v1-5-0-features">Advanced integration capabilities</div>
+                        <div class="feature-item v1-5-0-features">Improved error handling</div>
+                        <div class="feature-item v1-5-0-features">Enhanced analytics</div>
+                        <div class="feature-item v1-5-0-features">Better performance</div>
+                        <div class="feature-item v1-5-0-features">Advanced security features</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Predictive workflow automation</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI recommendations</div>
+                        <div class="feature-item v1-6-0-features">Enhanced visual designer with AR</div>
+                        <div class="feature-item v1-6-0-features">Improved integration ecosystem</div>
+                        <div class="feature-item v1-6-0-features">Advanced error prediction</div>
+                        <div class="feature-item v1-6-0-features">Enhanced analytics with ML</div>
+                        <div class="feature-item v1-6-0-features">Quantum-optimized workflows</div>
+                        <div class="feature-item v1-6-0-features">Advanced security with zero-trust</div>
+                        <div class="feature-item v1-6-0-features">Improved scalability</div>
+                        <div class="feature-item v1-6-0-features">Enhanced collaboration features</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart Vault</h3>
+                        <p class="product-category">Security</p>
+                        <p class="product-description">Enterprise secrets management and encryption platform</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$2.1M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">Centralized secrets management</div>
+                        <div class="feature-item">Dynamic secrets generation</div>
+                        <div class="feature-item">Encryption as a service</div>
+                        <div class="feature-item">Key rotation automation</div>
+                        <div class="feature-item">Access control policies</div>
+                        <div class="feature-item">Audit logging</div>
+                        <div class="feature-item">Integration with cloud providers</div>
+                        <div class="feature-item">Certificate management</div>
+                        <div class="feature-item">Database credential rotation</div>
+                        <div class="feature-item">API key management</div>
+                        <div class="feature-item">Multi-tenant support</div>
+                        <div class="feature-item">High availability</div>
+                        <div class="feature-item">Disaster recovery</div>
+                        <div class="feature-item">Compliance reporting</div>
+                        <div class="feature-item">Secret versioning</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">AI-powered access anomaly detection</div>
+                        <div class="feature-item v1-5-0-features">Enhanced encryption algorithms</div>
+                        <div class="feature-item v1-5-0-features">Improved key rotation</div>
+                        <div class="feature-item v1-5-0-features">Advanced audit capabilities</div>
+                        <div class="feature-item v1-5-0-features">Better cloud integration</div>
+                        <div class="feature-item v1-5-0-features">Enhanced compliance features</div>
+                        <div class="feature-item v1-5-0-features">Improved performance</div>
+                        <div class="feature-item v1-5-0-features">Advanced security posture</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Quantum-resistant encryption</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI anomaly detection</div>
+                        <div class="feature-item v1-6-0-features">Enhanced key management</div>
+                        <div class="feature-item v1-6-0-features">Improved audit with ML</div>
+                        <div class="feature-item v1-6-0-features">Advanced cloud integration</div>
+                        <div class="feature-item v1-6-0-features">Enhanced compliance automation</div>
+                        <div class="feature-item v1-6-0-features">Improved scalability</div>
+                        <div class="feature-item v1-6-0-features">Advanced zero-trust integration</div>
+                        <div class="feature-item v1-6-0-features">Enhanced disaster recovery</div>
+                        <div class="feature-item v1-6-0-features">Improved multi-cloud support</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart Pulse</h3>
+                        <p class="product-category">Monitoring</p>
+                        <p class="product-description">Real-time system health monitoring and diagnostics</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$1.7M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">Real-time health monitoring</div>
+                        <div class="feature-item">System diagnostics</div>
+                        <div class="feature-item">Performance metrics</div>
+                        <div class="feature-item">Resource utilization tracking</div>
+                        <div class="feature-item">Predictive health scoring</div>
+                        <div class="feature-item">Automated health checks</div>
+                        <div class="feature-item">Custom health indicators</div>
+                        <div class="feature-item">Integration with monitoring tools</div>
+                        <div class="feature-item">Alert generation</div>
+                        <div class="feature-item">Historical health data</div>
+                        <div class="feature-item">Trend analysis</div>
+                        <div class="feature-item">Capacity planning</div>
+                        <div class="feature-item">SLA tracking</div>
+                        <div class="feature-item">Dashboard visualization</div>
+                        <div class="feature-item">Mobile app support</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">AI-powered health prediction</div>
+                        <div class="feature-item v1-5-0-features">Enhanced diagnostics</div>
+                        <div class="feature-item v1-5-0-features">Improved metrics collection</div>
+                        <div class="feature-item v1-5-0-features">Advanced health scoring</div>
+                        <div class="feature-item v1-5-0-features">Better integration</div>
+                        <div class="feature-item v1-5-0-features">Enhanced alerting</div>
+                        <div class="feature-item v1-5-0-features">Improved visualization</div>
+                        <div class="feature-item v1-5-0-features">Advanced analytics</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Predictive health with quantum computing</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI diagnostics</div>
+                        <div class="feature-item v1-6-0-features">Enhanced metrics with edge computing</div>
+                        <div class="feature-item v1-6-0-features">Improved health scoring with ML</div>
+                        <div class="feature-item v1-6-0-features">Advanced integration ecosystem</div>
+                        <div class="feature-item v1-6-0-features">Enhanced alerting with AI</div>
+                        <div class="feature-item v1-6-0-features">Improved visualization with AR</div>
+                        <div class="feature-item v1-6-0-features">Advanced analytics with predictive insights</div>
+                        <div class="feature-item v1-6-0-features">Enhanced mobile app</div>
+                        <div class="feature-item v1-6-0-features">Improved scalability</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart Observatory</h3>
+                        <p class="product-category">Monitoring</p>
+                        <p class="product-description">Comprehensive observability platform with distributed tracing</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$2.0M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">Distributed tracing</div>
+                        <div class="feature-item">Metrics collection</div>
+                        <div class="feature-item">Log aggregation</div>
+                        <div class="feature-item">Service mesh observability</div>
+                        <div class="feature-item">Custom dashboards</div>
+                        <div class="feature-item">Alerting and notifications</div>
+                        <div class="feature-item">Performance profiling</div>
+                        <div class="feature-item">Dependency mapping</div>
+                        <div class="feature-item">Error tracking</div>
+                        <div class="feature-item">APM integration</div>
+                        <div class="feature-item">Real-time monitoring</div>
+                        <div class="feature-item">Historical data analysis</div>
+                        <div class="feature-item">Correlation analysis</div>
+                        <div class="feature-item">Root cause analysis</div>
+                        <div class="feature-item">SLO/SLI tracking</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">AI-powered anomaly detection</div>
+                        <div class="feature-item v1-5-0-features">Enhanced tracing capabilities</div>
+                        <div class="feature-item v1-5-0-features">Improved metrics collection</div>
+                        <div class="feature-item v1-5-0-features">Advanced log analysis</div>
+                        <div class="feature-item v1-5-0-features">Better visualization</div>
+                        <div class="feature-item v1-5-0-features">Enhanced alerting</div>
+                        <div class="feature-item v1-5-0-features">Improved performance</div>
+                        <div class="feature-item v1-5-0-features">Advanced correlation</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Advanced AI anomaly detection</div>
+                        <div class="feature-item v1-6-0-features">Enhanced tracing with ML</div>
+                        <div class="feature-item v1-6-0-features">Improved metrics with edge computing</div>
+                        <div class="feature-item v1-6-0-features">Advanced log analysis with NLP</div>
+                        <div class="feature-item v1-6-0-features">Enhanced visualization with 3D</div>
+                        <div class="feature-item v1-6-0-features">Improved alerting with predictive AI</div>
+                        <div class="feature-item v1-6-0-features">Advanced performance profiling</div>
+                        <div class="feature-item v1-6-0-features">Enhanced correlation with deep learning</div>
+                        <div class="feature-item v1-6-0-features">Improved root cause analysis</div>
+                        <div class="feature-item v1-6-0-features">Advanced SLO/SLI automation</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart Notify</h3>
+                        <p class="product-category">Communication</p>
+                        <p class="product-description">Multi-channel notification and communication platform</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$1.6M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">Multi-channel notifications (Email, SMS, Push, Slack, Teams)</div>
+                        <div class="feature-item">Notification templates</div>
+                        <div class="feature-item">Delivery tracking</div>
+                        <div class="feature-item">Notification scheduling</div>
+                        <div class="feature-item">Priority-based routing</div>
+                        <div class="feature-item">Escalation policies</div>
+                        <div class="feature-item">Notification preferences</div>
+                        <div class="feature-item">Delivery confirmation</div>
+                        <div class="feature-item">Retry logic</div>
+                        <div class="feature-item">Rate limiting</div>
+                        <div class="feature-item">Analytics and reporting</div>
+                        <div class="feature-item">Integration with all products</div>
+                        <div class="feature-item">Custom notification rules</div>
+                        <div class="feature-item">Notification history</div>
+                        <div class="feature-item">Mobile app support</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">AI-powered notification optimization</div>
+                        <div class="feature-item v1-5-0-features">Enhanced delivery tracking</div>
+                        <div class="feature-item v1-5-0-features">Improved template engine</div>
+                        <div class="feature-item v1-5-0-features">Advanced routing</div>
+                        <div class="feature-item v1-5-0-features">Better integration</div>
+                        <div class="feature-item v1-5-0-features">Enhanced analytics</div>
+                        <div class="feature-item v1-5-0-features">Improved performance</div>
+                        <div class="feature-item v1-5-0-features">Advanced personalization</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Predictive notification timing</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI optimization</div>
+                        <div class="feature-item v1-6-0-features">Enhanced delivery with ML</div>
+                        <div class="feature-item v1-6-0-features">Improved template engine with AI</div>
+                        <div class="feature-item v1-6-0-features">Advanced routing with predictive analytics</div>
+                        <div class="feature-item v1-6-0-features">Enhanced integration ecosystem</div>
+                        <div class="feature-item v1-6-0-features">Improved analytics with insights</div>
+                        <div class="feature-item v1-6-0-features">Advanced personalization with ML</div>
+                        <div class="feature-item v1-6-0-features">Enhanced mobile experience</div>
+                        <div class="feature-item v1-6-0-features">Improved scalability</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart Connect</h3>
+                        <p class="product-category">Integration</p>
+                        <p class="product-description">Universal integration platform with 200+ connectors</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$1.8M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">200+ pre-built connectors</div>
+                        <div class="feature-item">Custom connector builder</div>
+                        <div class="feature-item">API gateway</div>
+                        <div class="feature-item">Data transformation</div>
+                        <div class="feature-item">Protocol translation</div>
+                        <div class="feature-item">Message queuing</div>
+                        <div class="feature-item">Event streaming</div>
+                        <div class="feature-item">Webhook management</div>
+                        <div class="feature-item">Integration monitoring</div>
+                        <div class="feature-item">Error handling</div>
+                        <div class="feature-item">Retry logic</div>
+                        <div class="feature-item">Rate limiting</div>
+                        <div class="feature-item">Security and authentication</div>
+                        <div class="feature-item">Integration analytics</div>
+                        <div class="feature-item">Version management</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">AI-powered integration recommendations</div>
+                        <div class="feature-item v1-5-0-features">Enhanced connector marketplace</div>
+                        <div class="feature-item v1-5-0-features">Improved data transformation</div>
+                        <div class="feature-item v1-5-0-features">Advanced API gateway</div>
+                        <div class="feature-item v1-5-0-features">Better monitoring</div>
+                        <div class="feature-item v1-5-0-features">Enhanced security</div>
+                        <div class="feature-item v1-5-0-features">Improved performance</div>
+                        <div class="feature-item v1-5-0-features">Advanced analytics</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Predictive integration optimization</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI recommendations</div>
+                        <div class="feature-item v1-6-0-features">Enhanced connector marketplace (300+)</div>
+                        <div class="feature-item v1-6-0-features">Improved transformation with ML</div>
+                        <div class="feature-item v1-6-0-features">Advanced API gateway with AI</div>
+                        <div class="feature-item v1-6-0-features">Enhanced monitoring with predictive insights</div>
+                        <div class="feature-item v1-6-0-features">Improved security with zero-trust</div>
+                        <div class="feature-item v1-6-0-features">Advanced analytics with ML</div>
+                        <div class="feature-item v1-6-0-features">Enhanced scalability</div>
+                        <div class="feature-item v1-6-0-features">Improved developer experience</div>
                     </div>
                 </div>
             </div>
@@ -1029,72 +1400,71 @@
 
         <div class="tier-section">
             <div class="tier-header">
-                <h2>Tier 3 - Premium Products</h2>
-                <div class="tier-value">Total Value: $5.5M</div>
-                <p style="margin-top: 1rem; color: #6b7280;">Premium AI and multi-cloud management solutions</p>
+                <h2>Tier 3 - Premium & Specialized Solutions</h2>
+                <div class="tier-value">Total Value: $36.9M</div>
+                <div class="tier-count">18 Products - Premium AI, cloud, data, and specialized enterprise solutions</div>
             </div>
 
             <div class="product-card">
                 <div class="product-header">
                     <div class="product-title">
                         <h3>iTechSmart AI</h3>
-                        <p>Artificial intelligence and machine learning platform with AutoML capabilities</p>
-                        <span class="api-badge">20+ API Endpoints</span>
+                        <p class="product-category">AI/ML</p>
+                        <p class="product-description">Artificial intelligence and machine learning platform with AutoML</p>
                     </div>
                     <div class="product-meta">
                         <div class="product-value">$3.0M</div>
-                        <span class="product-tier">Tier 3</span>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>Core Features (v1.4.0)</h4>
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item">AutoML capabilities for model training</div>
-                        <div class="feature-item">Model marketplace with 500+ pre-trained models</div>
-                        <div class="feature-item">Edge AI deployment and optimization</div>
-                        <div class="feature-item">Federated learning support</div>
-                        <div class="feature-item">Model versioning and experiment tracking</div>
-                        <div class="feature-item">A/B testing for model performance</div>
-                        <div class="feature-item">Real-time inference and predictions</div>
-                        <div class="feature-item">Integration with popular ML frameworks (TensorFlow, PyTorch, Scikit-learn)</div>
+                        <div class="feature-item">AutoML capabilities</div>
+                        <div class="feature-item">Model marketplace (500+ models)</div>
+                        <div class="feature-item">Edge AI deployment</div>
+                        <div class="feature-item">Federated learning</div>
+                        <div class="feature-item">Model versioning</div>
+                        <div class="feature-item">A/B testing</div>
+                        <div class="feature-item">Real-time inference</div>
+                        <div class="feature-item">ML framework integration</div>
                         <div class="feature-item">Custom model development</div>
-                        <div class="feature-item">Model monitoring and drift detection</div>
-                        <div class="feature-item">Automated hyperparameter tuning</div>
-                        <div class="feature-item">Feature engineering automation</div>
-                        <div class="feature-item">Model explainability tools</div>
-                        <div class="feature-item">MLOps pipeline integration</div>
-                        <div class="feature-item">Distributed training support</div>
+                        <div class="feature-item">Model monitoring</div>
+                        <div class="feature-item">Hyperparameter tuning</div>
+                        <div class="feature-item">Feature engineering</div>
+                        <div class="feature-item">Model explainability</div>
+                        <div class="feature-item">MLOps pipeline</div>
+                        <div class="feature-item">Distributed training</div>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>New in v1.5.0 🆕</h4>
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
                     <div class="features-list">
                         <div class="feature-item v1-5-0-features">Enhanced AutoML with neural architecture search</div>
-                        <div class="feature-item v1-5-0-features">Advanced model marketplace with 1000+ models</div>
-                        <div class="feature-item v1-5-0-features">Improved edge AI optimization with quantization</div>
-                        <div class="feature-item v1-5-0-features">Integration with TensorFlow, PyTorch, JAX, and more</div>
+                        <div class="feature-item v1-5-0-features">Model marketplace (1000+ models)</div>
+                        <div class="feature-item v1-5-0-features">Improved edge AI with quantization</div>
+                        <div class="feature-item v1-5-0-features">TensorFlow, PyTorch, JAX integration</div>
                         <div class="feature-item v1-5-0-features">Advanced federated learning</div>
-                        <div class="feature-item v1-5-0-features">Improved model versioning</div>
+                        <div class="feature-item v1-5-0-features">Improved versioning</div>
                         <div class="feature-item v1-5-0-features">Enhanced A/B testing</div>
-                        <div class="feature-item v1-5-0-features">Advanced real-time inference</div>
+                        <div class="feature-item v1-5-0-features">Advanced inference</div>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>Coming in v1.6.0 🚀</h4>
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-6-0-features">Quantum machine learning integration</div>
+                        <div class="feature-item v1-6-0-features">Quantum machine learning</div>
                         <div class="feature-item v1-6-0-features">Advanced AutoML with meta-learning</div>
-                        <div class="feature-item v1-6-0-features">Enhanced model marketplace with 2000+ models</div>
+                        <div class="feature-item v1-6-0-features">Model marketplace (2000+ models)</div>
                         <div class="feature-item v1-6-0-features">Improved edge AI with neuromorphic computing</div>
                         <div class="feature-item v1-6-0-features">Advanced federated learning with privacy</div>
-                        <div class="feature-item v1-6-0-features">Enhanced model monitoring with AI</div>
+                        <div class="feature-item v1-6-0-features">Enhanced monitoring with AI</div>
                         <div class="feature-item v1-6-0-features">Improved A/B testing with causal inference</div>
-                        <div class="feature-item v1-6-0-features">Advanced inference with model serving</div>
-                        <div class="feature-item v1-6-0-features">Enhanced MLOps with automation</div>
-                        <div class="feature-item v1-6-0-features">Improved integration with AI frameworks</div>
+                        <div class="feature-item v1-6-0-features">Advanced model serving</div>
+                        <div class="feature-item v1-6-0-features">Enhanced MLOps automation</div>
+                        <div class="feature-item v1-6-0-features">Improved AI framework integration</div>
                     </div>
                 </div>
             </div>
@@ -1103,29 +1473,28 @@
                 <div class="product-header">
                     <div class="product-title">
                         <h3>iTechSmart Cloud</h3>
-                        <p>Multi-cloud management and optimization platform with FinOps capabilities</p>
-                        <span class="api-badge">19+ API Endpoints</span>
+                        <p class="product-category">Cloud</p>
+                        <p class="product-description">Multi-cloud management and optimization with FinOps</p>
                     </div>
                     <div class="product-meta">
                         <div class="product-value">$2.5M</div>
-                        <span class="product-tier">Tier 3</span>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>Core Features (v1.4.0)</h4>
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item">AI-powered cost optimization across all clouds</div>
-                        <div class="feature-item">Multi-cloud migration tools and planning</div>
+                        <div class="feature-item">AI-powered cost optimization</div>
+                        <div class="feature-item">Multi-cloud migration tools</div>
                         <div class="feature-item">Cloud security posture management (CSPM)</div>
                         <div class="feature-item">Resource tagging and governance</div>
-                        <div class="feature-item">Automated backup and disaster recovery</div>
-                        <div class="feature-item">Cloud spend forecasting and budgeting</div>
-                        <div class="feature-item">Compliance monitoring across clouds</div>
-                        <div class="feature-item">Performance optimization recommendations</div>
+                        <div class="feature-item">Automated backup and DR</div>
+                        <div class="feature-item">Cloud spend forecasting</div>
+                        <div class="feature-item">Compliance monitoring</div>
+                        <div class="feature-item">Performance optimization</div>
                         <div class="feature-item">Multi-cloud networking</div>
                         <div class="feature-item">Cloud resource inventory</div>
-                        <div class="feature-item">Cost allocation and chargeback</div>
+                        <div class="feature-item">Cost allocation</div>
                         <div class="feature-item">Reserved instance management</div>
                         <div class="feature-item">Spot instance optimization</div>
                         <div class="feature-item">Cloud waste detection</div>
@@ -1134,32 +1503,1056 @@
                 </div>
                 
                 <div class="features-section">
-                    <h4>New in v1.5.0 🆕</h4>
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-5-0-features">Enhanced AI cost optimization with 40% savings</div>
-                        <div class="feature-item v1-5-0-features">Advanced multi-cloud migration automation</div>
+                        <div class="feature-item v1-5-0-features">Enhanced AI cost optimization (40% savings)</div>
+                        <div class="feature-item v1-5-0-features">Advanced multi-cloud migration</div>
                         <div class="feature-item v1-5-0-features">Improved CSPM with real-time alerts</div>
-                        <div class="feature-item v1-5-0-features">Integration with FinOps best practices</div>
+                        <div class="feature-item v1-5-0-features">FinOps best practices integration</div>
                         <div class="feature-item v1-5-0-features">Advanced cost forecasting</div>
-                        <div class="feature-item v1-5-0-features">Enhanced governance automation</div>
+                        <div class="feature-item v1-5-0-features">Enhanced governance</div>
                         <div class="feature-item v1-5-0-features">Improved disaster recovery</div>
                         <div class="feature-item v1-5-0-features">Advanced performance optimization</div>
                     </div>
                 </div>
                 
                 <div class="features-section">
-                    <h4>Coming in v1.6.0 🚀</h4>
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
                     <div class="features-list">
-                        <div class="feature-item v1-6-0-features">Advanced AI cost optimization with 60% savings</div>
-                        <div class="feature-item v1-6-0-features">Enhanced multi-cloud with hybrid cloud support</div>
-                        <div class="feature-item v1-6-0-features">Improved CSPM with AI-powered threat detection</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI cost optimization (60% savings)</div>
+                        <div class="feature-item v1-6-0-features">Enhanced multi-cloud with hybrid support</div>
+                        <div class="feature-item v1-6-0-features">Improved CSPM with AI threat detection</div>
                         <div class="feature-item v1-6-0-features">Advanced FinOps with predictive analytics</div>
                         <div class="feature-item v1-6-0-features">Enhanced cost optimization with ML</div>
                         <div class="feature-item v1-6-0-features">Improved governance with policy automation</div>
                         <div class="feature-item v1-6-0-features">Advanced disaster recovery with AI</div>
                         <div class="feature-item v1-6-0-features">Enhanced performance with auto-scaling</div>
+                        <div class="feature-item v1-6-0-features">Improved compliance automation</div>
+                        <div class="feature-item v1-6-0-features">Advanced cloud provider integration</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart Marketplace</h3>
+                        <p class="product-category">Platform</p>
+                        <p class="product-description">Enterprise app marketplace with plugin ecosystem</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$2.2M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">Plugin marketplace</div>
+                        <div class="feature-item">App store for integrations</div>
+                        <div class="feature-item">Developer portal</div>
+                        <div class="feature-item">Plugin SDK</div>
+                        <div class="feature-item">Monetization support</div>
+                        <div class="feature-item">Version management</div>
+                        <div class="feature-item">Security scanning</div>
+                        <div class="feature-item">Plugin reviews and ratings</div>
+                        <div class="feature-item">Installation management</div>
+                        <div class="feature-item">Update notifications</div>
+                        <div class="feature-item">Plugin analytics</div>
+                        <div class="feature-item">Developer support</div>
+                        <div class="feature-item">Documentation portal</div>
+                        <div class="feature-item">Testing sandbox</div>
+                        <div class="feature-item">Revenue sharing</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">AI-powered plugin recommendations</div>
+                        <div class="feature-item v1-5-0-features">Enhanced marketplace UI</div>
+                        <div class="feature-item v1-5-0-features">Improved developer tools</div>
+                        <div class="feature-item v1-5-0-features">Advanced security scanning</div>
+                        <div class="feature-item v1-5-0-features">Better monetization</div>
+                        <div class="feature-item v1-5-0-features">Enhanced analytics</div>
+                        <div class="feature-item v1-5-0-features">Improved performance</div>
+                        <div class="feature-item v1-5-0-features">Advanced search</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Predictive plugin recommendations</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI marketplace optimization</div>
+                        <div class="feature-item v1-6-0-features">Enhanced developer tools with AI</div>
+                        <div class="feature-item v1-6-0-features">Improved security with ML</div>
+                        <div class="feature-item v1-6-0-features">Advanced monetization with analytics</div>
+                        <div class="feature-item v1-6-0-features">Enhanced analytics with insights</div>
+                        <div class="feature-item v1-6-0-features">Improved performance with edge computing</div>
+                        <div class="feature-item v1-6-0-features">Advanced search with NLP</div>
+                        <div class="feature-item v1-6-0-features">Enhanced developer experience</div>
+                        <div class="feature-item v1-6-0-features">Improved revenue optimization</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart Ledger</h3>
+                        <p class="product-category">Security</p>
+                        <p class="product-description">Blockchain-based audit trail and immutable logging</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$2.0M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">Blockchain-based audit trail</div>
+                        <div class="feature-item">Immutable logging</div>
+                        <div class="feature-item">Cryptographic verification</div>
+                        <div class="feature-item">Distributed ledger</div>
+                        <div class="feature-item">Smart contract support</div>
+                        <div class="feature-item">Compliance tracking</div>
+                        <div class="feature-item">Tamper detection</div>
+                        <div class="feature-item">Historical data preservation</div>
+                        <div class="feature-item">Multi-party verification</div>
+                        <div class="feature-item">Integration with all products</div>
+                        <div class="feature-item">Real-time auditing</div>
+                        <div class="feature-item">Regulatory compliance</div>
+                        <div class="feature-item">Data integrity verification</div>
+                        <div class="feature-item">Forensic analysis</div>
+                        <div class="feature-item">Audit reporting</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">Enhanced blockchain integration</div>
+                        <div class="feature-item v1-5-0-features">Improved cryptographic algorithms</div>
+                        <div class="feature-item v1-5-0-features">Advanced smart contracts</div>
+                        <div class="feature-item v1-5-0-features">Better compliance tracking</div>
+                        <div class="feature-item v1-5-0-features">Enhanced verification</div>
+                        <div class="feature-item v1-5-0-features">Improved performance</div>
+                        <div class="feature-item v1-5-0-features">Advanced analytics</div>
+                        <div class="feature-item v1-5-0-features">Better integration</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Quantum-resistant blockchain</div>
+                        <div class="feature-item v1-6-0-features">Advanced cryptographic algorithms</div>
+                        <div class="feature-item v1-6-0-features">Enhanced smart contracts with AI</div>
                         <div class="feature-item v1-6-0-features">Improved compliance with automation</div>
-                        <div class="feature-item v1-6-0-features">Advanced integration with cloud providers</div>
+                        <div class="feature-item v1-6-0-features">Advanced verification with ML</div>
+                        <div class="feature-item v1-6-0-features">Enhanced performance with optimization</div>
+                        <div class="feature-item v1-6-0-features">Improved analytics with insights</div>
+                        <div class="feature-item v1-6-0-features">Advanced integration ecosystem</div>
+                        <div class="feature-item v1-6-0-features">Enhanced forensic capabilities</div>
+                        <div class="feature-item v1-6-0-features">Improved scalability</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart Compliance</h3>
+                        <p class="product-category">Compliance</p>
+                        <p class="product-description">Automated compliance management for 20+ frameworks</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$2.3M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">Multi-framework compliance (SOC 2, ISO 27001, HIPAA, GDPR, PCI-DSS)</div>
+                        <div class="feature-item">Automated compliance checks</div>
+                        <div class="feature-item">Policy management</div>
+                        <div class="feature-item">Evidence collection</div>
+                        <div class="feature-item">Compliance reporting</div>
+                        <div class="feature-item">Risk assessment</div>
+                        <div class="feature-item">Control mapping</div>
+                        <div class="feature-item">Audit preparation</div>
+                        <div class="feature-item">Continuous monitoring</div>
+                        <div class="feature-item">Remediation workflows</div>
+                        <div class="feature-item">Compliance dashboard</div>
+                        <div class="feature-item">Integration with security tools</div>
+                        <div class="feature-item">Document management</div>
+                        <div class="feature-item">Compliance scoring</div>
+                        <div class="feature-item">Regulatory updates</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">AI-powered compliance automation</div>
+                        <div class="feature-item v1-5-0-features">Enhanced policy management</div>
+                        <div class="feature-item v1-5-0-features">Improved evidence collection</div>
+                        <div class="feature-item v1-5-0-features">Advanced reporting</div>
+                        <div class="feature-item v1-5-0-features">Better risk assessment</div>
+                        <div class="feature-item v1-5-0-features">Enhanced monitoring</div>
+                        <div class="feature-item v1-5-0-features">Improved workflows</div>
+                        <div class="feature-item v1-5-0-features">Advanced analytics</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Predictive compliance management</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI automation</div>
+                        <div class="feature-item v1-6-0-features">Enhanced policy management with ML</div>
+                        <div class="feature-item v1-6-0-features">Improved evidence collection with AI</div>
+                        <div class="feature-item v1-6-0-features">Advanced reporting with insights</div>
+                        <div class="feature-item v1-6-0-features">Enhanced risk assessment with predictive analytics</div>
+                        <div class="feature-item v1-6-0-features">Improved monitoring with real-time alerts</div>
+                        <div class="feature-item v1-6-0-features">Advanced workflows with automation</div>
+                        <div class="feature-item v1-6-0-features">Enhanced analytics with ML</div>
+                        <div class="feature-item v1-6-0-features">Improved regulatory tracking</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart HL7</h3>
+                        <p class="product-category">Healthcare</p>
+                        <p class="product-description">Healthcare data integration with HL7 FHIR support</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$2.4M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">HL7 v2.x support</div>
+                        <div class="feature-item">FHIR R4 support</div>
+                        <div class="feature-item">Message transformation</div>
+                        <div class="feature-item">Healthcare data mapping</div>
+                        <div class="feature-item">EHR integration</div>
+                        <div class="feature-item">Patient data management</div>
+                        <div class="feature-item">Clinical data exchange</div>
+                        <div class="feature-item">HIPAA compliance</div>
+                        <div class="feature-item">Audit logging</div>
+                        <div class="feature-item">Real-time data sync</div>
+                        <div class="feature-item">Data validation</div>
+                        <div class="feature-item">Error handling</div>
+                        <div class="feature-item">Message routing</div>
+                        <div class="feature-item">Healthcare analytics</div>
+                        <div class="feature-item">Interoperability testing</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">Enhanced FHIR support</div>
+                        <div class="feature-item v1-5-0-features">Improved data transformation</div>
+                        <div class="feature-item v1-5-0-features">Advanced EHR integration</div>
+                        <div class="feature-item v1-5-0-features">Better compliance</div>
+                        <div class="feature-item v1-5-0-features">Enhanced analytics</div>
+                        <div class="feature-item v1-5-0-features">Improved performance</div>
+                        <div class="feature-item v1-5-0-features">Advanced security</div>
+                        <div class="feature-item v1-5-0-features">Better interoperability</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">AI-powered data mapping</div>
+                        <div class="feature-item v1-6-0-features">Advanced FHIR capabilities</div>
+                        <div class="feature-item v1-6-0-features">Enhanced transformation with ML</div>
+                        <div class="feature-item v1-6-0-features">Improved EHR integration with AI</div>
+                        <div class="feature-item v1-6-0-features">Advanced compliance automation</div>
+                        <div class="feature-item v1-6-0-features">Enhanced analytics with insights</div>
+                        <div class="feature-item v1-6-0-features">Improved performance with optimization</div>
+                        <div class="feature-item v1-6-0-features">Advanced security with encryption</div>
+                        <div class="feature-item v1-6-0-features">Enhanced interoperability</div>
+                        <div class="feature-item v1-6-0-features">Improved patient data management</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart DataFlow</h3>
+                        <p class="product-category">Data</p>
+                        <p class="product-description">Real-time data pipeline and ETL platform</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$2.1M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">Real-time data pipelines</div>
+                        <div class="feature-item">ETL/ELT processing</div>
+                        <div class="feature-item">Data transformation</div>
+                        <div class="feature-item">Stream processing</div>
+                        <div class="feature-item">Batch processing</div>
+                        <div class="feature-item">Data quality checks</div>
+                        <div class="feature-item">Schema management</div>
+                        <div class="feature-item">Data lineage tracking</div>
+                        <div class="feature-item">Error handling</div>
+                        <div class="feature-item">Performance monitoring</div>
+                        <div class="feature-item">Integration with data sources</div>
+                        <div class="feature-item">Data validation</div>
+                        <div class="feature-item">Scheduling</div>
+                        <div class="feature-item">Pipeline orchestration</div>
+                        <div class="feature-item">Data governance</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">AI-powered data transformation</div>
+                        <div class="feature-item v1-5-0-features">Enhanced stream processing</div>
+                        <div class="feature-item v1-5-0-features">Improved data quality</div>
+                        <div class="feature-item v1-5-0-features">Advanced lineage tracking</div>
+                        <div class="feature-item v1-5-0-features">Better monitoring</div>
+                        <div class="feature-item v1-5-0-features">Enhanced integration</div>
+                        <div class="feature-item v1-5-0-features">Improved performance</div>
+                        <div class="feature-item v1-5-0-features">Advanced governance</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Predictive data pipeline optimization</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI transformation</div>
+                        <div class="feature-item v1-6-0-features">Enhanced stream processing with edge computing</div>
+                        <div class="feature-item v1-6-0-features">Improved data quality with ML</div>
+                        <div class="feature-item v1-6-0-features">Advanced lineage tracking with visualization</div>
+                        <div class="feature-item v1-6-0-features">Enhanced monitoring with predictive insights</div>
+                        <div class="feature-item v1-6-0-features">Improved integration ecosystem</div>
+                        <div class="feature-item v1-6-0-features">Advanced governance with automation</div>
+                        <div class="feature-item v1-6-0-features">Enhanced performance with optimization</div>
+                        <div class="feature-item v1-6-0-features">Improved scalability</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart Data Platform</h3>
+                        <p class="product-category">Data</p>
+                        <p class="product-description">Enterprise data lake and warehouse platform</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$2.5M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">Data lake architecture</div>
+                        <div class="feature-item">Data warehouse integration</div>
+                        <div class="feature-item">Multi-format support</div>
+                        <div class="feature-item">Data cataloging</div>
+                        <div class="feature-item">Metadata management</div>
+                        <div class="feature-item">Data discovery</div>
+                        <div class="feature-item">Query optimization</div>
+                        <div class="feature-item">Data partitioning</div>
+                        <div class="feature-item">Compression and storage optimization</div>
+                        <div class="feature-item">Access control</div>
+                        <div class="feature-item">Data lifecycle management</div>
+                        <div class="feature-item">Integration with analytics tools</div>
+                        <div class="feature-item">Data versioning</div>
+                        <div class="feature-item">Backup and recovery</div>
+                        <div class="feature-item">Performance tuning</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">AI-powered data cataloging</div>
+                        <div class="feature-item v1-5-0-features">Enhanced query optimization</div>
+                        <div class="feature-item v1-5-0-features">Improved metadata management</div>
+                        <div class="feature-item v1-5-0-features">Advanced data discovery</div>
+                        <div class="feature-item v1-5-0-features">Better access control</div>
+                        <div class="feature-item v1-5-0-features">Enhanced lifecycle management</div>
+                        <div class="feature-item v1-5-0-features">Improved performance</div>
+                        <div class="feature-item v1-5-0-features">Advanced integration</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Predictive data management</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI cataloging</div>
+                        <div class="feature-item v1-6-0-features">Enhanced query optimization with ML</div>
+                        <div class="feature-item v1-6-0-features">Improved metadata management with automation</div>
+                        <div class="feature-item v1-6-0-features">Advanced data discovery with NLP</div>
+                        <div class="feature-item v1-6-0-features">Enhanced access control with zero-trust</div>
+                        <div class="feature-item v1-6-0-features">Improved lifecycle management with AI</div>
+                        <div class="feature-item v1-6-0-features">Advanced integration with cloud services</div>
+                        <div class="feature-item v1-6-0-features">Enhanced performance with optimization</div>
+                        <div class="feature-item v1-6-0-features">Improved scalability with distributed architecture</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart Forge</h3>
+                        <p class="product-category">Development</p>
+                        <p class="product-description">Low-code/no-code application development platform</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$1.9M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">Visual app builder</div>
+                        <div class="feature-item">Drag-and-drop interface</div>
+                        <div class="feature-item">Pre-built components</div>
+                        <div class="feature-item">Custom component creation</div>
+                        <div class="feature-item">Database integration</div>
+                        <div class="feature-item">API integration</div>
+                        <div class="feature-item">Workflow automation</div>
+                        <div class="feature-item">Form builder</div>
+                        <div class="feature-item">Report builder</div>
+                        <div class="feature-item">Mobile app generation</div>
+                        <div class="feature-item">Version control</div>
+                        <div class="feature-item">Collaboration tools</div>
+                        <div class="feature-item">Testing tools</div>
+                        <div class="feature-item">Deployment automation</div>
+                        <div class="feature-item">App marketplace</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">AI-powered app generation</div>
+                        <div class="feature-item v1-5-0-features">Enhanced visual builder</div>
+                        <div class="feature-item v1-5-0-features">Improved component library</div>
+                        <div class="feature-item v1-5-0-features">Advanced integration</div>
+                        <div class="feature-item v1-5-0-features">Better workflow automation</div>
+                        <div class="feature-item v1-5-0-features">Enhanced mobile support</div>
+                        <div class="feature-item v1-5-0-features">Improved collaboration</div>
+                        <div class="feature-item v1-5-0-features">Advanced testing</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Predictive app development</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI code generation</div>
+                        <div class="feature-item v1-6-0-features">Enhanced visual builder with AR</div>
+                        <div class="feature-item v1-6-0-features">Improved component library with ML</div>
+                        <div class="feature-item v1-6-0-features">Advanced integration ecosystem</div>
+                        <div class="feature-item v1-6-0-features">Enhanced workflow automation with AI</div>
+                        <div class="feature-item v1-6-0-features">Improved mobile support with native compilation</div>
+                        <div class="feature-item v1-6-0-features">Advanced collaboration with real-time features</div>
+                        <div class="feature-item v1-6-0-features">Enhanced testing with AI</div>
+                        <div class="feature-item v1-6-0-features">Improved deployment with automation</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart ThinkTank</h3>
+                        <p class="product-category">Collaboration</p>
+                        <p class="product-description">Collaborative knowledge management and documentation platform</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$2.0M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">Knowledge base management</div>
+                        <div class="feature-item">Document collaboration</div>
+                        <div class="feature-item">Wiki functionality</div>
+                        <div class="feature-item">Version control</div>
+                        <div class="feature-item">Search and discovery</div>
+                        <div class="feature-item">Content organization</div>
+                        <div class="feature-item">Access control</div>
+                        <div class="feature-item">Comments and discussions</div>
+                        <div class="feature-item">Document templates</div>
+                        <div class="feature-item">Rich text editor</div>
+                        <div class="feature-item">File attachments</div>
+                        <div class="feature-item">Integration with products</div>
+                        <div class="feature-item">Analytics and insights</div>
+                        <div class="feature-item">Export capabilities</div>
+                        <div class="feature-item">Mobile access</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">AI-powered content recommendations</div>
+                        <div class="feature-item v1-5-0-features">Enhanced search with NLP</div>
+                        <div class="feature-item v1-5-0-features">Improved collaboration</div>
+                        <div class="feature-item v1-5-0-features">Advanced organization</div>
+                        <div class="feature-item v1-5-0-features">Better access control</div>
+                        <div class="feature-item v1-5-0-features">Enhanced analytics</div>
+                        <div class="feature-item v1-5-0-features">Improved mobile experience</div>
+                        <div class="feature-item v1-5-0-features">Advanced integration</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Predictive content management</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI recommendations</div>
+                        <div class="feature-item v1-6-0-features">Enhanced search with semantic understanding</div>
+                        <div class="feature-item v1-6-0-features">Improved collaboration with real-time features</div>
+                        <div class="feature-item v1-6-0-features">Advanced organization with ML</div>
+                        <div class="feature-item v1-6-0-features">Enhanced access control with zero-trust</div>
+                        <div class="feature-item v1-6-0-features">Improved analytics with insights</div>
+                        <div class="feature-item v1-6-0-features">Advanced mobile experience with offline support</div>
+                        <div class="feature-item v1-6-0-features">Enhanced integration ecosystem</div>
+                        <div class="feature-item v1-6-0-features">Improved knowledge discovery</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart QA/QC</h3>
+                        <p class="product-category">Testing</p>
+                        <p class="product-description">Quality assurance and quality control automation platform</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$1.8M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">Automated testing</div>
+                        <div class="feature-item">Test case management</div>
+                        <div class="feature-item">Test execution</div>
+                        <div class="feature-item">Defect tracking</div>
+                        <div class="feature-item">Test reporting</div>
+                        <div class="feature-item">Integration testing</div>
+                        <div class="feature-item">Performance testing</div>
+                        <div class="feature-item">Security testing</div>
+                        <div class="feature-item">API testing</div>
+                        <div class="feature-item">UI testing</div>
+                        <div class="feature-item">Test data management</div>
+                        <div class="feature-item">CI/CD integration</div>
+                        <div class="feature-item">Test analytics</div>
+                        <div class="feature-item">Coverage analysis</div>
+                        <div class="feature-item">Quality metrics</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">AI-powered test generation</div>
+                        <div class="feature-item v1-5-0-features">Enhanced test execution</div>
+                        <div class="feature-item v1-5-0-features">Improved defect tracking</div>
+                        <div class="feature-item v1-5-0-features">Advanced reporting</div>
+                        <div class="feature-item v1-5-0-features">Better integration</div>
+                        <div class="feature-item v1-5-0-features">Enhanced analytics</div>
+                        <div class="feature-item v1-5-0-features">Improved performance</div>
+                        <div class="feature-item v1-5-0-features">Advanced security testing</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Predictive test optimization</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI test generation</div>
+                        <div class="feature-item v1-6-0-features">Enhanced test execution with ML</div>
+                        <div class="feature-item v1-6-0-features">Improved defect tracking with predictive analytics</div>
+                        <div class="feature-item v1-6-0-features">Advanced reporting with insights</div>
+                        <div class="feature-item v1-6-0-features">Enhanced integration with DevOps</div>
+                        <div class="feature-item v1-6-0-features">Improved analytics with ML</div>
+                        <div class="feature-item v1-6-0-features">Advanced security testing with AI</div>
+                        <div class="feature-item v1-6-0-features">Enhanced performance testing</div>
+                        <div class="feature-item v1-6-0-features">Improved quality prediction</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart Sandbox</h3>
+                        <p class="product-category">Development</p>
+                        <p class="product-description">Isolated testing and development environment platform</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$1.7M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">Isolated environments</div>
+                        <div class="feature-item">Quick provisioning</div>
+                        <div class="feature-item">Environment templates</div>
+                        <div class="feature-item">Resource management</div>
+                        <div class="feature-item">Access control</div>
+                        <div class="feature-item">Environment cloning</div>
+                        <div class="feature-item">Data seeding</div>
+                        <div class="feature-item">Integration testing</div>
+                        <div class="feature-item">Performance testing</div>
+                        <div class="feature-item">Security testing</div>
+                        <div class="feature-item">Environment monitoring</div>
+                        <div class="feature-item">Cost tracking</div>
+                        <div class="feature-item">Auto-cleanup</div>
+                        <div class="feature-item">Collaboration features</div>
+                        <div class="feature-item">Environment sharing</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">AI-powered environment optimization</div>
+                        <div class="feature-item v1-5-0-features">Enhanced provisioning</div>
+                        <div class="feature-item v1-5-0-features">Improved resource management</div>
+                        <div class="feature-item v1-5-0-features">Advanced monitoring</div>
+                        <div class="feature-item v1-5-0-features">Better cost tracking</div>
+                        <div class="feature-item v1-5-0-features">Enhanced security</div>
+                        <div class="feature-item v1-5-0-features">Improved performance</div>
+                        <div class="feature-item v1-5-0-features">Advanced collaboration</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Predictive environment management</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI optimization</div>
+                        <div class="feature-item v1-6-0-features">Enhanced provisioning with automation</div>
+                        <div class="feature-item v1-6-0-features">Improved resource management with ML</div>
+                        <div class="feature-item v1-6-0-features">Advanced monitoring with predictive insights</div>
+                        <div class="feature-item v1-6-0-features">Enhanced cost tracking with optimization</div>
+                        <div class="feature-item v1-6-0-features">Improved security with zero-trust</div>
+                        <div class="feature-item v1-6-0-features">Advanced collaboration with real-time features</div>
+                        <div class="feature-item v1-6-0-features">Enhanced performance with edge computing</div>
+                        <div class="feature-item v1-6-0-features">Improved scalability</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart Port Manager</h3>
+                        <p class="product-category">Networking</p>
+                        <p class="product-description">Network port management and monitoring platform</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$1.5M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">Port discovery</div>
+                        <div class="feature-item">Port monitoring</div>
+                        <div class="feature-item">Port allocation</div>
+                        <div class="feature-item">Conflict detection</div>
+                        <div class="feature-item">Port documentation</div>
+                        <div class="feature-item">Access control</div>
+                        <div class="feature-item">Port usage analytics</div>
+                        <div class="feature-item">Integration with networking tools</div>
+                        <div class="feature-item">Alerting and notifications</div>
+                        <div class="feature-item">Port scanning</div>
+                        <div class="feature-item">Security monitoring</div>
+                        <div class="feature-item">Compliance checking</div>
+                        <div class="feature-item">Historical tracking</div>
+                        <div class="feature-item">Reporting</div>
+                        <div class="feature-item">API access</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">AI-powered port optimization</div>
+                        <div class="feature-item v1-5-0-features">Enhanced monitoring</div>
+                        <div class="feature-item v1-5-0-features">Improved conflict detection</div>
+                        <div class="feature-item v1-5-0-features">Advanced analytics</div>
+                        <div class="feature-item v1-5-0-features">Better security</div>
+                        <div class="feature-item v1-5-0-features">Enhanced compliance</div>
+                        <div class="feature-item v1-5-0-features">Improved performance</div>
+                        <div class="feature-item v1-5-0-features">Advanced integration</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Predictive port management</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI optimization</div>
+                        <div class="feature-item v1-6-0-features">Enhanced monitoring with ML</div>
+                        <div class="feature-item v1-6-0-features">Improved conflict detection with predictive analytics</div>
+                        <div class="feature-item v1-6-0-features">Advanced analytics with insights</div>
+                        <div class="feature-item v1-6-0-features">Enhanced security with threat detection</div>
+                        <div class="feature-item v1-6-0-features">Improved compliance with automation</div>
+                        <div class="feature-item v1-6-0-features">Advanced integration ecosystem</div>
+                        <div class="feature-item v1-6-0-features">Enhanced performance with optimization</div>
+                        <div class="feature-item v1-6-0-features">Improved scalability</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart Mobile</h3>
+                        <p class="product-category">Mobile</p>
+                        <p class="product-description">Mobile device management and security platform</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$1.9M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">Mobile device management (MDM)</div>
+                        <div class="feature-item">App management</div>
+                        <div class="feature-item">Security policies</div>
+                        <div class="feature-item">Remote wipe</div>
+                        <div class="feature-item">Device enrollment</div>
+                        <div class="feature-item">Compliance monitoring</div>
+                        <div class="feature-item">Location tracking</div>
+                        <div class="feature-item">App distribution</div>
+                        <div class="feature-item">Device inventory</div>
+                        <div class="feature-item">Usage analytics</div>
+                        <div class="feature-item">BYOD support</div>
+                        <div class="feature-item">Container management</div>
+                        <div class="feature-item">VPN configuration</div>
+                        <div class="feature-item">Certificate management</div>
+                        <div class="feature-item">Reporting</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">AI-powered security</div>
+                        <div class="feature-item v1-5-0-features">Enhanced MDM capabilities</div>
+                        <div class="feature-item v1-5-0-features">Improved app management</div>
+                        <div class="feature-item v1-5-0-features">Advanced compliance</div>
+                        <div class="feature-item v1-5-0-features">Better analytics</div>
+                        <div class="feature-item v1-5-0-features">Enhanced BYOD support</div>
+                        <div class="feature-item v1-5-0-features">Improved performance</div>
+                        <div class="feature-item v1-5-0-features">Advanced security</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Predictive mobile security</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI threat detection</div>
+                        <div class="feature-item v1-6-0-features">Enhanced MDM with automation</div>
+                        <div class="feature-item v1-6-0-features">Improved app management with ML</div>
+                        <div class="feature-item v1-6-0-features">Advanced compliance with automation</div>
+                        <div class="feature-item v1-6-0-features">Enhanced analytics with insights</div>
+                        <div class="feature-item v1-6-0-features">Improved BYOD support with zero-trust</div>
+                        <div class="feature-item v1-6-0-features">Advanced security with behavioral analytics</div>
+                        <div class="feature-item v1-6-0-features">Enhanced performance with optimization</div>
+                        <div class="feature-item v1-6-0-features">Improved user experience</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart Customer Success</h3>
+                        <p class="product-category">Customer Success</p>
+                        <p class="product-description">Customer success management and engagement platform</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$1.8M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">Customer health scoring</div>
+                        <div class="feature-item">Engagement tracking</div>
+                        <div class="feature-item">Success planning</div>
+                        <div class="feature-item">Onboarding automation</div>
+                        <div class="feature-item">Usage analytics</div>
+                        <div class="feature-item">Churn prediction</div>
+                        <div class="feature-item">Customer segmentation</div>
+                        <div class="feature-item">Communication management</div>
+                        <div class="feature-item">Task management</div>
+                        <div class="feature-item">Integration with CRM</div>
+                        <div class="feature-item">Reporting and dashboards</div>
+                        <div class="feature-item">Customer feedback</div>
+                        <div class="feature-item">Renewal management</div>
+                        <div class="feature-item">Upsell opportunities</div>
+                        <div class="feature-item">Customer journey mapping</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">AI-powered health scoring</div>
+                        <div class="feature-item v1-5-0-features">Enhanced engagement tracking</div>
+                        <div class="feature-item v1-5-0-features">Improved success planning</div>
+                        <div class="feature-item v1-5-0-features">Advanced analytics</div>
+                        <div class="feature-item v1-5-0-features">Better churn prediction</div>
+                        <div class="feature-item v1-5-0-features">Enhanced segmentation</div>
+                        <div class="feature-item v1-5-0-features">Improved automation</div>
+                        <div class="feature-item v1-5-0-features">Advanced reporting</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Predictive customer success</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI health scoring</div>
+                        <div class="feature-item v1-6-0-features">Enhanced engagement tracking with ML</div>
+                        <div class="feature-item v1-6-0-features">Improved success planning with automation</div>
+                        <div class="feature-item v1-6-0-features">Advanced analytics with insights</div>
+                        <div class="feature-item v1-6-0-features">Enhanced churn prediction with deep learning</div>
+                        <div class="feature-item v1-6-0-features">Improved segmentation with AI</div>
+                        <div class="feature-item v1-6-0-features">Advanced automation with workflows</div>
+                        <div class="feature-item v1-6-0-features">Enhanced reporting with predictive insights</div>
+                        <div class="feature-item v1-6-0-features">Improved customer journey optimization</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart ImpactOS</h3>
+                        <p class="product-category">Analytics</p>
+                        <p class="product-description">Business impact analysis and value tracking platform</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$2.2M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">Business impact analysis</div>
+                        <div class="feature-item">Value tracking</div>
+                        <div class="feature-item">ROI calculation</div>
+                        <div class="feature-item">Cost-benefit analysis</div>
+                        <div class="feature-item">Performance metrics</div>
+                        <div class="feature-item">KPI tracking</div>
+                        <div class="feature-item">Dashboard visualization</div>
+                        <div class="feature-item">Reporting</div>
+                        <div class="feature-item">Integration with products</div>
+                        <div class="feature-item">Historical analysis</div>
+                        <div class="feature-item">Trend forecasting</div>
+                        <div class="feature-item">Benchmarking</div>
+                        <div class="feature-item">Goal tracking</div>
+                        <div class="feature-item">Value realization</div>
+                        <div class="feature-item">Executive reporting</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">AI-powered impact analysis</div>
+                        <div class="feature-item v1-5-0-features">Enhanced value tracking</div>
+                        <div class="feature-item v1-5-0-features">Improved ROI calculation</div>
+                        <div class="feature-item v1-5-0-features">Advanced analytics</div>
+                        <div class="feature-item v1-5-0-features">Better forecasting</div>
+                        <div class="feature-item v1-5-0-features">Enhanced visualization</div>
+                        <div class="feature-item v1-5-0-features">Improved reporting</div>
+                        <div class="feature-item v1-5-0-features">Advanced integration</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Predictive impact analysis</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI value tracking</div>
+                        <div class="feature-item v1-6-0-features">Enhanced ROI calculation with ML</div>
+                        <div class="feature-item v1-6-0-features">Improved analytics with insights</div>
+                        <div class="feature-item v1-6-0-features">Advanced forecasting with predictive models</div>
+                        <div class="feature-item v1-6-0-features">Enhanced visualization with 3D and AR</div>
+                        <div class="feature-item v1-6-0-features">Improved reporting with automation</div>
+                        <div class="feature-item v1-6-0-features">Advanced integration ecosystem</div>
+                        <div class="feature-item v1-6-0-features">Enhanced benchmarking with AI</div>
+                        <div class="feature-item v1-6-0-features">Improved value optimization</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart Agent</h3>
+                        <p class="product-category">Monitoring</p>
+                        <p class="product-description">Lightweight monitoring agent for distributed systems</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$1.6M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">System monitoring</div>
+                        <div class="feature-item">Resource tracking</div>
+                        <div class="feature-item">Log collection</div>
+                        <div class="feature-item">Metrics collection</div>
+                        <div class="feature-item">Security monitoring</div>
+                        <div class="feature-item">Compliance checking</div>
+                        <div class="feature-item">Remote command execution</div>
+                        <div class="feature-item">Software inventory</div>
+                        <div class="feature-item">Configuration management</div>
+                        <div class="feature-item">Auto-discovery</div>
+                        <div class="feature-item">Lightweight footprint</div>
+                        <div class="feature-item">Cross-platform support</div>
+                        <div class="feature-item">Secure communication</div>
+                        <div class="feature-item">Auto-update</div>
+                        <div class="feature-item">Central management</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">AI-powered monitoring</div>
+                        <div class="feature-item v1-5-0-features">Enhanced resource tracking</div>
+                        <div class="feature-item v1-5-0-features">Improved log collection</div>
+                        <div class="feature-item v1-5-0-features">Advanced security</div>
+                        <div class="feature-item v1-5-0-features">Better compliance</div>
+                        <div class="feature-item v1-5-0-features">Enhanced performance</div>
+                        <div class="feature-item v1-5-0-features">Improved management</div>
+                        <div class="feature-item v1-5-0-features">Advanced features</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Predictive monitoring</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI resource optimization</div>
+                        <div class="feature-item v1-6-0-features">Enhanced log collection with ML</div>
+                        <div class="feature-item v1-6-0-features">Improved security with threat detection</div>
+                        <div class="feature-item v1-6-0-features">Advanced compliance with automation</div>
+                        <div class="feature-item v1-6-0-features">Enhanced performance with edge computing</div>
+                        <div class="feature-item v1-6-0-features">Improved management with automation</div>
+                        <div class="feature-item v1-6-0-features">Advanced features with AI</div>
+                        <div class="feature-item v1-6-0-features">Enhanced scalability</div>
+                        <div class="feature-item v1-6-0-features">Improved efficiency</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-title">
+                        <h3>iTechSmart MDM Agent</h3>
+                        <p class="product-category">Mobile</p>
+                        <p class="product-description">Mobile device management agent for endpoint security</p>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-value">$1.5M</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Core Features (v1.4.0) - 15 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item">Device enrollment</div>
+                        <div class="feature-item">Policy enforcement</div>
+                        <div class="feature-item">App management</div>
+                        <div class="feature-item">Security monitoring</div>
+                        <div class="feature-item">Remote management</div>
+                        <div class="feature-item">Compliance checking</div>
+                        <div class="feature-item">Data protection</div>
+                        <div class="feature-item">VPN configuration</div>
+                        <div class="feature-item">Certificate management</div>
+                        <div class="feature-item">Location services</div>
+                        <div class="feature-item">Usage tracking</div>
+                        <div class="feature-item">Remote wipe</div>
+                        <div class="feature-item">Container management</div>
+                        <div class="feature-item">Secure communication</div>
+                        <div class="feature-item">Auto-update</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>New in v1.5.0 🆕 - 8 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-5-0-features">AI-powered security</div>
+                        <div class="feature-item v1-5-0-features">Enhanced policy enforcement</div>
+                        <div class="feature-item v1-5-0-features">Improved app management</div>
+                        <div class="feature-item v1-5-0-features">Advanced monitoring</div>
+                        <div class="feature-item v1-5-0-features">Better compliance</div>
+                        <div class="feature-item v1-5-0-features">Enhanced data protection</div>
+                        <div class="feature-item v1-5-0-features">Improved performance</div>
+                        <div class="feature-item v1-5-0-features">Advanced features</div>
+                    </div>
+                </div>
+                
+                <div class="features-section">
+                    <h4>Coming in v1.6.0 🚀 - 10 Features</h4>
+                    <div class="features-list">
+                        <div class="feature-item v1-6-0-features">Predictive security</div>
+                        <div class="feature-item v1-6-0-features">Advanced AI threat detection</div>
+                        <div class="feature-item v1-6-0-features">Enhanced policy enforcement with ML</div>
+                        <div class="feature-item v1-6-0-features">Improved app management with automation</div>
+                        <div class="feature-item v1-6-0-features">Advanced monitoring with predictive insights</div>
+                        <div class="feature-item v1-6-0-features">Enhanced compliance with automation</div>
+                        <div class="feature-item v1-6-0-features">Improved data protection with encryption</div>
+                        <div class="feature-item v1-6-0-features">Advanced features with AI</div>
+                        <div class="feature-item v1-6-0-features">Enhanced user experience</div>
+                        <div class="feature-item v1-6-0-features">Improved efficiency</div>
                     </div>
                 </div>
             </div>
@@ -1168,7 +2561,7 @@
         <footer>
             <p><strong>iTechSmart Suite v1.5.0</strong></p>
             <p>Complete AI-Powered IT Management Platform</p>
-            <p>Total Portfolio Value: $30.4M | 12 Products | 200+ API Endpoints</p>
+            <p>Total Portfolio Value: $72.1M | 34 Products | 200+ Integrations | 1000+ ML Models</p>
             <p style="margin-top: 1rem; opacity: 0.8;">© 2024 iTechSmart. All rights reserved.</p>
         </footer>
     </div>
