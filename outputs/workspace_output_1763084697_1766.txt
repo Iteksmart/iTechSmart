@@ -1,9 +1,0 @@
-/usr/bin/bash: line 4535: convert: command not found
-/usr/bin/bash: line 4536: convert: command not found
-/usr/bin/bash: line 4537: convert: command not found
-/usr/bin/bash: line 4538: convert: command not found
-/usr/bin/bash: line 4539: convert: command not found
-/usr/bin/bash: line 4540: convert: command not found
-/usr/bin/bash: line 4541: convert: command not found
-/usr/bin/bash: line 4544: convert: command not found
-Logo conversion complete

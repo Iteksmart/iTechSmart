@@ -1,8 +1,0 @@
-✓ Created Ninja frontend src/ directory structure
-total 0
-drwxr-xr-x 6 root root  80 Nov 11 22:15 .
-drwxr-xr-x 1 root root 154 Nov 11 22:15 ..
-drwxr-xr-x 2 root root  10 Nov 11 22:15 app
-drwxr-xr-x 2 root root  10 Nov 11 22:15 components
-drwxr-xr-x 2 root root  10 Nov 11 22:15 lib
-drwxr-xr-x 2 root root  10 Nov 11 22:15 styles

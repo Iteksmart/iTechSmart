@@ -1,7 +1,0 @@
-          "title": "iTechSmart: Trigger GitHub Workflow"
-        }
-        "title": "iTechSmart: View Citation Styles"
-      }
-    ],
-    "viewsContainers": {
-      "activitybar": [

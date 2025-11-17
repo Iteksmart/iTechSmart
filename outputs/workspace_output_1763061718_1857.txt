@@ -1,6 +1,0 @@
-        "readme": true,
-        "docs_dir": true
-      },
-    {
-      "name": "iTechSmart Sandbox",
-      "dir": "itechsmart-sandbox",

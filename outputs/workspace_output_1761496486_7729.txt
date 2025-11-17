@@ -1,5 +1,0 @@
-total 24
-drwxr-xr-x  2 root root    64 Oct 11 18:15 .
-drwxr-xr-x 13 root root  4096 Oct 11 19:02 ..
--rw-r--r--  1 root root  7635 Oct 11 18:15 rest_api.py
--rw-r--r--  1 root root 11719 Oct 11 18:15 webhook_receiver.py

@@ -1,4 +1,0 @@
-itechsmart-enterprise/FINAL_SUMMARY.md
-itechsmart-enterprise/IMPLEMENTATION_GUIDE.md
-itechsmart-enterprise/README.md
-itechsmart-enterprise/VERIFICATION_CHECKLIST.md

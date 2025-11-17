@@ -1,6 +1,0 @@
-total 12
-drwxr-xr-x 2 root root  75 Nov 12 20:42 .
-drwxr-xr-x 6 root root  80 Nov 11 22:15 ..
--rw-r--r-- 1 root root 605 Nov 11 22:15 globals.css
--rw-r--r-- 1 root root 352 Nov 11 22:15 layout.tsx
--rw-r--r-- 1 root root 993 Nov 11 22:15 page.tsx

@@ -1,6 +1,0 @@
-| Own Computer/VM | ✅ Yes | ✅ Yes (vm_manager.py) | Complete | - |
-| Multi-AI Models | ✅ 40+ models | ⚠️ 5 providers | Enhance | HIGH |
-| Deep Research | ✅ With citations | ❌ Basic | Implement | HIGH |
-| Code Editors | ✅ VS Code, Image, Website | ❌ None | Implement | HIGH |
-| GitHub Integration | ✅ Full | ❌ None | Implement | HIGH |
-| Data Visualization | ✅ Interactive | ⚠️ Basic | Enhance | MEDIUM |

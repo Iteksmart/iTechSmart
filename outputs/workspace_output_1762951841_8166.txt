@@ -1,3 +1,0 @@
-=== Checking for Security-related products ===
--rw-r--r-- 1 root root   29363 Oct 26 19:06 SECURITY_COMPLIANCE_OVERVIEW.md
-drwxr-xr-x 4 root root    4096 Nov 12 12:27 itechsmart-shield

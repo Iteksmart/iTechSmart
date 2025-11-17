@@ -1,3 +1,0 @@
-13:| Code Editors | ✅ VS Code, Image, Website | ❌ None | Implement | HIGH |
-39:3. **Embedded Code Editors**
-157:### 3. Embedded Code Editors

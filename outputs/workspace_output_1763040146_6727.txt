@@ -1,5 +1,0 @@
-  481 itechsmart-mdm-agent/backend/app/core/ai_optimizer.py
-  340 itechsmart-mdm-agent/backend/app/core/configuration_manager.py
-  579 itechsmart-mdm-agent/backend/app/core/deployment_engine.py
-  170 itechsmart-mdm-agent/backend/app/main.py
- 1570 total

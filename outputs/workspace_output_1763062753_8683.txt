@@ -1,1 +1,0 @@
-./itechsmart-mdm-agent

@@ -1,1 +1,0 @@
-ls: cannot access '/workspace/itechsmart-impactos/backend/alembic/': No such file or directory

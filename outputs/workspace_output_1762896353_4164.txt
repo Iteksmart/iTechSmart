@@ -1,9 +1,0 @@
-total 28
-drwxr-xr-x 4 root root  149 Oct 27 18:56 .
-drwxr-xr-x 8 root root 4096 Oct 27 20:00 ..
--rw-r--r-- 1 root root 1327 Oct 27 18:52 Dockerfile
--rw-r--r-- 1 root root 2616 Oct 27 18:56 backup.sh
--rw-r--r-- 1 root root 5662 Oct 27 18:52 docker-compose.yml
-drwxr-xr-x 2 root root 4096 Oct 27 18:54 kubernetes
-drwxr-xr-x 2 root root   93 Oct 27 19:25 monitoring
--rw-r--r-- 1 root root 3824 Oct 27 18:56 restore.sh

@@ -1,2 +1,0 @@
-✓ Added document command cases
-✓ Terminal document commands added

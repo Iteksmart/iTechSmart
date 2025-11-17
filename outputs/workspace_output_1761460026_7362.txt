@@ -1,3 +1,0 @@
-Added debug command handlers
-Added debug command cases
-Debug terminal commands added successfully

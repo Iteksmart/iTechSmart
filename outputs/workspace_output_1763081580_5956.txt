@@ -1,8 +1,0 @@
-total 76
-drwxr-xr-x 2 root root   134 Nov 13 22:52 .
-drwxr-xr-x 1 root root  4096 Nov 13 22:49 ..
--rw-r--r-- 1 root root 18015 Nov 13 22:51 Builder.tsx
--rw-r--r-- 1 root root 10946 Nov 13 22:49 Dashboard.tsx
--rw-r--r-- 1 root root 15551 Nov 13 22:51 Executions.tsx
--rw-r--r-- 1 root root 10657 Nov 13 22:52 Templates.tsx
--rw-r--r-- 1 root root 12239 Nov 13 22:50 Workflows.tsx

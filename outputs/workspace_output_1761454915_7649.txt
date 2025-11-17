@@ -1,6 +1,0 @@
-      {$
-        "command": "itechsmart.listImageProviders",$
-        "title": "iTechSmart: List Image Generation Providers"$
-      }$
-    ],$
-    "viewsContainers": {$

@@ -1,6 +1,0 @@
-total 48
-drwxr-xr-x  2 root root   105 Oct 11 18:11 .
-drwxr-xr-x 13 root root  4096 Oct 11 19:02 ..
--rw-r--r--  1 root root 11176 Oct 11 18:11 event_log_collector.py
--rw-r--r--  1 root root 12034 Oct 11 18:10 prometheus_monitor.py
--rw-r--r--  1 root root 19024 Oct 11 18:10 wazuh_monitor.py

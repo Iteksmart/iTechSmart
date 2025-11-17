@@ -1,5 +1,0 @@
-313:        const helpText = `
-2133:        const helpText = `
-2286:        const helpText = `
-2412:        const helpText = `
-2542:        const helpText = `

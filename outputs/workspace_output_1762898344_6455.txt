@@ -1,4 +1,0 @@
-./itechsmart-supreme-complete.tar.gz
-./itechsmart_supreme
-./passport
-./complete_supreme.py

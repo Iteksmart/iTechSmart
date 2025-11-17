@@ -1,7 +1,0 @@
-total 56
-drwxr-xr-x 2 root root   133 Nov 11 01:58 .
-drwxr-xr-x 7 root root  4096 Nov 11 02:24 ..
--rw-r--r-- 1 root root 11485 Nov 11 01:50 ADMIN_GUIDE.md
--rw-r--r-- 1 root root 10961 Nov 11 01:51 DEPLOYMENT_GUIDE.md
--rw-r--r-- 1 root root 14065 Nov 11 01:58 FRONTEND_COMPLETION_GUIDE.md
--rw-r--r-- 1 root root 10031 Nov 11 01:49 USER_MANUAL.md

@@ -1,5 +1,0 @@
-109:app.include_router(admin.router, prefix="/api/v1/admin", tags=["Admin"])
-110:app.include_router(files.router, prefix="/api/v1/files", tags=["Files"])
-111:app.include_router(deployments.router, prefix="/api/v1/deployments", tags=["Deployments"])
-112:app.include_router(models.router, prefix="/api/v1/models", tags=["AI Models"])
-113:app.include_router(research.router, prefix="/api/v1/research", tags=["Research"])

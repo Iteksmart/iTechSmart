@@ -1,2 +1,0 @@
-17:import { registerVisualizationCommands } from './commands/visualizationCommands';
-52:    registerVisualizationCommands(context, apiClient);

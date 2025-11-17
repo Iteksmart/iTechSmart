@@ -1,4 +1,0 @@
-itechsmart-compliance/backend/app/core/compliance_engine.py
-itechsmart-compliance/backend/app/integrations/__init__.py
-itechsmart-compliance/backend/app/integrations/integration.py
-itechsmart-compliance/backend/main.py

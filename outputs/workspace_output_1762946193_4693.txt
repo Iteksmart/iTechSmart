@@ -1,6 +1,0 @@
-total 4
-drwxr-xr-x 5 root root   76 Nov 12 05:09 .
-drwxr-xr-x 1 root root 4096 Nov 12 11:13 ..
-drwxr-xr-x 2 root root   54 Nov 12 05:07 integration
-drwxr-xr-x 2 root root   47 Nov 12 05:08 performance
-drwxr-xr-x 2 root root   39 Nov 12 05:09 security

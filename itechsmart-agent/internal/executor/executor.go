@@ -157,7 +157,7 @@ func (e *Executor) executeScript(cmd communicator.Command) communicator.CommandR
 	}
 	
 	// Get script content
-	scriptContent, ok := cmd.Payload["script"].(string)
+	_ , ok := cmd.Payload["script"].(string)
 	if !ok {
 		result.Success = false
 		result.Error = "missing script parameter"

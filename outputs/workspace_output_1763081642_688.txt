@@ -1,6 +1,0 @@
-# iTechSmart Inc. - AI/ML Platform and Model Marketplace
-
-**Version**: 1.0.0  
-**Status**: Production Ready  
-**Part of**: iTechSmart Suite
-

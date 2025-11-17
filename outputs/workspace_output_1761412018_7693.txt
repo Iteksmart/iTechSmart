@@ -1,7 +1,0 @@
-      },
-      {
-        "command": "itechsmart.viewCitationStyles",
-        "title": "iTechSmart: View Citation Styles"
-      }
-    ],
-    "viewsContainers": {

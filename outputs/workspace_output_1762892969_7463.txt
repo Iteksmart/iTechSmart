@@ -1,6 +1,0 @@
-total 32
-drwxr-xr-x 2 root root    76 Nov 11 20:08 .
-drwxr-xr-x 3 root root    66 Nov 11 20:08 ..
--rw-r--r-- 1 root root    21 Nov 11 20:08 __init__.py
--rw-r--r-- 1 root root  8840 Nov 11 20:07 auth.py
--rw-r--r-- 1 root root 13657 Nov 11 20:07 passwords.py

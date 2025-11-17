@@ -1,1 +1,0 @@
--rw-r--r-- 1 root root 6771 Oct 26 04:41 itechsmart-ninja/backend/app/api/mcp.py

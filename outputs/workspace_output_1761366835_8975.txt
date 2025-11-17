@@ -1,3 +1,0 @@
-        "command": "itechsmart.logout",
-        "title": "iTechSmart: Logout"
-      }

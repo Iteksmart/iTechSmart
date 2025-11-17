@@ -1,5 +1,0 @@
-      {
-        "command": "itechsmart.viewCitationStyles",
-        ,
-        {
-          "command": "itechsmart.openMonacoEditor",

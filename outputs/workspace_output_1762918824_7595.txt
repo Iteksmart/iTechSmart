@@ -1,6 +1,0 @@
-./itechsmart-ninja/backend/app/api/self_healing.py
-./itechsmart-ninja/backend/app/api/suite_control.py
-./itechsmart-ninja/backend/app/core/self_healing_engine.py
-./itechsmart-ninja/backend/app/core/auto_evolution_engine.py
-./itechsmart-ninja/backend/app/core/suite_controller.py
-./itechsmart-ninja/backend/app/models/self_healing.py

@@ -1,7 +1,0 @@
-              {/* Service Catalog Routes */}
-              <Route path="/service-catalog" element={<ServiceCatalogDashboard />} />
-              <Route path="/service-catalog/browse" element={<ServiceCatalogBrowse />} />
-              <Route path="/service-catalog/requests" element={<ServiceCatalogRequests />} />
-              <Route path="/service-catalog/admin" element={<ServiceCatalogAdmin />} />
-              <Route path="/service-catalog/analytics" element={<ServiceCatalogAnalytics />} />
-            </Routes>

@@ -1,3 +1,0 @@
-Added collaboration command handlers
-Added collaboration command cases
-Collaboration terminal commands added successfully

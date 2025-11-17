@@ -1,1 +1,0 @@
-Added MCP help text at line 288

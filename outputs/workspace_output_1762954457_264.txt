@@ -1,5 +1,0 @@
-total 4
-drwxr-xr-x 2 root root 105 Nov 12 13:34 .
-drwxr-xr-x 3 root root  29 Nov 12 13:34 ..
--rw-r--r-- 1 root root 141 Nov 12 13:34 workspace_output_1762954454_9991.txt
--rw-r--r-- 1 root root   0 Nov 12 13:34 workspace_output_1762954457_264.txt

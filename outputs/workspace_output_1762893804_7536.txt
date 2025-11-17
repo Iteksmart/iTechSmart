@@ -1,6 +1,0 @@
-./itechsmart-impactos/backend
-./itechsmart-impactos/frontend
-./passport/backend
-./passport/frontend
-./prooflink/backend
-./prooflink/frontend

@@ -1,5 +1,0 @@
-    ip_address = Column(String)
-    user_agent = Column(String)
-    
-    # Timestamps
-    created_at = Column(DateTime(timezone=True), server_default=func.now())

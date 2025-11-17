@@ -1,7 +1,0 @@
-total 0
-drwxr-xr-x 1 root root 50 Nov 12 20:48 .
-drwxr-xr-x 1 root root 66 Nov 13 18:17 ..
-drwxr-xr-x 2 root root 10 Nov 12 11:46 api
-drwxr-xr-x 1 root root 42 Nov 13 18:17 core
-drwxr-xr-x 1 root root 59 Nov 13 18:17 integrations
-drwxr-xr-x 2 root root 10 Nov 12 11:46 models

@@ -1,3 +1,0 @@
-/workspace/itechsmart_supreme
-/workspace/itechsmart-ninja
-/workspace/itechsmart-enterprise

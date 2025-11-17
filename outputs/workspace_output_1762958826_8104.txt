@@ -1,7 +1,0 @@
-itechsmart-shield/docker-compose.yml
-itechsmart-shield/init-db.sql
-itechsmart-shield/README.md
-itechsmart-shield/DEPLOYMENT.md
-itechsmart-shield/start.sh
-itechsmart-shield/PROJECT_COMPLETION_SUMMARY.md
-itechsmart-shield/QUICK_REFERENCE.md

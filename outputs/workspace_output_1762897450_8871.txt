@@ -1,3 +1,0 @@
-ls: cannot access '/workspace/prooflink/backend/Dockerfile*': No such file or directory
--rw-r--r-- 1 root root 1309 Nov 11 20:44 /workspace/prooflink/Dockerfile.backend
--rw-r--r-- 1 root root 1251 Nov 11 20:44 /workspace/prooflink/Dockerfile.frontend

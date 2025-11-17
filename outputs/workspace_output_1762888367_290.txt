@@ -1,6 +1,0 @@
-prooflink/frontend/src/app/auth/login/page.tsx
-prooflink/frontend/src/app/auth/register/page.tsx
-prooflink/frontend/src/app/dashboard/create/page.tsx
-prooflink/frontend/src/app/dashboard/page.tsx
-prooflink/frontend/src/app/page.tsx
-prooflink/frontend/src/app/verify/[link]/page.tsx

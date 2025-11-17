@@ -1,2 +1,0 @@
-12:import { ModelCommands } from './commands/modelCommands';
-13:import { ResearchCommands } from './commands/researchCommands';

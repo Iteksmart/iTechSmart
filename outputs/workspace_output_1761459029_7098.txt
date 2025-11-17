@@ -1,1 +1,0 @@
-Added video help text at line 356

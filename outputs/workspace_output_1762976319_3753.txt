@@ -1,9 +1,0 @@
-total 112
-drwxr-xr-x 2 root root   164 Nov 12 18:25 .
-drwxr-xr-x 3 root root    88 Nov 12 18:20 ..
--rw-r--r-- 1 root root 14110 Nov 12 18:21 Dashboard.tsx
--rw-r--r-- 1 root root 13898 Nov 12 18:25 Explorer.tsx
--rw-r--r-- 1 root root 19731 Nov 12 18:25 Settings.tsx
--rw-r--r-- 1 root root 22547 Nov 12 18:24 SmartContracts.tsx
--rw-r--r-- 1 root root 20192 Nov 12 18:23 Transactions.tsx
--rw-r--r-- 1 root root 14905 Nov 12 18:22 Wallets.tsx

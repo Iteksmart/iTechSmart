@@ -1,1 +1,0 @@
--rw-r--r-- 1 root root 19K Oct 26 05:50 itechsmart-ninja/backend/app/integrations/video_generation.py

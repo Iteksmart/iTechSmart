@@ -1,2 +1,0 @@
-✓ Added visualization command cases
-✓ Terminal visualization commands added

@@ -1,4 +1,0 @@
-total 16
-drwxr-xr-x 2 root root    54 Nov 12 05:07 .
-drwxr-xr-x 5 root root    76 Nov 12 05:09 ..
--rw-r--r-- 1 root root 15100 Nov 12 05:07 test_analytics_enterprise_integration.py

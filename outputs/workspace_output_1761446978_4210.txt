@@ -1,8 +1,0 @@
-                   case 'gh-create-issue':$
-                       await this.createGitHubIssue(args);$
-                       break;$
-                default:$
-                    this.sendToTerminal({$
-                        type: 'output',$
-                        content: `Unknown command: ${cmd}\nType 'help' for available commands.\n`,$
-                        color: '#ff6b6b'$

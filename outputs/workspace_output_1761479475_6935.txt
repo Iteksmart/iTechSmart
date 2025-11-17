@@ -1,2 +1,0 @@
-Added Collaboration models to database.py
-Collaboration models added successfully

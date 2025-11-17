@@ -1,7 +1,0 @@
-./itechsmart-connect/backend/app/core/connect_engine.py
-./itechsmart-copilot/backend/app/core/copilot_engine.py
-./itechsmart-dataflow/backend/app/core/dataflow_engine.py
-./itechsmart-ledger/backend/app/core/ledger_engine.py
-./itechsmart-notify/backend/app/core/notify_engine.py
-./itechsmart-pulse/backend/app/core/pulse_engine.py
-./itechsmart-vault/backend/app/core/vault_engine.py

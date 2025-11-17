@@ -1,7 +1,0 @@
-total 72
-drwxr-xr-x 1 root root   131 Nov 13 23:51 .
-drwxr-xr-x 1 root root    67 Nov 13 18:17 ..
--rw-r--r-- 1 root root 15693 Nov 13 23:49 AIDashboard.tsx
--rw-r--r-- 1 root root 19200 Nov 13 23:51 InsightsExplorer.tsx
--rw-r--r-- 1 root root 14716 Nov 13 23:50 ModelManagement.tsx
--rw-r--r-- 1 root root 17056 Nov 13 23:50 PredictionsView.tsx

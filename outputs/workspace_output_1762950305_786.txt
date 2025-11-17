@@ -1,2 +1,0 @@
-cat: /tmp/enterprise_integration.md: No such file or directory
-609 /tmp/enterprise_complete.md

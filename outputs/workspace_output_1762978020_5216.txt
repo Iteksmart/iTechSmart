@@ -1,7 +1,0 @@
-total 24
-drwxr-xr-x 2 root root  110 Oct 25 02:53 .
-drwxr-xr-x 8 root root  179 Nov 11 22:21 ..
--rw-r--r-- 1 root root 4160 Oct 25 02:52 Dashboard.jsx
--rw-r--r-- 1 root root 5921 Oct 25 02:53 Integrations.jsx
--rw-r--r-- 1 root root 2229 Oct 25 02:53 Settings.jsx
--rw-r--r-- 1 root root 2221 Oct 25 02:52 Tickets.jsx

@@ -1,8 +1,0 @@
-            <li>Impact Forecasting</li>
-            <li>ESG Compliance</li>
-            <li>Custom KPI Dashboards</li>
-            <li>Automated Reporting</li>
-          </ul>
-        </div>
-      </div>
-    </div><!-- Strategic Products -->

@@ -1,4 +1,0 @@
-  544 itechsmart-ninja/backend/app/api/self_healing.py
-  161 itechsmart-ninja/backend/app/api/suite_control.py
-  142 itechsmart-ninja/backend/app/models/self_healing.py
-  847 total

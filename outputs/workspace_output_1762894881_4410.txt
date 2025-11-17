@@ -1,1 +1,0 @@
--rw-r--r-- 1 root root 3080 Nov 11 14:15 /workspace/prooflink/.env.example

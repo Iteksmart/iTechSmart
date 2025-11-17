@@ -1,6 +1,0 @@
-total 36
-drwxr-xr-x 2 root root    84 Nov 12 03:29 .
-drwxr-xr-x 1 root root  4096 Nov 12 03:30 ..
--rw-r--r-- 1 root root 10030 Nov 12 03:29 README.md
--rw-r--r-- 1 root root 10836 Nov 12 03:27 base_adapter.py
--rw-r--r-- 1 root root  6959 Nov 12 03:28 hl7_adapter.py

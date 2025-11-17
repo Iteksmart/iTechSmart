@@ -1,8 +1,0 @@
-=== ACTUAL PROJECT DIRECTORIES ===
-itechsmart-enterprise
-itechsmart-hl7
-itechsmart-impactos
-itechsmart-ninja
-itechsmart_supreme
-passport
-prooflink

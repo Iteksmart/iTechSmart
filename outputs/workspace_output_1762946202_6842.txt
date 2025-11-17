@@ -1,4 +1,0 @@
-total 16
-drwxr-xr-x 2 root root    47 Nov 12 05:08 .
-drwxr-xr-x 5 root root    76 Nov 12 05:09 ..
--rw-r--r-- 1 root root 15903 Nov 12 05:08 performance_benchmarks.py

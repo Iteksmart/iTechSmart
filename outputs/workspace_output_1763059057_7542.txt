@@ -1,8 +1,0 @@
-./todo.md
-./itechsmart-thinktank/todo.md
-./itechsmart-hl7/todo.md
-./itechsmart-ninja/todo.md
-./prooflink/todo.md
-./itechsmart-impactos/todo.md
-./itechsmart-connect/todo.md
-./itechsmart-shield/todo.md

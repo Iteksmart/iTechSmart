@@ -1,9 +1,0 @@
-/workspace/itechsmart-supreme-complete.tar.gz
-/workspace/itechsmart_supreme
-/workspace/itechsmart-hl7
-/workspace/itechsmart-hl7/backend/app/api/hl7.py
-/workspace/itechsmart-hl7/backend/app/core/hl7_parser.py
-/workspace/itechsmart-hl7/backend/app/integrations/generic_hl7_adapter.py
-/workspace/itechsmart-ninja
-/workspace/itechsmart-enterprise
-/workspace/itechsmart-enterprise/dist/itechsmart-enterprise-v1.0.0.zip

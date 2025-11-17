@@ -1,8 +1,0 @@
-total 92
-drwxr-xr-x 2 root root   122 Nov 13 23:31 .
-drwxr-xr-x 3 root root    33 Nov 13 23:09 ..
--rw-r--r-- 1 root root 22043 Nov 13 23:31 Alerts.tsx
--rw-r--r-- 1 root root 14475 Nov 13 23:28 Dashboard.tsx
--rw-r--r-- 1 root root 16103 Nov 13 23:30 Logs.tsx
--rw-r--r-- 1 root root 13398 Nov 13 23:29 Metrics.tsx
--rw-r--r-- 1 root root 17036 Nov 13 23:30 Traces.tsx

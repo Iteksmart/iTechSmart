@@ -1,8 +1,0 @@
-./backend/requirements.txt
-./backend/app/main.py
-./backend/app/core/config.py
-./backend/app/core/database.py
-./backend/app/core/exceptions.py
-./backend/app/models/user.py
-./backend/app/models/proof.py
-./README.md

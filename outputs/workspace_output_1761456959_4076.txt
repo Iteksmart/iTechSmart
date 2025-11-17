@@ -1,3 +1,0 @@
-205:                    case 'img-generate':
-279:  img-generate              Generate image from text
-280:  generate-image            (alias for img-generate)

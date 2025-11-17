@@ -1,1 +1,0 @@
-Created App.tsx for Enterprise

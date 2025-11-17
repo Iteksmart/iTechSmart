@@ -1,5 +1,0 @@
-  569 /workspace/itechsmart-impactos/docs/ADMIN_GUIDE.md
-  515 /workspace/itechsmart-impactos/docs/DEPLOYMENT_GUIDE.md
-  560 /workspace/itechsmart-impactos/docs/FRONTEND_COMPLETION_GUIDE.md
-  483 /workspace/itechsmart-impactos/docs/USER_MANUAL.md
- 2127 total

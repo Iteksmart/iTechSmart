@@ -1,3 +1,0 @@
-total 4
-drwxr-xr-x 2 root root   10 Nov 12 17:52 .
-drwxr-xr-x 5 root root 4096 Nov 12 18:14 ..

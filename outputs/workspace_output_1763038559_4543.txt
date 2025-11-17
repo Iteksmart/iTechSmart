@@ -1,3 +1,0 @@
-647:            <div class="product-name">ImpactOS</div>
-1118:          <div class="layer-products"><strong>Products:</strong> Cloud, Citadel, DevOps, ImpactOS
-1274:            Customer Success | Supreme | ProofLink | PassPort | ImpactOS</small>

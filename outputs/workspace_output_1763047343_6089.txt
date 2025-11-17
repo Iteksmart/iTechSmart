@@ -1,2 +1,0 @@
-/workspace/itechsmart-enterprise/frontend/src/components/Dashboard/RealTimeDashboard.tsx
-/workspace/itechsmart-enterprise/frontend/src/pages/UnifiedDashboard.tsx

@@ -1,9 +1,0 @@
-total 56
-drwxr-xr-x 2 root root   145 Nov 12 18:29 .
-drwxr-xr-x 5 root root   179 Nov 12 18:32 ..
--rw-r--r-- 1 root root   457 Nov 12 18:29 Dockerfile
--rw-r--r-- 1 root root   791 Nov 12 18:17 database.py
--rw-r--r-- 1 root root 20860 Nov 12 18:19 main.py
--rw-r--r-- 1 root root  9440 Nov 12 18:18 models.py
--rw-r--r-- 1 root root   495 Nov 12 18:17 requirements.txt
--rw-r--r-- 1 root root  6274 Nov 12 18:18 schemas.py

@@ -1,4 +1,0 @@
-itechsmart-mdm-agent/backend/app/main.py
-itechsmart-mdm-agent/backend/app/core/deployment_engine.py
-itechsmart-mdm-agent/backend/app/core/configuration_manager.py
-itechsmart-mdm-agent/backend/app/core/ai_optimizer.py

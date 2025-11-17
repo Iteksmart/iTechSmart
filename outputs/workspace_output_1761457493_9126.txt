@@ -1,1 +1,0 @@
-Added 10 history commands and 2 keybindings to package.json

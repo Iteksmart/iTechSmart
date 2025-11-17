@@ -1,4 +1,0 @@
-itechsmart-ai/README.md
-itechsmart-hl7/README.md
-itechsmart-mdm-agent/README.md
-itechsmart-notify/README.md
