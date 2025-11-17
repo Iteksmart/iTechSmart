@@ -9,7 +9,7 @@ from contextlib import asynccontextmanager
 import logging
 
 from app.core.database import init_db
-from .api import ai_models, ai_predictions, ai_insights, ai_quality
+from .api import ai_models, ai_predictions, ai_insights, ai_quality, agents
 
 # Configure logging
 logging.basicConfig(
@@ -56,6 +56,9 @@ app.include_router(ai_predictions.router, prefix="/api/v1/ai", tags=["AI Predict
 app.include_router(ai_insights.router, prefix="/api/v1/ai", tags=["AI Insights"])
 app.include_router(ai_quality.router, prefix="/api/v1/ai", tags=["AI Quality"])
 
+# Include Agent router
+app.include_router(agents.router, prefix="/api/v1", tags=["Agents"])
+
 
 @app.get("/")
 def root():
@@ -87,6 +90,7 @@ def root():
             "ai_predictions": "/api/v1/ai/predictions",
             "ai_insights": "/api/v1/ai/insights",
             "ai_quality": "/api/v1/ai/quality",
+               "agents": "/api/v1/agents",
             "analytics": "/api/analytics",
             "dashboards": "/api/dashboards",
             "reports": "/api/reports",

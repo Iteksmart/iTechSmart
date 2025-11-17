@@ -10,6 +10,7 @@ from contextlib import asynccontextmanager
 import logging
 from typing import Dict, Any, List
 from datetime import datetime
+from .api import agents
 
 # Configure logging
 logging.basicConfig(
@@ -46,6 +47,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include Agent router
+app.include_router(agents.router, prefix="/api/v1", tags=["Agents"])
 
 
 # Health check endpoint

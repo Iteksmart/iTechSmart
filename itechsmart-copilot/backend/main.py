@@ -12,6 +12,7 @@ import json
 import models
 import schemas
 from database import engine, get_db, get_redis
+from routes import agents
 
 # Create database tables
 models.Base.metadata.create_all(bind=engine)
@@ -31,6 +32,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include Agent router
+app.include_router(agents.router, prefix="/api/v1", tags=["Agents"])
 
 # Security Configuration
 SECRET_KEY = "your-secret-key-change-in-production"

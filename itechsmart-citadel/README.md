@@ -252,3 +252,22 @@ Copyright (c) 2025 iTechSmart Inc. All rights reserved.
 ## Version
 
 Version 1.0.0 - Launch Date: August 8, 2025
+## 🤖 Agent Integration
+
+This product integrates with the iTechSmart Agent monitoring system through the License Server. The agent system provides:
+
+- Real-time system monitoring
+- Performance metrics collection
+- Security status tracking
+- Automated alerting
+
+### Configuration
+
+Set the License Server URL in your environment:
+
+```bash
+LICENSE_SERVER_URL=http://localhost:3000
+```
+
+The product will automatically connect to the License Server to access agent data and monitoring capabilities.
+

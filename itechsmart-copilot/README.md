@@ -42,7 +42,15 @@ iTechSmart Copilot is a comprehensive AI assistant platform that enables users t
 
 ## ✨ Features
 
-### 1. Intelligent Chat Interface
+### 1. Agent Monitoring with AI Insights 🆕
+- Real-time agent status monitoring
+- AI-powered performance analysis
+- Intelligent recommendations and insights
+- System health scoring
+- Proactive issue detection
+- Automated troubleshooting suggestions
+
+### 2. Intelligent Chat Interface
 - Multi-turn conversations with context awareness
 - Support for multiple AI models
 - Real-time streaming responses
@@ -662,3 +670,22 @@ For support and questions:
 **Built with ❤️ by the iTechSmart Inc**
 
 *iTechSmart Copilot - Your AI Assistant Platform*
+## 🤖 Agent Integration
+
+This product integrates with the iTechSmart Agent monitoring system through the License Server. The agent system provides:
+
+- Real-time system monitoring
+- Performance metrics collection
+- Security status tracking
+- Automated alerting
+
+### Configuration
+
+Set the License Server URL in your environment:
+
+```bash
+LICENSE_SERVER_URL=http://localhost:3000
+```
+
+The product will automatically connect to the License Server to access agent data and monitoring capabilities.
+

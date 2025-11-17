@@ -7,6 +7,10 @@ iTechSmart Shield is a comprehensive security operations platform that provides 
 ## 🌟 Features
 
 ### Core Capabilities
+- **Agent Security Monitoring** 🆕 - Real-time security monitoring of all deployed agents
+- **Security Threat Detection** 🆕 - Automated detection of security issues (firewall, antivirus, updates)
+- **Security Score Calculation** 🆕 - Comprehensive security scoring across all agents
+- **Threat Intelligence** 🆕 - Intelligent threat classification and recommendations
 - **Threat Detection** - Real-time monitoring and detection of security threats
 - **Vulnerability Management** - Track and remediate security vulnerabilities with CVE integration
 - **Compliance Management** - Monitor compliance across multiple frameworks (SOC2, ISO27001, GDPR, HIPAA)
@@ -298,3 +302,22 @@ Developed by the iTechSmart Security Team
 **Last Updated**: January 2025
 
 For more information, visit [itechsmart.dev](https://itechsmart.dev)
+## 🤖 Agent Integration
+
+This product integrates with the iTechSmart Agent monitoring system through the License Server. The agent system provides:
+
+- Real-time system monitoring
+- Performance metrics collection
+- Security status tracking
+- Automated alerting
+
+### Configuration
+
+Set the License Server URL in your environment:
+
+```bash
+LICENSE_SERVER_URL=http://localhost:3000
+```
+
+The product will automatically connect to the License Server to access agent data and monitoring capabilities.
+
