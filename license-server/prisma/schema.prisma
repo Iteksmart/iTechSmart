@@ -31,6 +31,7 @@ model Organization {
   users         User[]
   apiKeys       ApiKey[]
   usage         UsageRecord[]
+  agents        Agent[]
   
   @@index([domain])
   @@index([email])
@@ -98,6 +99,7 @@ model License {
   // Relations
   validations     LicenseValidation[]
   usage           UsageRecord[]
+  agents          Agent[]
   
   @@index([organizationId])
   @@index([licenseKey])
@@ -273,4 +275,154 @@ model Webhook {
   updatedAt       DateTime      @updatedAt
   
   @@index([organizationId])
+}
+// Agent Status
+enum AgentStatus {
+  ACTIVE
+  OFFLINE
+  ERROR
+  MAINTENANCE
+}
+
+// Agents (iTechSmart Agent)
+model Agent {
+  id              String        @id @default(uuid())
+  
+  // Organization & License
+  organizationId  String
+  organization    Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  
+  licenseId       String?
+  license         License?      @relation(fields: [licenseId], references: [id], onDelete: SetNull)
+  
+  // Agent Details
+  hostname        String
+  ipAddress       String?
+  osType          String        // linux, windows, darwin
+  osVersion       String?
+  agentVersion    String
+  
+  // Status
+  status          AgentStatus   @default(ACTIVE)
+  lastSeen        DateTime?
+  
+  // Configuration
+  config          Json          @default("{}")
+  
+  // Authentication
+  apiKey          String        @unique
+  
+  // Metadata
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  // Relations
+  metrics         AgentMetric[]
+  alerts          AgentAlert[]
+  commands        AgentCommand[]
+  
+  @@unique([organizationId, hostname])
+  @@index([organizationId])
+  @@index([licenseId])
+  @@index([status])
+  @@index([lastSeen])
+}
+
+// Agent Metrics
+model AgentMetric {
+  id              String        @id @default(uuid())
+  
+  // Agent
+  agentId         String
+  agent           Agent         @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  
+  // Metric Details
+  metricType      String        // system, security, software, network
+  metricData      Json
+  
+  // Timestamp
+  timestamp       DateTime      @default(now())
+  
+  @@index([agentId])
+  @@index([metricType])
+  @@index([timestamp])
+}
+
+// Alert Severity
+enum AlertSeverity {
+  INFO
+  WARNING
+  ERROR
+  CRITICAL
+}
+
+// Agent Alerts
+model AgentAlert {
+  id              String        @id @default(uuid())
+  
+  // Agent
+  agentId         String
+  agent           Agent         @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  
+  // Alert Details
+  alertType       String        // cpu, memory, disk, security, etc.
+  severity        AlertSeverity
+  message         String
+  details         Json          @default("{}")
+  
+  // Resolution
+  resolved        Boolean       @default(false)
+  resolvedAt      DateTime?
+  resolvedBy      String?
+  
+  // Metadata
+  createdAt       DateTime      @default(now())
+  
+  @@index([agentId])
+  @@index([alertType])
+  @@index([severity])
+  @@index([resolved])
+  @@index([createdAt])
+}
+
+// Command Status
+enum CommandStatus {
+  PENDING
+  SENT
+  EXECUTING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+// Agent Commands
+model AgentCommand {
+  id              String        @id @default(uuid())
+  
+  // Agent
+  agentId         String
+  agent           Agent         @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  
+  // Command Details
+  commandType     String        // execute, update_config, restart, etc.
+  commandData     Json
+  
+  // Execution
+  status          CommandStatus @default(PENDING)
+  result          Json?
+  error           String?
+  
+  // Timing
+  createdAt       DateTime      @default(now())
+  sentAt          DateTime?
+  executedAt      DateTime?
+  completedAt     DateTime?
+  
+  // Created By
+  createdBy       String?       // user ID or system
+  
+  @@index([agentId])
+  @@index([commandType])
+  @@index([status])
+  @@index([createdAt])
 }
