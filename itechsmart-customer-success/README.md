@@ -111,7 +111,7 @@ Response:
     "nps_score": 85
   },
   "trend": "improving",
-  "last_updated": "2024-01-15T10:00:00Z"
+  "last_updated": "2025-01-15T10:00:00Z"
 }
 ```
 
@@ -169,19 +169,19 @@ Content-Type: application/json
 
 {
   "customer_id": "cust_123",
-  "name": "Q1 2024 Success Plan",
+  "name": "Q1 2025 Success Plan",
   "goals": [
     {
       "name": "Increase feature adoption",
       "target": 80,
       "current": 60,
-      "due_date": "2024-03-31"
+      "due_date": "2025-03-31"
     }
   ],
   "milestones": [
     {
       "name": "Complete onboarding",
-      "due_date": "2024-01-31",
+      "due_date": "2025-01-31",
       "status": "completed"
     }
   ]

@@ -1,7 +1,7 @@
 # iTechSmart Suite Version 2.0 - Final Project Report
 
 **Project Name:** iTechSmart Suite Enhancement Initiative  
-**Project Code:** ITSUITE-V2-2024  
+**Project Code:** ITSUITE-V2-2025  
 **Version:** 2.0  
 **Report Date:** January 2025  
 **Report Version:** 1.0  
@@ -73,7 +73,7 @@ Enhance the iTechSmart Suite with five strategic features to increase market com
 
 ### 1.3 Project Timeline
 
-**Start Date:** December 2024  
+**Start Date:** December 2025  
 **End Date:** January 2025  
 **Duration:** 6 weeks  
 **Status:** On Time

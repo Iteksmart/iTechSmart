@@ -314,6 +314,6 @@ iTechSmart Enterprise (Hub)
 
 ---
 
-**Last Updated**: 2024
+**Last Updated**: 2025
 **Status**: Active Development
 **Team**: iTechSmart Development Team

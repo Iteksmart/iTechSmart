@@ -274,7 +274,7 @@ Ctrl+Shift+P:
 
 ```bash
 # Perform research
-> research Latest AI trends in 2024
+> research Latest AI trends in 2025
 
 # Format citation
 > cite https://example.com "Article Title" apa

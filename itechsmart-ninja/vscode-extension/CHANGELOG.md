@@ -2,7 +2,7 @@
 
 All notable changes to the "iTechSmart Ninja" extension will be documented in this file.
 
-## [1.0.0] - 2024
+## [1.0.0] - 2025
 
 ### Added
 - 🖥️ **Integrated AI Terminal** - Full-featured terminal interface within VS Code

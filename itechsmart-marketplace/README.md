@@ -388,19 +388,19 @@ For support and questions:
 
 ## 🗺️ Roadmap
 
-### Version 1.1 (Q2 2024)
+### Version 1.1 (Q2 2025)
 - [ ] Mobile app (iOS/Android)
 - [ ] Advanced analytics dashboard
 - [ ] Subscription-based pricing
 - [ ] App bundles and packages
 
-### Version 1.2 (Q3 2024)
+### Version 1.2 (Q3 2025)
 - [ ] Multi-language support
 - [ ] Advanced search with AI
 - [ ] Social features and sharing
 - [ ] Developer API marketplace
 
-### Version 2.0 (Q4 2024)
+### Version 2.0 (Q4 2025)
 - [ ] Enterprise features
 - [ ] White-label solutions
 - [ ] Advanced security features
@@ -408,7 +408,7 @@ For support and questions:
 
 ## 📝 Changelog
 
-### Version 1.0.0 (2024-01-20)
+### Version 1.0.0 (2025-01-20)
 - Initial release
 - Complete marketplace functionality
 - Developer portal

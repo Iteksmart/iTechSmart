@@ -124,7 +124,7 @@ GET /threats?limit=100&severity=high&status=detected
   "threats": [
     {
       "id": 1,
-      "timestamp": "2024-01-15T10:30:00Z",
+      "timestamp": "2025-01-15T10:30:00Z",
       "threat_type": "sql_injection",
       "severity": "high",
       "status": "detected",
@@ -146,7 +146,7 @@ GET /threats/{threat_id}
 ```json
 {
   "id": 1,
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-01-15T10:30:00Z",
   "threat_type": "sql_injection",
   "severity": "high",
   "status": "detected",
@@ -221,7 +221,7 @@ POST /anomaly/user-behavior
   "context": {
     "location": "New York",
     "device": "laptop",
-    "time": "2024-01-15T02:00:00Z"
+    "time": "2025-01-15T02:00:00Z"
   }
 }
 ```
@@ -303,8 +303,8 @@ GET /incidents?limit=50&status=open&severity=high
 {
   "incidents": [
     {
-      "incident_id": "INC-20240115-ABC123",
-      "created_at": "2024-01-15T10:30:00Z",
+      "incident_id": "INC-20250115-ABC123",
+      "created_at": "2025-01-15T10:30:00Z",
       "incident_type": "malware",
       "severity": "critical",
       "status": "open",
@@ -325,8 +325,8 @@ GET /incidents/{incident_id}
 **Response:**
 ```json
 {
-  "incident_id": "INC-20240115-ABC123",
-  "created_at": "2024-01-15T10:30:00Z",
+  "incident_id": "INC-20250115-ABC123",
+  "created_at": "2025-01-15T10:30:00Z",
   "incident_type": "malware",
   "severity": "critical",
   "status": "contained",
@@ -335,11 +335,11 @@ GET /incidents/{incident_id}
   "affected_systems": ["10.0.0.50"],
   "timeline": [
     {
-      "timestamp": "2024-01-15T10:30:00Z",
+      "timestamp": "2025-01-15T10:30:00Z",
       "event": "Incident created"
     },
     {
-      "timestamp": "2024-01-15T10:31:00Z",
+      "timestamp": "2025-01-15T10:31:00Z",
       "event": "Automated response executed"
     }
   ],
@@ -362,7 +362,7 @@ POST /incidents/{incident_id}/respond
 **Request Body:**
 ```json
 {
-  "incident_id": "INC-20240115-ABC123",
+  "incident_id": "INC-20250115-ABC123",
   "response_type": "auto"
 }
 ```
@@ -425,8 +425,8 @@ GET /vulnerabilities?limit=100&severity=high&status=open
   "vulnerabilities": [
     {
       "id": 1,
-      "discovered_at": "2024-01-15T10:30:00Z",
-      "cve_id": "CVE-2024-1234",
+      "discovered_at": "2025-01-15T10:30:00Z",
+      "cve_id": "CVE-2025-1234",
       "vulnerability_type": "sql_injection",
       "severity": "high",
       "affected_asset": "192.168.1.50",
@@ -495,7 +495,7 @@ POST /compliance/assess
 #### 19. Get Compliance Report
 
 ```http
-GET /compliance/report?framework=SOC2&start_date=2024-01-01&end_date=2024-01-31
+GET /compliance/report?framework=SOC2&start_date=2025-01-01&end_date=2025-01-31
 ```
 
 **Response:**
@@ -503,8 +503,8 @@ GET /compliance/report?framework=SOC2&start_date=2024-01-01&end_date=2024-01-31
 {
   "framework": "SOC2",
   "period": {
-    "start": "2024-01-01T00:00:00Z",
-    "end": "2024-01-31T23:59:59Z"
+    "start": "2025-01-01T00:00:00Z",
+    "end": "2025-01-31T23:59:59Z"
   },
   "total_checks": 100,
   "compliant": 95,
@@ -525,7 +525,7 @@ GET /compliance/checks?framework=SOC2&limit=100
   "checks": [
     {
       "id": 1,
-      "timestamp": "2024-01-15T10:30:00Z",
+      "timestamp": "2025-01-15T10:30:00Z",
       "framework": "SOC2",
       "control_id": "CC6.1",
       "control_name": "Access Controls",
@@ -553,7 +553,7 @@ GET /alerts?limit=100&severity=high&acknowledged=false
   "alerts": [
     {
       "id": 1,
-      "timestamp": "2024-01-15T10:30:00Z",
+      "timestamp": "2025-01-15T10:30:00Z",
       "alert_type": "sql_injection",
       "severity": "high",
       "title": "SQL injection attempt detected",
@@ -596,7 +596,7 @@ GET /dashboard/stats
   "incidents_24h": 5,
   "open_vulnerabilities": 12,
   "unacknowledged_alerts": 3,
-  "timestamp": "2024-01-15T10:30:00Z"
+  "timestamp": "2025-01-15T10:30:00Z"
 }
 ```
 
@@ -611,13 +611,13 @@ GET /dashboard/threat-trends?days=7
 {
   "period_days": 7,
   "trends": {
-    "2024-01-09": 45,
-    "2024-01-10": 52,
-    "2024-01-11": 38,
-    "2024-01-12": 67,
-    "2024-01-13": 41,
-    "2024-01-14": 55,
-    "2024-01-15": 127
+    "2025-01-09": 45,
+    "2025-01-10": 52,
+    "2025-01-11": 38,
+    "2025-01-12": 67,
+    "2025-01-13": 41,
+    "2025-01-14": 55,
+    "2025-01-15": 127
   }
 }
 ```
@@ -698,7 +698,7 @@ GET /health
   "status": "healthy",
   "service": "itechsmart-shield",
   "version": "1.0.0",
-  "timestamp": "2024-01-15T10:30:00Z"
+  "timestamp": "2025-01-15T10:30:00Z"
 }
 ```
 
@@ -720,7 +720,7 @@ GET /status
   "incident_response": "active",
   "vulnerability_scanning": "active",
   "compliance_monitoring": "active",
-  "timestamp": "2024-01-15T10:30:00Z"
+  "timestamp": "2025-01-15T10:30:00Z"
 }
 ```
 

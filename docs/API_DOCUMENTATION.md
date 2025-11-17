@@ -101,7 +101,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 **Response**:
 ```json
 {
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-01-15T10:30:00Z",
   "products": {
     "total_products": 9,
     "active_products": 9,
@@ -142,7 +142,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 **Response**:
 ```json
 {
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-01-15T10:30:00Z",
   "active_services": 9,
   "events_per_minute": 10.5,
   "active_syncs": 3,
@@ -177,7 +177,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
   "name": "My Service",
   "service_type": "custom",
   "status": "active",
-  "created_at": "2024-01-15T10:30:00Z"
+  "created_at": "2025-01-15T10:30:00Z"
 }
 ```
 
@@ -193,8 +193,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
   "data_type": "metrics",
   "metrics": ["revenue", "users", "conversions"],
   "date_range": {
-    "start": "2024-01-01T00:00:00Z",
-    "end": "2024-01-15T23:59:59Z"
+    "start": "2025-01-01T00:00:00Z",
+    "end": "2025-01-15T23:59:59Z"
   }
 }
 ```
@@ -205,8 +205,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
   "id": 1234,
   "status": "completed",
   "records_synced": 1500,
-  "started_at": "2024-01-15T10:30:00Z",
-  "completed_at": "2024-01-15T10:30:15Z"
+  "started_at": "2025-01-15T10:30:00Z",
+  "completed_at": "2025-01-15T10:30:15Z"
 }
 ```
 
@@ -237,20 +237,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
   "model_type": "rf",
   "forecast": [
     {
-      "date": "2024-01-16T00:00:00Z",
+      "date": "2025-01-16T00:00:00Z",
       "value": 125000.50,
       "lower_bound": 120000.00,
       "upper_bound": 130000.00
     },
     {
-      "date": "2024-01-17T00:00:00Z",
+      "date": "2025-01-17T00:00:00Z",
       "value": 126500.75,
       "lower_bound": 121500.00,
       "upper_bound": 131500.00
     }
   ],
   "accuracy_score": 0.92,
-  "generated_at": "2024-01-15T10:30:00Z"
+  "generated_at": "2025-01-15T10:30:00Z"
 }
 ```
 
@@ -278,19 +278,19 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
   "anomalies_detected": 5,
   "anomalies": [
     {
-      "timestamp": "2024-01-15T08:30:00Z",
+      "timestamp": "2025-01-15T08:30:00Z",
       "value": 15.5,
       "anomaly_score": 0.95,
       "severity": "critical"
     },
     {
-      "timestamp": "2024-01-15T09:15:00Z",
+      "timestamp": "2025-01-15T09:15:00Z",
       "value": 12.3,
       "anomaly_score": 0.87,
       "severity": "high"
     }
   ],
-  "generated_at": "2024-01-15T10:30:00Z"
+  "generated_at": "2025-01-15T10:30:00Z"
 }
 ```
 
@@ -324,7 +324,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     "columns": 12
   },
   "widgets": [],
-  "created_at": "2024-01-15T10:30:00Z"
+  "created_at": "2025-01-15T10:30:00Z"
 }
 ```
 
@@ -371,7 +371,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     "w": 6,
     "h": 4
   },
-  "created_at": "2024-01-15T10:30:00Z"
+  "created_at": "2025-01-15T10:30:00Z"
 }
 ```
 
@@ -386,8 +386,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 {
   "report_id": 1,
   "date_range": {
-    "start": "2024-01-01T00:00:00Z",
-    "end": "2024-01-15T23:59:59Z"
+    "start": "2025-01-01T00:00:00Z",
+    "end": "2025-01-15T23:59:59Z"
   },
   "filters": {
     "region": "North America"
@@ -402,7 +402,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
   "report_id": 1,
   "name": "Monthly Sales Report",
   "format": "pdf",
-  "generated_at": "2024-01-15T10:30:00Z",
+  "generated_at": "2025-01-15T10:30:00Z",
   "duration_seconds": 2.5,
   "size_bytes": 524288,
   "download_url": "https://api.itechsmart.dev/reports/download/abc123"
@@ -433,8 +433,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
   "frequency": "weekly",
   "delivery_method": "email",
   "status": "active",
-  "next_run": "2024-01-22T00:00:00Z",
-  "created_at": "2024-01-15T10:30:00Z"
+  "next_run": "2025-01-22T00:00:00Z",
+  "created_at": "2025-01-15T10:30:00Z"
 }
 ```
 
@@ -469,7 +469,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
   },
   "ingestion_mode": "batch",
   "status": "active",
-  "created_at": "2024-01-15T10:30:00Z"
+  "created_at": "2025-01-15T10:30:00Z"
 }
 ```
 
@@ -483,7 +483,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
   "source_id": 1,
   "data": [
     {
-      "date": "2024-01-15",
+      "date": "2025-01-15",
       "revenue": 125000,
       "orders": 450
     }
@@ -501,7 +501,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
   "source_id": 1,
   "records_ingested": 1,
   "duration_seconds": 0.15,
-  "timestamp": "2024-01-15T10:30:00Z"
+  "timestamp": "2025-01-15T10:30:00Z"
 }
 ```
 
@@ -534,7 +534,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
   "status": "running",
   "analysis_type": "performance_optimization",
   "target_service": "iTechSmart Supreme",
-  "started_at": "2024-01-15T10:30:00Z"
+  "started_at": "2025-01-15T10:30:00Z"
 }
 ```
 
@@ -563,7 +563,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     "Increased cache TTL",
     "Added connection pooling"
   ],
-  "completed_at": "2024-01-15T10:30:30Z"
+  "completed_at": "2025-01-15T10:30:30Z"
 }
 ```
 
@@ -577,7 +577,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```json
 {
   "status": "healthy",
-  "last_check": "2024-01-15T10:30:00Z",
+  "last_check": "2025-01-15T10:30:00Z",
   "errors_detected": 0,
   "fixes_applied": 5,
   "uptime": "30d 5h 23m"
@@ -599,7 +599,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
       "field": "email",
       "issue": "Invalid email format"
     },
-    "timestamp": "2024-01-15T10:30:00Z",
+    "timestamp": "2025-01-15T10:30:00Z",
     "request_id": "req_abc123"
   }
 }
@@ -668,7 +668,7 @@ X-RateLimit-Reset: 1705320600
   "url": "https://myapp.com/webhooks/itechsmart",
   "events": ["forecast.completed", "anomaly.detected", "report.generated"],
   "status": "active",
-  "created_at": "2024-01-15T10:30:00Z"
+  "created_at": "2025-01-15T10:30:00Z"
 }
 ```
 
@@ -677,7 +677,7 @@ X-RateLimit-Reset: 1705320600
 ```json
 {
   "event": "anomaly.detected",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-01-15T10:30:00Z",
   "data": {
     "metric": "error_rate",
     "value": 15.5,

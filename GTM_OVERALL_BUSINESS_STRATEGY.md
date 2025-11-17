@@ -194,7 +194,7 @@ Awareness → Consideration → Evaluation → Purchase → Onboarding → Adopt
 
 | Year | Revenue | Growth | Customers |
 |------|---------|--------|-----------|
-| **2024** | $5M | - | 500 |
+| **2025** | $5M | - | 500 |
 | **2025** | $55M | 1000% | 5,000 |
 | **2026** | $177.5M | 223% | 15,000 |
 | **2027** | $355M | 100% | 30,000 |

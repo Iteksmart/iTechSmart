@@ -296,25 +296,25 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🗺️ Roadmap
 
-### Q1 2024
+### Q1 2025
 - ✅ MVP Launch
 - ✅ Web Application
 - [ ] Browser Extensions (Chrome, Firefox, Safari)
 - [ ] Mobile Apps (iOS, Android)
 
-### Q2 2024
+### Q2 2025
 - [ ] AI Password Analyzer
 - [ ] Auto-Rotation Engine
 - [ ] Voice Control
 - [ ] Desktop Apps
 
-### Q3 2024
+### Q3 2025
 - [ ] MCP Server Integration
 - [ ] Advanced Sharing
 - [ ] Team Features
 - [ ] SSO Integration
 
-### Q4 2024
+### Q4 2025
 - [ ] Enterprise Features
 - [ ] White-Label Solution
 - [ ] API Marketplace

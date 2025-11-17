@@ -252,7 +252,7 @@ The platform is **fully functional** and ready for:
 
 ---
 
-*Generated: 2024*
+*Generated: 2025*
 *Project: iTechSmart Ninja*
 *Version: 1.0.0*
 *Status: PRODUCTION READY*

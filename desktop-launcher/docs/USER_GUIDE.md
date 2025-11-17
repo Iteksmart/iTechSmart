@@ -1,7 +1,7 @@
 # Desktop Launcher - Complete User Guide
 
 **Version**: 1.0.0  
-**Last Updated**: November 17, 2024  
+**Last Updated**: November 17, 2025  
 **Product Type**: Desktop Application  
 **Platforms**: Windows, macOS, Linux
 
@@ -861,7 +861,7 @@ npm run package:linux  # Linux
 
 ---
 
-**Last Updated**: November 17, 2024  
+**Last Updated**: November 17, 2025  
 **Document Version**: 1.0  
 **Maintained by**: iTechSmart Team
 

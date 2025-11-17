@@ -578,9 +578,9 @@ cd itechsmart-{product}
 
 ## 📚 Document Version History
 
-- **v1.0** - Initial portfolio completion (January 2024)
+- **v1.0** - Initial portfolio completion (January 2025)
 - **Current Version:** 1.0
-- **Last Updated:** January 2024
+- **Last Updated:** January 2025
 
 ---
 
@@ -592,6 +592,6 @@ The **iTechSmart Portfolio** is a complete, production-ready suite of 10 enterpr
 
 ---
 
-**© 2024 iTechSmart. All rights reserved.**
+**© 2025 iTechSmart. All rights reserved.**
 
 **Built with ❤️ and excellence by the iTechSmart Development Team**

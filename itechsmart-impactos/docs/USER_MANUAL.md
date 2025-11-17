@@ -481,4 +481,4 @@ After your first login, you'll be guided through:
 
 **Need more help? Contact us at support@itechsmart.dev**
 
-**Version 1.0 | Last Updated: January 2024**
+**Version 1.0 | Last Updated: January 2025**

@@ -589,7 +589,7 @@ Yes! iTechSmart Suite supports:
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** November 16, 2024  
+**Last Updated:** November 16, 2025  
 **For:** iTechSmart Suite v1.0.0
 
 **Have a question not answered here?** Contact us at support@itechsmart.com

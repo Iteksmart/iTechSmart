@@ -630,13 +630,13 @@ find $BACKUP_DIR -name "db_backup_*.sql.gz" -mtime +30 -delete
 
 ```bash
 # Download from S3
-aws s3 cp s3://ninja-backups/database/db_backup_20240101.sql.gz .
+aws s3 cp s3://ninja-backups/database/db_backup_20250101.sql.gz .
 
 # Decompress
-gunzip db_backup_20240101.sql.gz
+gunzip db_backup_20250101.sql.gz
 
 # Restore
-psql -h localhost -U ninja_user itechsmart_ninja < db_backup_20240101.sql
+psql -h localhost -U ninja_user itechsmart_ninja < db_backup_20250101.sql
 ```
 
 ---
@@ -693,5 +693,5 @@ For deployment assistance:
 
 ---
 
-**Last Updated:** 2024  
+**Last Updated:** 2025  
 **Version:** 1.0.0

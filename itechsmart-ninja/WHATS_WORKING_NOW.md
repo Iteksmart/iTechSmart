@@ -325,7 +325,7 @@ Type: news
 ### Use Case 5: Research Topic
 ```bash
 # Perform research
-> research Latest AI trends in 2024
+> research Latest AI trends in 2025
 
 # View sources and credibility
 # Save report if needed

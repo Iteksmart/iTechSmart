@@ -385,7 +385,7 @@ echo "Backup completed: $FILENAME"
 docker-compose stop backend
 
 # Restore database
-gunzip -c backup_20240115.sql.gz | docker-compose exec -T postgres psql -U impactos impactos_db
+gunzip -c backup_20250115.sql.gz | docker-compose exec -T postgres psql -U impactos impactos_db
 
 # Start services
 docker-compose start backend
@@ -567,4 +567,4 @@ docker-compose exec backend python manage.py rebuild_indexes
 
 ---
 
-**Version 1.0 | Last Updated: January 2024**
+**Version 1.0 | Last Updated: January 2025**

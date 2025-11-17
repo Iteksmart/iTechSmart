@@ -4,7 +4,7 @@
 **Company:** iTechSmart Inc.  
 **Website:** https://itechsmart.dev  
 **Founder & CEO:** DJuane Jackson  
-**Date:** October 27, 2024  
+**Date:** October 27, 2025  
 
 ---
 
@@ -110,7 +110,7 @@ Our technical team brings 50+ years combined experience in healthcare IT, AI/ML,
 
 **Market Size & Growth:**
 
-The U.S. healthcare IT integration market is valued at $4.8 billion (2024) and growing at 12.5% CAGR, driven by interoperability mandates (21st Century Cures Act), value-based care adoption, and digital health transformation. Our total addressable market (TAM) includes:
+The U.S. healthcare IT integration market is valued at $4.8 billion (2025) and growing at 12.5% CAGR, driven by interoperability mandates (21st Century Cures Act), value-based care adoption, and digital health transformation. Our total addressable market (TAM) includes:
 
 - **6,090 U.S. hospitals** spending $500K-$2M annually on integration
 - **10,000+ multi-facility health systems** requiring unified data access

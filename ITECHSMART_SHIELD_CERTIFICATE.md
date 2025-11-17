@@ -22,7 +22,7 @@ PROJECT DETAILS
 Product Name:           iTechSmart Shield
 Product Type:           Enterprise Security Operations Platform
 Market Category:        Cybersecurity / Security Operations
-Completion Date:        January 2024
+Completion Date:        January 2025
 Version:                1.0.0
 Status:                 Production Ready ✅
 
@@ -228,12 +228,12 @@ production-ready and suitable for enterprise deployment.
 
 
 Developed by:           iTechSmart Security Team
-Completion Date:        January 2024
-Certificate ID:         SHIELD-2024-001
+Completion Date:        January 2025
+Certificate ID:         SHIELD-2025-001
 Version:                1.0.0
 
 
-                    © 2024 iTechSmart Corporation
+                    © 2025 iTechSmart Corporation
                     All Rights Reserved
 
 

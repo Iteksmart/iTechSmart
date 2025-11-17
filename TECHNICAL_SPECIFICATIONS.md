@@ -181,7 +181,7 @@ GET    /health           - Health check
   "success": true,
   "data": {},
   "message": "Success message",
-  "timestamp": "2024-01-20T12:00:00Z"
+  "timestamp": "2025-01-20T12:00:00Z"
 }
 ```
 
@@ -194,7 +194,7 @@ GET    /health           - Health check
     "message": "Error description",
     "details": {}
   },
-  "timestamp": "2024-01-20T12:00:00Z"
+  "timestamp": "2025-01-20T12:00:00Z"
 }
 ```
 
@@ -529,13 +529,13 @@ Each product includes additional configuration options documented in their respe
 
 ## 🎯 Roadmap
 
-### Short Term (Q1-Q2 2024)
+### Short Term (Q1-Q2 2025)
 - Mobile applications (iOS, Android)
 - GraphQL API support
 - Advanced analytics
 - Multi-language support
 
-### Medium Term (Q3-Q4 2024)
+### Medium Term (Q3-Q4 2025)
 - Kubernetes Helm charts
 - Advanced AI features
 - Blockchain expansion
@@ -559,6 +559,6 @@ Each product includes additional configuration options documented in their respe
 
 ---
 
-**© 2024 iTechSmart. All rights reserved.**
+**© 2025 iTechSmart. All rights reserved.**
 
-**Technical Specifications v1.0 | Last Updated: January 2024**
+**Technical Specifications v1.0 | Last Updated: January 2025**

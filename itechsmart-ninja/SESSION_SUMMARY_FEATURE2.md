@@ -113,8 +113,8 @@ Terminal Commands:         4
 
 **Example Output (APA):**
 ```
-Doe, J. (2024). Article Title. Publisher Name. 
-Retrieved January 15, 2024, from https://example.com/article
+Doe, J. (2025). Article Title. Publisher Name. 
+Retrieved January 15, 2025, from https://example.com/article
 ```
 
 ### 2. Source Credibility Scoring (100%)
@@ -426,7 +426,7 @@ Ctrl+Shift+P (Command Palette):
 
 ```bash
 # Perform research
-> research Latest AI trends in 2024
+> research Latest AI trends in 2025
 
 # Format citation
 > cite https://example.com "Article Title" apa

@@ -263,7 +263,7 @@ chmod +x deployment/restore.sh
 ./deployment/restore.sh
 
 # Restore specific backup
-./deployment/restore.sh 20240115_120000
+./deployment/restore.sh 20250115_120000
 ```
 
 ---

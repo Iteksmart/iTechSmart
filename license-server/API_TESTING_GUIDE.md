@@ -180,10 +180,10 @@ curl -X POST http://localhost:3001/api/licenses \
       "prioritySupport": true,
       "apiAccess": true
     },
-    "startDate": "2024-11-16T16:30:00.000Z",
+    "startDate": "2025-11-16T16:30:00.000Z",
     "expiresAt": "2025-12-31T23:59:59.000Z",
     "maxMachines": 5,
-    "createdAt": "2024-11-16T16:30:00.000Z"
+    "createdAt": "2025-11-16T16:30:00.000Z"
   }
 }
 ```
@@ -252,7 +252,7 @@ curl -X POST http://localhost:3001/api/licenses/validate \
     "message": "License key is invalid or expired",
     "details": {
       "reason": "expired",
-      "expiredAt": "2024-10-31T23:59:59.000Z"
+      "expiredAt": "2025-10-31T23:59:59.000Z"
     }
   }
 }
@@ -290,13 +290,13 @@ curl -X GET http://localhost:3001/api/licenses/lic_789ghi \
       "customBranding": true,
       "prioritySupport": true
     },
-    "startDate": "2024-11-16T16:30:00.000Z",
+    "startDate": "2025-11-16T16:30:00.000Z",
     "expiresAt": "2025-12-31T23:59:59.000Z",
     "machineIds": ["machine-abc-123"],
     "maxMachines": 5,
-    "createdAt": "2024-11-16T16:30:00.000Z",
-    "updatedAt": "2024-11-16T16:30:00.000Z",
-    "lastValidated": "2024-11-16T16:35:00.000Z"
+    "createdAt": "2025-11-16T16:30:00.000Z",
+    "updatedAt": "2025-11-16T16:30:00.000Z",
+    "lastValidated": "2025-11-16T16:35:00.000Z"
   }
 }
 ```
@@ -341,7 +341,7 @@ curl -X PUT http://localhost:3001/api/licenses/lic_789ghi \
       "apiAccess": true,
       "whiteLabeling": true
     },
-    "updatedAt": "2024-11-16T16:40:00.000Z"
+    "updatedAt": "2025-11-16T16:40:00.000Z"
   }
 }
 ```
@@ -364,7 +364,7 @@ curl -X DELETE http://localhost:3001/api/licenses/lic_789ghi \
   "data": {
     "id": "lic_789ghi",
     "status": "CANCELLED",
-    "revokedAt": "2024-11-16T16:45:00.000Z"
+    "revokedAt": "2025-11-16T16:45:00.000Z"
   }
 }
 ```
@@ -394,8 +394,8 @@ curl -X GET http://localhost:3001/api/organizations/org_123abc \
     "address": "123 Main St, San Francisco, CA 94105",
     "country": "USA",
     "stripeCustomerId": "cus_xyz789",
-    "createdAt": "2024-11-16T16:00:00.000Z",
-    "updatedAt": "2024-11-16T16:00:00.000Z",
+    "createdAt": "2025-11-16T16:00:00.000Z",
+    "updatedAt": "2025-11-16T16:00:00.000Z",
     "stats": {
       "totalLicenses": 3,
       "activeLicenses": 2,
@@ -432,7 +432,7 @@ curl -X PUT http://localhost:3001/api/organizations/org_123abc \
     "name": "Acme Corporation Inc.",
     "phone": "+1-555-0200",
     "address": "456 Market St, San Francisco, CA 94105",
-    "updatedAt": "2024-11-16T16:50:00.000Z"
+    "updatedAt": "2025-11-16T16:50:00.000Z"
   }
 }
 ```
@@ -459,7 +459,7 @@ curl -X GET "http://localhost:3001/api/organizations/org_123abc/licenses?status=
         "tier": "PROFESSIONAL",
         "status": "ACTIVE",
         "expiresAt": "2025-12-31T23:59:59.000Z",
-        "createdAt": "2024-11-16T16:30:00.000Z"
+        "createdAt": "2025-11-16T16:30:00.000Z"
       },
       {
         "id": "lic_101jkl",
@@ -467,7 +467,7 @@ curl -X GET "http://localhost:3001/api/organizations/org_123abc/licenses?status=
         "tier": "ENTERPRISE",
         "status": "ACTIVE",
         "expiresAt": "2026-06-30T23:59:59.000Z",
-        "createdAt": "2024-11-16T15:00:00.000Z"
+        "createdAt": "2025-11-16T15:00:00.000Z"
       }
     ],
     "pagination": {
@@ -515,7 +515,7 @@ curl -X POST http://localhost:3001/api/usage \
     "productId": "itechsmart-analytics",
     "eventType": "api_call",
     "quantity": 1,
-    "recordedAt": "2024-11-16T16:55:00.000Z"
+    "recordedAt": "2025-11-16T16:55:00.000Z"
   }
 }
 ```
@@ -526,7 +526,7 @@ curl -X POST http://localhost:3001/api/usage \
 
 **Request:**
 ```bash
-curl -X GET "http://localhost:3001/api/usage/lic_789ghi?startDate=2024-11-01&endDate=2024-11-30&groupBy=day" \
+curl -X GET "http://localhost:3001/api/usage/lic_789ghi?startDate=2025-11-01&endDate=2025-11-30&groupBy=day" \
   -H "Authorization: Bearer $TOKEN"
 ```
 
@@ -537,8 +537,8 @@ curl -X GET "http://localhost:3001/api/usage/lic_789ghi?startDate=2024-11-01&end
   "data": {
     "licenseId": "lic_789ghi",
     "period": {
-      "startDate": "2024-11-01T00:00:00.000Z",
-      "endDate": "2024-11-30T23:59:59.000Z"
+      "startDate": "2025-11-01T00:00:00.000Z",
+      "endDate": "2025-11-30T23:59:59.000Z"
     },
     "summary": {
       "totalApiCalls": 45000,
@@ -548,7 +548,7 @@ curl -X GET "http://localhost:3001/api/usage/lic_789ghi?startDate=2024-11-01&end
     },
     "breakdown": [
       {
-        "date": "2024-11-16",
+        "date": "2025-11-16",
         "apiCalls": 1250,
         "storageUsed": "5368709120",
         "activeUsers": 15
@@ -611,7 +611,7 @@ curl -X POST http://localhost:3001/api/webhooks \
       "license.renewed"
     ],
     "isActive": true,
-    "createdAt": "2024-11-16T17:00:00.000Z"
+    "createdAt": "2025-11-16T17:00:00.000Z"
   }
 }
 ```
@@ -642,10 +642,10 @@ curl -X GET http://localhost:3001/api/webhooks \
           "license.renewed"
         ],
         "isActive": true,
-        "lastTriggered": "2024-11-16T16:45:00.000Z",
+        "lastTriggered": "2025-11-16T16:45:00.000Z",
         "successCount": 125,
         "failureCount": 2,
-        "createdAt": "2024-11-16T17:00:00.000Z"
+        "createdAt": "2025-11-16T17:00:00.000Z"
       }
     ]
   }
@@ -683,7 +683,7 @@ curl -X GET http://localhost:3001/health
 ```json
 {
   "status": "healthy",
-  "timestamp": "2024-11-16T17:05:00.000Z",
+  "timestamp": "2025-11-16T17:05:00.000Z",
   "uptime": 3600,
   "database": "connected",
   "version": "1.0.0"

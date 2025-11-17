@@ -107,7 +107,7 @@
 - [ ] Write 5 blog posts:
   - [ ] "The OSI Model: Your Secret Weapon for IT Troubleshooting"
   - [ ] "10 Commands Every IT Pro Should Know (And When to Use Them)"
-  - [ ] "How AI is Transforming IT Support in 2024"
+  - [ ] "How AI is Transforming IT Support in 2025"
   - [ ] "From Ticket to Resolution: Automating IT Documentation"
   - [ ] "Why Generic AI Tools Fail IT Professionals"
 - [ ] Create 20 social media posts (LinkedIn, Twitter)

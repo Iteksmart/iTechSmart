@@ -27,7 +27,7 @@ curl http://localhost:3001/health
 ```json
 {
   "status": "healthy",
-  "timestamp": "2024-11-16T17:10:00.000Z",
+  "timestamp": "2025-11-16T17:10:00.000Z",
   "uptime": 3600,
   "database": "connected",
   "version": "1.0.0"
@@ -258,7 +258,7 @@ docker compose logs --tail=100 license-server
 docker compose logs license-server | grep ERROR
 
 # Specific time range
-docker compose logs --since 2024-11-16T10:00:00 --until 2024-11-16T12:00:00 license-server
+docker compose logs --since 2025-11-16T10:00:00 --until 2025-11-16T12:00:00 license-server
 
 # Search for specific pattern
 docker compose logs license-server | grep "license validation"

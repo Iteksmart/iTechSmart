@@ -468,6 +468,6 @@ You're now ready to use the iTechSmart platform! Start with DataFlow and explore
 
 ---
 
-**© 2024 iTechSmart. All rights reserved.**
+**© 2025 iTechSmart. All rights reserved.**
 
 **Happy Building! 🚀**

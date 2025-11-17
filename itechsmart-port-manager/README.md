@@ -334,14 +334,14 @@ POST /api/ports/backup
 ```json
 {
   "success": true,
-  "backup_file": "port_config_backup_20241212_143022.json",
+  "backup_file": "port_config_backup_20251212_143022.json",
   "message": "Configuration backed up"
 }
 ```
 
 #### Restore Configuration
 ```http
-POST /api/ports/restore?backup_file=port_config_backup_20241212_143022.json
+POST /api/ports/restore?backup_file=port_config_backup_20251212_143022.json
 ```
 
 #### Reset to Defaults
@@ -370,7 +370,7 @@ GET /api/services/status
       "service_id": "legalai-pro",
       "port": 8000,
       "status": "healthy",
-      "last_checked": "2024-12-12T14:30:22Z"
+      "last_checked": "2025-12-12T14:30:22Z"
     }
   ],
   "total": 27,

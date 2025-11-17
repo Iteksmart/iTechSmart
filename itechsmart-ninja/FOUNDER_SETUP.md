@@ -246,10 +246,10 @@ tar -czf uploads_backup_$(date +%Y%m%d).tar.gz backend/uploads/
 ### Restore Your Data
 ```bash
 # Restore database
-cat backup_20240112.sql | docker exec -i ninja-postgres psql -U ninja ninja
+cat backup_20250112.sql | docker exec -i ninja-postgres psql -U ninja ninja
 
 # Restore uploads
-tar -xzf uploads_backup_20240112.tar.gz
+tar -xzf uploads_backup_20250112.tar.gz
 ```
 
 ## 🔧 Troubleshooting

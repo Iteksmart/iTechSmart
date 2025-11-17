@@ -859,7 +859,7 @@ alerts:
 **Vulnerability Tracking:**
 ```yaml
 vulnerability:
-  id: "CVE-2024-12345"
+  id: "CVE-2025-12345"
   severity: "high"
   cvss_score: 8.5
   affected_systems:

@@ -139,7 +139,7 @@ result = await enhanced_ai_manager.generate_completion(
 
 # Compare models
 comparison = enhanced_ai_manager.compare_models(
-    model_ids=["gpt-4o", "claude-3-5-sonnet-20241022"],
+    model_ids=["gpt-4o", "claude-3-5-sonnet-20251022"],
     criteria=["cost", "context_window"]
 )
 ```
@@ -212,7 +212,7 @@ Model: gpt-4o
   Tokens: 45,000
   Cost: $0.68
 
-Model: claude-3-haiku-20240307
+Model: claude-3-haiku-20250307
   Requests: 300
   Tokens: 120,000
   Cost: $0.15
@@ -240,7 +240,7 @@ Select: GPT-4o, Claude 3.5 Sonnet, Gemini 1.5 Pro
 curl -X POST http://localhost:8000/api/v1/models/compare \
   -H "Content-Type: application/json" \
   -d '{
-    "model_ids": ["gpt-4o", "claude-3-5-sonnet-20241022", "gemini-1.5-pro"],
+    "model_ids": ["gpt-4o", "claude-3-5-sonnet-20251022", "gemini-1.5-pro"],
     "criteria": ["cost", "context_window", "speed"]
   }'
 ```

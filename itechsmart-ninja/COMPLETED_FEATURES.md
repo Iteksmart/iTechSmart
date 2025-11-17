@@ -76,7 +76,7 @@ Performs comprehensive research with multi-source verification, professional cit
 
 **Terminal:**
 ```bash
-> research Latest AI trends in 2024    # Perform research
+> research Latest AI trends in 2025    # Perform research
 > cite https://example.com "Title" apa # Format citation
 > credibility https://example.com      # Check credibility
 > citation-styles                      # List styles
@@ -105,32 +105,32 @@ GET  /api/v1/research/citation-styles
 
 **APA (7th Edition):**
 ```
-Doe, J. (2024). Article Title. Publisher. 
-Retrieved January 15, 2024, from https://example.com
+Doe, J. (2025). Article Title. Publisher. 
+Retrieved January 15, 2025, from https://example.com
 ```
 
 **MLA (9th Edition):**
 ```
-Doe, John. "Article Title." Publisher, 15 Jan. 2024, 
-https://example.com. Accessed 15 Jan. 2024.
+Doe, John. "Article Title." Publisher, 15 Jan. 2025, 
+https://example.com. Accessed 15 Jan. 2025.
 ```
 
 **Chicago (17th Edition):**
 ```
-Doe, John. "Article Title." Publisher. January 15, 2024. 
-https://example.com (accessed January 15, 2024).
+Doe, John. "Article Title." Publisher. January 15, 2025. 
+https://example.com (accessed January 15, 2025).
 ```
 
 **Harvard:**
 ```
-Doe, J. (2024) Article Title. Available at: https://example.com 
-(Accessed: 15 January 2024).
+Doe, J. (2025) Article Title. Available at: https://example.com 
+(Accessed: 15 January 2025).
 ```
 
 **IEEE:**
 ```
-J. Doe, "Article Title," Publisher, Jan. 2024. [Online]. 
-Available: https://example.com. [Accessed: Jan. 15, 2024].
+J. Doe, "Article Title," Publisher, Jan. 2025. [Online]. 
+Available: https://example.com. [Accessed: Jan. 15, 2025].
 ```
 
 ### Credibility Scoring:
@@ -268,7 +268,7 @@ Grafana:    http://localhost:3001
 
 ### Use Case 2: Academic Research
 ```bash
-> research Quantum computing advances 2024
+> research Quantum computing advances 2025
 # Review sources and credibility
 # Save report to file
 ```

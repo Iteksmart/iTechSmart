@@ -1,6 +1,6 @@
 # 🎉 Release v1.0.0 - COMPLETE!
 
-**Release Date**: November 17, 2024  
+**Release Date**: November 17, 2025  
 **Release URL**: https://github.com/Iteksmart/iTechSmart/releases/tag/v1.0.0  
 **Status**: ✅ PUBLISHED  
 **Type**: Initial Production Release
@@ -386,7 +386,7 @@ The iTechSmart Suite v1.0.0 is now live and ready to transform IT operations wor
 
 ---
 
-**Release Date**: November 17, 2024  
+**Release Date**: November 17, 2025  
 **Version**: v1.0.0  
 **Status**: ✅ PUBLISHED  
 **URL**: https://github.com/Iteksmart/iTechSmart/releases/tag/v1.0.0

@@ -351,7 +351,7 @@ View key metrics:
 - Use descriptive names
 - Include version numbers
 - Add dates when relevant
-- Example: `contract_v2_2024-01-15.pdf`
+- Example: `contract_v2_2025-01-15.pdf`
 
 ### Organization
 
@@ -499,5 +499,5 @@ View key metrics:
 
 ---
 
-*Last Updated: January 2024*
+*Last Updated: January 2025*
 *Version: 1.0.0*

@@ -346,7 +346,7 @@ kubectl exec -it deployment/backup -n itechsmart-hl7 -- /backup.sh
 ls -lh /backups/
 
 # Restore from backup
-./deployment/restore.sh /backups/postgres_20240101_120000.sql.gz
+./deployment/restore.sh /backups/postgres_20250101_120000.sql.gz
 ```
 
 ---

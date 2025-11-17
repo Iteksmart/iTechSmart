@@ -539,6 +539,6 @@ This comprehensive security audit checklist ensures iTechSmart HL7 meets industr
 
 ---
 
-**Last Updated:** January 15, 2024  
+**Last Updated:** January 15, 2025  
 **Version:** 1.0.0  
-**Next Review:** July 15, 2024
+**Next Review:** July 15, 2025

@@ -1,6 +1,6 @@
 # 🍎 macOS Build - Ready to Execute
 
-**Date:** December 21, 2024  
+**Date:** December 21, 2025  
 **Status:** ✅ **ALL PREREQUISITES COMPLETE**  
 **Ready to Build:** YES
 
@@ -374,7 +374,7 @@ The script will guide you through the entire process!
 
 ---
 
-**Last Updated:** December 21, 2024  
+**Last Updated:** December 21, 2025  
 **Version:** 1.0.0  
 **Repository:** https://github.com/Iteksmart/iTechSmart  
 **Script:** build-macos.sh

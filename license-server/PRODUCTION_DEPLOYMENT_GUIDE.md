@@ -266,7 +266,7 @@ Expected response:
 ```json
 {
   "status": "healthy",
-  "timestamp": "2024-11-16T16:30:00.000Z",
+  "timestamp": "2025-11-16T16:30:00.000Z",
   "uptime": 3600,
   "database": "connected"
 }
@@ -320,7 +320,7 @@ docker compose logs -f license-server
 docker compose logs --tail=100 license-server
 
 # Logs from specific time
-docker compose logs --since 2024-11-16T10:00:00 license-server
+docker compose logs --since 2025-11-16T10:00:00 license-server
 ```
 
 ### 4. Security Hardening

@@ -60,10 +60,10 @@ curl -X POST "http://localhost:8000/api/v1/tasks" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Test Research Task",
-    "description": "Research AI trends in 2024",
+    "description": "Research AI trends in 2025",
     "task_type": "research",
     "parameters": {
-      "query": "AI trends 2024",
+      "query": "AI trends 2025",
       "num_sources": 3
     }
   }'
@@ -170,4 +170,4 @@ curl -X POST "http://localhost:8000/api/v1/admin/settings/ai-providers" \
 
 **Status**: ✅ Backend Complete - Ready for Frontend Development  
 **Version**: 1.0.0  
-**Last Updated**: 2024
+**Last Updated**: 2025

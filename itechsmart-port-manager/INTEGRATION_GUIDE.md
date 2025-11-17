@@ -141,7 +141,7 @@ async def update_port(request: PortUpdateRequest):
 {
   "new_port": 8050,
   "old_port": 8000,
-  "timestamp": "2024-12-12T14:30:22Z",
+  "timestamp": "2025-12-12T14:30:22Z",
   "source": "port-manager"
 }
 ```
@@ -190,7 +190,7 @@ Every 30 seconds:
 health = {
     "service_id": "itechsmart-port-manager",
     "status": "healthy",
-    "timestamp": "2024-12-12T14:30:22Z",
+    "timestamp": "2025-12-12T14:30:22Z",
     "metrics": {
         "uptime": 3600,
         "port_manager_active": True,
@@ -206,7 +206,7 @@ Every 60 seconds:
 ```python
 metrics = {
     "service_id": "itechsmart-port-manager",
-    "timestamp": "2024-12-12T14:30:22Z",
+    "timestamp": "2025-12-12T14:30:22Z",
     "cpu_usage": 15.5,
     "memory_usage": 45.2,
     "custom_metrics": {
@@ -228,7 +228,7 @@ event = {
     "service_id": "legalai-pro",
     "old_port": 8000,
     "new_port": 8050,
-    "timestamp": "2024-12-12T14:30:22Z"
+    "timestamp": "2025-12-12T14:30:22Z"
 }
 
 # Broadcast to Hub
@@ -252,7 +252,7 @@ error_report = {
     "error_type": "PortConflictError",
     "error_message": "Port 8000 assigned to multiple services",
     "stack_trace": "...",
-    "timestamp": "2024-12-12T14:30:22Z",
+    "timestamp": "2025-12-12T14:30:22Z",
     "severity": "high",
     "context": {
         "port": 8000,
@@ -268,7 +268,7 @@ Every 60 seconds:
 ```python
 performance = {
     "service_id": "itechsmart-port-manager",
-    "timestamp": "2024-12-12T14:30:22Z",
+    "timestamp": "2025-12-12T14:30:22Z",
     "endpoint": "/api/ports/assignments",
     "response_time": 85.3,
     "status_code": 200,
@@ -372,7 +372,7 @@ ws.onmessage = (event) => {
     "legalai-pro": [8000, 8050, 8075]
   },
   "reserved_ports": [8888, 9999],
-  "last_updated": "2024-12-12T14:30:22Z"
+  "last_updated": "2025-12-12T14:30:22Z"
 }
 ```
 
@@ -380,7 +380,7 @@ ws.onmessage = (event) => {
 
 Backup files are automatically named with timestamp:
 ```
-port_config_backup_20241212_143022.json
+port_config_backup_20251212_143022.json
 ```
 
 ---

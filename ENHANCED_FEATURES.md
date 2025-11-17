@@ -32,13 +32,13 @@ GEMINI_MODEL=gemini-pro
 
 # Anthropic Claude
 CLAUDE_API_KEY=your-claude-api-key
-CLAUDE_MODEL=claude-3-opus-20240229
+CLAUDE_MODEL=claude-3-opus-20250229
 
 # Azure OpenAI
 AZURE_OPENAI_KEY=your-azure-key
 AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
 AZURE_OPENAI_DEPLOYMENT=your-deployment-name
-AZURE_OPENAI_VERSION=2024-02-15-preview
+AZURE_OPENAI_VERSION=2025-02-15-preview
 
 # Ollama (Local)
 OLLAMA_URL=http://localhost:11434

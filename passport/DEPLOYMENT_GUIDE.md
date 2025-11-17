@@ -534,7 +534,7 @@ docker-compose logs --tail=100 backend
 docker-compose exec postgres pg_dump -U passport passport > backup_$(date +%Y%m%d).sql
 
 # Restore database
-docker-compose exec -T postgres psql -U passport passport < backup_20240115.sql
+docker-compose exec -T postgres psql -U passport passport < backup_20250115.sql
 
 # Automated daily backups (crontab)
 0 2 * * * cd /path/to/passport && docker-compose exec postgres pg_dump -U passport passport > /backups/backup_$(date +\%Y\%m\%d).sql

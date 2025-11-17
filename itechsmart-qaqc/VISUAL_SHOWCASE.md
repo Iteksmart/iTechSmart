@@ -105,7 +105,7 @@
 │  Performance  ⟳ Running     -       28       112     98    0     0 │
 │  Documentation✓ Completed  89.5%    28       252    225   15    12 │
 │                                                                       │
-│  Duration: 45m | Started: 2024-01-15 10:00                          │
+│  Duration: 45m | Started: 2025-01-15 10:00                          │
 │                                                                       │
 │  ┌─────────────────────────────────────────────────────────────┐   │
 │  │  New Scan Dialog                                             │   │

@@ -32,7 +32,7 @@ docker-compose down
 ```
 Database:
   User: shield_user
-  Password: shield_pass_2024
+  Password: shield_pass_2025
   Database: shield_db
 ```
 

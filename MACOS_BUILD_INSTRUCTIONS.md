@@ -403,7 +403,7 @@ After building:
 
 ---
 
-**Last Updated:** December 21, 2024  
+**Last Updated:** December 21, 2025  
 **Version:** 1.0.0  
 **Status:** Ready for macOS Build  
 **Script:** build-macos.sh

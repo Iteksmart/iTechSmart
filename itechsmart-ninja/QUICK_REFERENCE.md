@@ -232,7 +232,7 @@ generate "Create a REST API endpoint for user login"
 ### Research Topic
 ```bash
 # Terminal
-research "latest AI trends 2024"
+research "latest AI trends 2025"
 ```
 
 ### Create Website

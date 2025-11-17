@@ -412,13 +412,13 @@ Complete audit trail:
 
 ```json
 {
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-01-15T10:30:00Z",
   "action": "code_fix_applied",
   "file": "app/services/user_service.py",
   "changes": {...},
   "confidence": 0.92,
   "success": true,
-  "backup_id": "backup_20240115_103000"
+  "backup_id": "backup_20250115_103000"
 }
 ```
 

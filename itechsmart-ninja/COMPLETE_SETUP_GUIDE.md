@@ -393,7 +393,7 @@ curl -X POST http://localhost:8000/api/models/recommend \
 Ctrl+Shift+I
 
 # Perform research
-research "artificial intelligence trends 2024"
+research "artificial intelligence trends 2025"
 
 # Format citation
 cite "https://example.com/article"
@@ -413,7 +413,7 @@ curl -X POST http://localhost:8000/api/research/deep \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -d '{
-    "query": "artificial intelligence trends 2024",
+    "query": "artificial intelligence trends 2025",
     "citation_style": "apa",
     "max_sources": 10
   }'

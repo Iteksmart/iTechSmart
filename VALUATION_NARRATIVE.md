@@ -77,7 +77,7 @@ iTechSmart's **$7.1B five-year valuation** is not aspirational—it's a **data-d
 
 ## 💰 Detailed Valuation Calculation
 
-### Year 0 (2024): Pre-Series A
+### Year 0 (2025): Pre-Series A
 **Current State:**
 - ARR: $0 (pre-launch)
 - Software Value: $1.28M (verified)
@@ -208,7 +208,7 @@ iTechSmart's **$7.1B five-year valuation** is not aspirational—it's a **data-d
 ### Summary Table
 | Year | ARR | Growth | Base Multiple | Valuation | Growth from Y0 |
 |------|-----|--------|---------------|-----------|----------------|
-| 0 (2024) | $0 | N/A | N/A | $319.4M | Baseline |
+| 0 (2025) | $0 | N/A | N/A | $319.4M | Baseline |
 | 1 (2025) | $55M | N/A | 10× | $550M | 72% |
 | 2 (2026) | $177.5M | 223% | 10× | $1.775B | 456% |
 | 3 (2027) | $355M | 100% | 10× | $3.55B | 1,011% |

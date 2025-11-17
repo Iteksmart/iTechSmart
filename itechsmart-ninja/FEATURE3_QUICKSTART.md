@@ -277,13 +277,13 @@ The editor automatically validates YAML and shows the JSON equivalent in real-ti
 📝 MONACO
    ID: abc-123-def
    File: src/main.py
-   Created: 12/20/2024, 10:30:00 AM
+   Created: 12/20/2025, 10:30:00 AM
    Modified: Yes
 
 🎨 IMAGE
    ID: def-456-ghi
    File: logo.png
-   Created: 12/20/2024, 10:35:00 AM
+   Created: 12/20/2025, 10:35:00 AM
    Modified: No
 
 ════════════════════════════════════════════════════════════════════════════════

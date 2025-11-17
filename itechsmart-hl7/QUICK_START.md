@@ -167,7 +167,7 @@ docker-compose exec backend alembic upgrade head
 docker-compose exec backup /backup.sh
 
 # Restore backup
-./deployment/restore.sh /backups/postgres_20240115.sql.gz
+./deployment/restore.sh /backups/postgres_20250115.sql.gz
 ```
 
 ### Logs
@@ -403,4 +403,4 @@ You now have a fully functional healthcare integration platform running locally!
 
 **Questions?** Contact support@itechsmart.dev
 
-**Last Updated:** January 15, 2024
+**Last Updated:** January 15, 2025

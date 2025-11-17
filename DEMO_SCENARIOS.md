@@ -60,7 +60,7 @@ chmod +x /tmp/backup.sh
 🚨 Alert: High CPU usage detected: 95.2%
    Host: server1.example.com
    Severity: HIGH
-   Time: 2024-01-15 10:30:45
+   Time: 2025-01-15 10:30:45
 
 ⚡ Proposed Action:
    Description: Kill runaway backup process

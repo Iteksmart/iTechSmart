@@ -234,7 +234,7 @@ POST /api/video/generate
         "duration": 4,
         "resolution": "1080p",
         "provider": "runway",
-        "created_at": "2024-01-01T00:00:00Z"
+        "created_at": "2025-01-01T00:00:00Z"
     }
 }
 ```

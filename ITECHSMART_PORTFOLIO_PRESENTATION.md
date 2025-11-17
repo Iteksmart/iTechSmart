@@ -888,6 +888,6 @@ Launch your chosen products and grow with confidence
 
 ---
 
-**© 2024 iTechSmart. All rights reserved.**
+**© 2025 iTechSmart. All rights reserved.**
 
 **Built with ❤️ and excellence by the iTechSmart Development Team**

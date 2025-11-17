@@ -1,7 +1,7 @@
 # iTechSmart Suite - Complete Product Manual
 
 **Version:** 1.0.0  
-**Last Updated:** November 16, 2024  
+**Last Updated:** November 16, 2025  
 **Products Covered:** 35
 
 ---

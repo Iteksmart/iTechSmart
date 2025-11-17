@@ -446,7 +446,7 @@ tar -czf supreme-logs-$(date +%Y%m%d).tar.gz logs/
 
 ```bash
 # Restore configuration
-tar -xzf supreme-config-20240112.tar.gz -C /opt/itechsmart-supreme/
+tar -xzf supreme-config-20250112.tar.gz -C /opt/itechsmart-supreme/
 ```
 
 ---

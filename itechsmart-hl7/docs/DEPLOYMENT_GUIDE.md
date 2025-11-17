@@ -541,7 +541,7 @@ docker-compose exec postgres pg_dump -U itechsmart itechsmart_hl7 | gzip > backu
 **Restore from Backup:**
 ```bash
 # Using provided script
-./deployment/restore.sh /backups/postgres_20240115_120000.sql.gz
+./deployment/restore.sh /backups/postgres_20250115_120000.sql.gz
 
 # Manual restore
 gunzip -c backup.sql.gz | docker-compose exec -T postgres psql -U itechsmart itechsmart_hl7
@@ -806,5 +806,5 @@ For deployment support:
 
 ---
 
-**Last Updated:** January 15, 2024  
+**Last Updated:** January 15, 2025  
 **Version:** 1.0.0

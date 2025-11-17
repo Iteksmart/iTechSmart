@@ -82,7 +82,7 @@ Open VS Code Settings (Ctrl+,) and search for "iTechSmart":
 $ generate Create a REST API endpoint for user authentication
 
 # Research a topic
-$ research Latest AI trends in 2024
+$ research Latest AI trends in 2025
 
 # Analyze data
 $ analyze sales_data.csv

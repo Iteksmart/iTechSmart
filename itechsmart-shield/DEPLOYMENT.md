@@ -45,7 +45,7 @@ pip install -r requirements.txt
 
 # Create .env file
 cat > .env << EOF
-DATABASE_URL=postgresql://shield_user:shield_pass_2024@localhost:5432/shield_db
+DATABASE_URL=postgresql://shield_user:shield_pass_2025@localhost:5432/shield_db
 REDIS_URL=redis://localhost:6379
 ELASTICSEARCH_URL=http://localhost:9200
 SECRET_KEY=$(openssl rand -hex 32)
@@ -500,5 +500,5 @@ For deployment issues:
 
 ---
 
-**Last Updated**: January 2024  
+**Last Updated**: January 2025  
 **Version**: 1.0.0

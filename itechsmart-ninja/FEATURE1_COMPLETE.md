@@ -232,7 +232,7 @@ POST /api/v1/models/generate
 # Compare models
 POST /api/v1/models/compare
 {
-  "model_ids": ["gpt-4o", "claude-3-5-sonnet-20241022", "gemini-1.5-pro"],
+  "model_ids": ["gpt-4o", "claude-3-5-sonnet-20251022", "gemini-1.5-pro"],
   "criteria": ["cost", "context_window", "speed"]
 }
 

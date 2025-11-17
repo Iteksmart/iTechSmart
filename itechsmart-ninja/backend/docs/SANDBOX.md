@@ -154,8 +154,8 @@ Create a new sandbox environment.
   "language": "python",
   "status": "ready",
   "container_id": "abc123...",
-  "created_at": "2024-01-15T10:30:00Z",
-  "started_at": "2024-01-15T10:30:05Z",
+  "created_at": "2025-01-15T10:30:00Z",
+  "started_at": "2025-01-15T10:30:05Z",
   "config": {
     "language": "python",
     "memory_limit": "512m",
@@ -201,8 +201,8 @@ Get information about a sandbox.
   "language": "python",
   "status": "ready",
   "container_id": "abc123...",
-  "created_at": "2024-01-15T10:30:00Z",
-  "started_at": "2024-01-15T10:30:05Z",
+  "created_at": "2025-01-15T10:30:00Z",
+  "started_at": "2025-01-15T10:30:05Z",
   "config": {...}
 }
 ```

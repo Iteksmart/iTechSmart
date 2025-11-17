@@ -511,6 +511,6 @@ DataFlow  Workflow   Notify    Pulse     Copilot    Supreme
 
 ---
 
-**© 2024 iTechSmart. All rights reserved.**
+**© 2025 iTechSmart. All rights reserved.**
 
 **Building the Future of Enterprise Software** 🚀

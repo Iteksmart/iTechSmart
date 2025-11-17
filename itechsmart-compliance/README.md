@@ -135,7 +135,7 @@ Response:
 {
   "standard": "soc2",
   "overall_score": 92,
-  "last_check": "2024-01-15T10:00:00Z",
+  "last_check": "2025-01-15T10:00:00Z",
   "controls": {
     "passed": 48,
     "failed": 2,
@@ -153,10 +153,10 @@ POST /api/v1/audits
 Content-Type: application/json
 
 {
-  "name": "Q1 2024 SOC 2 Audit",
+  "name": "Q1 2025 SOC 2 Audit",
   "standard": "soc2",
-  "start_date": "2024-01-01",
-  "end_date": "2024-03-31",
+  "start_date": "2025-01-01",
+  "end_date": "2025-03-31",
   "auditor": "External Auditor Inc"
 }
 ```
@@ -168,7 +168,7 @@ GET /api/v1/audits/{audit_id}/report
 Response:
 {
   "audit_id": "audit_123",
-  "name": "Q1 2024 SOC 2 Audit",
+  "name": "Q1 2025 SOC 2 Audit",
   "status": "completed",
   "findings": 5,
   "recommendations": 8,

@@ -196,7 +196,7 @@ Available at: https://itechsmart.dev/terms
 
 ## Awards & Recognition
 
-### 2024
+### 2025
 - Delaware Innovation Award (Pending)
 - Best AI-Powered IT Solution (Pending)
 

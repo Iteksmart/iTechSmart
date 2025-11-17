@@ -203,7 +203,7 @@ Content-Type: application/json
 
 #### Get Cost Analysis
 ```http
-GET /api/v1/costs/analysis?start_date=2024-01-01&end_date=2024-01-31
+GET /api/v1/costs/analysis?start_date=2025-01-01&end_date=2025-01-31
 
 Response:
 {

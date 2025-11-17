@@ -251,7 +251,7 @@ curl -X POST http://localhost:8000/api/v1/models/generate \
 curl -X POST http://localhost:8000/api/v1/models/compare \
   -H "Content-Type: application/json" \
   -d '{
-    "model_ids": ["gpt-4o", "claude-3-5-sonnet-20241022"],
+    "model_ids": ["gpt-4o", "claude-3-5-sonnet-20251022"],
     "criteria": ["cost", "context_window"]
   }'
 ```

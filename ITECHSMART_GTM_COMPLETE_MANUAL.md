@@ -380,7 +380,7 @@ Each task includes:
 - [ ] Write 5 blog posts:
   - [ ] "The OSI Model: Your Secret Weapon for IT Troubleshooting"
   - [ ] "10 Commands Every IT Pro Should Know (And When to Use Them)"
-  - [ ] "How AI is Transforming IT Support in 2024"
+  - [ ] "How AI is Transforming IT Support in 2025"
   - [ ] "From Ticket to Resolution: Automating IT Documentation"
   - [ ] "Why Generic AI Tools Fail IT Professionals"
 - [ ] Create 20 social media posts (LinkedIn, Twitter)
@@ -3287,9 +3287,9 @@ This document covers the GTM strategies for three specialized products:
 
 ---
 
-## Pre-Launch Strategy (2024-2025)
+## Pre-Launch Strategy (2025-2025)
 
-### Phase 1: Government Readiness (Q4 2024 - Q1 2025)
+### Phase 1: Government Readiness (Q4 2025 - Q1 2025)
 
 **Tasks:**
 
@@ -3425,7 +3425,7 @@ This document covers the GTM strategies for three specialized products:
 
 ## Citadel (Pre-Launch)
 
-| Category | 2024-2025 Total |
+| Category | 2025-2025 Total |
 |----------|-----------------|
 | Certifications | $500,000 |
 | Partnerships | $200,000 |
@@ -3655,7 +3655,7 @@ Awareness → Consideration → Evaluation → Purchase → Onboarding → Adopt
 
 | Year | Revenue | Growth | Customers |
 |------|---------|--------|-----------|
-| **2024** | $5M | - | 500 |
+| **2025** | $5M | - | 500 |
 | **2025** | $55M | 1000% | 5,000 |
 | **2026** | $177.5M | 223% | 15,000 |
 | **2027** | $355M | 100% | 30,000 |
@@ -5381,7 +5381,7 @@ Yes! Citadel supports:
 
 ### Do you have a GSA Schedule?
 GSA Schedule application:
-- Submitted: Q4 2024
+- Submitted: Q4 2025
 - Expected approval: Q2 2025
 
 ## Pricing
@@ -5464,7 +5464,7 @@ Yes! We provide:
 ## Company
 
 ### Who is iTechSmart?
-iTechSmart is an AI-powered IT operations platform company founded in 2024, dedicated to eliminating IT downtime through intelligent automation.
+iTechSmart is an AI-powered IT operations platform company founded in 2025, dedicated to eliminating IT downtime through intelligent automation.
 
 ### Where are you located?
 - Headquarters: United States

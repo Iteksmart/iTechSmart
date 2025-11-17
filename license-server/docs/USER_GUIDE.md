@@ -1,7 +1,7 @@
 # License Server - Administrator Guide
 
 **Version**: 1.0.0  
-**Last Updated**: November 17, 2024  
+**Last Updated**: November 17, 2025  
 **Product Type**: SaaS Licensing System  
 **Audience**: System Administrators, License Managers
 
@@ -560,7 +560,7 @@ POST /api/organizations/:id/api-keys
 {
   "apiKey": "org_live_abc123...",
   "name": "Production Key",
-  "createdAt": "2024-11-17T00:00:00Z"
+  "createdAt": "2025-11-17T00:00:00Z"
 }
 ```
 
@@ -647,7 +647,7 @@ The License Server automatically tracks:
 
 ```bash
 # Get usage statistics
-GET /api/organizations/:id/usage?from=2024-01-01&to=2024-12-31
+GET /api/organizations/:id/usage?from=2025-01-01&to=2025-12-31
 
 # Response:
 {
@@ -732,8 +732,8 @@ POST /api/reports/generate
   "type": "usage",
   "format": "pdf",
   "dateRange": {
-    "from": "2024-01-01",
-    "to": "2024-12-31"
+    "from": "2025-01-01",
+    "to": "2025-12-31"
   },
   "organizations": ["org-123", "org-456"]
 }
@@ -1005,7 +1005,7 @@ A: Use the import API to bulk import licenses and organizations. Contact support
 
 ---
 
-**Last Updated**: November 17, 2024  
+**Last Updated**: November 17, 2025  
 **Document Version**: 1.0  
 **Maintained by**: iTechSmart Team
 

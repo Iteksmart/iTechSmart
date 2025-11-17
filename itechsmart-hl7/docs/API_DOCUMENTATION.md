@@ -73,7 +73,7 @@ GET /health
 ```json
 {
   "status": "healthy",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-01-15T10:30:00Z",
   "version": "1.0.0",
   "services": {
     "database": "healthy",
@@ -119,7 +119,7 @@ Authorization: Bearer {token}
       "emr_system": "epic",
       "name": "Epic Production",
       "status": "active",
-      "last_sync": "2024-01-15T10:25:00Z",
+      "last_sync": "2025-01-15T10:25:00Z",
       "messages_processed": 1523
     }
   ],
@@ -182,7 +182,7 @@ Authorization: Bearer {token}
       "display": "Blood Pressure",
       "value": "120/80",
       "unit": "mmHg",
-      "timestamp": "2024-01-15T10:00:00Z"
+      "timestamp": "2025-01-15T10:00:00Z"
     }
   ],
   "total": 1
@@ -250,7 +250,7 @@ Content-Type: application/json
     "status": "in_progress",
     "patient_id": "PAT123",
     "created_by": "Dr. Smith",
-    "started_at": "2024-01-15T10:00:00Z",
+    "started_at": "2025-01-15T10:00:00Z",
     "steps": [
       {
         "step_id": "admission_001",
@@ -342,7 +342,7 @@ Content-Type: application/json
       "references": ["Micromedex", "Lexicomp"]
     }
   ],
-  "checked_at": "2024-01-15T10:00:00Z"
+  "checked_at": "2025-01-15T10:00:00Z"
 }
 ```
 
@@ -410,7 +410,7 @@ Content-Type: application/json
       "Monitor lactate clearance"
     ],
     "references": ["Surviving Sepsis Campaign 2021", "qSOFA Validation Study"],
-    "generated_at": "2024-01-15T10:00:00Z"
+    "generated_at": "2025-01-15T10:00:00Z"
   }
 }
 ```
@@ -467,7 +467,7 @@ Content-Type: application/json
   "patient_id": "PAT123",
   "vital_signs_history": [
     {
-      "timestamp": "2024-01-15T08:00:00Z",
+      "timestamp": "2025-01-15T08:00:00Z",
       "respiratory_rate": 18,
       "heart_rate": 75,
       "systolic_bp": 120,
@@ -475,7 +475,7 @@ Content-Type: application/json
       "avpu": "A"
     },
     {
-      "timestamp": "2024-01-15T10:00:00Z",
+      "timestamp": "2025-01-15T10:00:00Z",
       "respiratory_rate": 26,
       "heart_rate": 115,
       "systolic_bp": 95,
@@ -593,7 +593,7 @@ Content-Type: application/json
     "priority": "high",
     "assigned_to": "Nurse Johnson",
     "assigned_role": "nurse",
-    "due_date": "2024-01-15T12:00:00Z",
+    "due_date": "2025-01-15T12:00:00Z",
     "patient_id": "PAT123",
     "created_by": "Dr. Smith",
     "status": "pending",
@@ -654,7 +654,7 @@ Authorization: Bearer {token}
 {
   "patient_id": "PAT123",
   "provider": "Dr. Smith",
-  "generated_at": "2024-01-15T10:00:00Z",
+  "generated_at": "2025-01-15T10:00:00Z",
   "sbar": {
     "situation": {
       "description": "Current patient status and reason for admission",
@@ -825,5 +825,5 @@ For API support, please contact:
 
 ---
 
-**Last Updated:** January 15, 2024  
+**Last Updated:** January 15, 2025  
 **API Version:** 1.0.0

@@ -426,7 +426,7 @@ iTechSmart has achieved **100% completion** across its entire product portfolio,
 ## 🌍 Market Opportunity & TAM
 
 ### Total Addressable Market (TAM)
-- **Global IT Operations Market:** $94.2B (2024)
+- **Global IT Operations Market:** $94.2B (2025)
 - **AI-Powered IT Automation:** $31.8B (SAM)
 - **iTechSmart Target (5-year):** $4.7B (SOM)
 

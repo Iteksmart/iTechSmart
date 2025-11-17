@@ -198,9 +198,9 @@ Metric: Error Rate
 Sensitivity: High
 Anomalies Found: 3
 
-1. 2024-01-15 08:30 - Error rate: 15.5% (Critical)
-2. 2024-01-15 09:15 - Error rate: 12.3% (High)
-3. 2024-01-15 10:00 - Error rate: 8.7% (Medium)
+1. 2025-01-15 08:30 - Error rate: 15.5% (Critical)
+2. 2025-01-15 09:15 - Error rate: 12.3% (High)
+3. 2025-01-15 10:00 - Error rate: 8.7% (Medium)
 ```
 
 #### 3. **Custom Dashboards**
@@ -667,7 +667,7 @@ A: Yes, 14-day free trial with full access to all features.
 
 ---
 
-**Last Updated**: January 2024
+**Last Updated**: January 2025
 **Version**: 1.0.0
 
 For the latest updates, visit: https://docs.itechsmart.dev

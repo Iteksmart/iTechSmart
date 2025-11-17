@@ -154,7 +154,7 @@ Content-Type: multipart/form-data
 file: [binary file data]
 filename: "document.pdf" (optional)
 description: "Contract for Project X" (optional)
-tags: ["contract", "2024"] (optional)
+tags: ["contract", "2025"] (optional)
 ```
 
 **Response:**
@@ -164,7 +164,7 @@ tags: ["contract", "2024"] (optional)
   "filename": "document.pdf",
   "file_hash": "a3d5e7f9...",
   "proof_link": "https://prooflink.ai/verify/abc123",
-  "created_at": "2024-01-15T10:30:00Z",
+  "created_at": "2025-01-15T10:30:00Z",
   "file_size": 1048576,
   "mime_type": "application/pdf"
 }
@@ -183,14 +183,14 @@ GET /proofs/{proof_id}
   "file_hash": "a3d5e7f9...",
   "proof_link": "https://prooflink.ai/verify/abc123",
   "verification_count": 42,
-  "created_at": "2024-01-15T10:30:00Z",
+  "created_at": "2025-01-15T10:30:00Z",
   "expires_at": null,
   "is_active": true,
   "file_size": 1048576,
   "mime_type": "application/pdf",
   "metadata": {
     "description": "Contract for Project X",
-    "tags": ["contract", "2024"]
+    "tags": ["contract", "2025"]
   }
 }
 ```
@@ -218,7 +218,7 @@ GET /proofs
       "file_hash": "a3d5e7f9...",
       "proof_link": "https://prooflink.ai/verify/abc123",
       "verification_count": 42,
-      "created_at": "2024-01-15T10:30:00Z",
+      "created_at": "2025-01-15T10:30:00Z",
       "is_active": true
     }
   ],
@@ -311,7 +311,7 @@ file: [binary file data]
   "proof_id": "proof_abc123",
   "filename": "document.pdf",
   "file_hash": "a3d5e7f9...",
-  "verified_at": "2024-01-15T11:00:00Z",
+  "verified_at": "2025-01-15T11:00:00Z",
   "message": "File verification successful"
 }
 ```
@@ -327,7 +327,7 @@ GET /proofs/{proof_id}/verifications
   "data": [
     {
       "id": "ver_xyz789",
-      "verified_at": "2024-01-15T11:00:00Z",
+      "verified_at": "2025-01-15T11:00:00Z",
       "is_valid": true,
       "ip_address": "192.168.1.1",
       "user_agent": "Mozilla/5.0..."
@@ -352,11 +352,11 @@ GET /users/me
   "id": "user_123",
   "email": "user@example.com",
   "name": "John Doe",
-  "created_at": "2024-01-01T00:00:00Z",
+  "created_at": "2025-01-01T00:00:00Z",
   "subscription": {
     "plan": "pro",
     "status": "active",
-    "expires_at": "2024-02-01T00:00:00Z"
+    "expires_at": "2025-02-01T00:00:00Z"
   },
   "stats": {
     "total_proofs": 150,
@@ -408,8 +408,8 @@ GET /users/api-keys
       "id": "key_abc123",
       "name": "Production Server",
       "key": "pk_live_...",
-      "created_at": "2024-01-01T00:00:00Z",
-      "last_used_at": "2024-01-15T10:00:00Z",
+      "created_at": "2025-01-01T00:00:00Z",
+      "last_used_at": "2025-01-15T10:00:00Z",
       "usage_count": 1234,
       "is_active": true
     }
@@ -435,7 +435,7 @@ POST /users/api-keys
   "id": "key_def456",
   "name": "Development Server",
   "key": "pk_test_...",
-  "created_at": "2024-01-15T12:00:00Z"
+  "created_at": "2025-01-15T12:00:00Z"
 }
 ```
 
@@ -472,7 +472,7 @@ GET /analytics/overview
   "active_proofs": 142,
   "verification_trend": [
     {
-      "date": "2024-01-01",
+      "date": "2025-01-01",
       "count": 45
     }
   ],
@@ -692,12 +692,12 @@ curl -X GET https://api.prooflink.ai/v1/proofs \
 ```json
 {
   "event": "verification.completed",
-  "timestamp": "2024-01-15T12:00:00Z",
+  "timestamp": "2025-01-15T12:00:00Z",
   "data": {
     "proof_id": "proof_abc123",
     "verification_id": "ver_xyz789",
     "is_valid": true,
-    "verified_at": "2024-01-15T12:00:00Z"
+    "verified_at": "2025-01-15T12:00:00Z"
   }
 }
 ```
@@ -748,5 +748,5 @@ def verify_webhook(payload, signature, secret):
 
 ---
 
-*Last Updated: January 2024*
+*Last Updated: January 2025*
 *API Version: v1*

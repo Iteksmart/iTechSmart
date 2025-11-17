@@ -225,20 +225,20 @@ Successfully implemented SuperNinja-equivalent deep research capabilities with m
 
 **APA Example:**
 ```
-Doe, J. (2024). Article Title. Publisher Name. 
-Retrieved January 15, 2024, from https://example.com/article
+Doe, J. (2025). Article Title. Publisher Name. 
+Retrieved January 15, 2025, from https://example.com/article
 ```
 
 **MLA Example:**
 ```
-Doe, John. "Article Title." Publisher Name, 15 Jan. 2024, 
-https://example.com/article. Accessed 15 Jan. 2024.
+Doe, John. "Article Title." Publisher Name, 15 Jan. 2025, 
+https://example.com/article. Accessed 15 Jan. 2025.
 ```
 
 **Chicago Example:**
 ```
-Doe, John. "Article Title." Publisher Name. January 15, 2024. 
-https://example.com/article (accessed January 15, 2024).
+Doe, John. "Article Title." Publisher Name. January 15, 2025. 
+https://example.com/article (accessed January 15, 2025).
 ```
 
 ### Credibility Scoring Algorithm
@@ -344,7 +344,7 @@ curl -X POST http://localhost:8000/api/v1/research/format-citation \
     "url": "https://example.com/article",
     "title": "Quantum Computing Advances",
     "author": "John Doe",
-    "publication_date": "2024-01-15",
+    "publication_date": "2025-01-15",
     "publisher": "Tech Journal",
     "citation_style": "apa"
   }'
@@ -394,23 +394,23 @@ iTechSmart: View Citation Styles
 
 ```bash
 # Perform research
-> research Latest AI trends in 2024
+> research Latest AI trends in 2025
 
 # Output:
-🔍 Performing deep research on: "Latest AI trends in 2024"
+🔍 Performing deep research on: "Latest AI trends in 2025"
 Gathering sources and analyzing credibility...
 
 📊 Research Results:
 ═══════════════════════════════════════════════════════════════════════════════
-Query: Latest AI trends in 2024
+Query: Latest AI trends in 2025
 Sources: 10
 Average Credibility: 78.5/100
 Citation Style: APA
 
 📚 Top Sources:
 ───────────────────────────────────────────────────────────────────────────────
-1. AI Trends Report 2024
-   URL: https://example.com/ai-trends-2024
+1. AI Trends Report 2025
+   URL: https://example.com/ai-trends-2025
    Credibility: 92.0/100 (very_high)
    Type: academic
 
@@ -426,7 +426,7 @@ Citation Style: APA
 # Output:
 📖 Citation:
 ═══════════════════════════════════════════════════════════════════════════════
-Doe, J. (2024). Article Title. Retrieved January 15, 2024, 
+Doe, J. (2025). Article Title. Retrieved January 15, 2025, 
 from https://example.com/article
 ═══════════════════════════════════════════════════════════════════════════════
 Style: APA

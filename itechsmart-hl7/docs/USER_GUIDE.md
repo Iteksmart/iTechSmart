@@ -704,5 +704,5 @@ All actions are logged:
 
 Visit our documentation at https://docs.itechsmart.dev or contact support at support@itechsmart.dev
 
-**Last Updated:** January 15, 2024  
+**Last Updated:** January 15, 2025  
 **Version:** 1.0.0

@@ -982,7 +982,7 @@ Yes! Citadel supports:
 
 ### Do you have a GSA Schedule?
 GSA Schedule application:
-- Submitted: Q4 2024
+- Submitted: Q4 2025
 - Expected approval: Q2 2025
 
 ## Pricing
@@ -1065,7 +1065,7 @@ Yes! We provide:
 ## Company
 
 ### Who is iTechSmart?
-iTechSmart is an AI-powered IT operations platform company founded in 2024, dedicated to eliminating IT downtime through intelligent automation.
+iTechSmart is an AI-powered IT operations platform company founded in 2025, dedicated to eliminating IT downtime through intelligent automation.
 
 ### Where are you located?
 - Headquarters: United States

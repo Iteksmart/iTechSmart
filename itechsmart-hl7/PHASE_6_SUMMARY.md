@@ -343,7 +343,7 @@ All clinical features are based on established guidelines and evidence:
 - **Sepsis**: Surviving Sepsis Campaign 2021
 - **VTE Prophylaxis**: CHEST Guidelines, ACCP
 - **Antibiotics**: IDSA/ATS Guidelines
-- **Diabetes**: ADA Standards of Care 2024
+- **Diabetes**: ADA Standards of Care 2025
 - **Hypertension**: ACC/AHA 2017 Guidelines
 - **Heart Failure**: ACC/AHA/HFSA 2022 Guidelines
 - **Drug Interactions**: FDA, Micromedex, Lexicomp

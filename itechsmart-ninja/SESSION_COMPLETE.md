@@ -235,7 +235,7 @@ result = await enhanced_ai_manager.generate_completion(
 
 # Compare models
 comparison = enhanced_ai_manager.compare_models(
-    model_ids=["gpt-4o", "claude-3-5-sonnet-20241022"],
+    model_ids=["gpt-4o", "claude-3-5-sonnet-20251022"],
     criteria=["cost", "context_window"]
 )
 ```

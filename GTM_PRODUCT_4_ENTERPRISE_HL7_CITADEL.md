@@ -510,9 +510,9 @@ This document covers the GTM strategies for three specialized products:
 
 ---
 
-## Pre-Launch Strategy (2024-2025)
+## Pre-Launch Strategy (2025-2025)
 
-### Phase 1: Government Readiness (Q4 2024 - Q1 2025)
+### Phase 1: Government Readiness (Q4 2025 - Q1 2025)
 
 **Tasks:**
 
@@ -648,7 +648,7 @@ This document covers the GTM strategies for three specialized products:
 
 ## Citadel (Pre-Launch)
 
-| Category | 2024-2025 Total |
+| Category | 2025-2025 Total |
 |----------|-----------------|
 | Certifications | $500,000 |
 | Partnerships | $200,000 |

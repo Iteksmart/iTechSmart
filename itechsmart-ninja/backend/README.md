@@ -210,10 +210,10 @@ Content-Type: application/json
 
 {
   "title": "Research AI Trends",
-  "description": "Research the latest AI trends in 2024",
+  "description": "Research the latest AI trends in 2025",
   "task_type": "research",
   "parameters": {
-    "query": "AI trends 2024",
+    "query": "AI trends 2025",
     "num_sources": 5
   }
 }
@@ -534,5 +534,5 @@ MIT License - see LICENSE file for details
 ---
 
 **Version**: 1.0.0  
-**Last Updated**: 2024  
+**Last Updated**: 2025  
 **Status**: ✅ Production Ready

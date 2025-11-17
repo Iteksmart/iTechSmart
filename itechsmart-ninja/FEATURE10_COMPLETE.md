@@ -323,7 +323,7 @@ POST /api/mcp/sources/2/query
         "operation": "find",
         "args": {
             "event_type": "page_view",
-            "timestamp": {"$gte": "2024-01-01"}
+            "timestamp": {"$gte": "2025-01-01"}
         }
     }
 }

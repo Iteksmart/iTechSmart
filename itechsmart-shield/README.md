@@ -110,7 +110,7 @@ The platform uses PostgreSQL with the following main tables:
 
 **Backend (.env):**
 ```env
-DATABASE_URL=postgresql://shield_user:shield_pass_2024@localhost:5432/shield_db
+DATABASE_URL=postgresql://shield_user:shield_pass_2025@localhost:5432/shield_db
 REDIS_URL=redis://localhost:6379
 ELASTICSEARCH_URL=http://localhost:9200
 SECRET_KEY=your-secret-key-change-in-production
@@ -265,14 +265,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🎯 Roadmap
 
-### Version 2.0 (Q2 2024)
+### Version 2.0 (Q2 2025)
 - [ ] AI-powered threat detection
 - [ ] Advanced analytics dashboard
 - [ ] Mobile application
 - [ ] Integration marketplace
 - [ ] Custom playbook automation
 
-### Version 2.1 (Q3 2024)
+### Version 2.1 (Q3 2025)
 - [ ] Multi-tenant support
 - [ ] Advanced reporting engine
 - [ ] Threat intelligence feeds
@@ -295,6 +295,6 @@ Developed by the iTechSmart Security Team
 **Market Value**: $1M - $2M  
 **Status**: Production Ready  
 **Version**: 1.0.0  
-**Last Updated**: January 2024
+**Last Updated**: January 2025
 
 For more information, visit [itechsmart.dev](https://itechsmart.dev)

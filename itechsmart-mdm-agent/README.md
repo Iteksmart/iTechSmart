@@ -574,7 +574,7 @@ POST /api/deployments/deploy
 **Response:**
 ```json
 {
-  "deployment_id": "legalai-pro-production-20241212143022",
+  "deployment_id": "legalai-pro-production-20251212143022",
   "status": "success",
   "steps": [...],
   "duration": 120

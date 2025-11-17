@@ -147,7 +147,7 @@ iTechSmart: Create Dashboard
 ```json
 {
   "title": "Monthly Sales",
-  "description": "Sales data for Q1 2024",
+  "description": "Sales data for Q1 2025",
   "theme": "light",
   "width": 800,
   "height": 600,

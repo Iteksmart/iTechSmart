@@ -621,7 +621,7 @@ Please have ready:
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** November 16, 2024  
+**Last Updated:** November 16, 2025  
 **For:** iTechSmart Suite v1.0.0
 
 For the latest documentation, visit: https://docs.itechsmart.com

@@ -54,7 +54,7 @@ This guide provides detailed information about all 25 features in your personal 
 ```python
 # Research a topic
 {
-  "topic": "Latest AI trends in 2024",
+  "topic": "Latest AI trends in 2025",
   "depth": "comprehensive",
   "sources": ["academic", "industry", "news"]
 }
@@ -418,8 +418,8 @@ This guide provides detailed information about all 25 features in your personal 
 # Create event
 {
   "title": "Team Meeting",
-  "start": "2024-01-15T10:00:00Z",
-  "end": "2024-01-15T11:00:00Z",
+  "start": "2025-01-15T10:00:00Z",
+  "end": "2025-01-15T11:00:00Z",
   "recurring": "weekly",
   "reminder": 15
 }

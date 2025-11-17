@@ -550,7 +550,7 @@ find $BACKUP_DIR -name "backup_*.json" -mtime +30 -delete
 ls -lh /backups/port-manager/
 
 # Restore from backup
-curl -X POST "http://localhost:8100/api/ports/restore?backup_file=/backups/port-manager/backup_20241212_020000.json"
+curl -X POST "http://localhost:8100/api/ports/restore?backup_file=/backups/port-manager/backup_20251212_020000.json"
 ```
 
 ---

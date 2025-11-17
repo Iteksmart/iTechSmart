@@ -458,7 +458,7 @@ Hub maintains registry of all services:
     {
       "service_id": "itechsmart-hl7:main",
       "status": "active",
-      "last_heartbeat": "2024-01-15T10:30:00Z"
+      "last_heartbeat": "2025-01-15T10:30:00Z"
     }
   ]
 }
@@ -472,7 +472,7 @@ All events are logged:
 {
   "event_type": "service.registered",
   "source_service": "itechsmart-hl7",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-01-15T10:30:00Z",
   "processed": true
 }
 ```
@@ -487,7 +487,7 @@ All service calls are tracked:
   "target_service": "itechsmart-prooflink",
   "endpoint": "/api/documents/verify",
   "success": true,
-  "timestamp": "2024-01-15T10:30:00Z"
+  "timestamp": "2025-01-15T10:30:00Z"
 }
 ```
 

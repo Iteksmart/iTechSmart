@@ -129,7 +129,7 @@
 │  Repository:     https://github.com/Iteksmart/iTechSmart                    │
 │  Latest Commit:  6ed6278                                                    │
 │  Branch:         main                                                       │
-│  Last Updated:   November 16, 2024 16:23 UTC                                │
+│  Last Updated:   November 16, 2025 16:23 UTC                                │
 │                                                                              │
 │  License Server: /license-server                                            │
 │  Desktop Launcher: /desktop-launcher                                        │

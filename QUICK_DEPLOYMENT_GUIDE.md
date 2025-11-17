@@ -474,5 +474,5 @@ Once deployed, you should see:
 ---
 
 *Quick Deployment Guide - iTechSmart Portfolio*  
-*Last Updated: November 12, 2024*  
+*Last Updated: November 12, 2025*  
 *For detailed instructions, see project-specific README files*
