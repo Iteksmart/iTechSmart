@@ -12,6 +12,7 @@ from typing import Dict, Any
 
 # Import API routers
 from ..api.service_catalog import router as service_catalog_router
+from .routers.system_agents import router as system_agents_router
 
 # Configure logging
 logging.basicConfig(
@@ -51,6 +52,7 @@ app.add_middleware(
 
 # Include routers
 app.include_router(service_catalog_router)
+app.include_router(system_agents_router, prefix="/api/v1/system-agents", tags=["System Agents"])
 
 
 # Health check endpoint
