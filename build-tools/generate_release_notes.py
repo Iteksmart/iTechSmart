@@ -11,95 +11,117 @@ from pathlib import Path
 from datetime import datetime
 from typing import List, Dict
 
+
 class ReleaseNotesGenerator:
     """Generate release notes for iTechSmart Suite"""
-    
+
     def __init__(self, version: str):
         self.version = version
         self.workspace = Path.cwd()
-        
+
     def get_git_commits(self, since_tag: str = None) -> List[Dict]:
         """Get git commits since last tag"""
         try:
             if since_tag:
-                cmd = ['git', 'log', f'{since_tag}..HEAD', '--pretty=format:%H|%an|%ae|%ad|%s', '--date=short']
+                cmd = [
+                    "git",
+                    "log",
+                    f"{since_tag}..HEAD",
+                    "--pretty=format:%H|%an|%ae|%ad|%s",
+                    "--date=short",
+                ]
             else:
-                cmd = ['git', 'log', '--pretty=format:%H|%an|%ae|%ad|%s', '--date=short', '-n', '50']
-            
+                cmd = [
+                    "git",
+                    "log",
+                    "--pretty=format:%H|%an|%ae|%ad|%s",
+                    "--date=short",
+                    "-n",
+                    "50",
+                ]
+
             output = subprocess.check_output(cmd, text=True)
-            
+
             commits = []
-            for line in output.strip().split('\n'):
+            for line in output.strip().split("\n"):
                 if line:
-                    parts = line.split('|')
+                    parts = line.split("|")
                     if len(parts) == 5:
-                        commits.append({
-                            'hash': parts[0][:8],
-                            'author': parts[1],
-                            'email': parts[2],
-                            'date': parts[3],
-                            'message': parts[4]
-                        })
-            
+                        commits.append(
+                            {
+                                "hash": parts[0][:8],
+                                "author": parts[1],
+                                "email": parts[2],
+                                "date": parts[3],
+                                "message": parts[4],
+                            }
+                        )
+
             return commits
-            
+
         except subprocess.CalledProcessError:
             return []
-    
+
     def get_last_tag(self) -> str:
         """Get the last git tag"""
         try:
-            output = subprocess.check_output(['git', 'describe', '--tags', '--abbrev=0'], text=True)
+            output = subprocess.check_output(
+                ["git", "describe", "--tags", "--abbrev=0"], text=True
+            )
             return output.strip()
         except subprocess.CalledProcessError:
             return None
-    
+
     def categorize_commits(self, commits: List[Dict]) -> Dict[str, List[Dict]]:
         """Categorize commits by type"""
         categories = {
-            'features': [],
-            'fixes': [],
-            'improvements': [],
-            'security': [],
-            'documentation': [],
-            'other': []
+            "features": [],
+            "fixes": [],
+            "improvements": [],
+            "security": [],
+            "documentation": [],
+            "other": [],
         }
-        
+
         for commit in commits:
-            message = commit['message'].lower()
-            
-            if any(word in message for word in ['feat', 'feature', 'add', 'new']):
-                categories['features'].append(commit)
-            elif any(word in message for word in ['fix', 'bug', 'resolve', 'patch']):
-                categories['fixes'].append(commit)
-            elif any(word in message for word in ['improve', 'enhance', 'optimize', 'update']):
-                categories['improvements'].append(commit)
-            elif any(word in message for word in ['security', 'vulnerability', 'cve']):
-                categories['security'].append(commit)
-            elif any(word in message for word in ['doc', 'readme', 'documentation']):
-                categories['documentation'].append(commit)
+            message = commit["message"].lower()
+
+            if any(word in message for word in ["feat", "feature", "add", "new"]):
+                categories["features"].append(commit)
+            elif any(word in message for word in ["fix", "bug", "resolve", "patch"]):
+                categories["fixes"].append(commit)
+            elif any(
+                word in message for word in ["improve", "enhance", "optimize", "update"]
+            ):
+                categories["improvements"].append(commit)
+            elif any(word in message for word in ["security", "vulnerability", "cve"]):
+                categories["security"].append(commit)
+            elif any(word in message for word in ["doc", "readme", "documentation"]):
+                categories["documentation"].append(commit)
             else:
-                categories['other'].append(commit)
-        
+                categories["other"].append(commit)
+
         return categories
-    
+
     def get_product_list(self) -> List[str]:
         """Get list of products"""
         products = []
         for item in self.workspace.iterdir():
-            if item.is_dir() and (item.name.startswith('itechsmart-') or 
-                                 item.name.endswith('-ai') or 
-                                 item.name in ['prooflink', 'passport', 'legalai-pro']):
+            if item.is_dir() and (
+                item.name.startswith("itechsmart-")
+                or item.name.endswith("-ai")
+                or item.name in ["prooflink", "passport", "legalai-pro"]
+            ):
                 products.append(item.name)
         return sorted(products)
-    
+
     def generate_markdown(self) -> str:
         """Generate release notes in Markdown format"""
         last_tag = self.get_last_tag()
         commits = self.get_git_commits(last_tag)
         categorized = self.categorize_commits(commits)
         products = self.get_product_list()
-        
+
         notes = f"""# iTechSmart Suite v{self.version}
 
 **Release Date:** {datetime.now().strftime('%B %d, %Y')}
@@ -111,46 +133,46 @@ This release includes updates across the entire iTechSmart Suite with {len(commi
 ## What's New
 
 """
-        
+
         # Features
-        if categorized['features']:
+        if categorized["features"]:
             notes += "### ✨ New Features\n\n"
-            for commit in categorized['features'][:10]:
+            for commit in categorized["features"][:10]:
                 notes += f"- {commit['message']} ({commit['hash']})\n"
             notes += "\n"
-        
+
         # Improvements
-        if categorized['improvements']:
+        if categorized["improvements"]:
             notes += "### 🚀 Improvements\n\n"
-            for commit in categorized['improvements'][:10]:
+            for commit in categorized["improvements"][:10]:
                 notes += f"- {commit['message']} ({commit['hash']})\n"
             notes += "\n"
-        
+
         # Bug Fixes
-        if categorized['fixes']:
+        if categorized["fixes"]:
             notes += "### 🐛 Bug Fixes\n\n"
-            for commit in categorized['fixes'][:10]:
+            for commit in categorized["fixes"][:10]:
                 notes += f"- {commit['message']} ({commit['hash']})\n"
             notes += "\n"
-        
+
         # Security
-        if categorized['security']:
+        if categorized["security"]:
             notes += "### 🔒 Security Updates\n\n"
-            for commit in categorized['security']:
+            for commit in categorized["security"]:
                 notes += f"- {commit['message']} ({commit['hash']})\n"
             notes += "\n"
-        
+
         # Products
         notes += f"""## Included Products
 
 This release includes {len(products)} products:
 
 """
-        
+
         for product in products:
-            product_name = product.replace('-', ' ').title()
+            product_name = product.replace("-", " ").title()
             notes += f"- **{product_name}**\n"
-        
+
         notes += """
 
 ## Installation
@@ -225,15 +247,15 @@ If upgrading from a previous version:
 Thank you to all contributors who made this release possible!
 
 """
-        
+
         # Add unique contributors
         contributors = set()
         for commit in commits:
             contributors.add(f"{commit['author']} <{commit['email']}>")
-        
+
         for contributor in sorted(contributors):
             notes += f"- {contributor}\n"
-        
+
         notes += f"""
 
 ---
@@ -242,9 +264,9 @@ Thank you to all contributors who made this release possible!
 
 © 2025 iTechSmart. All rights reserved.
 """
-        
+
         return notes
-    
+
     def run(self):
         """Generate and output release notes"""
         notes = self.generate_markdown()
@@ -256,7 +278,7 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python generate_release_notes.py <version>")
         sys.exit(1)
-    
+
     version = sys.argv[1]
     generator = ReleaseNotesGenerator(version)
     generator.run()

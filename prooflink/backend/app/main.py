@@ -21,7 +21,7 @@ from app.core.exceptions import ProofLinkException
 # Configure logging
 logging.basicConfig(
     level=getattr(logging, settings.LOG_LEVEL),
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
 logger = logging.getLogger(__name__)
 
@@ -33,16 +33,16 @@ async def lifespan(app: FastAPI):
     logger.info("🚀 Starting ProofLink.AI - The World's Trust Layer")
     logger.info(f"Environment: {settings.APP_ENV}")
     logger.info(f"Debug Mode: {settings.APP_DEBUG}")
-    
+
     # Create database tables
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-    
+
     logger.info("✅ Database tables created")
     logger.info("✅ ProofLink.AI is ready!")
-    
+
     yield
-    
+
     # Shutdown
     logger.info("👋 Shutting down ProofLink.AI")
     await engine.dispose()
@@ -64,7 +64,7 @@ app = FastAPI(
         {"name": "payments", "description": "Subscription and payments"},
         {"name": "mcp", "description": "MCP server operations"},
         {"name": "ai", "description": "AI verification services"},
-    ]
+    ],
 )
 
 # Add CORS middleware
@@ -100,8 +100,8 @@ async def prooflink_exception_handler(request: Request, exc: ProofLinkException)
         content={
             "error": exc.error_code,
             "message": exc.message,
-            "details": exc.details
-        }
+            "details": exc.details,
+        },
     )
 
 
@@ -114,8 +114,8 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={
             "error": "INTERNAL_SERVER_ERROR",
             "message": "An unexpected error occurred",
-            "details": str(exc) if settings.APP_DEBUG else None
-        }
+            "details": str(exc) if settings.APP_DEBUG else None,
+        },
     )
 
 
@@ -127,7 +127,7 @@ async def health_check() -> Dict[str, Any]:
         "status": "healthy",
         "service": "ProofLink.AI",
         "version": "1.0.0",
-        "environment": settings.APP_ENV
+        "environment": settings.APP_ENV,
     }
 
 
@@ -141,7 +141,7 @@ async def root() -> Dict[str, Any]:
         "description": "Verify anything digital in seconds - no blockchain, no nonsense",
         "version": "1.0.0",
         "docs": f"{settings.API_URL}/docs",
-        "status": "operational"
+        "status": "operational",
     }
 
 
@@ -151,10 +151,11 @@ app.include_router(api_router, prefix="/api/v1")
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(
         "app.main:app",
         host="0.0.0.0",
         port=8000,
         reload=settings.APP_DEBUG,
-        log_level=settings.LOG_LEVEL.lower()
+        log_level=settings.LOG_LEVEL.lower(),
     )

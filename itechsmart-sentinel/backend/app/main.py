@@ -20,39 +20,39 @@ async def lifespan(app: FastAPI):
     """
     # Startup
     print("🚀 Starting iTechSmart Sentinel...")
-    
+
     # Initialize database
     init_db()
     print("✅ Database initialized")
-    
+
     # Initialize integrations
     try:
         from app.integrations.hub_integration import hub_client
         from app.integrations.ninja_integration import ninja_client
-        
+
         await hub_client.initialize()
         await ninja_client.initialize()
         print("✅ Suite integrations initialized")
     except Exception as e:
         print(f"⚠️  Suite integrations not available: {e}")
-    
+
     print("✅ iTechSmart Sentinel is ready!")
-    
+
     yield
-    
+
     # Shutdown
     print("🛑 Shutting down iTechSmart Sentinel...")
-    
+
     try:
         from app.integrations.hub_integration import hub_client
         from app.integrations.ninja_integration import ninja_client
-        
+
         await hub_client.shutdown()
         await ninja_client.shutdown()
         print("✅ Suite integrations shut down")
     except Exception as e:
         print(f"⚠️  Error during shutdown: {e}")
-    
+
     print("👋 iTechSmart Sentinel stopped")
 
 
@@ -73,7 +73,7 @@ app = FastAPI(
     **Part of the iTechSmart Suite** - Fully integrated with all 30+ products
     """,
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # CORS middleware
@@ -108,7 +108,7 @@ async def root():
             "Smart Alerting",
             "Log Aggregation",
             "Incident Management",
-            "SLO Tracking"
+            "SLO Tracking",
         ],
         "endpoints": {
             "tracing": "/api/tracing",
@@ -117,19 +117,15 @@ async def root():
             "incidents": "/api/incidents",
             "slo": "/api/slo",
             "docs": "/docs",
-            "health": "/health"
-        }
+            "health": "/health",
+        },
     }
 
 
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
-    return {
-        "status": "healthy",
-        "service": "iTechSmart Sentinel",
-        "version": "1.0.0"
-    }
+    return {"status": "healthy", "service": "iTechSmart Sentinel", "version": "1.0.0"}
 
 
 @app.get("/suite-info")
@@ -138,7 +134,7 @@ async def suite_info():
     try:
         from app.integrations.hub_integration import hub_client
         from app.integrations.ninja_integration import ninja_client
-        
+
         return {
             "suite_member": True,
             "product_name": "iTechSmart Sentinel",
@@ -150,8 +146,8 @@ async def suite_info():
                 "Smart Alerting",
                 "Log Aggregation",
                 "Incident Management",
-                "SLO Tracking"
-            ]
+                "SLO Tracking",
+            ],
         }
     except Exception as e:
         return {
@@ -160,18 +156,13 @@ async def suite_info():
             "product_number": 31,
             "hub_connected": False,
             "ninja_connected": False,
-            "error": str(e)
+            "error": str(e),
         }
 
 
 if __name__ == "__main__":
     import uvicorn
-    
+
     port = int(os.getenv("PORT", "8310"))
-    
-    uvicorn.run(
-        "main:app",
-        host="0.0.0.0",
-        port=port,
-        reload=True
-    )
+
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)

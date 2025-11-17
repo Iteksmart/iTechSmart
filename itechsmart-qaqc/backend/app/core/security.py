@@ -1,6 +1,7 @@
 """
 Security utilities for iTechSmart QA/QC System
 """
+
 from datetime import datetime, timedelta
 from typing import Optional, Dict, Any
 from jose import JWTError, jwt
@@ -31,14 +32,16 @@ def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
 
 
-def create_access_token(data: Dict[str, Any], expires_delta: Optional[timedelta] = None) -> str:
+def create_access_token(
+    data: Dict[str, Any], expires_delta: Optional[timedelta] = None
+) -> str:
     """
     Create a JWT access token
-    
+
     Args:
         data: Data to encode in the token
         expires_delta: Optional expiration time delta
-        
+
     Returns:
         Encoded JWT token
     """
@@ -47,7 +50,7 @@ def create_access_token(data: Dict[str, Any], expires_delta: Optional[timedelta]
         expire = datetime.utcnow() + expires_delta
     else:
         expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    
+
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
@@ -56,13 +59,13 @@ def create_access_token(data: Dict[str, Any], expires_delta: Optional[timedelta]
 def decode_access_token(token: str) -> Dict[str, Any]:
     """
     Decode and verify a JWT access token
-    
+
     Args:
         token: JWT token to decode
-        
+
     Returns:
         Decoded token data
-        
+
     Raises:
         HTTPException: If token is invalid or expired
     """
@@ -80,13 +83,13 @@ def decode_access_token(token: str) -> Dict[str, Any]:
 async def get_current_user(token: str = Depends(oauth2_scheme)) -> Dict[str, Any]:
     """
     Get current user from JWT token
-    
+
     Args:
         token: JWT token from request
-        
+
     Returns:
         User data from token
-        
+
     Raises:
         HTTPException: If token is invalid
     """
@@ -104,10 +107,10 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> Dict[str, Any
 def verify_api_key(api_key: str) -> bool:
     """
     Verify an API key
-    
+
     Args:
         api_key: API key to verify
-        
+
     Returns:
         True if valid, False otherwise
     """
@@ -119,13 +122,13 @@ def verify_api_key(api_key: str) -> bool:
 async def get_api_key(api_key: str = Depends(oauth2_scheme)) -> str:
     """
     Validate API key from request
-    
+
     Args:
         api_key: API key from request header
-        
+
     Returns:
         Validated API key
-        
+
     Raises:
         HTTPException: If API key is invalid
     """

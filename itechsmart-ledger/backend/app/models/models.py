@@ -1,8 +1,20 @@
-from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, Text, ForeignKey, JSON, Enum as SQLEnum
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Float,
+    Boolean,
+    DateTime,
+    Text,
+    ForeignKey,
+    JSON,
+    Enum as SQLEnum,
+)
 from sqlalchemy.orm import relationship
 from database import Base
 from datetime import datetime
 import enum
+
 
 class BlockchainNetwork(str, enum.Enum):
     ETHEREUM = "ethereum"
@@ -11,16 +23,19 @@ class BlockchainNetwork(str, enum.Enum):
     BINANCE = "binance"
     SOLANA = "solana"
 
+
 class TransactionStatus(str, enum.Enum):
     PENDING = "pending"
     CONFIRMED = "confirmed"
     FAILED = "failed"
     CANCELLED = "cancelled"
 
+
 class WalletType(str, enum.Enum):
     HOT = "hot"
     COLD = "cold"
     MULTISIG = "multisig"
+
 
 class ContractStatus(str, enum.Enum):
     DRAFT = "draft"
@@ -28,10 +43,11 @@ class ContractStatus(str, enum.Enum):
     VERIFIED = "verified"
     DEPRECATED = "deprecated"
 
+
 # User Model
 class User(Base):
     __tablename__ = "users"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String(255), unique=True, index=True, nullable=False)
     username = Column(String(100), unique=True, index=True, nullable=False)
@@ -41,16 +57,17 @@ class User(Base):
     is_admin = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     # Relationships
     wallets = relationship("Wallet", back_populates="user")
     transactions = relationship("Transaction", back_populates="user")
     smart_contracts = relationship("SmartContract", back_populates="user")
 
+
 # Wallet Model
 class Wallet(Base):
     __tablename__ = "wallets"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     name = Column(String(255), nullable=False)
@@ -63,16 +80,25 @@ class Wallet(Base):
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     # Relationships
     user = relationship("User", back_populates="wallets")
-    sent_transactions = relationship("Transaction", foreign_keys="Transaction.from_wallet_id", back_populates="from_wallet")
-    received_transactions = relationship("Transaction", foreign_keys="Transaction.to_wallet_id", back_populates="to_wallet")
+    sent_transactions = relationship(
+        "Transaction",
+        foreign_keys="Transaction.from_wallet_id",
+        back_populates="from_wallet",
+    )
+    received_transactions = relationship(
+        "Transaction",
+        foreign_keys="Transaction.to_wallet_id",
+        back_populates="to_wallet",
+    )
+
 
 # Transaction Model
 class Transaction(Base):
     __tablename__ = "transactions"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     from_wallet_id = Column(Integer, ForeignKey("wallets.id"))
@@ -94,16 +120,21 @@ class Transaction(Base):
     error_message = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
     confirmed_at = Column(DateTime)
-    
+
     # Relationships
     user = relationship("User", back_populates="transactions")
-    from_wallet = relationship("Wallet", foreign_keys=[from_wallet_id], back_populates="sent_transactions")
-    to_wallet = relationship("Wallet", foreign_keys=[to_wallet_id], back_populates="received_transactions")
+    from_wallet = relationship(
+        "Wallet", foreign_keys=[from_wallet_id], back_populates="sent_transactions"
+    )
+    to_wallet = relationship(
+        "Wallet", foreign_keys=[to_wallet_id], back_populates="received_transactions"
+    )
+
 
 # Smart Contract Model
 class SmartContract(Base):
     __tablename__ = "smart_contracts"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     name = Column(String(255), nullable=False)
@@ -119,15 +150,16 @@ class SmartContract(Base):
     is_verified = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     deployed_at = Column(DateTime)
-    
+
     # Relationships
     user = relationship("User", back_populates="smart_contracts")
     interactions = relationship("ContractInteraction", back_populates="contract")
 
+
 # Contract Interaction Model
 class ContractInteraction(Base):
     __tablename__ = "contract_interactions"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     contract_id = Column(Integer, ForeignKey("smart_contracts.id"), nullable=False)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
@@ -139,14 +171,15 @@ class ContractInteraction(Base):
     result = Column(JSON)
     error_message = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
-    
+
     # Relationships
     contract = relationship("SmartContract", back_populates="interactions")
+
 
 # Block Model
 class Block(Base):
     __tablename__ = "blocks"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     network = Column(SQLEnum(BlockchainNetwork), nullable=False)
     block_number = Column(Integer, nullable=False, index=True)
@@ -163,10 +196,11 @@ class Block(Base):
     extra_data = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 # Token Model
 class Token(Base):
     __tablename__ = "tokens"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     network = Column(SQLEnum(BlockchainNetwork), nullable=False)
     contract_address = Column(String(255), unique=True, index=True, nullable=False)
@@ -179,20 +213,22 @@ class Token(Base):
     is_verified = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 # Token Balance Model
 class TokenBalance(Base):
     __tablename__ = "token_balances"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     wallet_id = Column(Integer, ForeignKey("wallets.id"), nullable=False)
     token_id = Column(Integer, ForeignKey("tokens.id"), nullable=False)
     balance = Column(String(100), default="0")
     last_updated = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+
 # Network Configuration Model
 class NetworkConfig(Base):
     __tablename__ = "network_configs"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     network = Column(SQLEnum(BlockchainNetwork), unique=True, nullable=False)
     rpc_url = Column(String(500), nullable=False)
@@ -204,10 +240,11 @@ class NetworkConfig(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+
 # API Key Model
 class APIKey(Base):
     __tablename__ = "api_keys"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     name = Column(String(255), nullable=False)
@@ -219,10 +256,11 @@ class APIKey(Base):
     last_used_at = Column(DateTime)
     expires_at = Column(DateTime)
 
+
 # Audit Log Model
 class AuditLog(Base):
     __tablename__ = "audit_logs"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     action = Column(String(100), nullable=False)

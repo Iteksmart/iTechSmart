@@ -1,7 +1,7 @@
 import re
 
 # Read the database models file
-with open('itechsmart-ninja/backend/app/models/database.py', 'r') as f:
+with open("itechsmart-ninja/backend/app/models/database.py", "r") as f:
     content = f.read()
 
 # Add DebugSession model before the last class
@@ -27,12 +27,11 @@ class DebugSession(Base):
 
 # Insert before the last class (VideoGeneration)
 content = content.replace(
-    'class VideoGeneration(Base):',
-    debug_model + '\n\nclass VideoGeneration(Base):'
+    "class VideoGeneration(Base):", debug_model + "\n\nclass VideoGeneration(Base):"
 )
 
 # Write back
-with open('itechsmart-ninja/backend/app/models/database.py', 'w') as f:
+with open("itechsmart-ninja/backend/app/models/database.py", "w") as f:
     f.write(content)
 
 print("Added DebugSession model to database.py")

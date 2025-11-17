@@ -13,9 +13,9 @@ setup(
         "rich>=13.6.0",
     ],
     entry_points={
-        'console_scripts': [
-            'itechsmart-supreme=itechsmart_supreme.cli.commands:cli',
+        "console_scripts": [
+            "itechsmart-supreme=itechsmart_supreme.cli.commands:cli",
         ],
     },
-    python_requires='>=3.11',
+    python_requires=">=3.11",
 )

@@ -5,7 +5,9 @@ import redis
 import os
 
 # Database Configuration
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://ledger_user:ledger_pass@localhost:5432/ledger_db")
+DATABASE_URL = os.getenv(
+    "DATABASE_URL", "postgresql://ledger_user:ledger_pass@localhost:5432/ledger_db"
+)
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 
 # SQLAlchemy Setup
@@ -16,6 +18,7 @@ Base = declarative_base()
 # Redis Setup
 redis_client = redis.from_url(REDIS_URL, decode_responses=True)
 
+
 # Dependency
 def get_db():
     db = SessionLocal()
@@ -23,6 +26,7 @@ def get_db():
         yield db
     finally:
         db.close()
+
 
 def get_redis():
     return redis_client

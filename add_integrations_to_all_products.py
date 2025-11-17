@@ -32,7 +32,7 @@ PRODUCTS = [
     "itechsmart-compliance",
     "itechsmart-devops",
     "itechsmart-customer-success",
-    "itechsmart-data-platform"
+    "itechsmart-data-platform",
 ]
 
 INTEGRATION_CODE = '''
@@ -275,18 +275,18 @@ def add_integration_to_product(product_path: str):
         # Create integrations directory if it doesn't exist
         integrations_dir = Path(product_path) / "backend" / "app" / "integrations"
         integrations_dir.mkdir(parents=True, exist_ok=True)
-        
+
         # Create __init__.py
         init_file = integrations_dir / "__init__.py"
         init_file.write_text("")
-        
+
         # Create integration.py
         integration_file = integrations_dir / "integration.py"
         integration_file.write_text(INTEGRATION_CODE)
-        
+
         print(f"✅ Added integration to {product_path}")
         return True
-        
+
     except Exception as e:
         print(f"❌ Error adding integration to {product_path}: {e}")
         return False
@@ -298,13 +298,13 @@ def main():
     print("Adding Hub and Ninja Integration to All Products")
     print("=" * 60)
     print()
-    
+
     success_count = 0
     fail_count = 0
-    
+
     for product in PRODUCTS:
         product_path = Path("/workspace") / product
-        
+
         if product_path.exists():
             if add_integration_to_product(str(product_path)):
                 success_count += 1
@@ -313,7 +313,7 @@ def main():
         else:
             print(f"⚠️  Product directory not found: {product}")
             fail_count += 1
-    
+
     print()
     print("=" * 60)
     print(f"Integration Addition Complete")

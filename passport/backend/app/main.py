@@ -1,6 +1,7 @@
 """
 Main FastAPI application.
 """
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -8,6 +9,7 @@ from contextlib import asynccontextmanager
 from .core.config import settings
 from .db.database import init_db, close_db
 from .api.v1 import auth, passwords
+
 
 # Lifespan context manager
 @asynccontextmanager
@@ -25,7 +27,7 @@ app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
     description="The One Login for Your Entire Life - AI-managed MCP identity vault",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # CORS middleware
@@ -46,8 +48,8 @@ async def global_exception_handler(request: Request, exc: Exception):
         status_code=500,
         content={
             "detail": "Internal server error",
-            "message": str(exc) if settings.DEBUG else "An error occurred"
-        }
+            "message": str(exc) if settings.DEBUG else "An error occurred",
+        },
     )
 
 
@@ -59,7 +61,7 @@ async def health_check():
         "status": "healthy",
         "app": settings.APP_NAME,
         "version": settings.APP_VERSION,
-        "environment": settings.ENVIRONMENT
+        "environment": settings.ENVIRONMENT,
     }
 
 
@@ -71,56 +73,44 @@ async def root():
         "message": "Welcome to iTechSmart PassPort API",
         "version": settings.APP_VERSION,
         "docs": "/docs",
-        "health": "/health"
+        "health": "/health",
     }
 
 
 # Include routers
 app.include_router(
-    auth.router,
-    prefix=f"{settings.API_V1_PREFIX}/auth",
-    tags=["Authentication"]
+    auth.router, prefix=f"{settings.API_V1_PREFIX}/auth", tags=["Authentication"]
 )
 
 app.include_router(
-    passwords.router,
-    prefix=f"{settings.API_V1_PREFIX}/passwords",
-    tags=["Passwords"]
+    passwords.router, prefix=f"{settings.API_V1_PREFIX}/passwords", tags=["Passwords"]
 )
 
 # Import additional routers
 from .api.v1 import users, api_keys, sharing, emergency
 
 app.include_router(
-    users.router,
-    prefix=f"{settings.API_V1_PREFIX}/users",
-    tags=["Users"]
+    users.router, prefix=f"{settings.API_V1_PREFIX}/users", tags=["Users"]
 )
 
 app.include_router(
-    api_keys.router,
-    prefix=f"{settings.API_V1_PREFIX}/api-keys",
-    tags=["API Keys"]
+    api_keys.router, prefix=f"{settings.API_V1_PREFIX}/api-keys", tags=["API Keys"]
 )
 
 app.include_router(
-    sharing.router,
-    prefix=f"{settings.API_V1_PREFIX}/sharing",
-    tags=["Sharing"]
+    sharing.router, prefix=f"{settings.API_V1_PREFIX}/sharing", tags=["Sharing"]
 )
 
 app.include_router(
     emergency.router,
     prefix=f"{settings.API_V1_PREFIX}/emergency",
-    tags=["Emergency Access"]
+    tags=["Emergency Access"],
 )
 
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(
-        "app.main:app",
-        host=settings.HOST,
-        port=settings.PORT,
-        reload=settings.DEBUG
+        "app.main:app", host=settings.HOST, port=settings.PORT, reload=settings.DEBUG
     )

@@ -1,5 +1,5 @@
 # Read the file
-with open('itechsmart-ninja/vscode-extension/src/terminal/panel.ts', 'r') as f:
+with open("itechsmart-ninja/vscode-extension/src/terminal/panel.ts", "r") as f:
     content = f.read()
 
 # Find the Data Visualization section and add Document Processing section after it
@@ -66,7 +66,7 @@ new_examples = """   Examples:
 content = content.replace(old_examples, new_examples)
 
 # Write back
-with open('itechsmart-ninja/vscode-extension/src/terminal/panel.ts', 'w') as f:
+with open("itechsmart-ninja/vscode-extension/src/terminal/panel.ts", "w") as f:
     f.write(content)
 
 print("✓ Help text updated with document commands")

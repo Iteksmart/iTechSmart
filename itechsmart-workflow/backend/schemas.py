@@ -79,7 +79,9 @@ class WorkflowBase(BaseModel):
 
 
 class WorkflowCreate(WorkflowBase):
-    definition: Dict[str, Any] = Field(..., description="Workflow definition with nodes and edges")
+    definition: Dict[str, Any] = Field(
+        ..., description="Workflow definition with nodes and edges"
+    )
     status: Optional[WorkflowStatusEnum] = WorkflowStatusEnum.DRAFT
 
 

@@ -13,8 +13,7 @@ from .api import ai_models, ai_predictions, ai_insights, ai_quality, agents
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -26,9 +25,9 @@ async def lifespan(app: FastAPI):
     logger.info("Starting iTechSmart Analytics...")
     init_db()
     logger.info("Database initialized")
-    
+
     yield
-    
+
     # Shutdown
     logger.info("Shutting down iTechSmart Analytics...")
 
@@ -38,7 +37,7 @@ app = FastAPI(
     title="iTechSmart Analytics",
     description="ML-Powered Analytics Platform with AI Insights - Part of iTechSmart Suite",
     version="1.1.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # CORS middleware
@@ -83,33 +82,30 @@ def root():
             "Dashboard Builder (12 widget types)",
             "Data Ingestion (100+ connectors)",
             "Report Generator (5 formats)",
-            "Real-time Analytics"
+            "Real-time Analytics",
         ],
         "endpoints": {
             "ai_models": "/api/v1/ai/models",
             "ai_predictions": "/api/v1/ai/predictions",
             "ai_insights": "/api/v1/ai/insights",
             "ai_quality": "/api/v1/ai/quality",
-               "agents": "/api/v1/agents",
+            "agents": "/api/v1/agents",
             "analytics": "/api/analytics",
             "dashboards": "/api/dashboards",
             "reports": "/api/reports",
             "data": "/api/data",
-            "docs": "/docs"
-        }
+            "docs": "/docs",
+        },
     }
 
 
 @app.get("/health")
 def health_check():
     """Health check endpoint"""
-    return {
-        "status": "healthy",
-        "service": "iTechSmart Analytics",
-        "version": "1.1.0"
-    }
+    return {"status": "healthy", "service": "iTechSmart Analytics", "version": "1.1.0"}
 
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8003)

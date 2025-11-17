@@ -14,17 +14,19 @@ from app.api.compliance_center import router as compliance_center_router
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("Starting iTechSmart Compliance with Compliance Center...")
     yield
     logger.info("Shutting down iTechSmart Compliance...")
 
+
 app = FastAPI(
     title="iTechSmart Compliance",
     description="Regulatory Compliance Tracking and Management Platform with Multi-Framework Support",
     version="1.1.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 app.add_middleware(
@@ -37,6 +39,7 @@ app.add_middleware(
 
 # Include routers
 app.include_router(compliance_center_router)
+
 
 @app.get("/")
 def root():
@@ -53,14 +56,17 @@ def root():
             "Assessment and audit workflows",
             "Gap analysis and reporting",
             "Policy document management",
-            "Audit trail tracking"
-        ]
+            "Audit trail tracking",
+        ],
     }
+
 
 @app.get("/health")
 def health_check():
     return {"status": "healthy", "service": "iTechSmart Compliance", "version": "1.1.0"}
 
+
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8019)

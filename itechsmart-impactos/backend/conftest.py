@@ -22,17 +22,11 @@ from app.core.security import get_password_hash
 TEST_DATABASE_URL = "postgresql+asyncpg://test:test@localhost:5432/impactos_test"
 
 # Create test engine
-test_engine = create_async_engine(
-    TEST_DATABASE_URL,
-    poolclass=NullPool,
-    echo=False
-)
+test_engine = create_async_engine(TEST_DATABASE_URL, poolclass=NullPool, echo=False)
 
 # Create test session maker
 TestSessionLocal = async_sessionmaker(
-    test_engine,
-    class_=AsyncSession,
-    expire_on_commit=False
+    test_engine, class_=AsyncSession, expire_on_commit=False
 )
 
 
@@ -49,10 +43,10 @@ async def db_session() -> AsyncGenerator[AsyncSession, None]:
     """Create test database session"""
     async with test_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-    
+
     async with TestSessionLocal() as session:
         yield session
-    
+
     async with test_engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
 
@@ -60,14 +54,15 @@ async def db_session() -> AsyncGenerator[AsyncSession, None]:
 @pytest.fixture(scope="function")
 async def client(db_session: AsyncSession) -> AsyncGenerator[AsyncClient, None]:
     """Create test client"""
+
     async def override_get_db():
         yield db_session
-    
+
     app.dependency_overrides[get_db] = override_get_db
-    
+
     async with AsyncClient(app=app, base_url="http://test") as ac:
         yield ac
-    
+
     app.dependency_overrides.clear()
 
 
@@ -79,7 +74,7 @@ async def test_organization(db_session: AsyncSession) -> Organization:
         ein="12-3456789",
         mission="Help communities",
         website="https://test.org",
-        is_active=True
+        is_active=True,
     )
     db_session.add(org)
     await db_session.commit()
@@ -97,7 +92,7 @@ async def test_user(db_session: AsyncSession, test_organization: Organization) -
         organization_id=test_organization.id,
         role="admin",
         is_active=True,
-        is_verified=True
+        is_verified=True,
     )
     db_session.add(user)
     await db_session.commit()
@@ -116,7 +111,7 @@ async def test_admin(db_session: AsyncSession, test_organization: Organization) 
         role="owner",
         is_active=True,
         is_verified=True,
-        is_superuser=True
+        is_superuser=True,
     )
     db_session.add(admin)
     await db_session.commit()
@@ -128,11 +123,7 @@ async def test_admin(db_session: AsyncSession, test_organization: Organization) 
 async def auth_headers(client: AsyncClient, test_user: User) -> dict:
     """Get authentication headers for test user"""
     response = await client.post(
-        "/api/v1/auth/login",
-        json={
-            "email": test_user.email,
-            "password": "Test123!"
-        }
+        "/api/v1/auth/login", json={"email": test_user.email, "password": "Test123!"}
     )
     token = response.json()["access_token"]
     return {"Authorization": f"Bearer {token}"}
@@ -142,18 +133,16 @@ async def auth_headers(client: AsyncClient, test_user: User) -> dict:
 async def admin_headers(client: AsyncClient, test_admin: User) -> dict:
     """Get authentication headers for admin user"""
     response = await client.post(
-        "/api/v1/auth/login",
-        json={
-            "email": test_admin.email,
-            "password": "Admin123!"
-        }
+        "/api/v1/auth/login", json={"email": test_admin.email, "password": "Admin123!"}
     )
     token = response.json()["access_token"]
     return {"Authorization": f"Bearer {token}"}
 
 
 @pytest.fixture
-async def test_program(db_session: AsyncSession, test_organization: Organization) -> Program:
+async def test_program(
+    db_session: AsyncSession, test_organization: Organization
+) -> Program:
     """Create test program"""
     program = Program(
         organization_id=test_organization.id,
@@ -162,7 +151,7 @@ async def test_program(db_session: AsyncSession, test_organization: Organization
         category="education",
         status="active",
         start_date="2024-01-01",
-        budget=50000
+        budget=50000,
     )
     db_session.add(program)
     await db_session.commit()
@@ -180,7 +169,7 @@ async def test_grant(db_session: AsyncSession) -> Grant:
         deadline="2024-12-31",
         category="community",
         eligibility="Nonprofits serving communities",
-        url="https://grants.example.com/123"
+        url="https://grants.example.com/123",
     )
     db_session.add(grant)
     await db_session.commit()
@@ -196,7 +185,7 @@ def sample_organization_data() -> dict:
         "name": "New Nonprofit",
         "ein": "98-7654321",
         "mission": "Serve the community",
-        "website": "https://newnpo.org"
+        "website": "https://newnpo.org",
     }
 
 
@@ -208,7 +197,7 @@ def sample_program_data() -> dict:
         "description": "Community health program",
         "category": "health",
         "budget": 75000,
-        "start_date": "2024-06-01"
+        "start_date": "2024-06-01",
     }
 
 
@@ -219,7 +208,7 @@ def sample_user_data() -> dict:
         "email": "newuser@example.com",
         "full_name": "New User",
         "password": "NewUser123!",
-        "organization_name": "User's Nonprofit"
+        "organization_name": "User's Nonprofit",
     }
 
 

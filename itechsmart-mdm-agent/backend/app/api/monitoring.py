@@ -23,7 +23,7 @@ async def get_overall_health():
         "degraded": 2,
         "unhealthy": 0,
         "active_alerts": 1,
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.utcnow().isoformat(),
     }
 
 
@@ -36,11 +36,7 @@ async def get_product_health(product_name: str):
         "response_time": 0.045,
         "last_check": datetime.utcnow().isoformat(),
         "uptime": "99.9%",
-        "details": {
-            "cpu_usage": 45.2,
-            "memory_usage": 62.8,
-            "disk_usage": 38.5
-        }
+        "details": {"cpu_usage": 45.2, "memory_usage": 62.8, "disk_usage": 38.5},
     }
 
 
@@ -56,7 +52,7 @@ async def get_all_metrics():
                 "memory_usage": 62.8,
                 "request_count": 1250,
                 "error_count": 3,
-                "avg_response_time": 0.045
+                "avg_response_time": 0.045,
             },
             {
                 "name": "itechsmart-ninja",
@@ -64,9 +60,9 @@ async def get_all_metrics():
                 "memory_usage": 55.3,
                 "request_count": 890,
                 "error_count": 1,
-                "avg_response_time": 0.032
-            }
-        ]
+                "avg_response_time": 0.032,
+            },
+        ],
     }
 
 
@@ -81,9 +77,9 @@ async def get_product_metrics(product_name: str, hours: int = 24):
             "memory_usage": [62.8, 63.2, 62.5, 63.0],
             "request_count": 1250,
             "error_count": 3,
-            "avg_response_time": 0.045
+            "avg_response_time": 0.045,
         },
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.utcnow().isoformat(),
     }
 
 
@@ -98,33 +94,29 @@ async def get_active_alerts():
                 "severity": "warning",
                 "message": "High memory usage detected",
                 "timestamp": datetime.utcnow().isoformat(),
-                "resolved": False
+                "resolved": False,
             }
         ],
-        "total": 1
+        "total": 1,
     }
 
 
 @router.get("/alerts/{product_name}")
 async def get_product_alerts(product_name: str):
     """Get alerts for a specific product"""
-    return {
-        "product_name": product_name,
-        "alerts": [],
-        "total": 0
-    }
+    return {"product_name": product_name, "alerts": [], "total": 0}
 
 
 @router.post("/check/{product_name}")
 async def trigger_health_check(product_name: str):
     """Trigger a health check for a specific product"""
     logger.info(f"Health check triggered for {product_name}")
-    
+
     return {
         "product_name": product_name,
         "status": "healthy",
         "response_time": 0.042,
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.utcnow().isoformat(),
     }
 
 
@@ -135,7 +127,7 @@ async def resolve_alert(alert_id: str, notes: Optional[str] = None):
         "alert_id": alert_id,
         "resolved": True,
         "resolved_at": datetime.utcnow().isoformat(),
-        "notes": notes
+        "notes": notes,
     }
 
 
@@ -147,7 +139,7 @@ async def get_uptime(product_name: str, days: int = 30):
         "days": days,
         "uptime_percentage": 99.95,
         "total_downtime_minutes": 21.6,
-        "incidents": 2
+        "incidents": 2,
     }
 
 
@@ -161,5 +153,5 @@ async def get_performance(product_name: str):
         "p95_response_time": 0.089,
         "p99_response_time": 0.125,
         "requests_per_second": 125.5,
-        "error_rate": 0.24
+        "error_rate": 0.24,
     }

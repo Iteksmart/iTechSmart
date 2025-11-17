@@ -18,6 +18,7 @@ router = APIRouter()
 
 # ==================== REQUEST/RESPONSE MODELS ====================
 
+
 class ModelCreate(BaseModel):
     name: str
     model_type: str
@@ -51,26 +52,25 @@ class ModelResponse(BaseModel):
     is_deployed: bool
     created_at: datetime
     last_trained_at: Optional[datetime]
-    
+
     class Config:
         from_attributes = True
 
 
 # ==================== ENDPOINTS ====================
 
+
 @router.post("/models", response_model=ModelResponse)
 def create_model(
-    model: ModelCreate,
-    tenant_id: int = Query(...),
-    db: Session = Depends(get_db)
+    model: ModelCreate, tenant_id: int = Query(...), db: Session = Depends(get_db)
 ):
     """Create a new AI model"""
     try:
         engine = AIInsightsEngine(db, tenant_id)
-        
+
         # Convert string to enum
         model_type = ModelType[model.model_type.upper()]
-        
+
         new_model = engine.create_model(
             name=model.name,
             model_type=model_type,
@@ -78,9 +78,9 @@ def create_model(
             description=model.description,
             hyperparameters=model.hyperparameters,
             features=model.features,
-            target_variable=model.target_variable
+            target_variable=model.target_variable,
         )
-        
+
         return new_model
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -93,36 +93,35 @@ def list_models(
     status: Optional[str] = None,
     skip: int = 0,
     limit: int = 100,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """List all AI models"""
     query = db.query(AIModel).filter(AIModel.tenant_id == tenant_id)
-    
+
     if model_type:
         query = query.filter(AIModel.model_type == ModelType[model_type.upper()])
-    
+
     if status:
         query = query.filter(AIModel.status == ModelStatus[status.upper()])
-    
+
     models = query.offset(skip).limit(limit).all()
     return models
 
 
 @router.get("/models/{model_id}", response_model=ModelResponse)
 def get_model(
-    model_id: int,
-    tenant_id: int = Query(...),
-    db: Session = Depends(get_db)
+    model_id: int, tenant_id: int = Query(...), db: Session = Depends(get_db)
 ):
     """Get a specific AI model"""
-    model = db.query(AIModel).filter(
-        AIModel.id == model_id,
-        AIModel.tenant_id == tenant_id
-    ).first()
-    
+    model = (
+        db.query(AIModel)
+        .filter(AIModel.id == model_id, AIModel.tenant_id == tenant_id)
+        .first()
+    )
+
     if not model:
         raise HTTPException(status_code=404, detail="Model not found")
-    
+
     return model
 
 
@@ -131,7 +130,7 @@ def train_model(
     model_id: int,
     training_data: ModelTrain,
     tenant_id: int = Query(...),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Train an AI model"""
     try:
@@ -139,7 +138,7 @@ def train_model(
         result = engine.train_model(
             model_id=model_id,
             training_data=training_data.training_data,
-            validation_split=training_data.validation_split
+            validation_split=training_data.validation_split,
         )
         return result
     except Exception as e:
@@ -148,9 +147,7 @@ def train_model(
 
 @router.post("/models/{model_id}/deploy")
 def deploy_model(
-    model_id: int,
-    tenant_id: int = Query(...),
-    db: Session = Depends(get_db)
+    model_id: int, tenant_id: int = Query(...), db: Session = Depends(get_db)
 ):
     """Deploy a trained model"""
     try:
@@ -163,9 +160,7 @@ def deploy_model(
 
 @router.get("/models/{model_id}/performance")
 def get_model_performance(
-    model_id: int,
-    tenant_id: int = Query(...),
-    db: Session = Depends(get_db)
+    model_id: int, tenant_id: int = Query(...), db: Session = Depends(get_db)
 ):
     """Get model performance metrics"""
     try:
@@ -178,21 +173,19 @@ def get_model_performance(
 
 @router.get("/models/{model_id}/feature-importance")
 def get_feature_importance(
-    model_id: int,
-    tenant_id: int = Query(...),
-    db: Session = Depends(get_db)
+    model_id: int, tenant_id: int = Query(...), db: Session = Depends(get_db)
 ):
     """Get feature importance for a model"""
     try:
         engine = AIInsightsEngine(db, tenant_id)
         importance = engine.calculate_feature_importance(model_id)
-        
+
         return [
             {
-                'feature_name': fi.feature_name,
-                'importance_score': fi.importance_score,
-                'importance_rank': fi.importance_rank,
-                'correlation_with_target': fi.correlation_with_target
+                "feature_name": fi.feature_name,
+                "importance_score": fi.importance_score,
+                "importance_rank": fi.importance_rank,
+                "correlation_with_target": fi.correlation_with_target,
             }
             for fi in importance
         ]
@@ -202,22 +195,21 @@ def get_feature_importance(
 
 @router.delete("/models/{model_id}")
 def delete_model(
-    model_id: int,
-    tenant_id: int = Query(...),
-    db: Session = Depends(get_db)
+    model_id: int, tenant_id: int = Query(...), db: Session = Depends(get_db)
 ):
     """Delete an AI model"""
-    model = db.query(AIModel).filter(
-        AIModel.id == model_id,
-        AIModel.tenant_id == tenant_id
-    ).first()
-    
+    model = (
+        db.query(AIModel)
+        .filter(AIModel.id == model_id, AIModel.tenant_id == tenant_id)
+        .first()
+    )
+
     if not model:
         raise HTTPException(status_code=404, detail="Model not found")
-    
+
     db.delete(model)
     db.commit()
-    
+
     return {"message": "Model deleted successfully"}
 
 
@@ -226,22 +218,23 @@ def update_model(
     model_id: int,
     updates: dict,
     tenant_id: int = Query(...),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Update model metadata"""
-    model = db.query(AIModel).filter(
-        AIModel.id == model_id,
-        AIModel.tenant_id == tenant_id
-    ).first()
-    
+    model = (
+        db.query(AIModel)
+        .filter(AIModel.id == model_id, AIModel.tenant_id == tenant_id)
+        .first()
+    )
+
     if not model:
         raise HTTPException(status_code=404, detail="Model not found")
-    
+
     for key, value in updates.items():
         if hasattr(model, key):
             setattr(model, key, value)
-    
+
     db.commit()
     db.refresh(model)
-    
+
     return model

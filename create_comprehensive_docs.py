@@ -22,10 +22,10 @@ PRODUCTS_DOCS = {
             "Unified authentication (SSO)",
             "Configuration management",
             "Event broadcasting",
-            "API gateway"
+            "API gateway",
         ],
         "tech_stack": "FastAPI, PostgreSQL, Redis, WebSocket",
-        "integrations": "All 32 iTechSmart products"
+        "integrations": "All 32 iTechSmart products",
     },
     "itechsmart-ninja": {
         "name": "iTechSmart Ninja",
@@ -40,10 +40,10 @@ PRODUCTS_DOCS = {
             "Self-healing automation",
             "Dependency management",
             "Code optimization",
-            "Deployment automation"
+            "Deployment automation",
         ],
         "tech_stack": "FastAPI, PostgreSQL, AI/ML models, WebSocket",
-        "integrations": "All 32 iTechSmart products"
+        "integrations": "All 32 iTechSmart products",
     },
     "prooflink": {
         "name": "ProofLink.AI",
@@ -58,10 +58,10 @@ PRODUCTS_DOCS = {
             "Version control",
             "Audit trails",
             "Compliance reporting",
-            "Multi-format support"
+            "Multi-format support",
         ],
         "tech_stack": "FastAPI, PostgreSQL, Blockchain, AI/ML",
-        "integrations": "Enterprise Hub, Ninja, Ledger"
+        "integrations": "Enterprise Hub, Ninja, Ledger",
     },
     "passport": {
         "name": "PassPort",
@@ -76,10 +76,10 @@ PRODUCTS_DOCS = {
             "LDAP/Active Directory sync",
             "Session management",
             "Audit logging",
-            "Password policies"
+            "Password policies",
         ],
         "tech_stack": "FastAPI, PostgreSQL, JWT, OAuth2",
-        "integrations": "All 32 iTechSmart products"
+        "integrations": "All 32 iTechSmart products",
     },
     "itechsmart-impactos": {
         "name": "ImpactOS",
@@ -94,16 +94,17 @@ PRODUCTS_DOCS = {
             "Impact visualization",
             "Custom frameworks",
             "Automated reporting",
-            "Benchmark comparison"
+            "Benchmark comparison",
         ],
         "tech_stack": "FastAPI, PostgreSQL, Analytics engine",
-        "integrations": "Enterprise Hub, Analytics, Reports"
+        "integrations": "Enterprise Hub, Analytics, Reports",
     },
 }
 
+
 def create_comprehensive_readme(product_dir, product_info):
     """Create comprehensive README for a product"""
-    
+
     readme_content = f"""# {product_info['name']}
 
 ## Overview
@@ -113,10 +114,10 @@ def create_comprehensive_readme(product_dir, product_info):
 ## Features
 
 """
-    
-    for feature in product_info['features']:
+
+    for feature in product_info["features"]:
         readme_content += f"- **{feature}**\n"
-    
+
     readme_content += f"""
 
 ## Technology Stack
@@ -177,23 +178,23 @@ Copyright © 2025 iTechSmart. All rights reserved.
 
 **Part of the iTechSmart Suite** - The world's most comprehensive enterprise software ecosystem.
 """
-    
+
     return readme_content
 
 
 def main():
     print("Creating comprehensive documentation for all products...")
-    
+
     for product_dir, product_info in PRODUCTS_DOCS.items():
         docs_path = Path(f"/workspace/{product_dir}/docs")
         docs_path.mkdir(parents=True, exist_ok=True)
-        
+
         readme_path = docs_path / "README.md"
         readme_content = create_comprehensive_readme(product_dir, product_info)
-        
+
         readme_path.write_text(readme_content)
         print(f"✓ Created documentation for {product_info['name']}")
-    
+
     print(f"\n✅ Documentation created for {len(PRODUCTS_DOCS)} products")
 
 

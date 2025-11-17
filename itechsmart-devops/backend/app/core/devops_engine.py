@@ -38,26 +38,34 @@ class DevOpsEngine:
         self.pipelines: Dict[str, Pipeline] = {}
         self.deployments: Dict[str, Dict[str, Any]] = {}
         self.environments: Dict[str, Dict[str, Any]] = {}
-    
+
     def create_pipeline(self, name: str, stages: List[Dict[str, Any]]) -> str:
         pipeline_id = str(uuid4())
         pipeline = Pipeline(pipeline_id, name, stages)
         self.pipelines[pipeline_id] = pipeline
         return pipeline_id
-    
+
     def execute_pipeline(self, pipeline_id: str) -> str:
         execution_id = str(uuid4())
         pipeline = self.pipelines.get(pipeline_id)
         if pipeline:
             pipeline.status = PipelineStatus.RUNNING
-            pipeline.executions.append({
-                "execution_id": execution_id,
-                "started_at": datetime.utcnow().isoformat(),
-                "status": "running"
-            })
+            pipeline.executions.append(
+                {
+                    "execution_id": execution_id,
+                    "started_at": datetime.utcnow().isoformat(),
+                    "status": "running",
+                }
+            )
         return execution_id
-    
-    def deploy(self, app_name: str, version: str, environment: str, strategy: DeploymentStrategy) -> str:
+
+    def deploy(
+        self,
+        app_name: str,
+        version: str,
+        environment: str,
+        strategy: DeploymentStrategy,
+    ) -> str:
         deployment_id = str(uuid4())
         self.deployments[deployment_id] = {
             "deployment_id": deployment_id,
@@ -66,10 +74,10 @@ class DevOpsEngine:
             "environment": environment,
             "strategy": strategy.value,
             "status": "deploying",
-            "started_at": datetime.utcnow().isoformat()
+            "started_at": datetime.utcnow().isoformat(),
         }
         return deployment_id
-    
+
     def get_pipeline_status(self, pipeline_id: str) -> Optional[Dict[str, Any]]:
         pipeline = self.pipelines.get(pipeline_id)
         if not pipeline:
@@ -78,7 +86,7 @@ class DevOpsEngine:
             "pipeline_id": pipeline.pipeline_id,
             "name": pipeline.name,
             "status": pipeline.status.value,
-            "executions": len(pipeline.executions)
+            "executions": len(pipeline.executions),
         }
 
 

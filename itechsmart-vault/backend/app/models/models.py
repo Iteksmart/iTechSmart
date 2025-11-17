@@ -5,7 +5,18 @@ Secrets Management Platform
 
 from datetime import datetime
 from typing import Optional
-from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey, JSON, LargeBinary, Enum as SQLEnum
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Text,
+    Boolean,
+    DateTime,
+    ForeignKey,
+    JSON,
+    LargeBinary,
+    Enum as SQLEnum,
+)
 from sqlalchemy.orm import relationship
 from database import Base
 import enum
@@ -13,6 +24,7 @@ import enum
 
 class SecretType(str, enum.Enum):
     """Secret type enumeration"""
+
     PASSWORD = "password"
     API_KEY = "api_key"
     TOKEN = "token"
@@ -25,6 +37,7 @@ class SecretType(str, enum.Enum):
 
 class SecretStatus(str, enum.Enum):
     """Secret status enumeration"""
+
     ACTIVE = "active"
     EXPIRED = "expired"
     REVOKED = "revoked"
@@ -33,12 +46,14 @@ class SecretStatus(str, enum.Enum):
 
 class PolicyEffect(str, enum.Enum):
     """Policy effect enumeration"""
+
     ALLOW = "allow"
     DENY = "deny"
 
 
 class AuditAction(str, enum.Enum):
     """Audit action enumeration"""
+
     CREATE = "create"
     READ = "read"
     UPDATE = "update"
@@ -50,6 +65,7 @@ class AuditAction(str, enum.Enum):
 
 class User(Base):
     """User model"""
+
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -73,6 +89,7 @@ class User(Base):
 
 class Vault(Base):
     """Vault model - container for organizing secrets"""
+
     __tablename__ = "vaults"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -89,12 +106,17 @@ class Vault(Base):
 
     # Relationships
     owner = relationship("User", back_populates="vaults")
-    secrets = relationship("Secret", back_populates="vault", cascade="all, delete-orphan")
-    policies = relationship("Policy", back_populates="vault", cascade="all, delete-orphan")
+    secrets = relationship(
+        "Secret", back_populates="vault", cascade="all, delete-orphan"
+    )
+    policies = relationship(
+        "Policy", back_populates="vault", cascade="all, delete-orphan"
+    )
 
 
 class Secret(Base):
     """Secret model - stores encrypted sensitive data"""
+
     __tablename__ = "secrets"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -121,12 +143,20 @@ class Secret(Base):
     # Relationships
     vault = relationship("Vault", back_populates="secrets")
     created_by_user = relationship("User", back_populates="secrets")
-    versions = relationship("SecretVersion", back_populates="secret", cascade="all, delete-orphan", foreign_keys="SecretVersion.secret_id")
-    access_grants = relationship("AccessGrant", back_populates="secret", cascade="all, delete-orphan")
+    versions = relationship(
+        "SecretVersion",
+        back_populates="secret",
+        cascade="all, delete-orphan",
+        foreign_keys="SecretVersion.secret_id",
+    )
+    access_grants = relationship(
+        "AccessGrant", back_populates="secret", cascade="all, delete-orphan"
+    )
 
 
 class SecretVersion(Base):
     """Secret version model - maintains version history"""
+
     __tablename__ = "secret_versions"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -145,6 +175,7 @@ class SecretVersion(Base):
 
 class Policy(Base):
     """Policy model - defines access control rules"""
+
     __tablename__ = "policies"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -166,13 +197,16 @@ class Policy(Base):
 
 class AccessGrant(Base):
     """Access grant model - grants user access to secrets"""
+
     __tablename__ = "access_grants"
 
     id = Column(Integer, primary_key=True, index=True)
     secret_id = Column(Integer, ForeignKey("secrets.id"), nullable=False, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
     granted_by_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    permissions = Column(JSON, nullable=False)  # List of permissions (read, write, delete, etc.)
+    permissions = Column(
+        JSON, nullable=False
+    )  # List of permissions (read, write, delete, etc.)
     expires_at = Column(DateTime)
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -185,6 +219,7 @@ class AccessGrant(Base):
 
 class AuditLog(Base):
     """Audit log model - tracks all secret operations"""
+
     __tablename__ = "audit_logs"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -207,6 +242,7 @@ class AuditLog(Base):
 
 class EncryptionKey(Base):
     """Encryption key model - manages encryption keys"""
+
     __tablename__ = "encryption_keys"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -225,6 +261,7 @@ class EncryptionKey(Base):
 
 class SecretRotation(Base):
     """Secret rotation model - tracks rotation history"""
+
     __tablename__ = "secret_rotations"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -241,6 +278,7 @@ class SecretRotation(Base):
 
 class SecretShare(Base):
     """Secret share model - temporary secret sharing"""
+
     __tablename__ = "secret_shares"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -259,13 +297,16 @@ class SecretShare(Base):
 
 class APIKey(Base):
     """API key model - manages API access keys"""
+
     __tablename__ = "api_keys"
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
     name = Column(String(255), nullable=False)
     key_hash = Column(String(255), unique=True, nullable=False)
-    key_prefix = Column(String(20), nullable=False)  # First few chars for identification
+    key_prefix = Column(
+        String(20), nullable=False
+    )  # First few chars for identification
     scopes = Column(JSON)  # List of allowed scopes
     expires_at = Column(DateTime)
     is_active = Column(Boolean, default=True)

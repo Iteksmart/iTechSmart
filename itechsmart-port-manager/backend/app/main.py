@@ -29,25 +29,25 @@ suite_communicator: Optional[SuiteCommunicator] = None
 async def lifespan(app: FastAPI):
     """Application lifespan manager"""
     global port_manager, suite_communicator
-    
+
     # Startup
     logger.info("🚀 iTechSmart Port Manager starting up...")
-    
+
     # Initialize port manager
     port_manager = PortManager()
     await port_manager.initialize()
-    
+
     # Initialize suite communicator
     suite_communicator = SuiteCommunicator(port_manager)
     await suite_communicator.initialize()
-    
+
     # Initialize iTechSmart Suite integration
     await initialize_integration()
-    
+
     logger.info("✅ iTechSmart Port Manager ready!")
-    
+
     yield
-    
+
     # Shutdown
     logger.info("👋 iTechSmart Port Manager shutting down...")
     await shutdown_integration()
@@ -60,7 +60,7 @@ app = FastAPI(
     title="iTechSmart Port Manager",
     description="Dynamic Port Configuration and Management for iTechSmart Suite",
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # CORS middleware
@@ -97,8 +97,8 @@ async def root():
             "Configuration backup/restore",
             "WebSocket real-time updates",
             "Integration with Enterprise Hub",
-            "Integration with Ninja"
-        ]
+            "Integration with Ninja",
+        ],
     }
 
 
@@ -109,7 +109,7 @@ async def health_check():
         "service": "iTechSmart Port Manager",
         "suite": "iTechSmart",
         "port_manager": "active" if port_manager else "inactive",
-        "suite_communicator": "active" if suite_communicator else "inactive"
+        "suite_communicator": "active" if suite_communicator else "inactive",
     }
 
 
@@ -123,14 +123,11 @@ def get_port_manager() -> PortManager:
 def get_suite_communicator() -> SuiteCommunicator:
     """Get the global suite communicator instance"""
     if suite_communicator is None:
-        raise HTTPException(status_code=500, detail="Suite Communicator not initialized")
+        raise HTTPException(
+            status_code=500, detail="Suite Communicator not initialized"
+        )
     return suite_communicator
 
 
 if __name__ == "__main__":
-    uvicorn.run(
-        "main:app",
-        host="0.0.0.0",
-        port=8100,
-        reload=True
-    )
+    uvicorn.run("main:app", host="0.0.0.0", port=8100, reload=True)

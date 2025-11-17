@@ -1,6 +1,7 @@
 """
 Basic unit tests for iTechSmart Suite
 """
+
 import pytest
 
 
@@ -22,7 +23,7 @@ def test_suite_info():
         "version": "1.4.0",
         "products": 37,
         "features": 296,
-        "value": "$75.8M"
+        "value": "$75.8M",
     }
     assert suite_info["products"] == 37
     assert suite_info["features"] == 296
@@ -43,21 +44,21 @@ async def async_function():
 
 class TestSuiteBasics:
     """Test class for suite basics"""
-    
+
     def test_initialization(self):
         """Test suite initialization"""
         assert True
-    
+
     def test_configuration(self):
         """Test configuration"""
         config = {"env": "test"}
         assert config["env"] == "test"
-    
+
     def test_products_count(self):
         """Test products count"""
         products_count = 37
         assert products_count == 37
-    
+
     def test_features_count(self):
         """Test features count"""
         features_count = 296

@@ -33,16 +33,13 @@ class TemplateResponse(BaseModel):
     cpu: float
     memory: str
     is_public: bool
-    
+
     class Config:
         from_attributes = True
 
 
 @router.post("/", response_model=TemplateResponse)
-def create_template(
-    template: TemplateCreate,
-    db: Session = Depends(get_db)
-):
+def create_template(template: TemplateCreate, db: Session = Depends(get_db)):
     """Create sandbox template"""
     db_template = Template(**template.dict())
     db.add(db_template)
@@ -55,26 +52,23 @@ def create_template(
 def list_templates(
     is_public: Optional[bool] = Query(None),
     limit: int = Query(100, ge=1, le=1000),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """List templates"""
     q = db.query(Template)
-    
+
     if is_public is not None:
         q = q.filter(Template.is_public == is_public)
-    
+
     return q.limit(limit).all()
 
 
 @router.get("/{template_id}", response_model=TemplateResponse)
-def get_template(
-    template_id: int,
-    db: Session = Depends(get_db)
-):
+def get_template(template_id: int, db: Session = Depends(get_db)):
     """Get template details"""
     template = db.query(Template).filter(Template.id == template_id).first()
-    
+
     if not template:
         raise HTTPException(status_code=404, detail="Template not found")
-    
+
     return template

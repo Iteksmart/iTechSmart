@@ -16,10 +16,7 @@ from app.models.models import Base
 logger = logging.getLogger(__name__)
 
 # Database URL from environment or default to SQLite
-DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "sqlite:///./mdm_agent.db"
-)
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./mdm_agent.db")
 
 # Create engine
 if DATABASE_URL.startswith("sqlite"):
@@ -28,16 +25,12 @@ if DATABASE_URL.startswith("sqlite"):
         DATABASE_URL,
         connect_args={"check_same_thread": False},
         poolclass=StaticPool,
-        echo=False
+        echo=False,
     )
 else:
     # PostgreSQL or other databases
     engine = create_engine(
-        DATABASE_URL,
-        pool_pre_ping=True,
-        pool_size=10,
-        max_overflow=20,
-        echo=False
+        DATABASE_URL, pool_pre_ping=True, pool_size=10, max_overflow=20, echo=False
     )
 
 # Create session factory
@@ -57,7 +50,7 @@ def init_db():
 def get_db() -> Generator[Session, None, None]:
     """
     Get database session
-    
+
     Yields:
         Database session
     """

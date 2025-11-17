@@ -67,7 +67,7 @@ class UpdateCommentRequest(BaseModel):
 async def create_team(
     request: CreateTeamRequest,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Create a new team"""
     try:
@@ -75,72 +75,59 @@ async def create_team(
             name=request.name,
             owner_id=current_user.id,
             description=request.description,
-            plan=request.plan
+            plan=request.plan,
         )
-        
+
         # Save to database
         db_team = Team(
             team_id=team["id"],
             name=team["name"],
             description=team["description"],
             owner_id=team["owner_id"],
-            plan=team["plan"]
+            plan=team["plan"],
         )
         db.add(db_team)
         db.commit()
-        
-        return {
-            "success": True,
-            "team": team,
-            "message": "Team created successfully"
-        }
-        
+
+        return {"success": True, "team": team, "message": "Team created successfully"}
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.get("/teams")
-async def list_teams(
-    current_user: User = Depends(get_current_user)
-):
+async def list_teams(current_user: User = Depends(get_current_user)):
     """List all teams for current user"""
     try:
         teams = await collab_manager.list_teams(current_user.id)
-        
+
         return {
             "success": True,
             "teams": teams,
             "count": len(teams),
-            "message": "Teams retrieved successfully"
+            "message": "Teams retrieved successfully",
         }
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.get("/teams/{team_id}")
-async def get_team(
-    team_id: int,
-    current_user: User = Depends(get_current_user)
-):
+async def get_team(team_id: int, current_user: User = Depends(get_current_user)):
     """Get team details"""
     try:
         team = await collab_manager.get_team(team_id)
-        
+
         if not team:
             raise HTTPException(status_code=404, detail="Team not found")
-        
+
         # Check if user is a member
         members = await collab_manager.get_team_members(team_id)
         if not any(m["user_id"] == current_user.id for m in members):
             raise HTTPException(status_code=403, detail="Access denied")
-        
-        return {
-            "success": True,
-            "team": team,
-            "message": "Team retrieved successfully"
-        }
-        
+
+        return {"success": True, "team": team, "message": "Team retrieved successfully"}
+
     except HTTPException:
         raise
     except Exception as e:
@@ -151,7 +138,7 @@ async def get_team(
 async def update_team(
     team_id: int,
     request: UpdateTeamRequest,
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Update team details"""
     try:
@@ -159,26 +146,22 @@ async def update_team(
         has_permission = await collab_manager.check_permission(
             team_id, current_user.id, "manage_team"
         )
-        
+
         if not has_permission:
             raise HTTPException(status_code=403, detail="Permission denied")
-        
+
         team = await collab_manager.update_team(
             team_id=team_id,
             name=request.name,
             description=request.description,
-            plan=request.plan
+            plan=request.plan,
         )
-        
+
         if not team:
             raise HTTPException(status_code=404, detail="Team not found")
-        
-        return {
-            "success": True,
-            "team": team,
-            "message": "Team updated successfully"
-        }
-        
+
+        return {"success": True, "team": team, "message": "Team updated successfully"}
+
     except HTTPException:
         raise
     except Exception as e:
@@ -189,7 +172,7 @@ async def update_team(
 async def delete_team(
     team_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Delete a team"""
     try:
@@ -197,26 +180,23 @@ async def delete_team(
         has_permission = await collab_manager.check_permission(
             team_id, current_user.id, "delete_team"
         )
-        
+
         if not has_permission:
             raise HTTPException(status_code=403, detail="Permission denied")
-        
+
         success = await collab_manager.delete_team(team_id)
-        
+
         if not success:
             raise HTTPException(status_code=404, detail="Team not found")
-        
+
         # Delete from database
         db_team = db.query(Team).filter(Team.team_id == team_id).first()
         if db_team:
             db.delete(db_team)
             db.commit()
-        
-        return {
-            "success": True,
-            "message": "Team deleted successfully"
-        }
-        
+
+        return {"success": True, "message": "Team deleted successfully"}
+
     except HTTPException:
         raise
     except Exception as e:
@@ -228,7 +208,7 @@ async def delete_team(
 async def invite_member(
     team_id: int,
     request: InviteMemberRequest,
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Invite a member to the team"""
     try:
@@ -236,23 +216,23 @@ async def invite_member(
         has_permission = await collab_manager.check_permission(
             team_id, current_user.id, "manage_members"
         )
-        
+
         if not has_permission:
             raise HTTPException(status_code=403, detail="Permission denied")
-        
+
         invitation = await collab_manager.invite_member(
             team_id=team_id,
             email=request.email,
             role=request.role,
-            invited_by=current_user.id
+            invited_by=current_user.id,
         )
-        
+
         return {
             "success": True,
             "invitation": invitation,
-            "message": f"Invitation sent to {request.email}"
+            "message": f"Invitation sent to {request.email}",
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -261,8 +241,7 @@ async def invite_member(
 
 @router.get("/teams/{team_id}/members")
 async def get_team_members(
-    team_id: int,
-    current_user: User = Depends(get_current_user)
+    team_id: int, current_user: User = Depends(get_current_user)
 ):
     """Get all team members"""
     try:
@@ -270,14 +249,14 @@ async def get_team_members(
         members = await collab_manager.get_team_members(team_id)
         if not any(m["user_id"] == current_user.id for m in members):
             raise HTTPException(status_code=403, detail="Access denied")
-        
+
         return {
             "success": True,
             "members": members,
             "count": len(members),
-            "message": "Members retrieved successfully"
+            "message": "Members retrieved successfully",
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -286,9 +265,7 @@ async def get_team_members(
 
 @router.delete("/teams/{team_id}/members/{user_id}")
 async def remove_member(
-    team_id: int,
-    user_id: int,
-    current_user: User = Depends(get_current_user)
+    team_id: int, user_id: int, current_user: User = Depends(get_current_user)
 ):
     """Remove a member from the team"""
     try:
@@ -296,20 +273,17 @@ async def remove_member(
         has_permission = await collab_manager.check_permission(
             team_id, current_user.id, "manage_members"
         )
-        
+
         if not has_permission:
             raise HTTPException(status_code=403, detail="Permission denied")
-        
+
         success = await collab_manager.remove_team_member(team_id, user_id)
-        
+
         if not success:
             raise HTTPException(status_code=404, detail="Member not found")
-        
-        return {
-            "success": True,
-            "message": "Member removed successfully"
-        }
-        
+
+        return {"success": True, "message": "Member removed successfully"}
+
     except HTTPException:
         raise
     except Exception as e:
@@ -321,7 +295,7 @@ async def update_member_role(
     team_id: int,
     user_id: int,
     request: UpdateMemberRoleRequest,
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Update a member's role"""
     try:
@@ -329,22 +303,19 @@ async def update_member_role(
         has_permission = await collab_manager.check_permission(
             team_id, current_user.id, "manage_members"
         )
-        
+
         if not has_permission:
             raise HTTPException(status_code=403, detail="Permission denied")
-        
+
         success = await collab_manager.update_member_role(
             team_id, user_id, request.role
         )
-        
+
         if not success:
             raise HTTPException(status_code=404, detail="Member not found")
-        
-        return {
-            "success": True,
-            "message": "Member role updated successfully"
-        }
-        
+
+        return {"success": True, "message": "Member role updated successfully"}
+
     except HTTPException:
         raise
     except Exception as e:
@@ -357,7 +328,7 @@ async def create_workspace(
     team_id: int,
     request: CreateWorkspaceRequest,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Create a workspace"""
     try:
@@ -365,34 +336,34 @@ async def create_workspace(
         has_permission = await collab_manager.check_permission(
             team_id, current_user.id, "manage_workspaces"
         )
-        
+
         if not has_permission:
             raise HTTPException(status_code=403, detail="Permission denied")
-        
+
         workspace = await collab_manager.create_workspace(
             team_id=team_id,
             name=request.name,
             description=request.description,
-            created_by=current_user.id
+            created_by=current_user.id,
         )
-        
+
         # Save to database
         db_workspace = Workspace(
             workspace_id=workspace["id"],
             team_id=team_id,
             name=workspace["name"],
             description=workspace["description"],
-            created_by=current_user.id
+            created_by=current_user.id,
         )
         db.add(db_workspace)
         db.commit()
-        
+
         return {
             "success": True,
             "workspace": workspace,
-            "message": "Workspace created successfully"
+            "message": "Workspace created successfully",
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -400,26 +371,23 @@ async def create_workspace(
 
 
 @router.get("/teams/{team_id}/workspaces")
-async def list_workspaces(
-    team_id: int,
-    current_user: User = Depends(get_current_user)
-):
+async def list_workspaces(team_id: int, current_user: User = Depends(get_current_user)):
     """List all workspaces for a team"""
     try:
         # Check if user is a member
         members = await collab_manager.get_team_members(team_id)
         if not any(m["user_id"] == current_user.id for m in members):
             raise HTTPException(status_code=403, detail="Access denied")
-        
+
         workspaces = await collab_manager.list_workspaces(team_id)
-        
+
         return {
             "success": True,
             "workspaces": workspaces,
             "count": len(workspaces),
-            "message": "Workspaces retrieved successfully"
+            "message": "Workspaces retrieved successfully",
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -428,27 +396,26 @@ async def list_workspaces(
 
 @router.get("/workspaces/{workspace_id}")
 async def get_workspace(
-    workspace_id: int,
-    current_user: User = Depends(get_current_user)
+    workspace_id: int, current_user: User = Depends(get_current_user)
 ):
     """Get workspace details"""
     try:
         workspace = await collab_manager.get_workspace(workspace_id)
-        
+
         if not workspace:
             raise HTTPException(status_code=404, detail="Workspace not found")
-        
+
         # Check if user is a team member
         members = await collab_manager.get_team_members(workspace["team_id"])
         if not any(m["user_id"] == current_user.id for m in members):
             raise HTTPException(status_code=403, detail="Access denied")
-        
+
         return {
             "success": True,
             "workspace": workspace,
-            "message": "Workspace retrieved successfully"
+            "message": "Workspace retrieved successfully",
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -459,35 +426,35 @@ async def get_workspace(
 async def update_workspace(
     workspace_id: int,
     request: UpdateWorkspaceRequest,
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Update workspace details"""
     try:
         workspace = await collab_manager.get_workspace(workspace_id)
-        
+
         if not workspace:
             raise HTTPException(status_code=404, detail="Workspace not found")
-        
+
         # Check permission
         has_permission = await collab_manager.check_permission(
             workspace["team_id"], current_user.id, "manage_workspaces"
         )
-        
+
         if not has_permission:
             raise HTTPException(status_code=403, detail="Permission denied")
-        
+
         updated = await collab_manager.update_workspace(
             workspace_id=workspace_id,
             name=request.name,
-            description=request.description
+            description=request.description,
         )
-        
+
         return {
             "success": True,
             "workspace": updated,
-            "message": "Workspace updated successfully"
+            "message": "Workspace updated successfully",
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -498,41 +465,38 @@ async def update_workspace(
 async def delete_workspace(
     workspace_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Delete a workspace"""
     try:
         workspace = await collab_manager.get_workspace(workspace_id)
-        
+
         if not workspace:
             raise HTTPException(status_code=404, detail="Workspace not found")
-        
+
         # Check permission
         has_permission = await collab_manager.check_permission(
             workspace["team_id"], current_user.id, "manage_workspaces"
         )
-        
+
         if not has_permission:
             raise HTTPException(status_code=403, detail="Permission denied")
-        
+
         success = await collab_manager.delete_workspace(workspace_id)
-        
+
         if not success:
             raise HTTPException(status_code=404, detail="Workspace not found")
-        
+
         # Delete from database
-        db_workspace = db.query(Workspace).filter(
-            Workspace.workspace_id == workspace_id
-        ).first()
+        db_workspace = (
+            db.query(Workspace).filter(Workspace.workspace_id == workspace_id).first()
+        )
         if db_workspace:
             db.delete(db_workspace)
             db.commit()
-        
-        return {
-            "success": True,
-            "message": "Workspace deleted successfully"
-        }
-        
+
+        return {"success": True, "message": "Workspace deleted successfully"}
+
     except HTTPException:
         raise
     except Exception as e:
@@ -544,7 +508,7 @@ async def delete_workspace(
 async def create_comment(
     request: CreateCommentRequest,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Create a comment"""
     try:
@@ -553,9 +517,9 @@ async def create_comment(
             resource_type=request.resource_type,
             resource_id=request.resource_id,
             content=request.content,
-            team_id=request.team_id
+            team_id=request.team_id,
         )
-        
+
         # Save to database
         db_comment = Comment(
             comment_id=comment["id"],
@@ -563,38 +527,36 @@ async def create_comment(
             resource_type=comment["resource_type"],
             resource_id=comment["resource_id"],
             content=comment["content"],
-            team_id=request.team_id
+            team_id=request.team_id,
         )
         db.add(db_comment)
         db.commit()
-        
+
         return {
             "success": True,
             "comment": comment,
-            "message": "Comment created successfully"
+            "message": "Comment created successfully",
         }
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.get("/comments")
 async def get_comments(
-    resource_type: str,
-    resource_id: int,
-    current_user: User = Depends(get_current_user)
+    resource_type: str, resource_id: int, current_user: User = Depends(get_current_user)
 ):
     """Get comments for a resource"""
     try:
         comments = await collab_manager.get_comments(resource_type, resource_id)
-        
+
         return {
             "success": True,
             "comments": comments,
             "count": len(comments),
-            "message": "Comments retrieved successfully"
+            "message": "Comments retrieved successfully",
         }
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -603,21 +565,21 @@ async def get_comments(
 async def update_comment(
     comment_id: int,
     request: UpdateCommentRequest,
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Update a comment"""
     try:
         comment = await collab_manager.update_comment(comment_id, request.content)
-        
+
         if not comment:
             raise HTTPException(status_code=404, detail="Comment not found")
-        
+
         return {
             "success": True,
             "comment": comment,
-            "message": "Comment updated successfully"
+            "message": "Comment updated successfully",
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -628,26 +590,23 @@ async def update_comment(
 async def delete_comment(
     comment_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Delete a comment"""
     try:
         success = await collab_manager.delete_comment(comment_id)
-        
+
         if not success:
             raise HTTPException(status_code=404, detail="Comment not found")
-        
+
         # Delete from database
         db_comment = db.query(Comment).filter(Comment.comment_id == comment_id).first()
         if db_comment:
             db.delete(db_comment)
             db.commit()
-        
-        return {
-            "success": True,
-            "message": "Comment deleted successfully"
-        }
-        
+
+        return {"success": True, "message": "Comment deleted successfully"}
+
     except HTTPException:
         raise
     except Exception as e:
@@ -657,9 +616,7 @@ async def delete_comment(
 # Activity endpoints
 @router.get("/teams/{team_id}/activity")
 async def get_team_activity(
-    team_id: int,
-    current_user: User = Depends(get_current_user),
-    limit: int = 50
+    team_id: int, current_user: User = Depends(get_current_user), limit: int = 50
 ):
     """Get team activity log"""
     try:
@@ -667,16 +624,16 @@ async def get_team_activity(
         members = await collab_manager.get_team_members(team_id)
         if not any(m["user_id"] == current_user.id for m in members):
             raise HTTPException(status_code=403, detail="Access denied")
-        
+
         activities = await collab_manager.get_team_activity(team_id, limit)
-        
+
         return {
             "success": True,
             "activities": activities,
             "count": len(activities),
-            "message": "Activity retrieved successfully"
+            "message": "Activity retrieved successfully",
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -684,25 +641,22 @@ async def get_team_activity(
 
 
 @router.get("/teams/{team_id}/stats")
-async def get_team_stats(
-    team_id: int,
-    current_user: User = Depends(get_current_user)
-):
+async def get_team_stats(team_id: int, current_user: User = Depends(get_current_user)):
     """Get team statistics"""
     try:
         # Check if user is a member
         members = await collab_manager.get_team_members(team_id)
         if not any(m["user_id"] == current_user.id for m in members):
             raise HTTPException(status_code=403, detail="Access denied")
-        
+
         stats = await collab_manager.get_team_stats(team_id)
-        
+
         return {
             "success": True,
             "stats": stats,
-            "message": "Stats retrieved successfully"
+            "message": "Stats retrieved successfully",
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:

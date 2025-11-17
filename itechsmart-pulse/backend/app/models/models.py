@@ -3,7 +3,18 @@ iTechSmart Pulse - Database Models
 SQLAlchemy ORM Models
 """
 
-from sqlalchemy import Column, String, Integer, Float, Boolean, DateTime, Text, JSON, ForeignKey, Table
+from sqlalchemy import (
+    Column,
+    String,
+    Integer,
+    Float,
+    Boolean,
+    DateTime,
+    Text,
+    JSON,
+    ForeignKey,
+    Table,
+)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -11,6 +22,7 @@ from datetime import datetime
 import uuid
 
 Base = declarative_base()
+
 
 def generate_uuid():
     return str(uuid.uuid4())
@@ -20,9 +32,10 @@ def generate_uuid():
 # USER MANAGEMENT
 # ============================================================================
 
+
 class User(Base):
     __tablename__ = "users"
-    
+
     id = Column(String(36), primary_key=True, default=generate_uuid)
     email = Column(String(255), unique=True, nullable=False, index=True)
     username = Column(String(100), unique=True, nullable=False)
@@ -34,7 +47,7 @@ class User(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     last_login = Column(DateTime(timezone=True))
-    
+
     # Relationships
     dashboards = relationship("Dashboard", back_populates="owner")
     reports = relationship("Report", back_populates="owner")
@@ -45,9 +58,10 @@ class User(Base):
 # DASHBOARDS
 # ============================================================================
 
+
 class Dashboard(Base):
     __tablename__ = "dashboards"
-    
+
     id = Column(String(36), primary_key=True, default=generate_uuid)
     name = Column(String(255), nullable=False)
     description = Column(Text)
@@ -60,15 +74,17 @@ class Dashboard(Base):
     tags = Column(JSON)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    
+
     # Relationships
     owner = relationship("User", back_populates="dashboards")
-    widgets = relationship("Widget", back_populates="dashboard", cascade="all, delete-orphan")
+    widgets = relationship(
+        "Widget", back_populates="dashboard", cascade="all, delete-orphan"
+    )
 
 
 class Widget(Base):
     __tablename__ = "widgets"
-    
+
     id = Column(String(36), primary_key=True, default=generate_uuid)
     dashboard_id = Column(String(36), ForeignKey("dashboards.id"), nullable=False)
     type = Column(String(50), nullable=False)  # metric, line_chart, bar_chart, etc.
@@ -81,7 +97,7 @@ class Widget(Base):
     refresh_interval = Column(Integer)  # Override dashboard refresh
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    
+
     # Relationships
     dashboard = relationship("Dashboard", back_populates="widgets")
     query = relationship("Query")
@@ -92,9 +108,10 @@ class Widget(Base):
 # REPORTS
 # ============================================================================
 
+
 class Report(Base):
     __tablename__ = "reports"
-    
+
     id = Column(String(36), primary_key=True, default=generate_uuid)
     name = Column(String(255), nullable=False)
     description = Column(Text)
@@ -108,16 +125,18 @@ class Report(Base):
     next_run = Column(DateTime(timezone=True))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    
+
     # Relationships
     owner = relationship("User", back_populates="reports")
-    sections = relationship("ReportSection", back_populates="report", cascade="all, delete-orphan")
+    sections = relationship(
+        "ReportSection", back_populates="report", cascade="all, delete-orphan"
+    )
     executions = relationship("ReportExecution", back_populates="report")
 
 
 class ReportSection(Base):
     __tablename__ = "report_sections"
-    
+
     id = Column(String(36), primary_key=True, default=generate_uuid)
     report_id = Column(String(36), ForeignKey("reports.id"), nullable=False)
     title = Column(String(255), nullable=False)
@@ -127,7 +146,7 @@ class ReportSection(Base):
     query_id = Column(String(36), ForeignKey("queries.id"))
     config = Column(JSON)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
-    
+
     # Relationships
     report = relationship("Report", back_populates="sections")
     query = relationship("Query")
@@ -135,7 +154,7 @@ class ReportSection(Base):
 
 class ReportExecution(Base):
     __tablename__ = "report_executions"
-    
+
     id = Column(String(36), primary_key=True, default=generate_uuid)
     report_id = Column(String(36), ForeignKey("reports.id"), nullable=False)
     status = Column(String(20), nullable=False)  # pending, running, completed, failed
@@ -145,7 +164,7 @@ class ReportExecution(Base):
     file_size = Column(Integer)
     error_message = Column(Text)
     execution_time_ms = Column(Integer)
-    
+
     # Relationships
     report = relationship("Report", back_populates="executions")
 
@@ -154,9 +173,10 @@ class ReportExecution(Base):
 # DATA SOURCES
 # ============================================================================
 
+
 class DataSource(Base):
     __tablename__ = "datasources"
-    
+
     id = Column(String(36), primary_key=True, default=generate_uuid)
     name = Column(String(255), nullable=False)
     type = Column(String(50), nullable=False)  # postgresql, mysql, api, etc.
@@ -171,15 +191,17 @@ class DataSource(Base):
     last_sync = Column(DateTime(timezone=True))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    
+
     # Relationships
     queries = relationship("Query", back_populates="datasource")
-    tables = relationship("DataSourceTable", back_populates="datasource", cascade="all, delete-orphan")
+    tables = relationship(
+        "DataSourceTable", back_populates="datasource", cascade="all, delete-orphan"
+    )
 
 
 class DataSourceTable(Base):
     __tablename__ = "datasource_tables"
-    
+
     id = Column(String(36), primary_key=True, default=generate_uuid)
     datasource_id = Column(String(36), ForeignKey("datasources.id"), nullable=False)
     name = Column(String(255), nullable=False)
@@ -187,7 +209,7 @@ class DataSourceTable(Base):
     row_count = Column(Integer)
     columns = Column(JSON)  # List of column definitions
     last_synced = Column(DateTime(timezone=True))
-    
+
     # Relationships
     datasource = relationship("DataSource", back_populates="tables")
 
@@ -196,9 +218,10 @@ class DataSourceTable(Base):
 # QUERIES
 # ============================================================================
 
+
 class Query(Base):
     __tablename__ = "queries"
-    
+
     id = Column(String(36), primary_key=True, default=generate_uuid)
     name = Column(String(255), nullable=False)
     description = Column(Text)
@@ -212,7 +235,7 @@ class Query(Base):
     avg_execution_time_ms = Column(Integer)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    
+
     # Relationships
     datasource = relationship("DataSource", back_populates="queries")
     creator = relationship("User", back_populates="queries")
@@ -221,7 +244,7 @@ class Query(Base):
 
 class QueryExecution(Base):
     __tablename__ = "query_executions"
-    
+
     id = Column(String(36), primary_key=True, default=generate_uuid)
     query_id = Column(String(36), ForeignKey("queries.id"), nullable=False)
     status = Column(String(20), nullable=False)  # running, completed, failed
@@ -230,7 +253,7 @@ class QueryExecution(Base):
     execution_time_ms = Column(Integer)
     rows_returned = Column(Integer)
     error_message = Column(Text)
-    
+
     # Relationships
     query = relationship("Query", back_populates="executions")
 
@@ -239,9 +262,10 @@ class QueryExecution(Base):
 # VISUALIZATIONS
 # ============================================================================
 
+
 class Visualization(Base):
     __tablename__ = "visualizations"
-    
+
     id = Column(String(36), primary_key=True, default=generate_uuid)
     name = Column(String(255), nullable=False)
     type = Column(String(50), nullable=False)  # line_chart, bar_chart, etc.
@@ -250,7 +274,7 @@ class Visualization(Base):
     config = Column(JSON)  # Visualization-specific configuration
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    
+
     # Relationships
     query = relationship("Query")
 
@@ -259,9 +283,10 @@ class Visualization(Base):
 # SCHEDULES
 # ============================================================================
 
+
 class Schedule(Base):
     __tablename__ = "schedules"
-    
+
     id = Column(String(36), primary_key=True, default=generate_uuid)
     name = Column(String(255), nullable=False)
     type = Column(String(50), nullable=False)  # report, dashboard_refresh, etc.
@@ -281,14 +306,17 @@ class Schedule(Base):
 # EXPORTS
 # ============================================================================
 
+
 class Export(Base):
     __tablename__ = "exports"
-    
+
     id = Column(String(36), primary_key=True, default=generate_uuid)
     type = Column(String(50), nullable=False)  # dashboard, report, query
     target_id = Column(String(36), nullable=False)
     format = Column(String(20), nullable=False)  # pdf, excel, csv, png
-    status = Column(String(20), default="pending")  # pending, processing, completed, failed
+    status = Column(
+        String(20), default="pending"
+    )  # pending, processing, completed, failed
     file_path = Column(String(500))
     file_size = Column(Integer)
     download_url = Column(String(500))
@@ -301,9 +329,10 @@ class Export(Base):
 # ALERTS
 # ============================================================================
 
+
 class Alert(Base):
     __tablename__ = "alerts"
-    
+
     id = Column(String(36), primary_key=True, default=generate_uuid)
     name = Column(String(255), nullable=False)
     description = Column(Text)
@@ -315,7 +344,7 @@ class Alert(Base):
     trigger_count = Column(Integer, default=0)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    
+
     # Relationships
     query = relationship("Query")
 
@@ -324,9 +353,10 @@ class Alert(Base):
 # AUDIT LOGS
 # ============================================================================
 
+
 class AuditLog(Base):
     __tablename__ = "audit_logs"
-    
+
     id = Column(String(36), primary_key=True, default=generate_uuid)
     user_id = Column(String(36), ForeignKey("users.id"))
     action = Column(String(100), nullable=False)
@@ -336,7 +366,7 @@ class AuditLog(Base):
     ip_address = Column(String(45))
     user_agent = Column(Text)
     timestamp = Column(DateTime(timezone=True), server_default=func.now())
-    
+
     # Relationships
     user = relationship("User")
 
@@ -345,9 +375,10 @@ class AuditLog(Base):
 # TAGS
 # ============================================================================
 
+
 class Tag(Base):
     __tablename__ = "tags"
-    
+
     id = Column(String(36), primary_key=True, default=generate_uuid)
     name = Column(String(100), unique=True, nullable=False)
     color = Column(String(7))  # Hex color code

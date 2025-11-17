@@ -14,6 +14,7 @@ from app.models.models import Case, CaseStatus, CaseType
 
 router = APIRouter()
 
+
 # Pydantic models
 class CaseCreate(BaseModel):
     case_number: str
@@ -37,6 +38,7 @@ class CaseCreate(BaseModel):
     retainer_amount: Optional[float] = None
     custom_fields: Optional[dict] = None
 
+
 class CaseUpdate(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
@@ -56,6 +58,7 @@ class CaseUpdate(BaseModel):
     contingency_percentage: Optional[float] = None
     retainer_amount: Optional[float] = None
     custom_fields: Optional[dict] = None
+
 
 class CaseResponse(BaseModel):
     id: int
@@ -85,28 +88,31 @@ class CaseResponse(BaseModel):
     class Config:
         from_attributes = True
 
+
 @router.post("/", response_model=CaseResponse, status_code=status.HTTP_201_CREATED)
 async def create_case(
     case_data: CaseCreate,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
 ):
     """Create a new case"""
-    
+
     # Check if case number already exists
-    existing_case = db.query(Case).filter(Case.case_number == case_data.case_number).first()
+    existing_case = (
+        db.query(Case).filter(Case.case_number == case_data.case_number).first()
+    )
     if existing_case:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Case number already exists"
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Case number already exists"
         )
-    
+
     new_case = Case(**case_data.dict())
     db.add(new_case)
     db.commit()
     db.refresh(new_case)
-    
+
     return new_case
+
 
 @router.get("/", response_model=List[CaseResponse])
 async def get_cases(
@@ -118,125 +124,125 @@ async def get_cases(
     attorney_id: Optional[int] = None,
     search: Optional[str] = None,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
 ):
     """Get all cases with optional filtering"""
-    
+
     query = db.query(Case)
-    
+
     if status:
         query = query.filter(Case.status == status)
-    
+
     if case_type:
         query = query.filter(Case.case_type == case_type)
-    
+
     if client_id:
         query = query.filter(Case.client_id == client_id)
-    
+
     if attorney_id:
         query = query.filter(Case.attorney_id == attorney_id)
-    
+
     if search:
         search_filter = f"%{search}%"
         query = query.filter(
-            (Case.case_number.ilike(search_filter)) |
-            (Case.title.ilike(search_filter)) |
-            (Case.description.ilike(search_filter))
+            (Case.case_number.ilike(search_filter))
+            | (Case.title.ilike(search_filter))
+            | (Case.description.ilike(search_filter))
         )
-    
+
     cases = query.offset(skip).limit(limit).all()
     return cases
+
 
 @router.get("/{case_id}", response_model=CaseResponse)
 async def get_case(
     case_id: int,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
 ):
     """Get a specific case by ID"""
-    
+
     case = db.query(Case).filter(Case.id == case_id).first()
-    
+
     if not case:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Case not found"
+            status_code=status.HTTP_404_NOT_FOUND, detail="Case not found"
         )
-    
+
     return case
+
 
 @router.put("/{case_id}", response_model=CaseResponse)
 async def update_case(
     case_id: int,
     case_data: CaseUpdate,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
 ):
     """Update a case"""
-    
+
     case = db.query(Case).filter(Case.id == case_id).first()
-    
+
     if not case:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Case not found"
+            status_code=status.HTTP_404_NOT_FOUND, detail="Case not found"
         )
-    
+
     # Update only provided fields
     update_data = case_data.dict(exclude_unset=True)
     for field, value in update_data.items():
         setattr(case, field, value)
-    
+
     db.commit()
     db.refresh(case)
-    
+
     return case
+
 
 @router.delete("/{case_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_case(
     case_id: int,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
 ):
     """Delete a case (archive)"""
-    
+
     case = db.query(Case).filter(Case.id == case_id).first()
-    
+
     if not case:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Case not found"
+            status_code=status.HTTP_404_NOT_FOUND, detail="Case not found"
         )
-    
+
     # Archive the case
     case.status = CaseStatus.ARCHIVED
     db.commit()
-    
+
     return None
+
 
 @router.get("/{case_id}/auto-fill-data")
 async def get_case_auto_fill_data(
     case_id: int,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
 ):
     """
     Get case data formatted for auto-filling documents
     Includes both case and client information
     """
-    
+
     case = db.query(Case).filter(Case.id == case_id).first()
-    
+
     if not case:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Case not found"
+            status_code=status.HTTP_404_NOT_FOUND, detail="Case not found"
         )
-    
+
     # Get client data
     client = case.client
     attorney = case.attorney
-    
+
     # Format data for auto-fill
     auto_fill_data = {
         # Case information
@@ -249,15 +255,26 @@ async def get_case_auto_fill_data(
         "judge_name": case.judge_name or "",
         "opposing_party": case.opposing_party or "",
         "opposing_counsel": case.opposing_counsel or "",
-        "filing_date": case.filing_date.strftime("%m/%d/%Y") if case.filing_date else "",
-        "statute_of_limitations": case.statute_of_limitations.strftime("%m/%d/%Y") if case.statute_of_limitations else "",
+        "filing_date": (
+            case.filing_date.strftime("%m/%d/%Y") if case.filing_date else ""
+        ),
+        "statute_of_limitations": (
+            case.statute_of_limitations.strftime("%m/%d/%Y")
+            if case.statute_of_limitations
+            else ""
+        ),
         "trial_date": case.trial_date.strftime("%m/%d/%Y") if case.trial_date else "",
-        "settlement_amount": f"${case.settlement_amount:,.2f}" if case.settlement_amount else "",
+        "settlement_amount": (
+            f"${case.settlement_amount:,.2f}" if case.settlement_amount else ""
+        ),
         "hourly_rate": f"${case.hourly_rate:,.2f}" if case.hourly_rate else "",
         "flat_fee": f"${case.flat_fee:,.2f}" if case.flat_fee else "",
-        "contingency_percentage": f"{case.contingency_percentage}%" if case.contingency_percentage else "",
-        "retainer_amount": f"${case.retainer_amount:,.2f}" if case.retainer_amount else "",
-        
+        "contingency_percentage": (
+            f"{case.contingency_percentage}%" if case.contingency_percentage else ""
+        ),
+        "retainer_amount": (
+            f"${case.retainer_amount:,.2f}" if case.retainer_amount else ""
+        ),
         # Client information
         "client_full_name": f"{client.first_name} {client.last_name}",
         "client_first_name": client.first_name,
@@ -271,8 +288,9 @@ async def get_case_auto_fill_data(
         "client_state": client.state or "",
         "client_zip": client.zip_code or "",
         "client_country": client.country,
-        "client_full_address": f"{client.address or ''}, {client.city or ''}, {client.state or ''} {client.zip_code or ''}".strip(", "),
-        
+        "client_full_address": f"{client.address or ''}, {client.city or ''}, {client.state or ''} {client.zip_code or ''}".strip(
+            ", "
+        ),
         # Attorney information
         "attorney_full_name": f"{attorney.first_name} {attorney.last_name}",
         "attorney_first_name": attorney.first_name,
@@ -280,13 +298,11 @@ async def get_case_auto_fill_data(
         "attorney_email": attorney.email,
         "attorney_phone": attorney.phone or "",
         "attorney_bar_number": attorney.bar_number or "",
-        
         # Current date
         "current_date": datetime.now().strftime("%m/%d/%Y"),
         "current_year": datetime.now().strftime("%Y"),
-        
         # Custom fields
-        **(case.custom_fields or {})
+        **(case.custom_fields or {}),
     }
-    
+
     return auto_fill_data

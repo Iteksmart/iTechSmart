@@ -15,7 +15,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 # Security configuration
-SECRET_KEY = "your-secret-key-change-in-production"  # TODO: Move to environment variable
+SECRET_KEY = (
+    "your-secret-key-change-in-production"  # TODO: Move to environment variable
+)
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
@@ -24,6 +26,7 @@ security = HTTPBearer()
 
 class User(BaseModel):
     """User model"""
+
     username: str
     email: Optional[str] = None
     full_name: Optional[str] = None
@@ -33,12 +36,14 @@ class User(BaseModel):
 
 class TokenData(BaseModel):
     """Token data model"""
+
     username: Optional[str] = None
     roles: list[str] = []
 
 
 class UserInDB(User):
     """User in database with hashed password"""
+
     hashed_password: str
 
 
@@ -48,18 +53,22 @@ fake_users_db = {
         "username": "admin",
         "full_name": "Admin User",
         "email": "admin@itechsmart.dev",
-        "hashed_password": bcrypt.hashpw("admin123".encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
+        "hashed_password": bcrypt.hashpw(
+            "admin123".encode("utf-8"), bcrypt.gensalt()
+        ).decode("utf-8"),
         "disabled": False,
-        "roles": ["admin", "user"]
+        "roles": ["admin", "user"],
     },
     "user": {
         "username": "user",
         "full_name": "Regular User",
         "email": "user@itechsmart.dev",
-        "hashed_password": bcrypt.hashpw("user123".encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
+        "hashed_password": bcrypt.hashpw(
+            "user123".encode("utf-8"), bcrypt.gensalt()
+        ).decode("utf-8"),
         "disabled": False,
-        "roles": ["user"]
-    }
+        "roles": ["user"],
+    },
 }
 
 
@@ -67,14 +76,16 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     """
     Verify password against hash
     """
-    return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
+    return bcrypt.checkpw(
+        plain_password.encode("utf-8"), hashed_password.encode("utf-8")
+    )
 
 
 def get_password_hash(password: str) -> str:
     """
     Hash password
     """
-    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
 
 def get_user(username: str) -> Optional[UserInDB]:
@@ -108,7 +119,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
         expire = datetime.utcnow() + expires_delta
     else:
         expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    
+
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
@@ -122,16 +133,18 @@ def decode_access_token(token: str) -> Optional[TokenData]:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
         roles: list = payload.get("roles", [])
-        
+
         if username is None:
             return None
-        
+
         return TokenData(username=username, roles=roles)
     except jwt.PyJWTError:
         return None
 
 
-async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> User:
+async def get_current_user(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+) -> User:
     """
     Get current authenticated user from JWT token
     """
@@ -140,34 +153,34 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
-    
+
     token = credentials.credentials
     token_data = decode_access_token(token)
-    
+
     if token_data is None:
         raise credentials_exception
-    
+
     user = get_user(username=token_data.username)
     if user is None:
         raise credentials_exception
-    
+
     if user.disabled:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Inactive user"
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Inactive user"
         )
-    
+
     return user
 
 
-async def get_current_active_user(current_user: User = Depends(get_current_user)) -> User:
+async def get_current_active_user(
+    current_user: User = Depends(get_current_user),
+) -> User:
     """
     Get current active user
     """
     if current_user.disabled:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Inactive user"
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Inactive user"
         )
     return current_user
 
@@ -176,14 +189,15 @@ def require_role(required_role: str):
     """
     Dependency to require specific role
     """
+
     async def role_checker(current_user: User = Depends(get_current_user)) -> User:
         if required_role not in current_user.roles:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail=f"Role '{required_role}' required"
+                detail=f"Role '{required_role}' required",
             )
         return current_user
-    
+
     return role_checker
 
 
@@ -211,20 +225,20 @@ async def login(login_request: LoginRequest):
     Login endpoint - returns JWT token
     """
     user = authenticate_user(login_request.username, login_request.password)
-    
+
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    
+
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
         data={"sub": user.username, "roles": user.roles},
-        expires_delta=access_token_expires
+        expires_delta=access_token_expires,
     )
-    
+
     return LoginResponse(
         access_token=access_token,
         token_type="bearer",
@@ -233,8 +247,8 @@ async def login(login_request: LoginRequest):
             email=user.email,
             full_name=user.full_name,
             disabled=user.disabled,
-            roles=user.roles
-        )
+            roles=user.roles,
+        ),
     )
 
 
@@ -254,11 +268,9 @@ async def refresh_token(current_user: User = Depends(get_current_user)):
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
         data={"sub": current_user.username, "roles": current_user.roles},
-        expires_delta=access_token_expires
+        expires_delta=access_token_expires,
     )
-    
+
     return LoginResponse(
-        access_token=access_token,
-        token_type="bearer",
-        user=current_user
+        access_token=access_token, token_type="bearer", user=current_user
     )

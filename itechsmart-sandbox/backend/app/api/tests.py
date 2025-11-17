@@ -21,19 +21,16 @@ class TestRunCreate(BaseModel):
 
 
 @router.post("/run")
-def run_test_suite(
-    test_run: TestRunCreate,
-    db: Session = Depends(get_db)
-):
+def run_test_suite(test_run: TestRunCreate, db: Session = Depends(get_db)):
     """Run test suite in sandbox"""
     engine = SandboxEngine(db)
-    
+
     try:
         result = engine.run_test_suite(
             test_run.sandbox_id,
             test_run.product_name,
             test_run.test_suite,
-            test_run.test_type
+            test_run.test_type,
         )
         return {
             "test_run_id": result.id,
@@ -42,7 +39,7 @@ def run_test_suite(
             "failed_tests": result.failed_tests,
             "skipped_tests": result.skipped_tests,
             "duration_seconds": result.duration_seconds,
-            "results": result.results
+            "results": result.results,
         }
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))

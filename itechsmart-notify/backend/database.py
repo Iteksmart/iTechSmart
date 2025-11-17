@@ -10,16 +10,12 @@ import os
 # Database URL from environment variable or default
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql://notify_user:notify_pass@localhost:5432/itechsmart_notify"
+    "postgresql://notify_user:notify_pass@localhost:5432/itechsmart_notify",
 )
 
 # Create SQLAlchemy engine
 engine = create_engine(
-    DATABASE_URL,
-    pool_pre_ping=True,
-    pool_size=10,
-    max_overflow=20,
-    echo=False
+    DATABASE_URL, pool_pre_ping=True, pool_size=10, max_overflow=20, echo=False
 )
 
 # Create SessionLocal class

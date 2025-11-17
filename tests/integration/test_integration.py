@@ -24,7 +24,7 @@ def test_suite_integration():
         "iTechSmart Sentinel",
         "iTechSmart DevOps",
         "iTechSmart AI",
-        "iTechSmart Cloud"
+        "iTechSmart Cloud",
     ]
     assert len(products) == 12
 

@@ -12,8 +12,7 @@ from typing import Dict, Any
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -34,7 +33,7 @@ app = FastAPI(
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # Configure CORS
@@ -51,11 +50,7 @@ app.add_middleware(
 @app.get("/health")
 async def health_check() -> Dict[str, Any]:
     """Health check endpoint"""
-    return {
-        "status": "healthy",
-        "version": "1.0.0",
-        "service": "iTechSmart DataFlow"
-    }
+    return {"status": "healthy", "version": "1.0.0", "service": "iTechSmart DataFlow"}
 
 
 # Root endpoint
@@ -66,7 +61,7 @@ async def root() -> Dict[str, str]:
         "message": "iTechSmart DataFlow API",
         "version": "1.0.0",
         "docs": "/docs",
-        "health": "/health"
+        "health": "/health",
     }
 
 
@@ -84,7 +79,7 @@ async def list_pipelines() -> Dict[str, Any]:
                 "status": "running",
                 "last_run": "2024-11-12T10:00:00Z",
                 "success_rate": 99.5,
-                "records_processed": 1000000
+                "records_processed": 1000000,
             },
             {
                 "id": "pipeline-002",
@@ -94,13 +89,13 @@ async def list_pipelines() -> Dict[str, Any]:
                 "status": "running",
                 "last_run": "2024-11-12T10:30:00Z",
                 "success_rate": 98.8,
-                "records_processed": 500000
-            }
+                "records_processed": 500000,
+            },
         ],
         "total": 2,
         "active": 2,
         "paused": 0,
-        "failed": 0
+        "failed": 0,
     }
 
 
@@ -110,7 +105,7 @@ async def create_pipeline(pipeline_data: Dict[str, Any]) -> Dict[str, Any]:
     return {
         "success": True,
         "pipeline_id": "pipeline-003",
-        "message": "Pipeline created successfully"
+        "message": "Pipeline created successfully",
     }
 
 
@@ -124,25 +119,19 @@ async def get_pipeline(pipeline_id: str) -> Dict[str, Any]:
             "type": "PostgreSQL",
             "host": "db.example.com",
             "database": "customers",
-            "table": "users"
+            "table": "users",
         },
         "destination": {
             "type": "Data Lake",
             "bucket": "customer-data",
-            "format": "parquet"
+            "format": "parquet",
         },
         "transformations": [
-            {
-                "type": "filter",
-                "condition": "status = 'active'"
-            },
-            {
-                "type": "map",
-                "fields": ["id", "name", "email", "created_at"]
-            }
+            {"type": "filter", "condition": "status = 'active'"},
+            {"type": "map", "fields": ["id", "name", "email", "created_at"]},
         ],
         "schedule": "0 */6 * * *",
-        "status": "running"
+        "status": "running",
     }
 
 
@@ -158,7 +147,7 @@ async def list_connectors() -> Dict[str, Any]:
                 "type": "database",
                 "category": "source",
                 "version": "1.0.0",
-                "supported": True
+                "supported": True,
             },
             {
                 "id": "mysql",
@@ -166,7 +155,7 @@ async def list_connectors() -> Dict[str, Any]:
                 "type": "database",
                 "category": "source",
                 "version": "1.0.0",
-                "supported": True
+                "supported": True,
             },
             {
                 "id": "mongodb",
@@ -174,7 +163,7 @@ async def list_connectors() -> Dict[str, Any]:
                 "type": "database",
                 "category": "source",
                 "version": "1.0.0",
-                "supported": True
+                "supported": True,
             },
             {
                 "id": "salesforce",
@@ -182,7 +171,7 @@ async def list_connectors() -> Dict[str, Any]:
                 "type": "saas",
                 "category": "source",
                 "version": "1.0.0",
-                "supported": True
+                "supported": True,
             },
             {
                 "id": "stripe",
@@ -190,7 +179,7 @@ async def list_connectors() -> Dict[str, Any]:
                 "type": "saas",
                 "category": "source",
                 "version": "1.0.0",
-                "supported": True
+                "supported": True,
             },
             {
                 "id": "s3",
@@ -198,7 +187,7 @@ async def list_connectors() -> Dict[str, Any]:
                 "type": "storage",
                 "category": "destination",
                 "version": "1.0.0",
-                "supported": True
+                "supported": True,
             },
             {
                 "id": "snowflake",
@@ -206,11 +195,11 @@ async def list_connectors() -> Dict[str, Any]:
                 "type": "warehouse",
                 "category": "destination",
                 "version": "1.0.0",
-                "supported": True
-            }
+                "supported": True,
+            },
         ],
         "total": 100,
-        "categories": ["database", "saas", "storage", "warehouse", "api"]
+        "categories": ["database", "saas", "storage", "warehouse", "api"],
     }
 
 
@@ -223,28 +212,28 @@ async def list_transformations() -> Dict[str, Any]:
             {
                 "type": "filter",
                 "name": "Filter Rows",
-                "description": "Filter rows based on conditions"
+                "description": "Filter rows based on conditions",
             },
             {
                 "type": "map",
                 "name": "Map Fields",
-                "description": "Select and rename fields"
+                "description": "Select and rename fields",
             },
             {
                 "type": "aggregate",
                 "name": "Aggregate Data",
-                "description": "Group and aggregate data"
+                "description": "Group and aggregate data",
             },
             {
                 "type": "join",
                 "name": "Join Tables",
-                "description": "Join multiple data sources"
+                "description": "Join multiple data sources",
             },
             {
                 "type": "deduplicate",
                 "name": "Remove Duplicates",
-                "description": "Remove duplicate records"
-            }
+                "description": "Remove duplicate records",
+            },
         ]
     }
 
@@ -261,7 +250,7 @@ async def list_quality_rules() -> Dict[str, Any]:
                 "type": "format",
                 "field": "email",
                 "condition": "valid_email",
-                "severity": "error"
+                "severity": "error",
             },
             {
                 "id": "rule-002",
@@ -269,7 +258,7 @@ async def list_quality_rules() -> Dict[str, Any]:
                 "type": "completeness",
                 "field": "customer_id",
                 "condition": "not_null",
-                "severity": "error"
+                "severity": "error",
             },
             {
                 "id": "rule-003",
@@ -277,8 +266,8 @@ async def list_quality_rules() -> Dict[str, Any]:
                 "type": "validity",
                 "field": "created_at",
                 "condition": "date_range",
-                "severity": "warning"
-            }
+                "severity": "warning",
+            },
         ]
     }
 
@@ -289,27 +278,22 @@ async def get_metrics() -> Dict[str, Any]:
     """Get platform metrics"""
     return {
         "metrics": {
-            "pipelines": {
-                "total": 50,
-                "active": 45,
-                "paused": 3,
-                "failed": 2
-            },
+            "pipelines": {"total": 50, "active": 45, "paused": 3, "failed": 2},
             "data_processed": {
                 "today": 10000000,
                 "this_week": 65000000,
-                "this_month": 250000000
+                "this_month": 250000000,
             },
             "performance": {
                 "avg_latency_ms": 150,
                 "success_rate": 99.2,
-                "error_rate": 0.8
+                "error_rate": 0.8,
             },
             "resources": {
                 "cpu_usage": 45.5,
                 "memory_usage": 62.3,
-                "storage_used_gb": 1250
-            }
+                "storage_used_gb": 1250,
+            },
         }
     }
 
@@ -324,36 +308,37 @@ async def list_integrations() -> Dict[str, Any]:
                 "product": "ImpactOS",
                 "status": "connected",
                 "type": "analytics",
-                "description": "Feeds analytics data to ImpactOS"
+                "description": "Feeds analytics data to ImpactOS",
             },
             {
                 "product": "HL7",
                 "status": "connected",
                 "type": "healthcare",
-                "description": "Healthcare data pipeline integration"
+                "description": "Healthcare data pipeline integration",
             },
             {
                 "product": "Passport",
                 "status": "connected",
                 "type": "auth",
-                "description": "Access control for pipelines"
+                "description": "Access control for pipelines",
             },
             {
                 "product": "Enterprise Hub",
                 "status": "connected",
                 "type": "monitoring",
-                "description": "Monitoring and alerts"
+                "description": "Monitoring and alerts",
             },
             {
                 "product": "Ninja",
                 "status": "connected",
                 "type": "automation",
-                "description": "Self-healing pipeline automation"
-            }
+                "description": "Self-healing pipeline automation",
+            },
         ]
     }
 
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)

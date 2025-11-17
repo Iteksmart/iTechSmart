@@ -340,7 +340,7 @@ if __name__ == '__main__':
 '''
 
 # Create README
-readme_code = '''# iTechSmart Supreme
+readme_code = """# iTechSmart Supreme
 
 **Version:** 1.0.0  
 **Status:** ✅ 100% Complete  
@@ -500,10 +500,10 @@ Contributions welcome! Please see CONTRIBUTING.md
 ---
 
 **iTechSmart Supreme - The End of IT Downtime. Forever.** 🏆
-'''
+"""
 
 # Create requirements.txt
-requirements = '''# iTechSmart Supreme Requirements
+requirements = """# iTechSmart Supreme Requirements
 
 # Core
 fastapi>=0.104.0
@@ -569,39 +569,39 @@ black>=23.10.0
 flake8>=6.1.0
 mypy>=1.6.0
 isort>=5.12.0
-'''
+"""
 
 # Write files
 print("Creating missing components for iTechSmart Supreme...")
 
 # Create CLI
-os.makedirs('itechsmart_supreme/cli', exist_ok=True)
-with open('itechsmart_supreme/cli/__init__.py', 'w') as f:
-    f.write('')
-with open('itechsmart_supreme/cli/commands.py', 'w') as f:
+os.makedirs("itechsmart_supreme/cli", exist_ok=True)
+with open("itechsmart_supreme/cli/__init__.py", "w") as f:
+    f.write("")
+with open("itechsmart_supreme/cli/commands.py", "w") as f:
     f.write(cli_code)
 
 # Create config
-with open('itechsmart_supreme/config/settings.py', 'w') as f:
+with open("itechsmart_supreme/config/settings.py", "w") as f:
     f.write(config_code)
 
 # Create tests
-os.makedirs('itechsmart_supreme/tests', exist_ok=True)
-with open('itechsmart_supreme/tests/__init__.py', 'w') as f:
-    f.write('')
-with open('itechsmart_supreme/tests/test_suite.py', 'w') as f:
+os.makedirs("itechsmart_supreme/tests", exist_ok=True)
+with open("itechsmart_supreme/tests/__init__.py", "w") as f:
+    f.write("")
+with open("itechsmart_supreme/tests/test_suite.py", "w") as f:
     f.write(test_code)
 
 # Create README
-with open('itechsmart_supreme/README.md', 'w') as f:
+with open("itechsmart_supreme/README.md", "w") as f:
     f.write(readme_code)
 
 # Create requirements
-with open('itechsmart_supreme/requirements.txt', 'w') as f:
+with open("itechsmart_supreme/requirements.txt", "w") as f:
     f.write(requirements)
 
 # Create setup.py
-setup_code = '''from setuptools import setup, find_packages
+setup_code = """from setuptools import setup, find_packages
 
 setup(
     name="itechsmart-supreme",
@@ -622,9 +622,9 @@ setup(
     },
     python_requires='>=3.11',
 )
-'''
+"""
 
-with open('itechsmart_supreme/setup.py', 'w') as f:
+with open("itechsmart_supreme/setup.py", "w") as f:
     f.write(setup_code)
 
 print("✅ iTechSmart Supreme is now 100% complete!")

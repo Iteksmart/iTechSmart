@@ -10,6 +10,7 @@ from enum import Enum
 
 class ComplianceFramework(str, Enum):
     """Supported compliance frameworks"""
+
     SOC2 = "soc2"
     ISO27001 = "iso27001"
     HIPAA = "hipaa"
@@ -22,6 +23,7 @@ class ComplianceFramework(str, Enum):
 
 class ControlStatus(str, Enum):
     """Control implementation status"""
+
     IMPLEMENTED = "implemented"
     PARTIALLY_IMPLEMENTED = "partially_implemented"
     NOT_IMPLEMENTED = "not_implemented"
@@ -31,6 +33,7 @@ class ControlStatus(str, Enum):
 
 class ComplianceStatus(str, Enum):
     """Overall compliance status"""
+
     COMPLIANT = "compliant"
     NON_COMPLIANT = "non_compliant"
     PARTIALLY_COMPLIANT = "partially_compliant"
@@ -40,6 +43,7 @@ class ComplianceStatus(str, Enum):
 
 class EvidenceType(str, Enum):
     """Types of compliance evidence"""
+
     DOCUMENT = "document"
     SCREENSHOT = "screenshot"
     LOG_FILE = "log_file"
@@ -52,6 +56,7 @@ class EvidenceType(str, Enum):
 
 class RiskLevel(str, Enum):
     """Risk severity levels"""
+
     CRITICAL = "critical"
     HIGH = "high"
     MEDIUM = "medium"
@@ -63,10 +68,12 @@ class RiskLevel(str, Enum):
 # COMPLIANCE CENTER MODELS
 # ============================================================================
 
+
 class ComplianceControl:
     """
     Represents a compliance control from any framework
     """
+
     def __init__(
         self,
         control_id: str,
@@ -76,7 +83,7 @@ class ComplianceControl:
         description: str,
         category: str,
         domain: str,
-        requirement: str
+        requirement: str,
     ):
         self.control_id = control_id
         self.framework = framework
@@ -104,6 +111,7 @@ class ComplianceEvidence:
     """
     Evidence supporting compliance control implementation
     """
+
     def __init__(
         self,
         evidence_id: str,
@@ -111,7 +119,7 @@ class ComplianceEvidence:
         evidence_type: EvidenceType,
         title: str,
         description: str,
-        file_path: Optional[str] = None
+        file_path: Optional[str] = None,
     ):
         self.evidence_id = evidence_id
         self.control_id = control_id
@@ -134,13 +142,14 @@ class ComplianceAssessment:
     """
     Compliance assessment/audit session
     """
+
     def __init__(
         self,
         assessment_id: str,
         framework: ComplianceFramework,
         assessment_type: str,
         assessor: str,
-        scope: str
+        scope: str,
     ):
         self.assessment_id = assessment_id
         self.framework = framework
@@ -170,6 +179,7 @@ class ComplianceFinding:
     """
     Compliance gap or issue identified during assessment
     """
+
     def __init__(
         self,
         finding_id: str,
@@ -177,7 +187,7 @@ class ComplianceFinding:
         control_id: str,
         severity: RiskLevel,
         title: str,
-        description: str
+        description: str,
     ):
         self.finding_id = finding_id
         self.assessment_id = assessment_id
@@ -202,13 +212,9 @@ class PolicyDocument:
     """
     Organizational policy document
     """
+
     def __init__(
-        self,
-        policy_id: str,
-        title: str,
-        policy_type: str,
-        version: str,
-        owner: str
+        self, policy_id: str, title: str, policy_type: str, version: str, owner: str
     ):
         self.policy_id = policy_id
         self.title = title
@@ -234,12 +240,13 @@ class ComplianceReport:
     """
     Generated compliance report
     """
+
     def __init__(
         self,
         report_id: str,
         report_type: str,
         framework: ComplianceFramework,
-        generated_by: str
+        generated_by: str,
     ):
         self.report_id = report_id
         self.report_type = report_type  # assessment, gap_analysis, executive, audit
@@ -266,13 +273,9 @@ class AuditTrail:
     """
     Audit trail for compliance activities
     """
+
     def __init__(
-        self,
-        trail_id: str,
-        entity_type: str,
-        entity_id: str,
-        action: str,
-        user: str
+        self, trail_id: str, entity_type: str, entity_id: str, action: str, user: str
     ):
         self.trail_id = trail_id
         self.entity_type = entity_type  # control, evidence, assessment, etc.
@@ -290,13 +293,23 @@ class AuditTrail:
 # FRAMEWORK-SPECIFIC MODELS
 # ============================================================================
 
+
 class SOC2Control(ComplianceControl):
     """
     SOC2-specific control with trust service criteria
     """
-    def __init__(self, control_id: str, control_number: str, title: str, 
-                 description: str, category: str, domain: str, requirement: str,
-                 trust_service_criteria: str):
+
+    def __init__(
+        self,
+        control_id: str,
+        control_number: str,
+        title: str,
+        description: str,
+        category: str,
+        domain: str,
+        requirement: str,
+        trust_service_criteria: str,
+    ):
         super().__init__(
             control_id=control_id,
             framework=ComplianceFramework.SOC2,
@@ -305,7 +318,7 @@ class SOC2Control(ComplianceControl):
             description=description,
             category=category,
             domain=domain,
-            requirement=requirement
+            requirement=requirement,
         )
         self.trust_service_criteria = trust_service_criteria  # CC, A, PI, C, P
         self.common_criteria_related: bool = False
@@ -315,9 +328,18 @@ class ISO27001Control(ComplianceControl):
     """
     ISO 27001-specific control
     """
-    def __init__(self, control_id: str, control_number: str, title: str,
-                 description: str, category: str, domain: str, requirement: str,
-                 annex_section: str):
+
+    def __init__(
+        self,
+        control_id: str,
+        control_number: str,
+        title: str,
+        description: str,
+        category: str,
+        domain: str,
+        requirement: str,
+        annex_section: str,
+    ):
         super().__init__(
             control_id=control_id,
             framework=ComplianceFramework.ISO27001,
@@ -326,7 +348,7 @@ class ISO27001Control(ComplianceControl):
             description=description,
             category=category,
             domain=domain,
-            requirement=requirement
+            requirement=requirement,
         )
         self.annex_section = annex_section  # A.5, A.6, etc.
         self.iso_clause: Optional[str] = None
@@ -336,9 +358,18 @@ class HIPAAControl(ComplianceControl):
     """
     HIPAA-specific control
     """
-    def __init__(self, control_id: str, control_number: str, title: str,
-                 description: str, category: str, domain: str, requirement: str,
-                 safeguard_type: str):
+
+    def __init__(
+        self,
+        control_id: str,
+        control_number: str,
+        title: str,
+        description: str,
+        category: str,
+        domain: str,
+        requirement: str,
+        safeguard_type: str,
+    ):
         super().__init__(
             control_id=control_id,
             framework=ComplianceFramework.HIPAA,
@@ -347,7 +378,7 @@ class HIPAAControl(ComplianceControl):
             description=description,
             category=category,
             domain=domain,
-            requirement=requirement
+            requirement=requirement,
         )
         self.safeguard_type = safeguard_type  # administrative, physical, technical
         self.is_required: bool = True

@@ -1,6 +1,7 @@
 """
 Pytest configuration and fixtures for iTechSmart PassPort tests
 """
+
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
@@ -40,7 +41,7 @@ def client(db):
             yield db
         finally:
             pass
-    
+
     app.dependency_overrides[get_db] = override_get_db
     with TestClient(app) as test_client:
         yield test_client
@@ -52,7 +53,7 @@ def test_user_data():
     return {
         "email": "test@example.com",
         "password": "TestPassword123!",
-        "full_name": "Test User"
+        "full_name": "Test User",
     }
 
 
@@ -63,8 +64,5 @@ def test_user_token(test_user_data):
 
 @pytest.fixture
 def authenticated_client(client, test_user_token):
-    client.headers = {
-        **client.headers,
-        "Authorization": f"Bearer {test_user_token}"
-    }
+    client.headers = {**client.headers, "Authorization": f"Bearer {test_user_token}"}
     return client

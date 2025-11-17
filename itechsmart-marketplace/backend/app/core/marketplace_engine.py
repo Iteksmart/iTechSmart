@@ -17,7 +17,13 @@ class IntegrationType(str, Enum):
 
 
 class Integration:
-    def __init__(self, integration_id: str, name: str, provider: str, integration_type: IntegrationType):
+    def __init__(
+        self,
+        integration_id: str,
+        name: str,
+        provider: str,
+        integration_type: IntegrationType,
+    ):
         self.integration_id = integration_id
         self.name = name
         self.provider = provider
@@ -34,7 +40,7 @@ class MarketplaceEngine:
         self.integrations: Dict[str, Integration] = {}
         self.installed: Dict[str, List[str]] = {}
         self._initialize_integrations()
-    
+
     def _initialize_integrations(self):
         """Initialize popular integrations"""
         popular = [
@@ -49,42 +55,51 @@ class MarketplaceEngine:
             ("Dropbox", "dropbox", IntegrationType.API),
             ("Zoom", "zoom", IntegrationType.API),
         ]
-        
+
         for name, provider, int_type in popular:
             integration_id = str(uuid4())
             integration = Integration(integration_id, name, provider, int_type)
             integration.rating = 4.5
             integration.installs = 1000
             self.integrations[integration_id] = integration
-    
-    def list_integrations(self, integration_type: Optional[IntegrationType] = None) -> List[Dict[str, Any]]:
+
+    def list_integrations(
+        self, integration_type: Optional[IntegrationType] = None
+    ) -> List[Dict[str, Any]]:
         integrations = list(self.integrations.values())
         if integration_type:
-            integrations = [i for i in integrations if i.integration_type == integration_type]
-        
-        return [{
-            "integration_id": i.integration_id,
-            "name": i.name,
-            "provider": i.provider,
-            "type": i.integration_type.value,
-            "installs": i.installs,
-            "rating": i.rating
-        } for i in integrations]
-    
-    def install_integration(self, user_id: str, integration_id: str, config: Dict[str, Any]) -> bool:
+            integrations = [
+                i for i in integrations if i.integration_type == integration_type
+            ]
+
+        return [
+            {
+                "integration_id": i.integration_id,
+                "name": i.name,
+                "provider": i.provider,
+                "type": i.integration_type.value,
+                "installs": i.installs,
+                "rating": i.rating,
+            }
+            for i in integrations
+        ]
+
+    def install_integration(
+        self, user_id: str, integration_id: str, config: Dict[str, Any]
+    ) -> bool:
         integration = self.integrations.get(integration_id)
         if not integration:
             return False
-        
+
         if user_id not in self.installed:
             self.installed[user_id] = []
-        
+
         self.installed[user_id].append(integration_id)
         integration.installs += 1
         integration.config = config
         integration.is_active = True
         return True
-    
+
     def get_installed(self, user_id: str) -> List[Dict[str, Any]]:
         integration_ids = self.installed.get(user_id, [])
         return [
@@ -92,7 +107,7 @@ class MarketplaceEngine:
                 "integration_id": i.integration_id,
                 "name": i.name,
                 "provider": i.provider,
-                "is_active": i.is_active
+                "is_active": i.is_active,
             }
             for i in [self.integrations.get(iid) for iid in integration_ids]
             if i

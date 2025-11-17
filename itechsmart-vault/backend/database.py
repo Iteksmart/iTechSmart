@@ -9,17 +9,12 @@ import os
 
 # Database URL from environment variable or default
 DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "postgresql://vault_user:vault_pass@localhost:5432/itechsmart_vault"
+    "DATABASE_URL", "postgresql://vault_user:vault_pass@localhost:5432/itechsmart_vault"
 )
 
 # Create SQLAlchemy engine
 engine = create_engine(
-    DATABASE_URL,
-    pool_pre_ping=True,
-    pool_size=10,
-    max_overflow=20,
-    echo=False
+    DATABASE_URL, pool_pre_ping=True, pool_size=10, max_overflow=20, echo=False
 )
 
 # Create SessionLocal class

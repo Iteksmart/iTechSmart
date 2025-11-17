@@ -36,7 +36,7 @@ PRODUCTS_DATA = {
                 "Automated backup and disaster recovery",
                 "Performance optimization recommendations",
                 "Cost analysis and optimization tools",
-                "24/7 autonomous operations"
+                "24/7 autonomous operations",
             ],
             "v1_5_0_features": [
                 "Advanced ML model marketplace with 1000+ pre-trained models",
@@ -46,7 +46,7 @@ PRODUCTS_DATA = {
                 "Neural architecture search for AutoML",
                 "Advanced predictive analytics engine",
                 "Enhanced natural language processing",
-                "Improved security posture management"
+                "Improved security posture management",
             ],
             "v1_6_0_features": [
                 "Quantum computing integration for complex optimizations",
@@ -58,8 +58,8 @@ PRODUCTS_DATA = {
                 "Enhanced IoT device management",
                 "Advanced predictive maintenance with 99% accuracy",
                 "Automated compliance reporting for 20+ frameworks",
-                "Enhanced mobile app with offline-first architecture"
-            ]
+                "Enhanced mobile app with offline-first architecture",
+            ],
         },
         {
             "name": "iTechSmart Enterprise",
@@ -87,7 +87,7 @@ PRODUCTS_DATA = {
                 "Cost management and optimization",
                 "Service catalog management",
                 "Change management automation",
-                "Asset lifecycle management"
+                "Asset lifecycle management",
             ],
             "v1_5_0_features": [
                 "AI-powered compliance automation across all frameworks",
@@ -97,7 +97,7 @@ PRODUCTS_DATA = {
                 "Automated remediation workflows",
                 "Enhanced multi-tenant isolation",
                 "Advanced analytics and reporting",
-                "Improved performance and scalability"
+                "Improved performance and scalability",
             ],
             "v1_6_0_features": [
                 "Zero-trust security architecture implementation",
@@ -109,8 +109,8 @@ PRODUCTS_DATA = {
                 "Enhanced mobile management capabilities",
                 "Advanced workflow automation with AI",
                 "Improved disaster recovery and business continuity",
-                "Enhanced API gateway and management"
-            ]
+                "Enhanced API gateway and management",
+            ],
         },
         {
             "name": "iTechSmart Supreme Plus",
@@ -138,7 +138,7 @@ PRODUCTS_DATA = {
                 "Service level management",
                 "Advanced monitoring capabilities",
                 "Custom alerting rules",
-                "Historical data analysis"
+                "Historical data analysis",
             ],
             "v1_5_0_features": [
                 "Enhanced AI-powered predictive maintenance with 95% accuracy",
@@ -148,7 +148,7 @@ PRODUCTS_DATA = {
                 "Enhanced trend analysis with ML",
                 "Improved forecasting accuracy",
                 "Advanced mobile notifications",
-                "Enhanced data visualization"
+                "Enhanced data visualization",
             ],
             "v1_6_0_features": [
                 "Advanced predictive analytics with quantum computing",
@@ -160,8 +160,8 @@ PRODUCTS_DATA = {
                 "Advanced mobile security features",
                 "Improved offline capabilities with edge computing",
                 "Enhanced data synchronization",
-                "Advanced mobile workflow automation"
-            ]
+                "Advanced mobile workflow automation",
+            ],
         },
         {
             "name": "iTechSmart Citadel",
@@ -189,7 +189,7 @@ PRODUCTS_DATA = {
                 "Risk assessment and management",
                 "Security policy enforcement",
                 "Advanced encryption and data protection",
-                "Security awareness training integration"
+                "Security awareness training integration",
             ],
             "v1_5_0_features": [
                 "AI-powered threat hunting with behavioral analysis",
@@ -199,7 +199,7 @@ PRODUCTS_DATA = {
                 "Advanced threat intelligence feeds",
                 "Improved incident response automation",
                 "Enhanced forensics capabilities",
-                "Advanced compliance automation"
+                "Advanced compliance automation",
             ],
             "v1_6_0_features": [
                 "Quantum-resistant encryption implementation",
@@ -211,8 +211,8 @@ PRODUCTS_DATA = {
                 "Improved incident response with AI",
                 "Advanced security analytics",
                 "Enhanced compliance automation for new regulations",
-                "Improved integration with security tools"
-            ]
+                "Improved integration with security tools",
+            ],
         },
         {
             "name": "Desktop Launcher",
@@ -235,7 +235,7 @@ PRODUCTS_DATA = {
                 "Integration with all iTechSmart products",
                 "Performance monitoring",
                 "Resource usage optimization",
-                "Cross-platform support (Windows, macOS, Linux)"
+                "Cross-platform support (Windows, macOS, Linux)",
             ],
             "v1_5_0_features": [
                 "Voice command integration with natural language",
@@ -245,7 +245,7 @@ PRODUCTS_DATA = {
                 "Improved performance and startup time",
                 "Enhanced security features",
                 "Advanced customization options",
-                "Improved user experience"
+                "Improved user experience",
             ],
             "v1_6_0_features": [
                 "Advanced AI assistant integration",
@@ -257,9 +257,9 @@ PRODUCTS_DATA = {
                 "Advanced security with biometric authentication",
                 "Enhanced customization with themes marketplace",
                 "Improved integration with cloud services",
-                "Advanced workflow automation"
-            ]
-        }
+                "Advanced workflow automation",
+            ],
+        },
     ],
     "tier2": [
         {
@@ -283,7 +283,7 @@ PRODUCTS_DATA = {
                 "Data quality monitoring",
                 "Advanced filtering and segmentation",
                 "Historical data analysis",
-                "Trend detection and forecasting"
+                "Trend detection and forecasting",
             ],
             "v1_5_0_features": [
                 "AI-powered data insights with automated analysis",
@@ -293,7 +293,7 @@ PRODUCTS_DATA = {
                 "Improved visualization capabilities",
                 "Enhanced natural language processing",
                 "Advanced predictive analytics",
-                "Improved integration with BI tools"
+                "Improved integration with BI tools",
             ],
             "v1_6_0_features": [
                 "Quantum computing for complex analytics",
@@ -305,8 +305,8 @@ PRODUCTS_DATA = {
                 "Improved natural language queries with GPT integration",
                 "Advanced predictive modeling",
                 "Enhanced data quality management",
-                "Improved integration with data lakes"
-            ]
+                "Improved integration with data lakes",
+            ],
         },
         {
             "name": "iTechSmart Copilot",
@@ -329,7 +329,7 @@ PRODUCTS_DATA = {
                 "Custom command creation",
                 "Integration with development tools",
                 "Automated workflow suggestions",
-                "Smart search capabilities"
+                "Smart search capabilities",
             ],
             "v1_5_0_features": [
                 "Enhanced AI conversation capabilities with GPT-4",
@@ -339,7 +339,7 @@ PRODUCTS_DATA = {
                 "Improved context awareness",
                 "Enhanced learning capabilities",
                 "Advanced voice recognition",
-                "Improved automation suggestions"
+                "Improved automation suggestions",
             ],
             "v1_6_0_features": [
                 "Advanced AI with GPT-5 integration",
@@ -351,8 +351,8 @@ PRODUCTS_DATA = {
                 "Advanced voice commands with emotion detection",
                 "Improved automation with predictive suggestions",
                 "Enhanced documentation generation",
-                "Advanced knowledge management"
-            ]
+                "Advanced knowledge management",
+            ],
         },
         {
             "name": "iTechSmart Shield",
@@ -375,7 +375,7 @@ PRODUCTS_DATA = {
                 "Security posture assessment",
                 "Advanced forensics tools",
                 "Threat intelligence sharing",
-                "Security analytics dashboard"
+                "Security analytics dashboard",
             ],
             "v1_5_0_features": [
                 "AI-powered threat prediction with 95% accuracy",
@@ -385,7 +385,7 @@ PRODUCTS_DATA = {
                 "Improved threat intelligence",
                 "Advanced malware detection",
                 "Enhanced network monitoring",
-                "Improved compliance automation"
+                "Improved compliance automation",
             ],
             "v1_6_0_features": [
                 "Quantum-resistant threat detection",
@@ -397,8 +397,8 @@ PRODUCTS_DATA = {
                 "Enhanced network security with AI",
                 "Improved compliance for emerging threats",
                 "Advanced forensics with AI",
-                "Enhanced integration with security ecosystem"
-            ]
+                "Enhanced integration with security ecosystem",
+            ],
         },
         {
             "name": "iTechSmart Sentinel",
@@ -421,7 +421,7 @@ PRODUCTS_DATA = {
                 "Real-time monitoring",
                 "Performance metrics tracking",
                 "SLA monitoring",
-                "Advanced reporting"
+                "Advanced reporting",
             ],
             "v1_5_0_features": [
                 "AI-powered alert prioritization with ML",
@@ -431,7 +431,7 @@ PRODUCTS_DATA = {
                 "Improved alert grouping",
                 "Enhanced escalation policies",
                 "Advanced mobile notifications",
-                "Improved analytics"
+                "Improved analytics",
             ],
             "v1_6_0_features": [
                 "Advanced AI-powered alert prediction",
@@ -443,8 +443,8 @@ PRODUCTS_DATA = {
                 "Advanced mobile features with voice",
                 "Enhanced analytics with predictive insights",
                 "Improved automation with ML",
-                "Advanced reporting with AI"
-            ]
+                "Advanced reporting with AI",
+            ],
         },
         {
             "name": "iTechSmart DevOps",
@@ -467,7 +467,7 @@ PRODUCTS_DATA = {
                 "Artifact management",
                 "Environment management",
                 "Release management",
-                "Deployment tracking"
+                "Deployment tracking",
             ],
             "v1_5_0_features": [
                 "AI-powered pipeline optimization with ML",
@@ -477,7 +477,7 @@ PRODUCTS_DATA = {
                 "Improved container orchestration",
                 "Enhanced infrastructure as code",
                 "Advanced testing automation",
-                "Improved deployment strategies"
+                "Improved deployment strategies",
             ],
             "v1_6_0_features": [
                 "Advanced AI-powered pipeline intelligence",
@@ -489,9 +489,9 @@ PRODUCTS_DATA = {
                 "Advanced testing with AI",
                 "Enhanced deployment with progressive delivery",
                 "Improved monitoring with observability",
-                "Advanced integration with cloud-native tools"
-            ]
-        }
+                "Advanced integration with cloud-native tools",
+            ],
+        },
     ],
     "tier3": [
         {
@@ -515,7 +515,7 @@ PRODUCTS_DATA = {
                 "Feature engineering automation",
                 "Model explainability tools",
                 "MLOps pipeline integration",
-                "Distributed training support"
+                "Distributed training support",
             ],
             "v1_5_0_features": [
                 "Enhanced AutoML with neural architecture search",
@@ -525,7 +525,7 @@ PRODUCTS_DATA = {
                 "Advanced federated learning",
                 "Improved model versioning",
                 "Enhanced A/B testing",
-                "Advanced real-time inference"
+                "Advanced real-time inference",
             ],
             "v1_6_0_features": [
                 "Quantum machine learning integration",
@@ -537,8 +537,8 @@ PRODUCTS_DATA = {
                 "Improved A/B testing with causal inference",
                 "Advanced inference with model serving",
                 "Enhanced MLOps with automation",
-                "Improved integration with AI frameworks"
-            ]
+                "Improved integration with AI frameworks",
+            ],
         },
         {
             "name": "iTechSmart Cloud",
@@ -561,7 +561,7 @@ PRODUCTS_DATA = {
                 "Reserved instance management",
                 "Spot instance optimization",
                 "Cloud waste detection",
-                "Multi-cloud monitoring"
+                "Multi-cloud monitoring",
             ],
             "v1_5_0_features": [
                 "Enhanced AI cost optimization with 40% savings",
@@ -571,7 +571,7 @@ PRODUCTS_DATA = {
                 "Advanced cost forecasting",
                 "Enhanced governance automation",
                 "Improved disaster recovery",
-                "Advanced performance optimization"
+                "Advanced performance optimization",
             ],
             "v1_6_0_features": [
                 "Advanced AI cost optimization with 60% savings",
@@ -583,15 +583,16 @@ PRODUCTS_DATA = {
                 "Advanced disaster recovery with AI",
                 "Enhanced performance with auto-scaling",
                 "Improved compliance with automation",
-                "Advanced integration with cloud providers"
-            ]
-        }
-    ]
+                "Advanced integration with cloud providers",
+            ],
+        },
+    ],
 }
+
 
 def generate_html():
     """Generate comprehensive HTML documentation"""
-    
+
     html = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -935,12 +936,21 @@ def generate_html():
             </div>
         </div>
 """
-    
+
     # Calculate tier totals
-    tier1_total = sum(float(p['value'].replace('$', '').replace('M', '')) for p in PRODUCTS_DATA['tier1'])
-    tier2_total = sum(float(p['value'].replace('$', '').replace('M', '')) for p in PRODUCTS_DATA['tier2'])
-    tier3_total = sum(float(p['value'].replace('$', '').replace('M', '')) for p in PRODUCTS_DATA['tier3'])
-    
+    tier1_total = sum(
+        float(p["value"].replace("$", "").replace("M", ""))
+        for p in PRODUCTS_DATA["tier1"]
+    )
+    tier2_total = sum(
+        float(p["value"].replace("$", "").replace("M", ""))
+        for p in PRODUCTS_DATA["tier2"]
+    )
+    tier3_total = sum(
+        float(p["value"].replace("$", "").replace("M", ""))
+        for p in PRODUCTS_DATA["tier3"]
+    )
+
     # Generate Tier 1 section
     html += f"""
         <div class="tier-section">
@@ -950,8 +960,8 @@ def generate_html():
                 <p style="margin-top: 1rem; color: #6b7280;">Essential enterprise-grade products for comprehensive IT management</p>
             </div>
 """
-    
-    for product in PRODUCTS_DATA['tier1']:
+
+    for product in PRODUCTS_DATA["tier1"]:
         html += f"""
             <div class="product-card">
                 <div class="product-header">
@@ -970,9 +980,11 @@ def generate_html():
                     <h4>Core Features (v1.4.0)</h4>
                     <div class="features-list">
 """
-        for feature in product['v1_4_0_features']:
-            html += f'                        <div class="feature-item">{feature}</div>\n'
-        
+        for feature in product["v1_4_0_features"]:
+            html += (
+                f'                        <div class="feature-item">{feature}</div>\n'
+            )
+
         html += """                    </div>
                 </div>
                 
@@ -980,9 +992,9 @@ def generate_html():
                     <h4>New in v1.5.0 🆕</h4>
                     <div class="features-list">
 """
-        for feature in product['v1_5_0_features']:
+        for feature in product["v1_5_0_features"]:
             html += f'                        <div class="feature-item v1-5-0-features">{feature}</div>\n'
-        
+
         html += """                    </div>
                 </div>
                 
@@ -990,16 +1002,16 @@ def generate_html():
                     <h4>Coming in v1.6.0 🚀</h4>
                     <div class="features-list">
 """
-        for feature in product['v1_6_0_features']:
+        for feature in product["v1_6_0_features"]:
             html += f'                        <div class="feature-item v1-6-0-features">{feature}</div>\n'
-        
+
         html += """                    </div>
                 </div>
             </div>
 """
-    
+
     html += "        </div>\n"
-    
+
     # Generate Tier 2 section
     html += f"""
         <div class="tier-section">
@@ -1009,8 +1021,8 @@ def generate_html():
                 <p style="margin-top: 1rem; color: #6b7280;">Advanced analytics, security, and automation capabilities</p>
             </div>
 """
-    
-    for product in PRODUCTS_DATA['tier2']:
+
+    for product in PRODUCTS_DATA["tier2"]:
         html += f"""
             <div class="product-card">
                 <div class="product-header">
@@ -1029,9 +1041,11 @@ def generate_html():
                     <h4>Core Features (v1.4.0)</h4>
                     <div class="features-list">
 """
-        for feature in product['v1_4_0_features']:
-            html += f'                        <div class="feature-item">{feature}</div>\n'
-        
+        for feature in product["v1_4_0_features"]:
+            html += (
+                f'                        <div class="feature-item">{feature}</div>\n'
+            )
+
         html += """                    </div>
                 </div>
                 
@@ -1039,9 +1053,9 @@ def generate_html():
                     <h4>New in v1.5.0 🆕</h4>
                     <div class="features-list">
 """
-        for feature in product['v1_5_0_features']:
+        for feature in product["v1_5_0_features"]:
             html += f'                        <div class="feature-item v1-5-0-features">{feature}</div>\n'
-        
+
         html += """                    </div>
                 </div>
                 
@@ -1049,16 +1063,16 @@ def generate_html():
                     <h4>Coming in v1.6.0 🚀</h4>
                     <div class="features-list">
 """
-        for feature in product['v1_6_0_features']:
+        for feature in product["v1_6_0_features"]:
             html += f'                        <div class="feature-item v1-6-0-features">{feature}</div>\n'
-        
+
         html += """                    </div>
                 </div>
             </div>
 """
-    
+
     html += "        </div>\n"
-    
+
     # Generate Tier 3 section
     html += f"""
         <div class="tier-section">
@@ -1068,8 +1082,8 @@ def generate_html():
                 <p style="margin-top: 1rem; color: #6b7280;">Premium AI and multi-cloud management solutions</p>
             </div>
 """
-    
-    for product in PRODUCTS_DATA['tier3']:
+
+    for product in PRODUCTS_DATA["tier3"]:
         html += f"""
             <div class="product-card">
                 <div class="product-header">
@@ -1088,9 +1102,11 @@ def generate_html():
                     <h4>Core Features (v1.4.0)</h4>
                     <div class="features-list">
 """
-        for feature in product['v1_4_0_features']:
-            html += f'                        <div class="feature-item">{feature}</div>\n'
-        
+        for feature in product["v1_4_0_features"]:
+            html += (
+                f'                        <div class="feature-item">{feature}</div>\n'
+            )
+
         html += """                    </div>
                 </div>
                 
@@ -1098,9 +1114,9 @@ def generate_html():
                     <h4>New in v1.5.0 🆕</h4>
                     <div class="features-list">
 """
-        for feature in product['v1_5_0_features']:
+        for feature in product["v1_5_0_features"]:
             html += f'                        <div class="feature-item v1-5-0-features">{feature}</div>\n'
-        
+
         html += """                    </div>
                 </div>
                 
@@ -1108,14 +1124,14 @@ def generate_html():
                     <h4>Coming in v1.6.0 🚀</h4>
                     <div class="features-list">
 """
-        for feature in product['v1_6_0_features']:
+        for feature in product["v1_6_0_features"]:
             html += f'                        <div class="feature-item v1-6-0-features">{feature}</div>\n'
-        
+
         html += """                    </div>
                 </div>
             </div>
 """
-    
+
     html += """        </div>
         
         <footer>
@@ -1128,23 +1144,25 @@ def generate_html():
 </body>
 </html>
 """
-    
+
     return html
+
 
 def main():
     """Main function"""
     print("🚀 Generating comprehensive HTML documentation...")
-    
+
     html_content = generate_html()
-    
+
     # Write to file
     output_file = Path("ITECHSMART_SUITE_COMPLETE_DOCUMENTATION.html")
-    with open(output_file, 'w', encoding='utf-8') as f:
+    with open(output_file, "w", encoding="utf-8") as f:
         f.write(html_content)
-    
+
     print(f"✅ Generated: {output_file}")
     print(f"📊 File size: {len(html_content):,} bytes")
     print("✅ Documentation complete!")
+
 
 if __name__ == "__main__":
     main()

@@ -2,6 +2,7 @@
 Agents API Routes
 Provides information about available agents and their capabilities
 """
+
 from fastapi import APIRouter, Depends
 from typing import List, Dict
 import logging
@@ -19,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
+
 class AgentInfo(BaseModel):
     name: str
     type: str
@@ -27,10 +29,12 @@ class AgentInfo(BaseModel):
     supported_languages: List[str] = []
     example_tasks: List[str]
 
+
 class AgentCapability(BaseModel):
     capability: str
     description: str
     parameters: Dict[str, str]
+
 
 @router.get("/", response_model=List[AgentInfo])
 async def list_agents(current_user: User = Depends(get_current_user)):
@@ -47,14 +51,14 @@ async def list_agents(current_user: User = Depends(get_current_user)):
                 "deep_research",
                 "fact_checking",
                 "citation_generation",
-                "source_ranking"
+                "source_ranking",
             ],
             example_tasks=[
                 "Research the latest AI trends in 2024",
                 "Find information about quantum computing",
                 "Fact-check a claim about climate change",
-                "Gather data on market trends"
-            ]
+                "Gather data on market trends",
+            ],
         ),
         AgentInfo(
             name="Coder",
@@ -67,19 +71,29 @@ async def list_agents(current_user: User = Depends(get_current_user)):
                 "code_review",
                 "test_generation",
                 "refactoring",
-                "security_scanning"
+                "security_scanning",
             ],
             supported_languages=[
-                "Python", "JavaScript", "TypeScript", "Java", "Go", 
-                "Rust", "C", "C++", "Ruby", "PHP", "Swift", "Kotlin"
+                "Python",
+                "JavaScript",
+                "TypeScript",
+                "Java",
+                "Go",
+                "Rust",
+                "C",
+                "C++",
+                "Ruby",
+                "PHP",
+                "Swift",
+                "Kotlin",
             ],
             example_tasks=[
                 "Create a REST API in Python",
                 "Generate unit tests for a function",
                 "Debug a JavaScript error",
                 "Review code for security issues",
-                "Refactor legacy code"
-            ]
+                "Refactor legacy code",
+            ],
         ),
         AgentInfo(
             name="Writer",
@@ -91,15 +105,15 @@ async def list_agents(current_user: User = Depends(get_current_user)):
                 "user_guides",
                 "technical_guides",
                 "reports",
-                "tutorials"
+                "tutorials",
             ],
             example_tasks=[
                 "Write a README for a project",
                 "Create API documentation",
                 "Generate a user guide",
                 "Write a technical tutorial",
-                "Create a project report"
-            ]
+                "Create a project report",
+            ],
         ),
         AgentInfo(
             name="Analyst",
@@ -112,15 +126,15 @@ async def list_agents(current_user: User = Depends(get_current_user)):
                 "trend_analysis",
                 "comparative_analysis",
                 "data_visualization",
-                "data_cleaning"
+                "data_cleaning",
             ],
             example_tasks=[
                 "Analyze sales data trends",
                 "Generate statistical summary",
                 "Create data visualizations",
                 "Perform comparative analysis",
-                "Clean and prepare dataset"
-            ]
+                "Clean and prepare dataset",
+            ],
         ),
         AgentInfo(
             name="Debugger",
@@ -132,24 +146,24 @@ async def list_agents(current_user: User = Depends(get_current_user)):
                 "root_cause_analysis",
                 "fix_generation",
                 "performance_profiling",
-                "memory_leak_detection"
+                "memory_leak_detection",
             ],
             example_tasks=[
                 "Debug a Python exception",
                 "Analyze performance issues",
                 "Find memory leaks",
                 "Identify root cause of error",
-                "Generate fix for bug"
-            ]
-        )
+                "Generate fix for bug",
+            ],
+        ),
     ]
-    
+
     return agents
+
 
 @router.get("/{agent_type}", response_model=AgentInfo)
 async def get_agent_info(
-    agent_type: str,
-    current_user: User = Depends(get_current_user)
+    agent_type: str, current_user: User = Depends(get_current_user)
 ):
     """Get detailed information about a specific agent"""
     agents_map = {
@@ -162,13 +176,13 @@ async def get_agent_info(
                 "deep_research",
                 "fact_checking",
                 "citation_generation",
-                "source_ranking"
+                "source_ranking",
             ],
             example_tasks=[
                 "Research the latest AI trends in 2024",
                 "Find information about quantum computing",
-                "Fact-check a claim about climate change"
-            ]
+                "Fact-check a claim about climate change",
+            ],
         ),
         "coder": AgentInfo(
             name="Coder",
@@ -179,16 +193,21 @@ async def get_agent_info(
                 "code_execution",
                 "debugging",
                 "code_review",
-                "test_generation"
+                "test_generation",
             ],
             supported_languages=[
-                "Python", "JavaScript", "TypeScript", "Java", "Go", "Rust"
+                "Python",
+                "JavaScript",
+                "TypeScript",
+                "Java",
+                "Go",
+                "Rust",
             ],
             example_tasks=[
                 "Create a REST API in Python",
                 "Generate unit tests",
-                "Debug JavaScript error"
-            ]
+                "Debug JavaScript error",
+            ],
         ),
         "writer": AgentInfo(
             name="Writer",
@@ -198,13 +217,9 @@ async def get_agent_info(
                 "readme_generation",
                 "api_documentation",
                 "user_guides",
-                "tutorials"
+                "tutorials",
             ],
-            example_tasks=[
-                "Write a README",
-                "Create API docs",
-                "Generate tutorial"
-            ]
+            example_tasks=["Write a README", "Create API docs", "Generate tutorial"],
         ),
         "analyst": AgentInfo(
             name="Analyst",
@@ -214,13 +229,13 @@ async def get_agent_info(
                 "descriptive_statistics",
                 "trend_analysis",
                 "data_visualization",
-                "predictive_analysis"
+                "predictive_analysis",
             ],
             example_tasks=[
                 "Analyze sales trends",
                 "Generate statistics",
-                "Create visualizations"
-            ]
+                "Create visualizations",
+            ],
         ),
         "debugger": AgentInfo(
             name="Debugger",
@@ -230,29 +245,30 @@ async def get_agent_info(
                 "error_classification",
                 "root_cause_analysis",
                 "fix_generation",
-                "performance_profiling"
+                "performance_profiling",
             ],
             example_tasks=[
                 "Debug exception",
                 "Analyze performance",
-                "Find memory leaks"
-            ]
-        )
+                "Find memory leaks",
+            ],
+        ),
     }
-    
+
     if agent_type not in agents_map:
         from fastapi import HTTPException, status
+
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Agent type '{agent_type}' not found"
+            detail=f"Agent type '{agent_type}' not found",
         )
-    
+
     return agents_map[agent_type]
+
 
 @router.get("/{agent_type}/capabilities", response_model=List[AgentCapability])
 async def get_agent_capabilities(
-    agent_type: str,
-    current_user: User = Depends(get_current_user)
+    agent_type: str, current_user: User = Depends(get_current_user)
 ):
     """Get detailed capabilities for a specific agent"""
     capabilities_map = {
@@ -260,79 +276,89 @@ async def get_agent_capabilities(
             AgentCapability(
                 capability="web_search",
                 description="Search the web for information",
-                parameters={"query": "Search query string"}
+                parameters={"query": "Search query string"},
             ),
             AgentCapability(
                 capability="deep_research",
                 description="Perform in-depth research with multiple sources",
-                parameters={"topic": "Research topic", "num_sources": "Number of sources (default: 5)"}
+                parameters={
+                    "topic": "Research topic",
+                    "num_sources": "Number of sources (default: 5)",
+                },
             ),
             AgentCapability(
                 capability="fact_checking",
                 description="Verify claims and check facts",
-                parameters={"claim": "Claim to verify"}
-            )
+                parameters={"claim": "Claim to verify"},
+            ),
         ],
         "coder": [
             AgentCapability(
                 capability="code_generation",
                 description="Generate code from description",
-                parameters={"description": "What to build", "language": "Programming language"}
+                parameters={
+                    "description": "What to build",
+                    "language": "Programming language",
+                },
             ),
             AgentCapability(
                 capability="code_execution",
                 description="Execute code in sandbox",
-                parameters={"code": "Code to execute", "language": "Programming language"}
+                parameters={
+                    "code": "Code to execute",
+                    "language": "Programming language",
+                },
             ),
             AgentCapability(
                 capability="debugging",
                 description="Debug and fix code errors",
-                parameters={"code": "Code with error", "error": "Error message"}
-            )
+                parameters={"code": "Code with error", "error": "Error message"},
+            ),
         ],
         "writer": [
             AgentCapability(
                 capability="readme_generation",
                 description="Generate README documentation",
-                parameters={"project_info": "Project information"}
+                parameters={"project_info": "Project information"},
             ),
             AgentCapability(
                 capability="api_documentation",
                 description="Create API documentation",
-                parameters={"api_spec": "API specification"}
-            )
+                parameters={"api_spec": "API specification"},
+            ),
         ],
         "analyst": [
             AgentCapability(
                 capability="descriptive_statistics",
                 description="Calculate descriptive statistics",
-                parameters={"data": "Dataset to analyze"}
+                parameters={"data": "Dataset to analyze"},
             ),
             AgentCapability(
                 capability="trend_analysis",
                 description="Analyze trends in data",
-                parameters={"data": "Time series data"}
-            )
+                parameters={"data": "Time series data"},
+            ),
         ],
         "debugger": [
             AgentCapability(
                 capability="error_classification",
                 description="Classify error types",
-                parameters={"error": "Error message"}
+                parameters={"error": "Error message"},
             ),
             AgentCapability(
                 capability="root_cause_analysis",
                 description="Identify root cause of errors",
-                parameters={"error": "Error message", "context": "Error context"}
-            )
-        ]
+                parameters={"error": "Error message", "context": "Error context"},
+            ),
+        ],
     }
-    
+
     if agent_type not in capabilities_map:
         from fastapi import HTTPException, status
+
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Agent type '{agent_type}' not found"
+            detail=f"Agent type '{agent_type}' not found",
         )
-    
+
     return capabilities_map[agent_type]

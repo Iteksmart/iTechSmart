@@ -30,7 +30,7 @@ app = FastAPI(
     title="iTechSmart Observatory",
     description="Application Performance Monitoring & Observability Platform",
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # Configure CORS
@@ -59,7 +59,7 @@ async def root():
         "service": "iTechSmart Observatory",
         "version": "1.0.0",
         "status": "operational",
-        "description": "Application Performance Monitoring & Observability Platform"
+        "description": "Application Performance Monitoring & Observability Platform",
     }
 
 
@@ -68,11 +68,7 @@ async def health_check():
     """
     Health check endpoint
     """
-    return {
-        "status": "healthy",
-        "service": "observatory",
-        "version": "1.0.0"
-    }
+    return {"status": "healthy", "service": "observatory", "version": "1.0.0"}
 
 
 @app.get("/api/observatory/dashboard/stats")
@@ -86,10 +82,11 @@ async def get_dashboard_stats():
         "active_alerts": 0,
         "total_traces": 0,
         "error_rate": 0.0,
-        "avg_response_time": 0.0
+        "avg_response_time": 0.0,
     }
 
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8036)

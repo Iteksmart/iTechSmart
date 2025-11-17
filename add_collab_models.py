@@ -1,7 +1,7 @@
 import re
 
 # Read the database models file
-with open('itechsmart-ninja/backend/app/models/database.py', 'r') as f:
+with open("itechsmart-ninja/backend/app/models/database.py", "r") as f:
     content = f.read()
 
 # Add Collaboration models before VideoGeneration
@@ -83,17 +83,17 @@ class Comment(Base):
 '''
 
 # Insert before VideoGeneration
-if 'class VideoGeneration(Base):' in content:
+if "class VideoGeneration(Base):" in content:
     content = content.replace(
-        'class VideoGeneration(Base):',
-        collab_models + '\n\nclass VideoGeneration(Base):'
+        "class VideoGeneration(Base):",
+        collab_models + "\n\nclass VideoGeneration(Base):",
     )
     print("Added Collaboration models to database.py")
 else:
     print("Warning: Could not find VideoGeneration class")
 
 # Write back
-with open('itechsmart-ninja/backend/app/models/database.py', 'w') as f:
+with open("itechsmart-ninja/backend/app/models/database.py", "w") as f:
     f.write(content)
 
 print("Collaboration models added successfully")

@@ -17,8 +17,7 @@ from .api.rate_limiter import rate_limiter
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -30,15 +29,16 @@ async def lifespan(app: FastAPI):
     """
     # Startup
     logger.info("Starting iTechSmart HL7 application...")
-    
+
     # Start rate limiter cleanup task
     import asyncio
+
     cleanup_task = asyncio.create_task(rate_limiter.start_cleanup_task())
-    
+
     logger.info("iTechSmart HL7 application started successfully")
-    
+
     yield
-    
+
     # Shutdown
     logger.info("Shutting down iTechSmart HL7 application...")
     cleanup_task.cancel()
@@ -52,7 +52,7 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan,
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
 )
 
 # Configure CORS
@@ -72,13 +72,13 @@ async def global_exception_handler(request: Request, exc: Exception):
     Global exception handler
     """
     logger.error(f"Unhandled exception: {exc}", exc_info=True)
-    
+
     return JSONResponse(
         status_code=500,
         content={
             "detail": "Internal server error",
-            "timestamp": datetime.now().isoformat()
-        }
+            "timestamp": datetime.now().isoformat(),
+        },
     )
 
 
@@ -106,8 +106,8 @@ async def root():
             "redoc": "/redoc",
             "api": "/api/v1",
             "auth": "/api/v1/auth",
-            "websocket": "/ws"
-        }
+            "websocket": "/ws",
+        },
     }
 
 
@@ -117,18 +117,12 @@ async def health_check():
     """
     Health check endpoint
     """
-    return {
-        "status": "healthy",
-        "timestamp": datetime.now().isoformat()
-    }
+    return {"status": "healthy", "timestamp": datetime.now().isoformat()}
 
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(
-        "app.main:app",
-        host="0.0.0.0",
-        port=8000,
-        reload=True,
-        log_level="info"
+        "app.main:app", host="0.0.0.0", port=8000, reload=True, log_level="info"
     )

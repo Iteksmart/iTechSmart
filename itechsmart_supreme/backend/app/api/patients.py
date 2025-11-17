@@ -61,33 +61,27 @@ class PatientResponse(BaseModel):
     email: Optional[str]
     phone: Optional[str]
     status: PatientStatus
-    
+
     class Config:
         from_attributes = True
 
 
 @router.post("/", response_model=PatientResponse)
-def create_patient(
-    patient: PatientCreate,
-    db: Session = Depends(get_db)
-):
+def create_patient(patient: PatientCreate, db: Session = Depends(get_db)):
     """Create new patient"""
     engine = SupremeEngine(db)
     return engine.create_patient(patient.dict())
 
 
 @router.get("/{patient_id}", response_model=PatientResponse)
-def get_patient(
-    patient_id: int,
-    db: Session = Depends(get_db)
-):
+def get_patient(patient_id: int, db: Session = Depends(get_db)):
     """Get patient by ID"""
     engine = SupremeEngine(db)
     patient = engine.get_patient(patient_id)
-    
+
     if not patient:
         raise HTTPException(status_code=404, detail="Patient not found")
-    
+
     return patient
 
 
@@ -96,7 +90,7 @@ def search_patients(
     query: Optional[str] = Query(None, description="Search query"),
     status: Optional[PatientStatus] = Query(None, description="Patient status"),
     limit: int = Query(100, ge=1, le=1000),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Search patients"""
     engine = SupremeEngine(db)
@@ -105,16 +99,14 @@ def search_patients(
 
 @router.put("/{patient_id}", response_model=PatientResponse)
 def update_patient(
-    patient_id: int,
-    updates: PatientUpdate,
-    db: Session = Depends(get_db)
+    patient_id: int, updates: PatientUpdate, db: Session = Depends(get_db)
 ):
     """Update patient information"""
     engine = SupremeEngine(db)
-    
+
     # Filter out None values
     update_data = {k: v for k, v in updates.dict().items() if v is not None}
-    
+
     try:
         return engine.update_patient(patient_id, update_data)
     except ValueError as e:

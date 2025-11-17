@@ -11,6 +11,7 @@ from enum import Enum
 
 # Enums
 
+
 class GenderEnum(str, Enum):
     MALE = "male"
     FEMALE = "female"
@@ -62,15 +63,15 @@ class HL7StatusEnum(str, Enum):
 
 # Base Schemas
 
+
 class BaseSchema(BaseModel):
     class Config:
         from_attributes = True
-        json_encoders = {
-            datetime: lambda v: v.isoformat() if v else None
-        }
+        json_encoders = {datetime: lambda v: v.isoformat() if v else None}
 
 
 # Patient Schemas
+
 
 class PatientBase(BaseSchema):
     mrn: str = Field(..., description="Medical Record Number")
@@ -129,6 +130,7 @@ class PatientResponse(PatientBase):
 
 # Observation Schemas
 
+
 class ObservationBase(BaseSchema):
     observation_type: ObservationTypeEnum
     code_system: Optional[str] = None
@@ -159,6 +161,7 @@ class ObservationResponse(ObservationBase):
 
 
 # Medication Schemas
+
 
 class MedicationBase(BaseSchema):
     medication_name: str
@@ -193,6 +196,7 @@ class MedicationResponse(MedicationBase):
 
 # Allergy Schemas
 
+
 class AllergyBase(BaseSchema):
     allergen: str
     code: Optional[str] = None
@@ -225,6 +229,7 @@ class AllergyResponse(AllergyBase):
 
 # HL7 Message Schemas
 
+
 class HL7MessageBase(BaseSchema):
     message_type: str
     message_control_id: str
@@ -256,6 +261,7 @@ class HL7MessageResponse(HL7MessageBase):
 
 
 # EMR Connection Schemas
+
 
 class EMRConnectionBase(BaseSchema):
     connection_id: str
@@ -291,6 +297,7 @@ class EMRConnectionResponse(EMRConnectionBase):
 
 # Audit Log Schemas
 
+
 class AuditLogBase(BaseSchema):
     event_type: str
     event_category: str
@@ -325,6 +332,7 @@ class AuditLogResponse(AuditLogBase):
 
 # Aggregated Data Schemas
 
+
 class AggregatedPatientData(BaseSchema):
     demographics: Optional[PatientResponse] = None
     observations: List[ObservationResponse] = []
@@ -334,6 +342,7 @@ class AggregatedPatientData(BaseSchema):
 
 
 # Search Schemas
+
 
 class PatientSearchCriteria(BaseSchema):
     name: Optional[str] = None
@@ -356,6 +365,7 @@ class ObservationSearchCriteria(BaseSchema):
 
 
 # Statistics Schemas
+
 
 class ConnectionStatistics(BaseSchema):
     total_connections: int

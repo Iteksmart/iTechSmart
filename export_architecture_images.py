@@ -8,27 +8,28 @@ import os
 import subprocess
 from pathlib import Path
 
+
 def export_diagrams():
     """Export architecture diagrams to various formats"""
-    
+
     print("🎨 Exporting iTechSmart Architecture Diagrams...")
     print()
-    
+
     # Files to export
     html_files = [
         "iTechSmart_Architecture_Map.html",
-        "iTechSmart_Architecture_Simple.html"
+        "iTechSmart_Architecture_Simple.html",
     ]
-    
+
     # Check if files exist
     for html_file in html_files:
         if not os.path.exists(html_file):
             print(f"❌ Error: {html_file} not found")
             return False
-    
+
     print("✅ Found all HTML files")
     print()
-    
+
     # Instructions for manual export
     print("📋 EXPORT INSTRUCTIONS:")
     print()
@@ -53,7 +54,7 @@ def export_diagrams():
     print("4. Type 'screenshot' and select 'Capture full size screenshot'")
     print("5. Save as 'iTechSmart_Architecture_Simple.png'")
     print()
-    
+
     print("=" * 70)
     print("METHOD 2: Online Converter")
     print("=" * 70)
@@ -69,51 +70,55 @@ def export_diagrams():
     print("3. Set width to 1920px for HD quality")
     print("4. Convert and download")
     print()
-    
+
     print("=" * 70)
     print("METHOD 3: Command Line (If wkhtmltopdf installed)")
     print("=" * 70)
     print()
-    
+
     # Try to use wkhtmltopdf if available
     try:
-        subprocess.run(['wkhtmltopdf', '--version'], 
-                      check=True, 
-                      capture_output=True)
-        
+        subprocess.run(["wkhtmltopdf", "--version"], check=True, capture_output=True)
+
         print("✅ wkhtmltopdf found! Converting to PDF...")
         print()
-        
+
         for html_file in html_files:
-            output_pdf = html_file.replace('.html', '.pdf')
-            
+            output_pdf = html_file.replace(".html", ".pdf")
+
             cmd = [
-                'wkhtmltopdf',
-                '--enable-local-file-access',
-                '--page-size', 'A3',
-                '--orientation', 'Landscape',
-                '--margin-top', '0',
-                '--margin-bottom', '0',
-                '--margin-left', '0',
-                '--margin-right', '0',
+                "wkhtmltopdf",
+                "--enable-local-file-access",
+                "--page-size",
+                "A3",
+                "--orientation",
+                "Landscape",
+                "--margin-top",
+                "0",
+                "--margin-bottom",
+                "0",
+                "--margin-left",
+                "0",
+                "--margin-right",
+                "0",
                 html_file,
-                output_pdf
+                output_pdf,
             ]
-            
+
             try:
                 subprocess.run(cmd, check=True, capture_output=True)
                 print(f"✅ Created: {output_pdf}")
             except subprocess.CalledProcessError as e:
                 print(f"⚠️  Error converting {html_file}: {e}")
-        
+
         print()
         print("🎉 PDF export complete!")
-        
+
     except FileNotFoundError:
         print("ℹ️  wkhtmltopdf not installed")
         print("   Install: sudo apt-get install wkhtmltopdf")
         print("   Or use Method 1 or 2 above")
-    
+
     print()
     print("=" * 70)
     print("RECOMMENDED EXPORTS:")
@@ -131,15 +136,16 @@ def export_diagrams():
     print("For Print:")
     print("  🖨️  iTechSmart_Architecture_Simple.pdf (A3, 300 DPI)")
     print()
-    
+
     # Create a summary document
     create_export_summary()
-    
+
     return True
+
 
 def create_export_summary():
     """Create a summary document with export information"""
-    
+
     summary = """# 📊 Architecture Diagram Export Summary
 
 ## Files Available
@@ -241,12 +247,13 @@ Questions? Contact:
 
 *Last updated: December 2024*
 """
-    
+
     with open("ARCHITECTURE_EXPORT_GUIDE.md", "w") as f:
         f.write(summary)
-    
+
     print("📝 Created: ARCHITECTURE_EXPORT_GUIDE.md")
     print()
+
 
 if __name__ == "__main__":
     export_diagrams()

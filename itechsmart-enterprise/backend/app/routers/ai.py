@@ -21,7 +21,7 @@ async def ai_chat(request: AIRequest) -> Dict:
     return {
         "response": "This is a mock AI response. Configure your AI API keys to enable real AI features.",
         "model": request.model,
-        "tokens_used": 50
+        "tokens_used": 50,
     }
 
 
@@ -31,10 +31,6 @@ async def analyze_ticket(ticket_id: int) -> Dict:
     return {
         "ticket_id": ticket_id,
         "analysis": "AI analysis of the ticket",
-        "suggested_actions": [
-            "Check system logs",
-            "Restart service",
-            "Contact vendor"
-        ],
-        "confidence": 0.85
+        "suggested_actions": ["Check system logs", "Restart service", "Contact vendor"],
+        "confidence": 0.85,
     }

@@ -1,6 +1,7 @@
 """
 iTechSmart QA/QC System - Main Application
 """
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -27,21 +28,21 @@ doc_manager = None
 async def lifespan(app: FastAPI):
     """Lifespan events for startup and shutdown"""
     global hub_integration, ninja_integration, qa_engine, doc_manager
-    
+
     print("🚀 Starting iTechSmart QA/QC System...")
-    
+
     # Initialize database
     init_db()
-    
+
     # Check database connection
     if not check_db_connection():
         print("⚠️  Warning: Database connection failed")
-    
+
     # Initialize core engines
     qa_engine = QAEngine()
     doc_manager = DocumentationManager()
     print("✅ Core engines initialized")
-    
+
     # Initialize integrations
     try:
         hub_integration = HubIntegration()
@@ -49,37 +50,37 @@ async def lifespan(app: FastAPI):
         print("✅ Enterprise Hub integration started")
     except Exception as e:
         print(f"⚠️  Warning: Hub integration failed: {e}")
-    
+
     try:
         ninja_integration = NinjaIntegration()
         await ninja_integration.start()
         print("✅ Ninja integration started")
     except Exception as e:
         print(f"⚠️  Warning: Ninja integration failed: {e}")
-    
+
     # Start continuous monitoring
     if qa_engine:
         await qa_engine.start_continuous_monitoring()
         print("✅ Continuous QA monitoring started")
-    
+
     print("✅ iTechSmart QA/QC System is ready!")
     print(f"📊 API Documentation: http://localhost:8300/docs")
     print(f"🔍 Health Check: http://localhost:8300/health")
-    
+
     yield
-    
+
     # Shutdown
     print("🛑 Shutting down iTechSmart QA/QC System...")
-    
+
     if qa_engine:
         await qa_engine.stop_continuous_monitoring()
-    
+
     if hub_integration:
         await hub_integration.stop()
-    
+
     if ninja_integration:
         await ninja_integration.stop()
-    
+
     print("✅ Shutdown complete")
 
 
@@ -88,7 +89,7 @@ app = FastAPI(
     title="iTechSmart QA/QC System",
     description="Comprehensive Quality Assurance and Quality Control system for the iTechSmart Suite",
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # CORS middleware
@@ -110,8 +111,8 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={
             "error": "Internal server error",
             "message": str(exc),
-            "path": str(request.url)
-        }
+            "path": str(request.url),
+        },
     )
 
 
@@ -139,7 +140,7 @@ async def root():
             "Documentation management and auto-generation",
             "Integration with Enterprise Hub and Ninja",
             "Real-time alerts and notifications",
-            "Comprehensive reporting and analytics"
+            "Comprehensive reporting and analytics",
         ],
         "endpoints": {
             "api_docs": "/docs",
@@ -148,13 +149,14 @@ async def root():
             "qa_checks": "/api/v1/qa-checks",
             "scans": "/api/v1/scans",
             "documentation": "/api/v1/documentation",
-            "alerts": "/api/v1/alerts"
+            "alerts": "/api/v1/alerts",
         },
         "integrations": {
-            "enterprise_hub": hub_integration is not None and hub_integration.is_connected,
-            "ninja": ninja_integration is not None and ninja_integration.is_connected
+            "enterprise_hub": hub_integration is not None
+            and hub_integration.is_connected,
+            "ninja": ninja_integration is not None and ninja_integration.is_connected,
         },
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.utcnow().isoformat(),
     }
 
 
@@ -163,7 +165,7 @@ async def root():
 async def health():
     """Health check endpoint"""
     db_healthy = check_db_connection()
-    
+
     return {
         "status": "healthy" if db_healthy else "degraded",
         "service": "iTechSmart QA/QC System",
@@ -173,10 +175,18 @@ async def health():
             "database": "healthy" if db_healthy else "unhealthy",
             "qa_engine": "healthy" if qa_engine else "unhealthy",
             "doc_manager": "healthy" if doc_manager else "unhealthy",
-            "hub_integration": "connected" if (hub_integration and hub_integration.is_connected) else "disconnected",
-            "ninja_integration": "connected" if (ninja_integration and ninja_integration.is_connected) else "disconnected"
+            "hub_integration": (
+                "connected"
+                if (hub_integration and hub_integration.is_connected)
+                else "disconnected"
+            ),
+            "ninja_integration": (
+                "connected"
+                if (ninja_integration and ninja_integration.is_connected)
+                else "disconnected"
+            ),
         },
-        "uptime_seconds": 0  # TODO: Track actual uptime
+        "uptime_seconds": 0,  # TODO: Track actual uptime
     }
 
 
@@ -186,7 +196,7 @@ async def metrics():
     """Metrics endpoint for monitoring"""
     from app.core.database import get_db_context
     from app.models.models import Product, QACheck, QAResult, Alert, Documentation
-    
+
     with get_db_context() as db:
         total_products = db.query(Product).count()
         active_products = db.query(Product).filter(Product.is_active == True).count()
@@ -195,26 +205,14 @@ async def metrics():
         total_results = db.query(QAResult).count()
         open_alerts = db.query(Alert).filter(Alert.is_resolved == False).count()
         total_docs = db.query(Documentation).count()
-        
+
         return {
             "timestamp": datetime.utcnow().isoformat(),
-            "products": {
-                "total": total_products,
-                "active": active_products
-            },
-            "checks": {
-                "total": total_checks,
-                "enabled": enabled_checks
-            },
-            "results": {
-                "total": total_results
-            },
-            "alerts": {
-                "open": open_alerts
-            },
-            "documentation": {
-                "total": total_docs
-            }
+            "products": {"total": total_products, "active": active_products},
+            "checks": {"total": total_checks, "enabled": enabled_checks},
+            "results": {"total": total_results},
+            "alerts": {"open": open_alerts},
+            "documentation": {"total": total_docs},
         }
 
 
@@ -233,36 +231,30 @@ async def info():
             "qa_checks": {
                 "total_categories": 10,
                 "total_checks": "40+",
-                "auto_fix_capable": 15
+                "auto_fix_capable": 15,
             },
             "documentation": {
                 "types": 9,
                 "auto_generation": True,
-                "freshness_monitoring": True
+                "freshness_monitoring": True,
             },
             "monitoring": {
                 "continuous": True,
                 "interval": "hourly",
-                "real_time_alerts": True
+                "real_time_alerts": True,
             },
             "integrations": {
                 "enterprise_hub": True,
                 "ninja": True,
-                "port_manager": True
-            }
+                "port_manager": True,
+            },
         },
         "api_version": "v1",
         "documentation_url": "/docs",
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.utcnow().isoformat(),
     }
 
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8300))
-    uvicorn.run(
-        "main:app",
-        host="0.0.0.0",
-        port=port,
-        reload=True,
-        log_level="info"
-    )
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True, log_level="info")

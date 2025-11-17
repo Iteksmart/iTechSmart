@@ -12,7 +12,7 @@ upcoming_features = {
         "Intelligent resource allocation and scaling",
         "Real-time collaboration features",
         "Custom plugin marketplace integration",
-        "Advanced reporting with customizable templates"
+        "Advanced reporting with customizable templates",
     ],
     "iTechSmart Enterprise": [
         "Advanced compliance reporting (SOC 2, ISO 27001, HIPAA)",
@@ -22,7 +22,7 @@ upcoming_features = {
         "Automated incident response workflows",
         "Multi-tenant architecture enhancements",
         "Advanced role-based access control (RBAC)",
-        "Real-time collaboration and team workspaces"
+        "Real-time collaboration and team workspaces",
     ],
     "iTechSmart Supreme Plus": [
         "Predictive maintenance scheduling with AI",
@@ -32,7 +32,7 @@ upcoming_features = {
         "Real-time alerting with smart notifications",
         "Integration with ITSM platforms",
         "Advanced data visualization tools",
-        "Automated capacity planning recommendations"
+        "Automated capacity planning recommendations",
     ],
     "iTechSmart Citadel": [
         "Threat intelligence integration (MITRE ATT&CK)",
@@ -42,7 +42,7 @@ upcoming_features = {
         "Security orchestration and automation (SOAR)",
         "Compliance automation for multiple frameworks",
         "Vulnerability management and patching",
-        "Security posture scoring and benchmarking"
+        "Security posture scoring and benchmarking",
     ],
     "Desktop Launcher": [
         "Quick actions menu with customizable shortcuts",
@@ -52,7 +52,7 @@ upcoming_features = {
         "Multi-monitor support",
         "Keyboard shortcuts and hotkeys",
         "Theme customization and dark mode",
-        "Auto-update mechanism with rollback"
+        "Auto-update mechanism with rollback",
     ],
     "iTechSmart Analytics": [
         "Real-time data streaming and processing",
@@ -62,7 +62,7 @@ upcoming_features = {
         "Data export in multiple formats",
         "Scheduled reports and dashboards",
         "Natural language query interface",
-        "Integration with BI tools (Tableau, Power BI)"
+        "Integration with BI tools (Tableau, Power BI)",
     ],
     "iTechSmart Copilot": [
         "Advanced natural language processing (NLP)",
@@ -72,7 +72,7 @@ upcoming_features = {
         "Multi-language support (10+ languages)",
         "Integration with communication platforms",
         "Automated documentation generation",
-        "Intelligent code completion and suggestions"
+        "Intelligent code completion and suggestions",
     ],
     "iTechSmart Shield": [
         "Behavioral analysis and anomaly detection",
@@ -82,7 +82,7 @@ upcoming_features = {
         "Advanced malware detection and prevention",
         "Network traffic analysis and monitoring",
         "Endpoint detection and response (EDR)",
-        "Security compliance automation"
+        "Security compliance automation",
     ],
     "iTechSmart Sentinel": [
         "Smart alert grouping and correlation",
@@ -92,7 +92,7 @@ upcoming_features = {
         "Integration with incident management tools",
         "Custom alert rules and conditions",
         "Historical alert analysis and trends",
-        "Automated alert remediation"
+        "Automated alert remediation",
     ],
     "iTechSmart DevOps": [
         "GitOps workflows and automation",
@@ -102,7 +102,7 @@ upcoming_features = {
         "Blue-green and canary deployments",
         "Pipeline templates and reusable components",
         "Integration with version control systems",
-        "Performance monitoring and optimization"
+        "Performance monitoring and optimization",
     ],
     "iTechSmart AI": [
         "AutoML capabilities for model training",
@@ -112,7 +112,7 @@ upcoming_features = {
         "Model versioning and experiment tracking",
         "A/B testing for model performance",
         "Real-time inference and predictions",
-        "Integration with popular ML frameworks"
+        "Integration with popular ML frameworks",
     ],
     "iTechSmart Cloud": [
         "AI-powered cost optimization",
@@ -122,7 +122,7 @@ upcoming_features = {
         "Automated backup and disaster recovery",
         "Cloud spend forecasting and budgeting",
         "Compliance monitoring across clouds",
-        "Performance optimization recommendations"
+        "Performance optimization recommendations",
     ],
     "iTechSmart Compliance": [
         "Automated compliance checks (SOC 2, GDPR, HIPAA)",
@@ -132,7 +132,7 @@ upcoming_features = {
         "Continuous compliance monitoring",
         "Evidence collection and documentation",
         "Compliance dashboard with real-time status",
-        "Integration with GRC platforms"
+        "Integration with GRC platforms",
     ],
     "iTechSmart Connect": [
         "No-code integration builder",
@@ -142,7 +142,7 @@ upcoming_features = {
         "Event-driven architecture support",
         "Integration templates and recipes",
         "Real-time sync and batch processing",
-        "Error handling and retry mechanisms"
+        "Error handling and retry mechanisms",
     ],
     "iTechSmart Customer Success": [
         "Customer health score tracking",
@@ -152,7 +152,7 @@ upcoming_features = {
         "Onboarding automation and tracking",
         "Success metrics and KPI dashboards",
         "Integration with CRM platforms",
-        "Customer feedback and survey tools"
+        "Customer feedback and survey tools",
     ],
     "iTechSmart Data Platform": [
         "Data catalog with metadata management",
@@ -162,7 +162,7 @@ upcoming_features = {
         "Data governance and compliance",
         "Self-service data access and discovery",
         "Data versioning and time travel",
-        "Integration with data lakes and warehouses"
+        "Integration with data lakes and warehouses",
     ],
     "iTechSmart DataFlow": [
         "Visual pipeline builder with drag-and-drop",
@@ -172,7 +172,7 @@ upcoming_features = {
         "Data validation and quality checks",
         "Pipeline monitoring and alerting",
         "Integration with data sources and sinks",
-        "Parallel processing and optimization"
+        "Parallel processing and optimization",
     ],
     "iTechSmart Forge": [
         "Cloud-based IDE with collaboration",
@@ -182,7 +182,7 @@ upcoming_features = {
         "Version control integration (Git)",
         "Code templates and snippets",
         "AI-powered code suggestions",
-        "Multi-language support (20+ languages)"
+        "Multi-language support (20+ languages)",
     ],
     "iTechSmart HL7": [
         "FHIR R4 support and compliance",
@@ -192,7 +192,7 @@ upcoming_features = {
         "HL7 v2 to FHIR conversion",
         "Real-time data validation",
         "HIPAA compliance automation",
-        "Clinical decision support integration"
+        "Clinical decision support integration",
     ],
     "iTechSmart Impactos": [
         "Dependency mapping and visualization",
@@ -202,7 +202,7 @@ upcoming_features = {
         "Change approval workflows",
         "Rollback planning and execution",
         "Integration with ITSM tools",
-        "Historical change analysis"
+        "Historical change analysis",
     ],
     "iTechSmart Ledger": [
         "Smart contract development and deployment",
@@ -212,7 +212,7 @@ upcoming_features = {
         "Blockchain analytics and monitoring",
         "Wallet integration and management",
         "Gas optimization and fee management",
-        "Audit trail and compliance reporting"
+        "Audit trail and compliance reporting",
     ],
     "iTechSmart Marketplace": [
         "Plugin SDK with comprehensive documentation",
@@ -222,7 +222,7 @@ upcoming_features = {
         "App versioning and updates",
         "Developer portal and resources",
         "App certification and security scanning",
-        "Marketing and promotion tools"
+        "Marketing and promotion tools",
     ],
     "iTechSmart MDM Agent": [
         "Zero-touch enrollment for devices",
@@ -232,7 +232,7 @@ upcoming_features = {
         "Geofencing and location tracking",
         "Containerization for work/personal data",
         "Integration with identity providers",
-        "Device inventory and reporting"
+        "Device inventory and reporting",
     ],
     "iTechSmart Mobile": [
         "Cross-platform SDK (iOS, Android, Web)",
@@ -242,7 +242,7 @@ upcoming_features = {
         "Mobile analytics and crash reporting",
         "A/B testing for mobile features",
         "App performance monitoring",
-        "Deep linking and universal links"
+        "Deep linking and universal links",
     ],
     "iTechSmart Notify": [
         "Multi-channel delivery (SMS, Email, Push, Slack)",
@@ -252,7 +252,7 @@ upcoming_features = {
         "Scheduled and triggered notifications",
         "User preference management",
         "Rate limiting and throttling",
-        "Integration with marketing platforms"
+        "Integration with marketing platforms",
     ],
     "iTechSmart Observatory": [
         "Distributed tracing across services",
@@ -262,7 +262,7 @@ upcoming_features = {
         "Anomaly detection with ML",
         "Service dependency mapping",
         "Performance profiling and optimization",
-        "Real-time alerting and notifications"
+        "Real-time alerting and notifications",
     ],
     "iTechSmart Port Manager": [
         "Automated port scanning and discovery",
@@ -272,7 +272,7 @@ upcoming_features = {
         "Conflict detection and resolution",
         "Integration with network tools",
         "Historical port usage tracking",
-        "Automated documentation generation"
+        "Automated documentation generation",
     ],
     "iTechSmart Pulse": [
         "Custom health check definitions",
@@ -282,7 +282,7 @@ upcoming_features = {
         "Synthetic monitoring and testing",
         "Performance benchmarking",
         "Integration with monitoring tools",
-        "Automated failover and recovery"
+        "Automated failover and recovery",
     ],
     "iTechSmart QAQC": [
         "Automated testing frameworks",
@@ -292,7 +292,7 @@ upcoming_features = {
         "Test data management",
         "Defect tracking and management",
         "Code coverage analysis",
-        "Performance and load testing"
+        "Performance and load testing",
     ],
     "iTechSmart Sandbox": [
         "Container isolation with Docker",
@@ -302,7 +302,7 @@ upcoming_features = {
         "Template library for environments",
         "Automated cleanup and expiration",
         "Integration with development tools",
-        "Collaboration and sharing features"
+        "Collaboration and sharing features",
     ],
     "iTechSmart ThinkTank": [
         "Brainstorming tools with AI assistance",
@@ -312,7 +312,7 @@ upcoming_features = {
         "Idea categorization and tagging",
         "Integration with project management tools",
         "Analytics and insights dashboard",
-        "Gamification and engagement features"
+        "Gamification and engagement features",
     ],
     "iTechSmart Vault": [
         "Dynamic secrets generation",
@@ -322,7 +322,7 @@ upcoming_features = {
         "Integration with cloud providers",
         "Certificate management",
         "Access policies and permissions",
-        "Encryption as a service"
+        "Encryption as a service",
     ],
     "iTechSmart Workflow": [
         "Visual workflow builder with templates",
@@ -332,7 +332,7 @@ upcoming_features = {
         "Error handling and retry logic",
         "Integration with 100+ services",
         "Workflow versioning and testing",
-        "Performance monitoring and optimization"
+        "Performance monitoring and optimization",
     ],
     "LegalAI Pro": [
         "Contract analysis and risk assessment",
@@ -342,7 +342,7 @@ upcoming_features = {
         "E-discovery and document review",
         "Legal research with AI assistance",
         "Multi-language support",
-        "Integration with legal databases"
+        "Integration with legal databases",
     ],
     "Passport": [
         "SSO integration (SAML, OAuth, OIDC)",
@@ -352,7 +352,7 @@ upcoming_features = {
         "Biometric authentication support",
         "Session management and monitoring",
         "User lifecycle management",
-        "Compliance reporting (SOC 2, GDPR)"
+        "Compliance reporting (SOC 2, GDPR)",
     ],
     "ProofLink": [
         "Digital signatures with PKI",
@@ -362,7 +362,7 @@ upcoming_features = {
         "Multi-party signing workflows",
         "Integration with document management",
         "Compliance with eIDAS and ESIGN",
-        "Mobile app for signing"
+        "Mobile app for signing",
     ],
     "iTechSmart Supreme": [
         "Migration to Supreme Plus platform",
@@ -372,39 +372,43 @@ upcoming_features = {
         "Training and documentation",
         "Gradual deprecation timeline",
         "Support for legacy integrations",
-        "Automated migration assistant"
-    ]
+        "Automated migration assistant",
+    ],
 }
 
 # Read the HTML file
-with open('ITECHSMART_SUITE_COMPLETE_DOCUMENTATION.html', 'r') as f:
+with open("ITECHSMART_SUITE_COMPLETE_DOCUMENTATION.html", "r") as f:
     content = f.read()
 
 # Update upcoming features for each product
 for product, features in upcoming_features.items():
     # Create the new upcoming features HTML
-    features_html = '\n'.join([f'                                <li>{feature}</li>' for feature in features])
-    
-    new_section = f'''                        <div class="upcoming-features">
+    features_html = "\n".join(
+        [f"                                <li>{feature}</li>" for feature in features]
+    )
+
+    new_section = f"""                        <div class="upcoming-features">
                             <h5>🚀 Upcoming Features</h5>
                             <ul>
 {features_html}
                             </ul>
-                        </div>'''
-    
+                        </div>"""
+
     # Find and replace the existing upcoming features section for this product
     # Pattern: product name followed by upcoming features section
-    pattern = rf'(<h4>{re.escape(product)}</h4>.*?)<div class="upcoming-features">.*?</div>'
-    
+    pattern = (
+        rf'(<h4>{re.escape(product)}</h4>.*?)<div class="upcoming-features">.*?</div>'
+    )
+
     # Check if pattern exists
     if re.search(pattern, content, re.DOTALL):
-        content = re.sub(pattern, rf'\1{new_section}', content, flags=re.DOTALL)
+        content = re.sub(pattern, rf"\1{new_section}", content, flags=re.DOTALL)
         print(f"✅ Updated: {product}")
     else:
         print(f"⚠️  Not found: {product}")
 
 # Write back to file
-with open('ITECHSMART_SUITE_COMPLETE_DOCUMENTATION.html', 'w') as f:
+with open("ITECHSMART_SUITE_COMPLETE_DOCUMENTATION.html", "w") as f:
     f.write(content)
 
 print("\n✅ All upcoming features updated successfully!")

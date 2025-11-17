@@ -10,7 +10,13 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from app.core.config import settings
 from app.core.database import Base
 from app.models.user import User, Session, APIKey, AuditLog
-from app.models.password import Password, PasswordHistory, Folder, SharedPassword, EmergencyAccess
+from app.models.password import (
+    Password,
+    PasswordHistory,
+    Folder,
+    SharedPassword,
+    EmergencyAccess,
+)
 
 config = context.config
 
@@ -47,9 +53,7 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()

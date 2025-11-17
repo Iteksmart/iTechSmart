@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 # Database configuration
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql://itechsmart:itechsmart123@localhost:5432/itechsmart_hl7"
+    "postgresql://itechsmart:itechsmart123@localhost:5432/itechsmart_hl7",
 )
 
 # Create engine with connection pooling
@@ -25,16 +25,12 @@ engine = create_engine(
     pool_size=10,
     max_overflow=20,
     pool_pre_ping=True,  # Verify connections before using
-    pool_recycle=3600,   # Recycle connections after 1 hour
-    echo=False,          # Set to True for SQL query logging
+    pool_recycle=3600,  # Recycle connections after 1 hour
+    echo=False,  # Set to True for SQL query logging
 )
 
 # Create session factory
-SessionLocal = sessionmaker(
-    autocommit=False,
-    autoflush=False,
-    bind=engine
-)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 def get_db() -> Generator[Session, None, None]:
@@ -53,7 +49,7 @@ def init_db():
     Initialize database - create all tables
     """
     from .models import Base
-    
+
     try:
         Base.metadata.create_all(bind=engine)
         logger.info("Database tables created successfully")
@@ -67,7 +63,7 @@ def drop_db():
     Drop all database tables (use with caution!)
     """
     from .models import Base
-    
+
     try:
         Base.metadata.drop_all(bind=engine)
         logger.info("Database tables dropped successfully")
@@ -93,21 +89,21 @@ class DatabaseManager:
     """
     Database management utilities
     """
-    
+
     @staticmethod
     def get_session() -> Session:
         """
         Get a new database session
         """
         return SessionLocal()
-    
+
     @staticmethod
     def close_session(session: Session):
         """
         Close database session
         """
         session.close()
-    
+
     @staticmethod
     def commit_session(session: Session):
         """
@@ -119,21 +115,21 @@ class DatabaseManager:
             session.rollback()
             logger.error(f"Failed to commit session: {e}")
             raise
-    
+
     @staticmethod
     def rollback_session(session: Session):
         """
         Rollback database session
         """
         session.rollback()
-    
+
     @staticmethod
     def get_table_count(session: Session, model) -> int:
         """
         Get count of records in table
         """
         return session.query(model).count()
-    
+
     @staticmethod
     def truncate_table(session: Session, model):
         """
@@ -159,24 +155,24 @@ def get_db_health() -> dict:
         "connection": False,
         "pool_size": 0,
         "pool_overflow": 0,
-        "pool_checked_out": 0
+        "pool_checked_out": 0,
     }
-    
+
     try:
         # Check connection
         health["connection"] = check_db_connection()
-        
+
         # Get pool statistics
         pool = engine.pool
         health["pool_size"] = pool.size()
         health["pool_overflow"] = pool.overflow()
         health["pool_checked_out"] = pool.checkedout()
-        
+
         health["status"] = "healthy" if health["connection"] else "unhealthy"
-        
+
     except Exception as e:
         logger.error(f"Failed to get database health: {e}")
         health["status"] = "error"
         health["error"] = str(e)
-    
+
     return health

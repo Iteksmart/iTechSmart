@@ -21,7 +21,7 @@ from app.integrations.image_generation import (
     ImageProvider,
     ImageSize,
     ImageStyle,
-    ImageQuality
+    ImageQuality,
 )
 
 router = APIRouter(prefix="/api/v1/images", tags=["images"])
@@ -31,8 +31,10 @@ router = APIRouter(prefix="/api/v1/images", tags=["images"])
 # REQUEST/RESPONSE MODELS
 # ============================================================================
 
+
 class ImageGenerationRequest(BaseModel):
     """Request to generate images"""
+
     prompt: str = Field(..., description="Text description of desired image")
     provider: str = Field("dalle", description="Image generation provider")
     size: str = Field("1024x1024", description="Image size")
@@ -45,6 +47,7 @@ class ImageGenerationRequest(BaseModel):
 
 class ImageEditRequest(BaseModel):
     """Request to edit image"""
+
     prompt: str = Field(..., description="Description of desired changes")
     strength: float = Field(0.8, description="Transformation strength", ge=0.0, le=1.0)
     negative_prompt: Optional[str] = Field(None, description="What to avoid")
@@ -53,11 +56,13 @@ class ImageEditRequest(BaseModel):
 
 class ImageUpscaleRequest(BaseModel):
     """Request to upscale image"""
+
     scale: int = Field(2, description="Upscale factor (2 or 4)", ge=2, le=4)
 
 
 class ImageResponse(BaseModel):
     """Response with generated image"""
+
     image_id: str
     url: Optional[str]
     data: Optional[str]  # Base64 encoded
@@ -68,12 +73,14 @@ class ImageResponse(BaseModel):
 
 class ImageListResponse(BaseModel):
     """Response with list of images"""
+
     images: List[ImageResponse]
     total: int
 
 
 class ProviderInfo(BaseModel):
     """Information about image provider"""
+
     name: str
     available: bool
     capabilities: List[str]
@@ -81,6 +88,7 @@ class ProviderInfo(BaseModel):
 
 class ProvidersResponse(BaseModel):
     """Response with available providers"""
+
     providers: List[ProviderInfo]
     total: int
 
@@ -93,19 +101,22 @@ class ProvidersResponse(BaseModel):
 image_clients: Dict[int, ImageGenerationClient] = {}
 
 
-def get_image_client(current_user: User = Depends(get_current_user)) -> ImageGenerationClient:
+def get_image_client(
+    current_user: User = Depends(get_current_user),
+) -> ImageGenerationClient:
     """Get image generation client for current user"""
     if current_user.id not in image_clients:
         # Create client with API keys from environment or user settings
         import os
+
         client = ImageGenerationClient(
             openai_api_key=os.getenv("OPENAI_API_KEY"),
             replicate_api_key=os.getenv("REPLICATE_API_TOKEN"),
             stability_api_key=os.getenv("STABILITY_API_KEY"),
-            google_api_key=os.getenv("GOOGLE_API_KEY")
+            google_api_key=os.getenv("GOOGLE_API_KEY"),
         )
         image_clients[current_user.id] = client
-    
+
     return image_clients[current_user.id]
 
 
@@ -113,16 +124,17 @@ def get_image_client(current_user: User = Depends(get_current_user)) -> ImageGen
 # IMAGE GENERATION ENDPOINTS
 # ============================================================================
 
+
 @router.post("/generate", response_model=ImageListResponse)
 async def generate_images(
     request: ImageGenerationRequest,
     client: ImageGenerationClient = Depends(get_image_client),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """
     Generate images from text prompt
-    
+
     Supports multiple providers:
     - DALL-E (OpenAI)
     - FLUX (Replicate)
@@ -135,7 +147,7 @@ async def generate_images(
         size = ImageSize(request.size)
         style = ImageStyle(request.style) if request.style else None
         quality = ImageQuality(request.quality)
-        
+
         # Generate images
         results = client.generate_image(
             prompt=request.prompt,
@@ -145,27 +157,26 @@ async def generate_images(
             quality=quality,
             n=request.n,
             negative_prompt=request.negative_prompt,
-            seed=request.seed
+            seed=request.seed,
         )
-        
+
         # Convert to response format
         images = []
         for result in results:
             image_id = str(uuid.uuid4())
-            images.append(ImageResponse(
-                image_id=image_id,
-                url=result.get("url"),
-                data=result.get("data"),
-                provider=result["provider"],
-                size=result.get("size"),
-                metadata=result
-            ))
-        
-        return ImageListResponse(
-            images=images,
-            total=len(images)
-        )
-        
+            images.append(
+                ImageResponse(
+                    image_id=image_id,
+                    url=result.get("url"),
+                    data=result.get("data"),
+                    provider=result["provider"],
+                    size=result.get("size"),
+                    metadata=result,
+                )
+            )
+
+        return ImageListResponse(images=images, total=len(images))
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -180,21 +191,21 @@ async def image_to_image(
     seed: Optional[int] = Form(None),
     client: ImageGenerationClient = Depends(get_image_client),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """
     Generate new image based on input image and prompt
-    
+
     Transform an existing image according to a text description.
     """
     try:
         # Load image
         image_data = await image.read()
         input_image = Image.open(BytesIO(image_data))
-        
+
         # Parse provider
         provider_enum = ImageProvider(provider)
-        
+
         # Generate images
         results = client.image_to_image(
             image=input_image,
@@ -202,26 +213,25 @@ async def image_to_image(
             provider=provider_enum,
             strength=strength,
             negative_prompt=negative_prompt,
-            seed=seed
+            seed=seed,
         )
-        
+
         # Convert to response format
         images = []
         for result in results:
             image_id = str(uuid.uuid4())
-            images.append(ImageResponse(
-                image_id=image_id,
-                url=result.get("url"),
-                data=result.get("data"),
-                provider=result["provider"],
-                metadata=result
-            ))
-        
-        return ImageListResponse(
-            images=images,
-            total=len(images)
-        )
-        
+            images.append(
+                ImageResponse(
+                    image_id=image_id,
+                    url=result.get("url"),
+                    data=result.get("data"),
+                    provider=result["provider"],
+                    metadata=result,
+                )
+            )
+
+        return ImageListResponse(images=images, total=len(images))
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -229,6 +239,7 @@ async def image_to_image(
 # ============================================================================
 # IMAGE EDITING ENDPOINTS
 # ============================================================================
+
 
 @router.post("/inpaint", response_model=ImageListResponse)
 async def inpaint_image(
@@ -238,49 +249,45 @@ async def inpaint_image(
     provider: str = Form("dalle"),
     client: ImageGenerationClient = Depends(get_image_client),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """
     Fill masked area of image based on prompt
-    
+
     The mask should be white where you want to fill and black where you want to keep.
     """
     try:
         # Load images
         image_data = await image.read()
         input_image = Image.open(BytesIO(image_data))
-        
+
         mask_data = await mask.read()
         mask_image = Image.open(BytesIO(mask_data))
-        
+
         # Parse provider
         provider_enum = ImageProvider(provider)
-        
+
         # Inpaint
         results = client.inpaint(
-            image=input_image,
-            mask=mask_image,
-            prompt=prompt,
-            provider=provider_enum
+            image=input_image, mask=mask_image, prompt=prompt, provider=provider_enum
         )
-        
+
         # Convert to response format
         images = []
         for result in results:
             image_id = str(uuid.uuid4())
-            images.append(ImageResponse(
-                image_id=image_id,
-                url=result.get("url"),
-                data=result.get("data"),
-                provider=result["provider"],
-                metadata=result
-            ))
-        
-        return ImageListResponse(
-            images=images,
-            total=len(images)
-        )
-        
+            images.append(
+                ImageResponse(
+                    image_id=image_id,
+                    url=result.get("url"),
+                    data=result.get("data"),
+                    provider=result["provider"],
+                    metadata=result,
+                )
+            )
+
+        return ImageListResponse(images=images, total=len(images))
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -292,45 +299,42 @@ async def create_variations(
     n: int = Form(1),
     client: ImageGenerationClient = Depends(get_image_client),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """
     Create variations of an image
-    
+
     Generate similar images based on the input image.
     """
     try:
         # Load image
         image_data = await image.read()
         input_image = Image.open(BytesIO(image_data))
-        
+
         # Parse provider
         provider_enum = ImageProvider(provider)
-        
+
         # Create variations
         results = client.create_variation(
-            image=input_image,
-            provider=provider_enum,
-            n=n
+            image=input_image, provider=provider_enum, n=n
         )
-        
+
         # Convert to response format
         images = []
         for result in results:
             image_id = str(uuid.uuid4())
-            images.append(ImageResponse(
-                image_id=image_id,
-                url=result.get("url"),
-                data=result.get("data"),
-                provider=result["provider"],
-                metadata=result
-            ))
-        
-        return ImageListResponse(
-            images=images,
-            total=len(images)
-        )
-        
+            images.append(
+                ImageResponse(
+                    image_id=image_id,
+                    url=result.get("url"),
+                    data=result.get("data"),
+                    provider=result["provider"],
+                    metadata=result,
+                )
+            )
+
+        return ImageListResponse(images=images, total=len(images))
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -339,39 +343,37 @@ async def create_variations(
 # IMAGE ENHANCEMENT ENDPOINTS
 # ============================================================================
 
+
 @router.post("/upscale", response_model=ImageResponse)
 async def upscale_image(
     image: UploadFile = File(...),
     scale: int = Form(2),
     client: ImageGenerationClient = Depends(get_image_client),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """
     Upscale image resolution
-    
+
     Increase image resolution by 2x or 4x using AI upscaling.
     """
     try:
         # Load image
         image_data = await image.read()
         input_image = Image.open(BytesIO(image_data))
-        
+
         # Upscale
-        result = client.upscale(
-            image=input_image,
-            scale=scale
-        )
-        
+        result = client.upscale(image=input_image, scale=scale)
+
         image_id = str(uuid.uuid4())
         return ImageResponse(
             image_id=image_id,
             url=result.get("url"),
             data=result.get("data"),
             provider=result["provider"],
-            metadata=result
+            metadata=result,
         )
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -381,30 +383,30 @@ async def remove_background(
     image: UploadFile = File(...),
     client: ImageGenerationClient = Depends(get_image_client),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """
     Remove background from image
-    
+
     Automatically detect and remove the background, leaving only the subject.
     """
     try:
         # Load image
         image_data = await image.read()
         input_image = Image.open(BytesIO(image_data))
-        
+
         # Remove background
         result = client.remove_background(input_image)
-        
+
         image_id = str(uuid.uuid4())
         return ImageResponse(
             image_id=image_id,
             url=result.get("url"),
             data=result.get("data"),
             provider=result["provider"],
-            metadata=result
+            metadata=result,
         )
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -414,30 +416,30 @@ async def enhance_face(
     image: UploadFile = File(...),
     client: ImageGenerationClient = Depends(get_image_client),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """
     Enhance/restore faces in image
-    
+
     Improve face quality and restore details in portraits.
     """
     try:
         # Load image
         image_data = await image.read()
         input_image = Image.open(BytesIO(image_data))
-        
+
         # Enhance face
         result = client.enhance_face(input_image)
-        
+
         image_id = str(uuid.uuid4())
         return ImageResponse(
             image_id=image_id,
             url=result.get("url"),
             data=result.get("data"),
             provider=result["provider"],
-            metadata=result
+            metadata=result,
         )
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -446,46 +448,42 @@ async def enhance_face(
 # PROVIDER ENDPOINTS
 # ============================================================================
 
+
 @router.get("/providers", response_model=ProvidersResponse)
-async def list_providers(
-    client: ImageGenerationClient = Depends(get_image_client)
-):
+async def list_providers(client: ImageGenerationClient = Depends(get_image_client)):
     """
     List available image generation providers
-    
+
     Shows which providers are configured and available.
     """
     try:
         available = client.get_available_providers()
-        
+
         providers = [
             ProviderInfo(
                 name="DALL-E",
                 available="dalle" in available,
-                capabilities=["text-to-image", "inpainting", "variations"]
+                capabilities=["text-to-image", "inpainting", "variations"],
             ),
             ProviderInfo(
                 name="FLUX",
                 available="flux" in available,
-                capabilities=["text-to-image", "high-quality"]
+                capabilities=["text-to-image", "high-quality"],
             ),
             ProviderInfo(
                 name="Stable Diffusion",
                 available="stable_diffusion" in available,
-                capabilities=["text-to-image", "image-to-image", "inpainting"]
+                capabilities=["text-to-image", "image-to-image", "inpainting"],
             ),
             ProviderInfo(
                 name="Imagen",
                 available="imagen" in available,
-                capabilities=["text-to-image"]
-            )
+                capabilities=["text-to-image"],
+            ),
         ]
-        
-        return ProvidersResponse(
-            providers=providers,
-            total=len(providers)
-        )
-        
+
+        return ProvidersResponse(providers=providers, total=len(providers))
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -502,9 +500,9 @@ async def list_sizes():
         {"value": "768x512", "label": "768x512 (Landscape)"},
         {"value": "1024x768", "label": "1024x768 (Landscape Large)"},
         {"value": "1024x576", "label": "1024x576 (Wide)"},
-        {"value": "576x1024", "label": "576x1024 (Tall)"}
+        {"value": "576x1024", "label": "576x1024 (Tall)"},
     ]
-    
+
     return {"sizes": sizes, "total": len(sizes)}
 
 
@@ -521,7 +519,7 @@ async def list_styles():
         {"value": "oil_painting", "label": "Oil Painting"},
         {"value": "watercolor", "label": "Watercolor"},
         {"value": "sketch", "label": "Sketch"},
-        {"value": "cartoon", "label": "Cartoon"}
+        {"value": "cartoon", "label": "Cartoon"},
     ]
-    
+
     return {"styles": styles, "total": len(styles)}

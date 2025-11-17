@@ -272,11 +272,11 @@ NEXTJS_PRODUCTS = [
 def create_backend_dockerfile(product_path: Path, product_name: str):
     """Create backend Dockerfile for a product."""
     dockerfile_path = product_path / "backend" / "Dockerfile.backend"
-    
+
     if dockerfile_path.exists():
         print(f"  ⚠️  Backend Dockerfile already exists for {product_name}")
         return False
-    
+
     content = BACKEND_DOCKERFILE.format(product_name=product_name)
     dockerfile_path.write_text(content)
     print(f"  ✅ Created backend Dockerfile for {product_name}")
@@ -287,11 +287,11 @@ def create_frontend_dockerfile(product_path: Path, product_name: str, framework:
     """Create frontend Dockerfile for a product based on framework."""
     dockerfile_path = product_path / "frontend" / "Dockerfile.frontend"
     nginx_conf_path = product_path / "frontend" / "nginx.conf"
-    
+
     if dockerfile_path.exists():
         print(f"  ⚠️  Frontend Dockerfile already exists for {product_name}")
         return False
-    
+
     # Select template based on framework
     if framework == "vite":
         content = VITE_FRONTEND_DOCKERFILE.format(product_name=product_name)
@@ -305,31 +305,31 @@ def create_frontend_dockerfile(product_path: Path, product_name: str, framework:
     else:
         print(f"  ❌ Unknown framework: {framework}")
         return False
-    
+
     dockerfile_path.write_text(content)
     print(f"  ✅ Created frontend Dockerfile for {product_name} ({framework})")
-    
+
     # Create nginx.conf if needed
     if needs_nginx and not nginx_conf_path.exists():
         nginx_conf_path.write_text(NGINX_CONF)
         print(f"  ✅ Created nginx.conf for {product_name}")
-    
+
     return True
 
 
 def main():
     """Main function to generate Dockerfiles for all products."""
     repo_root = Path(__file__).parent.parent
-    
+
     print("🚀 Generating Dockerfiles for all iTechSmart products...\n")
-    
+
     stats = {
         "backend_created": 0,
         "frontend_created": 0,
         "backend_skipped": 0,
         "frontend_skipped": 0,
     }
-    
+
     # Process Vite products
     print("📦 Processing Vite products...")
     for product in VITE_PRODUCTS:
@@ -337,18 +337,18 @@ def main():
         if not product_path.exists():
             print(f"  ⚠️  Product directory not found: {product}")
             continue
-        
+
         print(f"\n{product}:")
         if create_backend_dockerfile(product_path, product):
             stats["backend_created"] += 1
         else:
             stats["backend_skipped"] += 1
-        
+
         if create_frontend_dockerfile(product_path, product, "vite"):
             stats["frontend_created"] += 1
         else:
             stats["frontend_skipped"] += 1
-    
+
     # Process CRA products
     print("\n\n📦 Processing Create React App products...")
     for product in CRA_PRODUCTS:
@@ -356,18 +356,18 @@ def main():
         if not product_path.exists():
             print(f"  ⚠️  Product directory not found: {product}")
             continue
-        
+
         print(f"\n{product}:")
         if create_backend_dockerfile(product_path, product):
             stats["backend_created"] += 1
         else:
             stats["backend_skipped"] += 1
-        
+
         if create_frontend_dockerfile(product_path, product, "cra"):
             stats["frontend_created"] += 1
         else:
             stats["frontend_skipped"] += 1
-    
+
     # Process Next.js products (already have Dockerfiles, just report)
     print("\n\n📦 Checking Next.js products (should already have Dockerfiles)...")
     for product in NEXTJS_PRODUCTS:
@@ -375,11 +375,11 @@ def main():
         if not product_path.exists():
             print(f"  ⚠️  Product directory not found: {product}")
             continue
-        
+
         print(f"\n{product}:")
         backend_exists = (product_path / "backend" / "Dockerfile.backend").exists()
         frontend_exists = (product_path / "frontend" / "Dockerfile.frontend").exists()
-        
+
         if backend_exists:
             print(f"  ✅ Backend Dockerfile exists")
             stats["backend_skipped"] += 1
@@ -387,7 +387,7 @@ def main():
             print(f"  ❌ Backend Dockerfile missing!")
             if create_backend_dockerfile(product_path, product):
                 stats["backend_created"] += 1
-        
+
         if frontend_exists:
             print(f"  ✅ Frontend Dockerfile exists")
             stats["frontend_skipped"] += 1
@@ -395,19 +395,23 @@ def main():
             print(f"  ❌ Frontend Dockerfile missing!")
             if create_frontend_dockerfile(product_path, product, "nextjs"):
                 stats["frontend_created"] += 1
-    
+
     # Print summary
-    print("\n\n" + "="*60)
+    print("\n\n" + "=" * 60)
     print("📊 SUMMARY")
-    print("="*60)
+    print("=" * 60)
     print(f"Backend Dockerfiles created:  {stats['backend_created']}")
     print(f"Backend Dockerfiles skipped:  {stats['backend_skipped']}")
     print(f"Frontend Dockerfiles created: {stats['frontend_created']}")
     print(f"Frontend Dockerfiles skipped: {stats['frontend_skipped']}")
-    print(f"\nTotal Dockerfiles created: {stats['backend_created'] + stats['frontend_created']}")
-    print(f"Total products processed: {len(VITE_PRODUCTS) + len(CRA_PRODUCTS) + len(NEXTJS_PRODUCTS)}")
-    print("="*60)
-    
+    print(
+        f"\nTotal Dockerfiles created: {stats['backend_created'] + stats['frontend_created']}"
+    )
+    print(
+        f"Total products processed: {len(VITE_PRODUCTS) + len(CRA_PRODUCTS) + len(NEXTJS_PRODUCTS)}"
+    )
+    print("=" * 60)
+
     return 0
 
 

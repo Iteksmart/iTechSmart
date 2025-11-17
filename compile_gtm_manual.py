@@ -8,6 +8,7 @@ import os
 import subprocess
 from datetime import datetime
 
+
 def create_cover_page():
     """Create a professional cover page"""
     cover = """---
@@ -172,19 +173,22 @@ We welcome feedback to improve this manual. Please submit suggestions to: strate
 ---
 
 \\newpage
-""".format(date=datetime.now().strftime("%B %d, %Y"))
-    
+""".format(
+        date=datetime.now().strftime("%B %d, %Y")
+    )
+
     return cover
+
 
 def compile_pdf():
     """Compile all markdown files into a single PDF"""
-    
+
     print("🚀 Starting iTechSmart GTM Manual Compilation...")
-    
+
     # Create cover page
     print("📄 Creating cover page...")
     cover_content = create_cover_page()
-    
+
     # List of markdown files in order
     md_files = [
         "ITECHSMART_GTM_MASTER_PLAN.md",
@@ -193,59 +197,66 @@ def compile_pdf():
         "GTM_PRODUCT_3_ITECHSMART_SUPREME.md",
         "GTM_PRODUCT_4_ENTERPRISE_HL7_CITADEL.md",
         "GTM_OVERALL_BUSINESS_STRATEGY.md",
-        "GTM_COMPREHENSIVE_FAQ.md"
+        "GTM_COMPREHENSIVE_FAQ.md",
     ]
-    
+
     # Read and combine all markdown files
     print("📚 Reading markdown files...")
     combined_content = cover_content
-    
+
     for md_file in md_files:
         if os.path.exists(md_file):
             print(f"   ✓ Reading {md_file}")
-            with open(md_file, 'r', encoding='utf-8') as f:
+            with open(md_file, "r", encoding="utf-8") as f:
                 content = f.read()
                 # Add page break before each major section
                 combined_content += "\n\\newpage\n\n" + content
         else:
             print(f"   ⚠ Warning: {md_file} not found, skipping...")
-    
+
     # Write combined markdown
     combined_md = "ITECHSMART_GTM_COMPLETE_MANUAL.md"
     print(f"📝 Writing combined markdown to {combined_md}...")
-    with open(combined_md, 'w', encoding='utf-8') as f:
+    with open(combined_md, "w", encoding="utf-8") as f:
         f.write(combined_content)
-    
+
     # Convert to PDF using pandoc
     output_pdf = "iTechSmart_GTM_Master_Manual.pdf"
     print(f"🔄 Converting to PDF: {output_pdf}...")
-    
+
     try:
         # Check if pandoc is installed
-        subprocess.run(['pandoc', '--version'], check=True, capture_output=True)
-        
+        subprocess.run(["pandoc", "--version"], check=True, capture_output=True)
+
         # Convert to PDF with pandoc
         cmd = [
-            'pandoc',
+            "pandoc",
             combined_md,
-            '-o', output_pdf,
-            '--pdf-engine=xelatex',
-            '--toc',
-            '--toc-depth=3',
-            '--number-sections',
-            '--highlight-style=tango',
-            '-V', 'geometry:margin=1in',
-            '-V', 'fontsize=11pt',
-            '-V', 'documentclass=report',
-            '-V', 'colorlinks=true',
-            '-V', 'linkcolor=blue',
-            '-V', 'urlcolor=blue'
+            "-o",
+            output_pdf,
+            "--pdf-engine=xelatex",
+            "--toc",
+            "--toc-depth=3",
+            "--number-sections",
+            "--highlight-style=tango",
+            "-V",
+            "geometry:margin=1in",
+            "-V",
+            "fontsize=11pt",
+            "-V",
+            "documentclass=report",
+            "-V",
+            "colorlinks=true",
+            "-V",
+            "linkcolor=blue",
+            "-V",
+            "urlcolor=blue",
         ]
-        
+
         result = subprocess.run(cmd, check=True, capture_output=True, text=True)
         print(f"✅ PDF created successfully: {output_pdf}")
         print(f"📊 File size: {os.path.getsize(output_pdf) / 1024 / 1024:.2f} MB")
-        
+
     except FileNotFoundError:
         print("❌ Error: pandoc not found. Please install pandoc:")
         print("   Ubuntu/Debian: sudo apt-get install pandoc texlive-xetex")
@@ -259,29 +270,30 @@ def compile_pdf():
         print(f"   stderr: {e.stderr}")
         print(f"\n📄 Combined markdown file created: {combined_md}")
         return False
-    
+
     # Create a Word document as alternative
     try:
         output_docx = "iTechSmart_GTM_Master_Manual.docx"
         print(f"📝 Creating Word document: {output_docx}...")
-        
+
         cmd_docx = [
-            'pandoc',
+            "pandoc",
             combined_md,
-            '-o', output_docx,
-            '--toc',
-            '--toc-depth=3',
-            '--number-sections',
-            '--highlight-style=tango'
+            "-o",
+            output_docx,
+            "--toc",
+            "--toc-depth=3",
+            "--number-sections",
+            "--highlight-style=tango",
         ]
-        
+
         subprocess.run(cmd_docx, check=True, capture_output=True)
         print(f"✅ Word document created successfully: {output_docx}")
         print(f"📊 File size: {os.path.getsize(output_docx) / 1024 / 1024:.2f} MB")
-        
+
     except Exception as e:
         print(f"⚠ Could not create Word document: {e}")
-    
+
     print("\n🎉 Compilation complete!")
     print(f"\n📦 Generated files:")
     print(f"   • {combined_md} (Combined Markdown)")
@@ -289,8 +301,9 @@ def compile_pdf():
         print(f"   • {output_pdf} (PDF Manual)")
     if os.path.exists(output_docx):
         print(f"   • {output_docx} (Word Document)")
-    
+
     return True
+
 
 if __name__ == "__main__":
     compile_pdf()

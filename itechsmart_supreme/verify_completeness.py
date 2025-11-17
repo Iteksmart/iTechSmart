@@ -14,12 +14,12 @@ def check_file_exists(filepath: str) -> bool:
 
 def verify_completeness():
     """Verify all components are present"""
-    
+
     print("=" * 80)
     print("🔍 iTechSmart Supreme - Completeness Verification")
     print("=" * 80)
     print()
-    
+
     checks = {
         "Core Components": [
             "core/models.py",
@@ -64,15 +64,15 @@ def verify_completeness():
             "README_COMPLETE.md",
         ],
     }
-    
+
     total_files = 0
     present_files = 0
     missing_files = []
-    
+
     for category, files in checks.items():
         print(f"📁 {category}:")
         category_present = 0
-        
+
         for filepath in files:
             total_files += 1
             if check_file_exists(filepath):
@@ -82,16 +82,16 @@ def verify_completeness():
             else:
                 print(f"   ❌ {filepath} - MISSING")
                 missing_files.append(filepath)
-        
+
         print(f"   Status: {category_present}/{len(files)} files present")
         print()
-    
+
     print("=" * 80)
     print(f"📊 Overall Status: {present_files}/{total_files} files present")
     print(f"   Completion: {(present_files/total_files)*100:.1f}%")
     print("=" * 80)
     print()
-    
+
     if missing_files:
         print("❌ Missing Files:")
         for filepath in missing_files:
@@ -106,12 +106,12 @@ def verify_completeness():
 
 def verify_features():
     """Verify feature implementations"""
-    
+
     print("=" * 80)
     print("🎯 Feature Implementation Verification")
     print("=" * 80)
     print()
-    
+
     features = {
         "Self-Healing Infrastructure": [
             ("Auto-Remediation Engine", "core/auto_remediation_engine.py"),
@@ -138,13 +138,13 @@ def verify_features():
             ("Use Case Manager", "use_cases/use_case_manager.py"),
         ],
     }
-    
+
     total_features = 0
     implemented_features = 0
-    
+
     for category, feature_list in features.items():
         print(f"🎯 {category}:")
-        
+
         for feature_name, filepath in feature_list:
             total_features += 1
             if check_file_exists(filepath):
@@ -157,86 +157,83 @@ def verify_features():
                     print(f"   ⚠️  {feature_name} (file too small: {size} bytes)")
             else:
                 print(f"   ❌ {feature_name} - NOT FOUND")
-        
+
         print()
-    
+
     print("=" * 80)
     print(f"📊 Feature Status: {implemented_features}/{total_features} implemented")
     print(f"   Completion: {(implemented_features/total_features)*100:.1f}%")
     print("=" * 80)
     print()
-    
+
     return implemented_features == total_features
 
 
 def count_lines_of_code():
     """Count total lines of code"""
-    
+
     print("=" * 80)
     print("📏 Lines of Code Analysis")
     print("=" * 80)
     print()
-    
+
     extensions = {
-        '.py': 'Python',
-        '.yaml': 'YAML',
-        '.md': 'Markdown',
+        ".py": "Python",
+        ".yaml": "YAML",
+        ".md": "Markdown",
     }
-    
+
     stats = {}
-    
+
     for ext, lang in extensions.items():
-        files = list(Path('.').rglob(f'*{ext}'))
+        files = list(Path(".").rglob(f"*{ext}"))
         total_lines = 0
-        
+
         for filepath in files:
             try:
-                with open(filepath, 'r', encoding='utf-8') as f:
+                with open(filepath, "r", encoding="utf-8") as f:
                     lines = len(f.readlines())
                     total_lines += lines
             except:
                 pass
-        
-        stats[lang] = {
-            'files': len(files),
-            'lines': total_lines
-        }
-    
+
+        stats[lang] = {"files": len(files), "lines": total_lines}
+
     for lang, data in stats.items():
         print(f"   {lang}: {data['files']} files, {data['lines']:,} lines")
-    
-    total_lines = sum(s['lines'] for s in stats.values())
-    total_files = sum(s['files'] for s in stats.values())
-    
+
+    total_lines = sum(s["lines"] for s in stats.values())
+    total_files = sum(s["files"] for s in stats.values())
+
     print()
     print(f"   Total: {total_files} files, {total_lines:,} lines")
     print()
-    
+
     return total_lines
 
 
 def main():
     """Main verification function"""
-    
+
     print()
     print("🚀 iTechSmart Supreme - Complete Verification")
     print()
-    
+
     # Verify file completeness
     files_ok = verify_completeness()
-    
+
     # Verify features
     features_ok = verify_features()
-    
+
     # Count lines of code
     total_lines = count_lines_of_code()
-    
+
     # Final summary
     print("=" * 80)
     print("🎉 FINAL SUMMARY")
     print("=" * 80)
     print()
-    
+
     if files_ok and features_ok:
         print("✅ Status: COMPLETE & PRODUCTION READY")
         print()
@@ -275,5 +272,5 @@ def main():
         return 1
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     exit(main())

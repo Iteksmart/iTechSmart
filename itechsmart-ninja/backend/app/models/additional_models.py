@@ -2,7 +2,17 @@
 Additional Database Models for Features 6-15
 """
 
-from sqlalchemy import Column, Integer, String, Text, Boolean, Float, DateTime, JSON, ForeignKey
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Text,
+    Boolean,
+    Float,
+    DateTime,
+    JSON,
+    ForeignKey,
+)
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
@@ -12,7 +22,7 @@ from app.core.database import Base
 # Feature 6: Data Visualization
 class Chart(Base):
     __tablename__ = "charts"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     chart_type = Column(String)  # bar, line, pie, scatter, etc.
@@ -21,13 +31,13 @@ class Chart(Base):
     options = Column(JSON)  # Chart options (colors, theme, etc.)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     user = relationship("User", back_populates="charts")
 
 
 class Dashboard(Base):
     __tablename__ = "dashboards"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     title = Column(String)
@@ -36,14 +46,14 @@ class Dashboard(Base):
     chart_ids = Column(JSON)  # List of chart IDs
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     user = relationship("User", back_populates="dashboards")
 
 
 # Feature 7: Document Processing
 class Document(Base):
     __tablename__ = "documents"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     filename = Column(String)
@@ -55,27 +65,27 @@ class Document(Base):
     metadata = Column(JSON)
     created_at = Column(DateTime, default=datetime.utcnow)
     processed_at = Column(DateTime)
-    
+
     user = relationship("User", back_populates="documents")
     tables = relationship("DocumentTable", back_populates="document")
 
 
 class DocumentTable(Base):
     __tablename__ = "document_tables"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     document_id = Column(Integer, ForeignKey("documents.id"))
     page_number = Column(Integer)
     table_data = Column(JSON)  # Table data as JSON
     extracted_at = Column(DateTime, default=datetime.utcnow)
-    
+
     document = relationship("Document", back_populates="tables")
 
 
 # Feature 8: Concurrent VMs
 class VirtualMachine(Base):
     __tablename__ = "virtual_machines"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     name = Column(String)
@@ -88,14 +98,14 @@ class VirtualMachine(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     started_at = Column(DateTime)
     stopped_at = Column(DateTime)
-    
+
     user = relationship("User", back_populates="virtual_machines")
     executions = relationship("VMExecution", back_populates="vm")
 
 
 class VMExecution(Base):
     __tablename__ = "vm_executions"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     vm_id = Column(Integer, ForeignKey("virtual_machines.id"))
     code = Column(Text)
@@ -104,14 +114,14 @@ class VMExecution(Base):
     exit_code = Column(Integer)
     execution_time = Column(Float)  # seconds
     executed_at = Column(DateTime, default=datetime.utcnow)
-    
+
     vm = relationship("VirtualMachine", back_populates="executions")
 
 
 # Feature 9: Scheduled Tasks
 class ScheduledTask(Base):
     __tablename__ = "scheduled_tasks"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     name = Column(String)
@@ -126,14 +136,14 @@ class ScheduledTask(Base):
     max_retries = Column(Integer, default=3)
     timeout = Column(Integer)  # seconds
     created_at = Column(DateTime, default=datetime.utcnow)
-    
+
     user = relationship("User", back_populates="scheduled_tasks")
     executions = relationship("TaskExecution", back_populates="task")
 
 
 class TaskExecution(Base):
     __tablename__ = "task_executions"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     task_id = Column(Integer, ForeignKey("scheduled_tasks.id"))
     status = Column(String)  # success, failure, running
@@ -142,14 +152,14 @@ class TaskExecution(Base):
     execution_time = Column(Float)  # seconds
     started_at = Column(DateTime, default=datetime.utcnow)
     completed_at = Column(DateTime)
-    
+
     task = relationship("ScheduledTask", back_populates="executions")
 
 
 # Feature 10: MCP Data Sources
 class MCPDataSource(Base):
     __tablename__ = "mcp_data_sources"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     name = Column(String)
@@ -159,14 +169,14 @@ class MCPDataSource(Base):
     enabled = Column(Boolean, default=True)
     last_used = Column(DateTime)
     created_at = Column(DateTime, default=datetime.utcnow)
-    
+
     user = relationship("User", back_populates="mcp_sources")
     queries = relationship("MCPQuery", back_populates="source")
 
 
 class MCPQuery(Base):
     __tablename__ = "mcp_queries"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     source_id = Column(Integer, ForeignKey("mcp_data_sources.id"))
     query = Column(Text)
@@ -174,14 +184,14 @@ class MCPQuery(Base):
     cached = Column(Boolean, default=False)
     execution_time = Column(Float)  # seconds
     executed_at = Column(DateTime, default=datetime.utcnow)
-    
+
     source = relationship("MCPDataSource", back_populates="queries")
 
 
 # Feature 11: Undo/Redo
 class ActionHistory(Base):
     __tablename__ = "action_history"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     action_type = Column(String)  # code_generation, file_modification, etc.
@@ -192,14 +202,14 @@ class ActionHistory(Base):
     undone = Column(Boolean, default=False)
     bookmarked = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
-    
+
     user = relationship("User", back_populates="action_history")
 
 
 # Feature 12: Video Generation
 class VideoGeneration(Base):
     __tablename__ = "video_generations"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     prompt = Column(Text)
@@ -212,14 +222,14 @@ class VideoGeneration(Base):
     cost = Column(Float)
     created_at = Column(DateTime, default=datetime.utcnow)
     completed_at = Column(DateTime)
-    
+
     user = relationship("User", back_populates="video_generations")
 
 
 # Feature 14: Custom Workflows
 class Workflow(Base):
     __tablename__ = "workflows"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     name = Column(String)
@@ -229,14 +239,14 @@ class Workflow(Base):
     enabled = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     user = relationship("User", back_populates="workflows")
     executions = relationship("WorkflowExecution", back_populates="workflow")
 
 
 class WorkflowExecution(Base):
     __tablename__ = "workflow_executions"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     workflow_id = Column(Integer, ForeignKey("workflows.id"))
     status = Column(String)  # running, completed, failed
@@ -247,21 +257,21 @@ class WorkflowExecution(Base):
     error = Column(Text)
     started_at = Column(DateTime, default=datetime.utcnow)
     completed_at = Column(DateTime)
-    
+
     workflow = relationship("Workflow", back_populates="executions")
 
 
 # Feature 15: Team Collaboration
 class Team(Base):
     __tablename__ = "teams"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
     description = Column(Text)
     owner_id = Column(Integer, ForeignKey("users.id"))
     plan = Column(String, default="free")  # free, pro, enterprise
     created_at = Column(DateTime, default=datetime.utcnow)
-    
+
     owner = relationship("User", foreign_keys=[owner_id])
     members = relationship("TeamMember", back_populates="team")
     workspaces = relationship("Workspace", back_populates="team")
@@ -269,33 +279,33 @@ class Team(Base):
 
 class TeamMember(Base):
     __tablename__ = "team_members"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     team_id = Column(Integer, ForeignKey("teams.id"))
     user_id = Column(Integer, ForeignKey("users.id"))
     role = Column(String)  # owner, admin, member, viewer
     joined_at = Column(DateTime, default=datetime.utcnow)
-    
+
     team = relationship("Team", back_populates="members")
     user = relationship("User")
 
 
 class Workspace(Base):
     __tablename__ = "workspaces"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     team_id = Column(Integer, ForeignKey("teams.id"))
     name = Column(String)
     description = Column(Text)
     settings = Column(JSON)
     created_at = Column(DateTime, default=datetime.utcnow)
-    
+
     team = relationship("Team", back_populates="workspaces")
 
 
 class Comment(Base):
     __tablename__ = "comments"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     resource_type = Column(String)  # code, file, task, workflow
@@ -303,13 +313,13 @@ class Comment(Base):
     content = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     user = relationship("User")
 
 
 class TeamActivity(Base):
     __tablename__ = "team_activity"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     team_id = Column(Integer, ForeignKey("teams.id"))
     user_id = Column(Integer, ForeignKey("users.id"))
@@ -318,6 +328,6 @@ class TeamActivity(Base):
     resource_id = Column(Integer)
     description = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
-    
+
     team = relationship("Team")
     user = relationship("User")

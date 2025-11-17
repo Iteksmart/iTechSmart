@@ -27,16 +27,18 @@ class TokenResponse(BaseModel):
 async def login(credentials: LoginRequest):
     """User login endpoint"""
     # In production, verify credentials against database
-    if credentials.email == "admin@itechsmart.dev" and credentials.password == "admin123":
+    if (
+        credentials.email == "admin@itechsmart.dev"
+        and credentials.password == "admin123"
+    ):
         return TokenResponse(
             access_token="mock-jwt-token-replace-in-production",
             token_type="bearer",
-            expires_in=3600
+            expires_in=3600,
         )
-    
+
     raise HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Invalid credentials"
+        status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials"
     )
 
 
@@ -53,5 +55,5 @@ async def get_current_user():
         "id": 1,
         "email": "admin@itechsmart.dev",
         "name": "Admin User",
-        "role": "admin"
+        "role": "admin",
     }

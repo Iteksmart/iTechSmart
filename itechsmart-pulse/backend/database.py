@@ -12,21 +12,16 @@ from typing import Generator
 
 # Database URL from environment variable
 DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "postgresql://pulse_user:pulse_pass_2024@localhost:5432/pulse_db"
+    "DATABASE_URL", "postgresql://pulse_user:pulse_pass_2024@localhost:5432/pulse_db"
 )
 
 # ClickHouse URL for analytics
 CLICKHOUSE_URL = os.getenv(
-    "CLICKHOUSE_URL",
-    "clickhouse://default:@localhost:9000/analytics"
+    "CLICKHOUSE_URL", "clickhouse://default:@localhost:9000/analytics"
 )
 
 # Redis URL
-REDIS_URL = os.getenv(
-    "REDIS_URL",
-    "redis://localhost:6379"
-)
+REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
 
 # Create SQLAlchemy engine
 engine = create_engine(
@@ -34,7 +29,7 @@ engine = create_engine(
     pool_pre_ping=True,
     pool_size=10,
     max_overflow=20,
-    echo=False  # Set to True for SQL query logging
+    echo=False,  # Set to True for SQL query logging
 )
 
 # Create SessionLocal class
@@ -60,6 +55,7 @@ def init_db():
     Initialize database - create all tables
     """
     from models import Base
+
     Base.metadata.create_all(bind=engine)
 
 
@@ -68,6 +64,7 @@ def drop_db():
     Drop all tables - use with caution!
     """
     from models import Base
+
     Base.metadata.drop_all(bind=engine)
 
 
@@ -76,6 +73,7 @@ def drop_db():
 # ============================================================================
 
 from clickhouse_driver import Client as ClickHouseClient
+
 
 def get_clickhouse_client():
     """
@@ -86,7 +84,7 @@ def get_clickhouse_client():
         port=int(os.getenv("CLICKHOUSE_PORT", "9000")),
         database=os.getenv("CLICKHOUSE_DB", "analytics"),
         user=os.getenv("CLICKHOUSE_USER", "default"),
-        password=os.getenv("CLICKHOUSE_PASSWORD", "")
+        password=os.getenv("CLICKHOUSE_PASSWORD", ""),
     )
 
 
@@ -97,31 +95,29 @@ def get_clickhouse_client():
 import redis
 from typing import Optional
 
+
 class RedisCache:
     """Redis cache manager"""
-    
+
     def __init__(self):
-        self.redis_client = redis.from_url(
-            REDIS_URL,
-            decode_responses=True
-        )
-    
+        self.redis_client = redis.from_url(REDIS_URL, decode_responses=True)
+
     def get(self, key: str) -> Optional[str]:
         """Get value from cache"""
         return self.redis_client.get(key)
-    
+
     def set(self, key: str, value: str, ttl: int = 300):
         """Set value in cache with TTL"""
         self.redis_client.setex(key, ttl, value)
-    
+
     def delete(self, key: str):
         """Delete key from cache"""
         self.redis_client.delete(key)
-    
+
     def exists(self, key: str) -> bool:
         """Check if key exists"""
         return self.redis_client.exists(key)
-    
+
     def flush_all(self):
         """Flush all cache - use with caution!"""
         self.redis_client.flushall()
@@ -134,6 +130,7 @@ cache = RedisCache()
 # ============================================================================
 # DATABASE UTILITIES
 # ============================================================================
+
 
 def execute_query(query: str, params: dict = None):
     """
@@ -166,6 +163,7 @@ def execute_clickhouse_query(query: str):
 # ============================================================================
 # CONNECTION TESTING
 # ============================================================================
+
 
 def test_postgresql_connection() -> bool:
     """Test PostgreSQL connection"""
@@ -205,6 +203,6 @@ def test_all_connections():
     results = {
         "postgresql": test_postgresql_connection(),
         "clickhouse": test_clickhouse_connection(),
-        "redis": test_redis_connection()
+        "redis": test_redis_connection(),
     }
     return results

@@ -1,9 +1,9 @@
 # Read the terminal panel file
-with open('itechsmart-ninja/vscode-extension/src/terminal/panel.ts', 'r') as f:
+with open("itechsmart-ninja/vscode-extension/src/terminal/panel.ts", "r") as f:
     content = f.read()
 
 # Add collaboration help and handlers
-collab_handlers = '''
+collab_handlers = """
     private showCollabHelp() {
         const helpText = `
 Collaboration Commands:
@@ -175,16 +175,18 @@ Examples:
             });
         }
     }
-'''
+"""
 
 # Find the last method and add collab handlers
-last_method_end = content.rfind('    }\n}')
+last_method_end = content.rfind("    }\n}")
 if last_method_end != -1:
-    content = content[:last_method_end] + collab_handlers + '\n' + content[last_method_end:]
+    content = (
+        content[:last_method_end] + collab_handlers + "\n" + content[last_method_end:]
+    )
     print("Added collaboration command handlers")
 
 # Add collaboration command cases
-collab_cases = '''
+collab_cases = """
             case 'collab-help':
             case 'team-help':
                 this.showCollabHelp();
@@ -221,18 +223,18 @@ collab_cases = '''
             case 'manage-permissions':
                 this.managePermissionsCmd();
                 break;
-'''
+"""
 
 # Find workflow-help case and add collab cases after it
 workflow_help_marker = "            case 'workflow-help':"
 if workflow_help_marker in content:
     pos = content.find(workflow_help_marker)
-    break_pos = content.find('break;', pos) + 6
-    content = content[:break_pos] + '\n' + collab_cases + content[break_pos:]
+    break_pos = content.find("break;", pos) + 6
+    content = content[:break_pos] + "\n" + collab_cases + content[break_pos:]
     print("Added collaboration command cases")
 
 # Write back
-with open('itechsmart-ninja/vscode-extension/src/terminal/panel.ts', 'w') as f:
+with open("itechsmart-ninja/vscode-extension/src/terminal/panel.ts", "w") as f:
     f.write(content)
 
 print("Collaboration terminal commands added successfully")

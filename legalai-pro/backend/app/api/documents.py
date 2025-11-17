@@ -14,6 +14,7 @@ from app.models.models import Document
 
 router = APIRouter()
 
+
 class DocumentResponse(BaseModel):
     id: int
     case_id: int
@@ -33,6 +34,7 @@ class DocumentResponse(BaseModel):
     class Config:
         from_attributes = True
 
+
 @router.post("/upload")
 async def upload_document(
     case_id: int,
@@ -41,13 +43,13 @@ async def upload_document(
     description: Optional[str] = None,
     category: Optional[str] = None,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
 ):
     """Upload a document"""
-    
+
     # Save file (implement actual file storage)
     file_path = f"documents/{case_id}/{file.filename}"
-    
+
     new_document = Document(
         case_id=case_id,
         title=title,
@@ -56,55 +58,58 @@ async def upload_document(
         file_type=file.content_type,
         file_size=0,  # Calculate actual size
         category=category,
-        created_by=int(current_user["user_id"])
+        created_by=int(current_user["user_id"]),
     )
-    
+
     db.add(new_document)
     db.commit()
     db.refresh(new_document)
-    
+
     return new_document
+
 
 @router.get("/case/{case_id}", response_model=List[DocumentResponse])
 async def get_case_documents(
     case_id: int,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
 ):
     """Get all documents for a case"""
-    
+
     documents = db.query(Document).filter(Document.case_id == case_id).all()
     return documents
+
 
 @router.get("/{document_id}", response_model=DocumentResponse)
 async def get_document(
     document_id: int,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
 ):
     """Get a specific document"""
-    
+
     document = db.query(Document).filter(Document.id == document_id).first()
-    
+
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
-    
+
     return document
+
 
 @router.delete("/{document_id}")
 async def delete_document(
     document_id: int,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
 ):
     """Delete a document"""
-    
+
     document = db.query(Document).filter(Document.id == document_id).first()
-    
+
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
-    
+
     db.delete(document)
     db.commit()
-    
+
     return {"message": "Document deleted successfully"}

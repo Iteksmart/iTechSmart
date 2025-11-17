@@ -14,8 +14,7 @@ from .api import agents
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -36,7 +35,7 @@ app = FastAPI(
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # Configure CORS
@@ -56,11 +55,7 @@ app.include_router(agents.router, prefix="/api/v1", tags=["Agents"])
 @app.get("/health")
 async def health_check() -> Dict[str, Any]:
     """Health check endpoint"""
-    return {
-        "status": "healthy",
-        "version": "1.0.0",
-        "service": "iTechSmart Shield"
-    }
+    return {"status": "healthy", "version": "1.0.0", "service": "iTechSmart Shield"}
 
 
 # Root endpoint
@@ -71,7 +66,7 @@ async def root() -> Dict[str, str]:
         "message": "iTechSmart Shield API",
         "version": "1.0.0",
         "docs": "/docs",
-        "health": "/health"
+        "health": "/health",
     }
 
 
@@ -84,18 +79,13 @@ async def get_dashboard() -> Dict[str, Any]:
         "threat_level": "low",
         "active_threats": 3,
         "blocked_attacks": 1247,
-        "vulnerabilities": {
-            "critical": 0,
-            "high": 2,
-            "medium": 8,
-            "low": 15
-        },
+        "vulnerabilities": {"critical": 0, "high": 2, "medium": 8, "low": 15},
         "compliance": {
             "soc2": {"status": "compliant", "score": 98},
             "iso27001": {"status": "compliant", "score": 95},
-            "gdpr": {"status": "compliant", "score": 97}
+            "gdpr": {"status": "compliant", "score": 97},
         },
-        "last_scan": "2024-11-12T10:00:00Z"
+        "last_scan": "2024-11-12T10:00:00Z",
     }
 
 
@@ -113,7 +103,7 @@ async def list_threats() -> Dict[str, Any]:
                 "source_ip": "192.168.1.100",
                 "target": "web-server-01",
                 "detected_at": "2024-11-12T09:45:00Z",
-                "description": "Suspicious file upload attempt detected"
+                "description": "Suspicious file upload attempt detected",
             },
             {
                 "id": "threat-002",
@@ -123,7 +113,7 @@ async def list_threats() -> Dict[str, Any]:
                 "source_ip": "203.0.113.45",
                 "target": "ssh-server",
                 "detected_at": "2024-11-12T09:30:00Z",
-                "description": "Multiple failed login attempts"
+                "description": "Multiple failed login attempts",
             },
             {
                 "id": "threat-003",
@@ -133,12 +123,12 @@ async def list_threats() -> Dict[str, Any]:
                 "source_ip": "198.51.100.0/24",
                 "target": "api-gateway",
                 "detected_at": "2024-11-12T08:15:00Z",
-                "description": "Distributed denial of service attack"
-            }
+                "description": "Distributed denial of service attack",
+            },
         ],
         "total": 3,
         "active": 1,
-        "blocked": 2
+        "blocked": 2,
     }
 
 
@@ -159,14 +149,14 @@ async def get_threat(threat_id: str) -> Dict[str, Any]:
             "file_name": "malicious.exe",
             "file_hash": "a1b2c3d4e5f6...",
             "signature": "Trojan.Generic.12345",
-            "action_taken": "File quarantined and upload blocked"
+            "action_taken": "File quarantined and upload blocked",
         },
         "timeline": [
             {"time": "09:45:00", "event": "Threat detected"},
             {"time": "09:45:01", "event": "File analyzed"},
             {"time": "09:45:02", "event": "Threat blocked"},
-            {"time": "09:45:03", "event": "Alert sent to admin"}
-        ]
+            {"time": "09:45:03", "event": "Alert sent to admin"},
+        ],
     }
 
 
@@ -184,7 +174,7 @@ async def list_vulnerabilities() -> Dict[str, Any]:
                 "affected_system": "api-server-01",
                 "status": "open",
                 "discovered_at": "2024-11-10T14:30:00Z",
-                "cvss_score": 8.5
+                "cvss_score": 8.5,
             },
             {
                 "id": "vuln-002",
@@ -194,7 +184,7 @@ async def list_vulnerabilities() -> Dict[str, Any]:
                 "affected_system": "web-app",
                 "status": "in_progress",
                 "discovered_at": "2024-11-09T10:15:00Z",
-                "cvss_score": 7.8
+                "cvss_score": 7.8,
             },
             {
                 "id": "vuln-003",
@@ -204,16 +194,10 @@ async def list_vulnerabilities() -> Dict[str, Any]:
                 "affected_system": "load-balancer",
                 "status": "open",
                 "discovered_at": "2024-11-08T16:45:00Z",
-                "cvss_score": 5.3
-            }
+                "cvss_score": 5.3,
+            },
         ],
-        "summary": {
-            "critical": 0,
-            "high": 2,
-            "medium": 8,
-            "low": 15,
-            "total": 25
-        }
+        "summary": {"critical": 0, "high": 2, "medium": 8, "low": 15, "total": 25},
     }
 
 
@@ -225,7 +209,7 @@ async def start_vulnerability_scan() -> Dict[str, Any]:
         "status": "started",
         "started_at": datetime.utcnow().isoformat(),
         "estimated_duration": "30 minutes",
-        "targets": ["all-systems"]
+        "targets": ["all-systems"],
     }
 
 
@@ -241,11 +225,7 @@ async def get_compliance_status() -> Dict[str, Any]:
                 "score": 98,
                 "last_audit": "2024-10-15",
                 "next_audit": "2025-04-15",
-                "controls": {
-                    "total": 64,
-                    "passed": 63,
-                    "failed": 1
-                }
+                "controls": {"total": 64, "passed": 63, "failed": 1},
             },
             {
                 "name": "ISO 27001",
@@ -253,11 +233,7 @@ async def get_compliance_status() -> Dict[str, Any]:
                 "score": 95,
                 "last_audit": "2024-09-20",
                 "next_audit": "2025-03-20",
-                "controls": {
-                    "total": 114,
-                    "passed": 108,
-                    "failed": 6
-                }
+                "controls": {"total": 114, "passed": 108, "failed": 6},
             },
             {
                 "name": "GDPR",
@@ -265,12 +241,8 @@ async def get_compliance_status() -> Dict[str, Any]:
                 "score": 97,
                 "last_audit": "2024-11-01",
                 "next_audit": "2025-05-01",
-                "controls": {
-                    "total": 99,
-                    "passed": 96,
-                    "failed": 3
-                }
-            }
+                "controls": {"total": 99, "passed": 96, "failed": 3},
+            },
         ]
     }
 
@@ -288,7 +260,7 @@ async def list_incidents() -> Dict[str, Any]:
                 "status": "resolved",
                 "created_at": "2024-11-11T15:30:00Z",
                 "resolved_at": "2024-11-11T16:45:00Z",
-                "assigned_to": "security-team"
+                "assigned_to": "security-team",
             },
             {
                 "id": "inc-002",
@@ -296,15 +268,10 @@ async def list_incidents() -> Dict[str, Any]:
                 "severity": "medium",
                 "status": "investigating",
                 "created_at": "2024-11-12T08:00:00Z",
-                "assigned_to": "soc-analyst-1"
-            }
+                "assigned_to": "soc-analyst-1",
+            },
         ],
-        "summary": {
-            "open": 1,
-            "investigating": 1,
-            "resolved": 15,
-            "total": 17
-        }
+        "summary": {"open": 1, "investigating": 1, "resolved": 15, "total": 17},
     }
 
 
@@ -314,31 +281,19 @@ async def get_security_metrics() -> Dict[str, Any]:
     """Get security monitoring metrics"""
     return {
         "metrics": {
-            "threats_detected": {
-                "today": 12,
-                "this_week": 87,
-                "this_month": 342
-            },
-            "threats_blocked": {
-                "today": 11,
-                "this_week": 85,
-                "this_month": 338
-            },
-            "attack_attempts": {
-                "today": 1247,
-                "this_week": 8934,
-                "this_month": 35678
-            },
+            "threats_detected": {"today": 12, "this_week": 87, "this_month": 342},
+            "threats_blocked": {"today": 11, "this_week": 85, "this_month": 338},
+            "attack_attempts": {"today": 1247, "this_week": 8934, "this_month": 35678},
             "response_time": {
                 "avg_seconds": 2.3,
                 "p95_seconds": 5.1,
-                "p99_seconds": 8.7
+                "p99_seconds": 8.7,
             },
             "system_health": {
                 "cpu_usage": 45.2,
                 "memory_usage": 62.8,
-                "disk_usage": 38.5
-            }
+                "disk_usage": 38.5,
+            },
         }
     }
 
@@ -353,32 +308,32 @@ async def list_integrations() -> Dict[str, Any]:
                 "product": "Passport",
                 "status": "connected",
                 "type": "identity",
-                "description": "Identity and access management integration"
+                "description": "Identity and access management integration",
             },
             {
                 "product": "Enterprise Hub",
                 "status": "connected",
                 "type": "monitoring",
-                "description": "Centralized monitoring and alerts"
+                "description": "Centralized monitoring and alerts",
             },
             {
                 "product": "Ninja",
                 "status": "connected",
                 "type": "automation",
-                "description": "Automated threat remediation"
+                "description": "Automated threat remediation",
             },
             {
                 "product": "Supreme",
                 "status": "connected",
                 "type": "infrastructure",
-                "description": "Infrastructure security monitoring"
+                "description": "Infrastructure security monitoring",
             },
             {
                 "product": "Vault",
                 "status": "pending",
                 "type": "secrets",
-                "description": "Secrets and credentials management"
-            }
+                "description": "Secrets and credentials management",
+            },
         ]
     }
 
@@ -395,7 +350,7 @@ async def list_alerts() -> Dict[str, Any]:
                 "severity": "high",
                 "message": "Malware detected on web-server-01",
                 "timestamp": "2024-11-12T09:45:00Z",
-                "acknowledged": True
+                "acknowledged": True,
             },
             {
                 "id": "alert-002",
@@ -403,7 +358,7 @@ async def list_alerts() -> Dict[str, Any]:
                 "severity": "medium",
                 "message": "New vulnerability discovered: CVE-2024-12348",
                 "timestamp": "2024-11-12T08:30:00Z",
-                "acknowledged": False
+                "acknowledged": False,
             },
             {
                 "id": "alert-003",
@@ -411,17 +366,14 @@ async def list_alerts() -> Dict[str, Any]:
                 "severity": "low",
                 "message": "SOC 2 control check failed",
                 "timestamp": "2024-11-12T07:15:00Z",
-                "acknowledged": True
-            }
+                "acknowledged": True,
+            },
         ],
-        "summary": {
-            "total": 3,
-            "acknowledged": 2,
-            "unacknowledged": 1
-        }
+        "summary": {"total": 3, "acknowledged": 2, "unacknowledged": 1},
     }
 
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8100)

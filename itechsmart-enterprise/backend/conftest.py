@@ -21,17 +21,11 @@ from app.core.security import get_password_hash
 TEST_DATABASE_URL = "postgresql+asyncpg://test:test@localhost:5432/enterprise_test"
 
 # Create test engine
-test_engine = create_async_engine(
-    TEST_DATABASE_URL,
-    poolclass=NullPool,
-    echo=False
-)
+test_engine = create_async_engine(TEST_DATABASE_URL, poolclass=NullPool, echo=False)
 
 # Create test session maker
 TestSessionLocal = async_sessionmaker(
-    test_engine,
-    class_=AsyncSession,
-    expire_on_commit=False
+    test_engine, class_=AsyncSession, expire_on_commit=False
 )
 
 
@@ -48,10 +42,10 @@ async def db_session() -> AsyncGenerator[AsyncSession, None]:
     """Create test database session"""
     async with test_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-    
+
     async with TestSessionLocal() as session:
         yield session
-    
+
     async with test_engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
 
@@ -59,14 +53,15 @@ async def db_session() -> AsyncGenerator[AsyncSession, None]:
 @pytest.fixture(scope="function")
 async def client(db_session: AsyncSession) -> AsyncGenerator[AsyncClient, None]:
     """Create test client"""
+
     async def override_get_db():
         yield db_session
-    
+
     app.dependency_overrides[get_db] = override_get_db
-    
+
     async with AsyncClient(app=app, base_url="http://test") as ac:
         yield ac
-    
+
     app.dependency_overrides.clear()
 
 
@@ -78,7 +73,7 @@ async def test_tenant(db_session: AsyncSession) -> Tenant:
         subdomain="testcorp",
         plan="enterprise",
         is_active=True,
-        max_users=1000
+        max_users=1000,
     )
     db_session.add(tenant)
     await db_session.commit()
@@ -96,7 +91,7 @@ async def test_user(db_session: AsyncSession, test_tenant: Tenant) -> User:
         tenant_id=test_tenant.id,
         role="admin",
         is_active=True,
-        is_verified=True
+        is_verified=True,
     )
     db_session.add(user)
     await db_session.commit()
@@ -115,7 +110,7 @@ async def test_admin(db_session: AsyncSession, test_tenant: Tenant) -> User:
         role="owner",
         is_active=True,
         is_verified=True,
-        is_superuser=True
+        is_superuser=True,
     )
     db_session.add(admin)
     await db_session.commit()
@@ -127,11 +122,7 @@ async def test_admin(db_session: AsyncSession, test_tenant: Tenant) -> User:
 async def auth_headers(client: AsyncClient, test_user: User) -> dict:
     """Get authentication headers for test user"""
     response = await client.post(
-        "/api/v1/auth/login",
-        json={
-            "email": test_user.email,
-            "password": "Test123!"
-        }
+        "/api/v1/auth/login", json={"email": test_user.email, "password": "Test123!"}
     )
     token = response.json()["access_token"]
     return {"Authorization": f"Bearer {token}"}
@@ -141,18 +132,16 @@ async def auth_headers(client: AsyncClient, test_user: User) -> dict:
 async def admin_headers(client: AsyncClient, test_admin: User) -> dict:
     """Get authentication headers for admin user"""
     response = await client.post(
-        "/api/v1/auth/login",
-        json={
-            "email": test_admin.email,
-            "password": "Admin123!"
-        }
+        "/api/v1/auth/login", json={"email": test_admin.email, "password": "Admin123!"}
     )
     token = response.json()["access_token"]
     return {"Authorization": f"Bearer {token}"}
 
 
 @pytest.fixture
-async def test_ticket(db_session: AsyncSession, test_user: User, test_tenant: Tenant) -> Ticket:
+async def test_ticket(
+    db_session: AsyncSession, test_user: User, test_tenant: Tenant
+) -> Ticket:
     """Create test ticket"""
     ticket = Ticket(
         tenant_id=test_tenant.id,
@@ -161,7 +150,7 @@ async def test_ticket(db_session: AsyncSession, test_user: User, test_tenant: Te
         description="Test ticket description",
         priority="high",
         status="open",
-        category="incident"
+        category="incident",
     )
     db_session.add(ticket)
     await db_session.commit()
@@ -177,7 +166,7 @@ def sample_tenant_data() -> dict:
         "name": "New Enterprise",
         "subdomain": "newenterprise",
         "plan": "enterprise",
-        "max_users": 500
+        "max_users": 500,
     }
 
 
@@ -188,7 +177,7 @@ def sample_ticket_data() -> dict:
         "title": "System Outage",
         "description": "Production system is down",
         "priority": "critical",
-        "category": "incident"
+        "category": "incident",
     }
 
 
@@ -199,7 +188,7 @@ def sample_user_data() -> dict:
         "email": "newuser@testcorp.com",
         "full_name": "New User",
         "password": "NewUser123!",
-        "role": "user"
+        "role": "user",
     }
 
 

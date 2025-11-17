@@ -3,10 +3,10 @@ iTechSmart Supreme - Integrated Tools & Platforms
 """
 
 __all__ = [
-    'OllamaIntegration',
-    'AnsibleIntegration',
-    'SaltStackIntegration',
-    'GrafanaIntegration',
-    'ZabbixIntegration',
-    'VaultIntegration'
+    "OllamaIntegration",
+    "AnsibleIntegration",
+    "SaltStackIntegration",
+    "GrafanaIntegration",
+    "ZabbixIntegration",
+    "VaultIntegration",
 ]

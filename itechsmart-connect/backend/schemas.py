@@ -11,18 +11,22 @@ from datetime import datetime
 # USER SCHEMAS
 # ============================================================================
 
+
 class UserBase(BaseModel):
     email: EmailStr
     username: str
     full_name: Optional[str] = None
 
+
 class UserCreate(UserBase):
     password: str
+
 
 class UserUpdate(BaseModel):
     email: Optional[EmailStr] = None
     full_name: Optional[str] = None
     role: Optional[str] = None
+
 
 class UserResponse(UserBase):
     id: str
@@ -30,13 +34,15 @@ class UserResponse(UserBase):
     is_active: bool
     is_verified: bool
     created_at: datetime
-    
+
     class Config:
         from_attributes = True
+
 
 # ============================================================================
 # API SCHEMAS
 # ============================================================================
+
 
 class APIBase(BaseModel):
     name: str
@@ -44,10 +50,12 @@ class APIBase(BaseModel):
     base_url: str
     version: str = "v1"
 
+
 class APICreate(APIBase):
     slug: Optional[str] = None
     rate_limit: int = 1000
     timeout: int = 30
+
 
 class APIUpdate(BaseModel):
     name: Optional[str] = None
@@ -58,6 +66,7 @@ class APIUpdate(BaseModel):
     rate_limit: Optional[int] = None
     timeout: Optional[int] = None
 
+
 class APIResponse(APIBase):
     id: str
     slug: str
@@ -67,18 +76,21 @@ class APIResponse(APIBase):
     owner_id: str
     created_at: datetime
     updated_at: datetime
-    
+
     class Config:
         from_attributes = True
+
 
 # ============================================================================
 # API ENDPOINT SCHEMAS
 # ============================================================================
 
+
 class APIEndpointBase(BaseModel):
     path: str
     method: str
     description: Optional[str] = None
+
 
 class APIEndpointCreate(APIEndpointBase):
     rate_limit: Optional[int] = None
@@ -86,6 +98,7 @@ class APIEndpointCreate(APIEndpointBase):
     requires_auth: bool = True
     request_schema: Optional[Dict[str, Any]] = None
     response_schema: Optional[Dict[str, Any]] = None
+
 
 class APIEndpointUpdate(BaseModel):
     path: Optional[str] = None
@@ -95,6 +108,7 @@ class APIEndpointUpdate(BaseModel):
     timeout: Optional[int] = None
     requires_auth: Optional[bool] = None
 
+
 class APIEndpointResponse(APIEndpointBase):
     id: str
     api_id: str
@@ -102,20 +116,24 @@ class APIEndpointResponse(APIEndpointBase):
     timeout: Optional[int]
     requires_auth: bool
     created_at: datetime
-    
+
     class Config:
         from_attributes = True
+
 
 # ============================================================================
 # API VERSION SCHEMAS
 # ============================================================================
 
+
 class APIVersionBase(BaseModel):
     version: str
     changelog: Optional[str] = None
 
+
 class APIVersionCreate(APIVersionBase):
     is_default: bool = False
+
 
 class APIVersionResponse(APIVersionBase):
     id: str
@@ -124,21 +142,25 @@ class APIVersionResponse(APIVersionBase):
     is_default: bool
     created_at: datetime
     deprecated_at: Optional[datetime] = None
-    
+
     class Config:
         from_attributes = True
+
 
 # ============================================================================
 # API KEY SCHEMAS
 # ============================================================================
 
+
 class APIKeyBase(BaseModel):
     name: str
     scopes: List[str] = []
 
+
 class APIKeyCreate(APIKeyBase):
     rate_limit: int = 1000
     expires_in_days: Optional[int] = None
+
 
 class APIKeyResponse(BaseModel):
     id: str
@@ -149,9 +171,10 @@ class APIKeyResponse(BaseModel):
     is_active: bool
     expires_at: Optional[datetime]
     created_at: datetime
-    
+
     class Config:
         from_attributes = True
+
 
 class APIKeyListResponse(BaseModel):
     id: str
@@ -162,13 +185,15 @@ class APIKeyListResponse(BaseModel):
     last_used: Optional[datetime]
     expires_at: Optional[datetime]
     created_at: datetime
-    
+
     class Config:
         from_attributes = True
+
 
 # ============================================================================
 # REQUEST LOG SCHEMAS
 # ============================================================================
+
 
 class RequestLogResponse(BaseModel):
     id: str
@@ -180,22 +205,26 @@ class RequestLogResponse(BaseModel):
     client_ip: Optional[str]
     timestamp: datetime
     error_message: Optional[str] = None
-    
+
     class Config:
         from_attributes = True
+
 
 # ============================================================================
 # RATE LIMIT SCHEMAS
 # ============================================================================
 
+
 class RateLimitBase(BaseModel):
     limit: int
     window_seconds: int = 60
+
 
 class RateLimitCreate(RateLimitBase):
     api_id: Optional[str] = None
     endpoint_id: Optional[str] = None
     scope: str = "global"
+
 
 class RateLimitResponse(RateLimitBase):
     id: str
@@ -203,23 +232,27 @@ class RateLimitResponse(RateLimitBase):
     endpoint_id: Optional[str]
     scope: str
     created_at: datetime
-    
+
     class Config:
         from_attributes = True
+
 
 # ============================================================================
 # WEBHOOK SCHEMAS
 # ============================================================================
+
 
 class WebhookBase(BaseModel):
     name: str
     url: str
     events: List[str]
 
+
 class WebhookCreate(WebhookBase):
     secret: Optional[str] = None
     retry_count: int = 3
     retry_delay_seconds: int = 60
+
 
 class WebhookUpdate(BaseModel):
     name: Optional[str] = None
@@ -227,19 +260,22 @@ class WebhookUpdate(BaseModel):
     events: Optional[List[str]] = None
     is_active: Optional[bool] = None
 
+
 class WebhookResponse(WebhookBase):
     id: str
     user_id: str
     is_active: bool
     created_at: datetime
     last_triggered: Optional[datetime] = None
-    
+
     class Config:
         from_attributes = True
+
 
 # ============================================================================
 # ANALYTICS SCHEMAS
 # ============================================================================
+
 
 class AnalyticsOverview(BaseModel):
     total_apis: int
@@ -251,15 +287,18 @@ class AnalyticsOverview(BaseModel):
     avg_response_time_ms: float
     timestamp: datetime
 
+
 class RequestAnalytics(BaseModel):
     period_hours: int
     total_requests: int
     hourly_stats: Dict[str, Dict[str, Any]]
 
+
 class TopAPI(BaseModel):
     api_id: str
     name: str
     request_count: int
+
 
 class APIMetricsResponse(BaseModel):
     api_id: str
@@ -272,28 +311,33 @@ class APIMetricsResponse(BaseModel):
     p99_response_time_ms: float
     period_start: datetime
     period_end: datetime
-    
+
     class Config:
         from_attributes = True
+
 
 # ============================================================================
 # DOCUMENTATION SCHEMAS
 # ============================================================================
+
 
 class APIDocumentationBase(BaseModel):
     title: str
     content: str
     content_type: str = "markdown"
 
+
 class APIDocumentationCreate(APIDocumentationBase):
     section: Optional[str] = None
     order: int = 0
+
 
 class APIDocumentationUpdate(BaseModel):
     title: Optional[str] = None
     content: Optional[str] = None
     section: Optional[str] = None
     order: Optional[int] = None
+
 
 class APIDocumentationResponse(APIDocumentationBase):
     id: str
@@ -302,13 +346,15 @@ class APIDocumentationResponse(APIDocumentationBase):
     order: int
     created_at: datetime
     updated_at: datetime
-    
+
     class Config:
         from_attributes = True
+
 
 # ============================================================================
 # PAGINATION SCHEMAS
 # ============================================================================
+
 
 class PaginatedResponse(BaseModel):
     data: List[Any]
@@ -316,9 +362,11 @@ class PaginatedResponse(BaseModel):
     skip: int
     limit: int
 
+
 # ============================================================================
 # ERROR SCHEMAS
 # ============================================================================
+
 
 class ErrorResponse(BaseModel):
     error: str

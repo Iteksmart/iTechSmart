@@ -19,6 +19,7 @@ from config import INTEGRATION_TYPES
 
 router = APIRouter()
 
+
 # Pydantic models
 class IntegrationCreate(BaseModel):
     name: str
@@ -26,10 +27,12 @@ class IntegrationCreate(BaseModel):
     config: dict
     enabled: bool = True
 
+
 class IntegrationUpdate(BaseModel):
     name: Optional[str] = None
     config: Optional[dict] = None
     enabled: Optional[bool] = None
+
 
 class IntegrationResponse(BaseModel):
     id: int
@@ -39,27 +42,31 @@ class IntegrationResponse(BaseModel):
     enabled: bool
     last_sync: Optional[datetime]
     created_at: datetime
-    
+
     class Config:
         from_attributes = True
 
+
 @router.post("/", response_model=IntegrationResponse)
-async def create_integration(integration: IntegrationCreate, db: Session = Depends(get_db)):
+async def create_integration(
+    integration: IntegrationCreate, db: Session = Depends(get_db)
+):
     """Create a new integration"""
     if integration.integration_type not in INTEGRATION_TYPES:
         raise HTTPException(
             status_code=400,
-            detail=f"Invalid integration type. Must be one of: {', '.join(INTEGRATION_TYPES)}"
+            detail=f"Invalid integration type. Must be one of: {', '.join(INTEGRATION_TYPES)}",
         )
-    
+
     engine = SupremePlusEngine(db)
     new_integration = engine.create_integration(
         name=integration.name,
         integration_type=integration.integration_type,
         config=integration.config,
-        enabled=integration.enabled
+        enabled=integration.enabled,
     )
     return new_integration
+
 
 @router.get("/", response_model=List[IntegrationResponse])
 async def list_integrations(
@@ -67,18 +74,21 @@ async def list_integrations(
     enabled: Optional[bool] = None,
     limit: int = Query(100, le=1000),
     offset: int = 0,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """List integrations with optional filters"""
     query = db.query(Integration)
-    
+
     if integration_type:
         query = query.filter(Integration.integration_type == integration_type)
     if enabled is not None:
         query = query.filter(Integration.enabled == enabled)
-    
-    integrations = query.order_by(Integration.created_at.desc()).offset(offset).limit(limit).all()
+
+    integrations = (
+        query.order_by(Integration.created_at.desc()).offset(offset).limit(limit).all()
+    )
     return integrations
+
 
 @router.get("/{integration_id}", response_model=IntegrationResponse)
 async def get_integration(integration_id: int, db: Session = Depends(get_db)):
@@ -88,24 +98,26 @@ async def get_integration(integration_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Integration not found")
     return integration
 
+
 @router.put("/{integration_id}", response_model=IntegrationResponse)
 async def update_integration(
     integration_id: int,
     integration_update: IntegrationUpdate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Update an integration"""
     integration = db.query(Integration).filter(Integration.id == integration_id).first()
     if not integration:
         raise HTTPException(status_code=404, detail="Integration not found")
-    
+
     update_data = integration_update.dict(exclude_unset=True)
     for field, value in update_data.items():
         setattr(integration, field, value)
-    
+
     db.commit()
     db.refresh(integration)
     return integration
+
 
 @router.delete("/{integration_id}")
 async def delete_integration(integration_id: int, db: Session = Depends(get_db)):
@@ -113,10 +125,11 @@ async def delete_integration(integration_id: int, db: Session = Depends(get_db))
     integration = db.query(Integration).filter(Integration.id == integration_id).first()
     if not integration:
         raise HTTPException(status_code=404, detail="Integration not found")
-    
+
     db.delete(integration)
     db.commit()
     return {"message": "Integration deleted successfully"}
+
 
 @router.post("/{integration_id}/test")
 async def test_integration(integration_id: int, db: Session = Depends(get_db)):
@@ -130,25 +143,27 @@ async def test_integration(integration_id: int, db: Session = Depends(get_db)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @router.post("/{integration_id}/sync")
 async def sync_integration(integration_id: int, db: Session = Depends(get_db)):
     """Trigger a sync for an integration"""
     integration = db.query(Integration).filter(Integration.id == integration_id).first()
     if not integration:
         raise HTTPException(status_code=404, detail="Integration not found")
-    
+
     if not integration.enabled:
         raise HTTPException(status_code=400, detail="Integration is disabled")
-    
+
     # Update last sync time
     integration.last_sync = datetime.utcnow()
     db.commit()
-    
+
     return {
         "message": "Sync triggered successfully",
         "integration_id": integration_id,
-        "last_sync": integration.last_sync
+        "last_sync": integration.last_sync,
     }
+
 
 @router.get("/types/list")
 async def list_integration_types():
@@ -165,6 +180,6 @@ async def list_integration_types():
             "new_relic": "New Relic APM",
             "pagerduty": "PagerDuty incident management",
             "slack": "Slack notifications",
-            "webhook": "Generic webhook integration"
-        }
+            "webhook": "Generic webhook integration",
+        },
     }

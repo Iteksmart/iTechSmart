@@ -5,7 +5,17 @@ Business Process Automation Platform
 
 from datetime import datetime
 from typing import Optional, List
-from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey, JSON, Enum as SQLEnum
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Text,
+    Boolean,
+    DateTime,
+    ForeignKey,
+    JSON,
+    Enum as SQLEnum,
+)
 from sqlalchemy.orm import relationship
 from database import Base
 import enum
@@ -13,6 +23,7 @@ import enum
 
 class WorkflowStatus(str, enum.Enum):
     """Workflow status enumeration"""
+
     DRAFT = "draft"
     ACTIVE = "active"
     PAUSED = "paused"
@@ -21,6 +32,7 @@ class WorkflowStatus(str, enum.Enum):
 
 class ExecutionStatus(str, enum.Enum):
     """Execution status enumeration"""
+
     PENDING = "pending"
     RUNNING = "running"
     COMPLETED = "completed"
@@ -30,6 +42,7 @@ class ExecutionStatus(str, enum.Enum):
 
 class TaskStatus(str, enum.Enum):
     """Task status enumeration"""
+
     PENDING = "pending"
     RUNNING = "running"
     COMPLETED = "completed"
@@ -39,6 +52,7 @@ class TaskStatus(str, enum.Enum):
 
 class TriggerType(str, enum.Enum):
     """Trigger type enumeration"""
+
     MANUAL = "manual"
     SCHEDULED = "scheduled"
     WEBHOOK = "webhook"
@@ -48,6 +62,7 @@ class TriggerType(str, enum.Enum):
 
 class User(Base):
     """User model"""
+
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -61,19 +76,24 @@ class User(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     # Relationships
-    workflows = relationship("Workflow", back_populates="owner", cascade="all, delete-orphan")
+    workflows = relationship(
+        "Workflow", back_populates="owner", cascade="all, delete-orphan"
+    )
     executions = relationship("Execution", back_populates="triggered_by_user")
 
 
 class Workflow(Base):
     """Workflow model - represents a business process"""
+
     __tablename__ = "workflows"
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255), nullable=False, index=True)
     description = Column(Text)
     status = Column(SQLEnum(WorkflowStatus), default=WorkflowStatus.DRAFT, index=True)
-    definition = Column(JSON, nullable=False)  # Workflow definition (nodes, edges, etc.)
+    definition = Column(
+        JSON, nullable=False
+    )  # Workflow definition (nodes, edges, etc.)
     version = Column(Integer, default=1)
     owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     category = Column(String(100), index=True)
@@ -88,18 +108,29 @@ class Workflow(Base):
 
     # Relationships
     owner = relationship("User", back_populates="workflows")
-    executions = relationship("Execution", back_populates="workflow", cascade="all, delete-orphan")
-    triggers = relationship("Trigger", back_populates="workflow", cascade="all, delete-orphan")
-    variables = relationship("WorkflowVariable", back_populates="workflow", cascade="all, delete-orphan")
+    executions = relationship(
+        "Execution", back_populates="workflow", cascade="all, delete-orphan"
+    )
+    triggers = relationship(
+        "Trigger", back_populates="workflow", cascade="all, delete-orphan"
+    )
+    variables = relationship(
+        "WorkflowVariable", back_populates="workflow", cascade="all, delete-orphan"
+    )
 
 
 class Execution(Base):
     """Execution model - represents a workflow execution instance"""
+
     __tablename__ = "executions"
 
     id = Column(Integer, primary_key=True, index=True)
-    workflow_id = Column(Integer, ForeignKey("workflows.id"), nullable=False, index=True)
-    status = Column(SQLEnum(ExecutionStatus), default=ExecutionStatus.PENDING, index=True)
+    workflow_id = Column(
+        Integer, ForeignKey("workflows.id"), nullable=False, index=True
+    )
+    status = Column(
+        SQLEnum(ExecutionStatus), default=ExecutionStatus.PENDING, index=True
+    )
     trigger_type = Column(SQLEnum(TriggerType), nullable=False)
     triggered_by_user_id = Column(Integer, ForeignKey("users.id"))
     input_data = Column(JSON)  # Input parameters
@@ -114,19 +145,28 @@ class Execution(Base):
     # Relationships
     workflow = relationship("Workflow", back_populates="executions")
     triggered_by_user = relationship("User", back_populates="executions")
-    tasks = relationship("TaskExecution", back_populates="execution", cascade="all, delete-orphan")
-    logs = relationship("ExecutionLog", back_populates="execution", cascade="all, delete-orphan")
+    tasks = relationship(
+        "TaskExecution", back_populates="execution", cascade="all, delete-orphan"
+    )
+    logs = relationship(
+        "ExecutionLog", back_populates="execution", cascade="all, delete-orphan"
+    )
 
 
 class TaskExecution(Base):
     """Task execution model - represents individual task execution within a workflow"""
+
     __tablename__ = "task_executions"
 
     id = Column(Integer, primary_key=True, index=True)
-    execution_id = Column(Integer, ForeignKey("executions.id"), nullable=False, index=True)
+    execution_id = Column(
+        Integer, ForeignKey("executions.id"), nullable=False, index=True
+    )
     task_id = Column(String(100), nullable=False)  # Task ID from workflow definition
     task_name = Column(String(255), nullable=False)
-    task_type = Column(String(100), nullable=False)  # e.g., http_request, email, script, etc.
+    task_type = Column(
+        String(100), nullable=False
+    )  # e.g., http_request, email, script, etc.
     status = Column(SQLEnum(TaskStatus), default=TaskStatus.PENDING, index=True)
     input_data = Column(JSON)
     output_data = Column(JSON)
@@ -143,14 +183,19 @@ class TaskExecution(Base):
 
 class Trigger(Base):
     """Trigger model - defines when a workflow should be executed"""
+
     __tablename__ = "triggers"
 
     id = Column(Integer, primary_key=True, index=True)
-    workflow_id = Column(Integer, ForeignKey("workflows.id"), nullable=False, index=True)
+    workflow_id = Column(
+        Integer, ForeignKey("workflows.id"), nullable=False, index=True
+    )
     name = Column(String(255), nullable=False)
     trigger_type = Column(SQLEnum(TriggerType), nullable=False, index=True)
     is_active = Column(Boolean, default=True)
-    configuration = Column(JSON, nullable=False)  # Trigger-specific config (cron, webhook URL, etc.)
+    configuration = Column(
+        JSON, nullable=False
+    )  # Trigger-specific config (cron, webhook URL, etc.)
     last_triggered_at = Column(DateTime)
     trigger_count = Column(Integer, default=0)
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -162,10 +207,13 @@ class Trigger(Base):
 
 class WorkflowVariable(Base):
     """Workflow variable model - stores workflow-specific variables"""
+
     __tablename__ = "workflow_variables"
 
     id = Column(Integer, primary_key=True, index=True)
-    workflow_id = Column(Integer, ForeignKey("workflows.id"), nullable=False, index=True)
+    workflow_id = Column(
+        Integer, ForeignKey("workflows.id"), nullable=False, index=True
+    )
     key = Column(String(255), nullable=False)
     value = Column(Text)
     is_secret = Column(Boolean, default=False)
@@ -179,11 +227,14 @@ class WorkflowVariable(Base):
 
 class Integration(Base):
     """Integration model - external service connections"""
+
     __tablename__ = "integrations"
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255), nullable=False)
-    type = Column(String(100), nullable=False, index=True)  # slack, email, http, database, etc.
+    type = Column(
+        String(100), nullable=False, index=True
+    )  # slack, email, http, database, etc.
     description = Column(Text)
     configuration = Column(JSON, nullable=False)  # Connection details
     is_active = Column(Boolean, default=True)
@@ -196,6 +247,7 @@ class Integration(Base):
 
 class Template(Base):
     """Template model - pre-built workflow templates"""
+
     __tablename__ = "templates"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -215,11 +267,16 @@ class Template(Base):
 
 class ExecutionLog(Base):
     """Execution log model - detailed logs for workflow executions"""
+
     __tablename__ = "execution_logs"
 
     id = Column(Integer, primary_key=True, index=True)
-    execution_id = Column(Integer, ForeignKey("executions.id"), nullable=False, index=True)
-    level = Column(String(20), nullable=False, index=True)  # INFO, WARNING, ERROR, DEBUG
+    execution_id = Column(
+        Integer, ForeignKey("executions.id"), nullable=False, index=True
+    )
+    level = Column(
+        String(20), nullable=False, index=True
+    )  # INFO, WARNING, ERROR, DEBUG
     message = Column(Text, nullable=False)
     task_id = Column(String(100))
     metadata = Column(JSON)
@@ -231,10 +288,13 @@ class ExecutionLog(Base):
 
 class Schedule(Base):
     """Schedule model - manages scheduled workflow executions"""
+
     __tablename__ = "schedules"
 
     id = Column(Integer, primary_key=True, index=True)
-    workflow_id = Column(Integer, ForeignKey("workflows.id"), nullable=False, index=True)
+    workflow_id = Column(
+        Integer, ForeignKey("workflows.id"), nullable=False, index=True
+    )
     name = Column(String(255), nullable=False)
     cron_expression = Column(String(100), nullable=False)
     timezone = Column(String(50), default="UTC")
@@ -248,6 +308,7 @@ class Schedule(Base):
 
 class AuditLog(Base):
     """Audit log model - tracks all system changes"""
+
     __tablename__ = "audit_logs"
 
     id = Column(Integer, primary_key=True, index=True)

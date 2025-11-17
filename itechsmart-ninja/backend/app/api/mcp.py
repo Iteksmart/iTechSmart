@@ -51,11 +51,11 @@ class MultiQueryRequest(BaseModel):
 async def register_source(
     request: RegisterSourceRequest,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """
     Register a new MCP data source
-    
+
     Example:
     ```json
     {
@@ -70,9 +70,9 @@ async def register_source(
         if request.type not in [t.value for t in DataSourceType]:
             raise HTTPException(
                 status_code=400,
-                detail=f"Invalid source type. Supported: {[t.value for t in DataSourceType]}"
+                detail=f"Invalid source type. Supported: {[t.value for t in DataSourceType]}",
             )
-            
+
         # Create database record
         db_source = MCPDataSource(
             user_id=current_user.id,
@@ -81,36 +81,35 @@ async def register_source(
             connection_string=request.connection_string,
             config={
                 "connection_config": request.connection_config,
-                **(request.config or {})
+                **(request.config or {}),
             },
             enabled=True,
-            created_at=datetime.utcnow()
+            created_at=datetime.utcnow(),
         )
-        
+
         db.add(db_source)
         db.commit()
         db.refresh(db_source)
-        
+
         # Register with MCP client
         source_config = {
             "name": request.name,
             "type": request.type,
             "connection_string": request.connection_string,
             "connection_config": request.connection_config,
-            **(request.config or {})
+            **(request.config or {}),
         }
-        
+
         result = await mcp_client.register_source(
-            source_id=str(db_source.id),
-            config=source_config
+            source_id=str(db_source.id), config=source_config
         )
-        
+
         if not result.get("success"):
             # Rollback database if registration failed
             db.delete(db_source)
             db.commit()
             raise HTTPException(status_code=400, detail=result.get("error"))
-            
+
         return {
             "success": True,
             "source": {
@@ -118,10 +117,10 @@ async def register_source(
                 "name": db_source.name,
                 "type": db_source.type,
                 "enabled": db_source.enabled,
-                "created_at": db_source.created_at.isoformat()
-            }
+                "created_at": db_source.created_at.isoformat(),
+            },
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -131,15 +130,16 @@ async def register_source(
 
 @router.get("/sources")
 async def list_sources(
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    db: Session = Depends(get_db), current_user: User = Depends(get_current_user)
 ):
     """List all MCP data sources for current user"""
     try:
-        sources = db.query(MCPDataSource).filter(
-            MCPDataSource.user_id == current_user.id
-        ).all()
-        
+        sources = (
+            db.query(MCPDataSource)
+            .filter(MCPDataSource.user_id == current_user.id)
+            .all()
+        )
+
         return {
             "success": True,
             "sources": [
@@ -148,13 +148,15 @@ async def list_sources(
                     "name": source.name,
                     "type": source.type,
                     "enabled": source.enabled,
-                    "last_used": source.last_used.isoformat() if source.last_used else None,
-                    "created_at": source.created_at.isoformat()
+                    "last_used": (
+                        source.last_used.isoformat() if source.last_used else None
+                    ),
+                    "created_at": source.created_at.isoformat(),
                 }
                 for source in sources
-            ]
+            ],
         }
-        
+
     except Exception as e:
         logger.error(f"Failed to list sources: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -164,18 +166,21 @@ async def list_sources(
 async def get_source(
     source_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Get details of a specific MCP data source"""
     try:
-        source = db.query(MCPDataSource).filter(
-            MCPDataSource.id == source_id,
-            MCPDataSource.user_id == current_user.id
-        ).first()
-        
+        source = (
+            db.query(MCPDataSource)
+            .filter(
+                MCPDataSource.id == source_id, MCPDataSource.user_id == current_user.id
+            )
+            .first()
+        )
+
         if not source:
             raise HTTPException(status_code=404, detail="Source not found")
-            
+
         return {
             "success": True,
             "source": {
@@ -185,10 +190,10 @@ async def get_source(
                 "enabled": source.enabled,
                 "config": source.config,
                 "last_used": source.last_used.isoformat() if source.last_used else None,
-                "created_at": source.created_at.isoformat()
-            }
+                "created_at": source.created_at.isoformat(),
+            },
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -201,18 +206,21 @@ async def update_source(
     source_id: int,
     request: UpdateSourceRequest,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Update an MCP data source"""
     try:
-        source = db.query(MCPDataSource).filter(
-            MCPDataSource.id == source_id,
-            MCPDataSource.user_id == current_user.id
-        ).first()
-        
+        source = (
+            db.query(MCPDataSource)
+            .filter(
+                MCPDataSource.id == source_id, MCPDataSource.user_id == current_user.id
+            )
+            .first()
+        )
+
         if not source:
             raise HTTPException(status_code=404, detail="Source not found")
-            
+
         # Update fields
         if request.name is not None:
             source.name = request.name
@@ -224,10 +232,10 @@ async def update_source(
             source.config.update(request.config)
         if request.enabled is not None:
             source.enabled = request.enabled
-            
+
         db.commit()
         db.refresh(source)
-        
+
         # Re-register with MCP client if enabled
         if source.enabled:
             source_config = {
@@ -235,14 +243,13 @@ async def update_source(
                 "type": source.type,
                 "connection_string": source.connection_string,
                 "connection_config": source.config.get("connection_config"),
-                **source.config
+                **source.config,
             }
-            
+
             await mcp_client.register_source(
-                source_id=str(source.id),
-                config=source_config
+                source_id=str(source.id), config=source_config
             )
-            
+
         return {
             "success": True,
             "source": {
@@ -250,10 +257,10 @@ async def update_source(
                 "name": source.name,
                 "type": source.type,
                 "enabled": source.enabled,
-                "created_at": source.created_at.isoformat()
-            }
+                "created_at": source.created_at.isoformat(),
+            },
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -265,30 +272,33 @@ async def update_source(
 async def delete_source(
     source_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Delete an MCP data source"""
     try:
-        source = db.query(MCPDataSource).filter(
-            MCPDataSource.id == source_id,
-            MCPDataSource.user_id == current_user.id
-        ).first()
-        
+        source = (
+            db.query(MCPDataSource)
+            .filter(
+                MCPDataSource.id == source_id, MCPDataSource.user_id == current_user.id
+            )
+            .first()
+        )
+
         if not source:
             raise HTTPException(status_code=404, detail="Source not found")
-            
+
         # Unregister from MCP client
         await mcp_client.unregister_source(str(source_id))
-        
+
         # Delete from database
         db.delete(source)
         db.commit()
-        
+
         return {
             "success": True,
-            "message": f"Source '{source.name}' deleted successfully"
+            "message": f"Source '{source.name}' deleted successfully",
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -301,11 +311,11 @@ async def query_source(
     source_id: int,
     request: QueryRequest,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """
     Execute a query on an MCP data source
-    
+
     Example for PostgreSQL:
     ```json
     {
@@ -313,7 +323,7 @@ async def query_source(
         "use_cache": true
     }
     ```
-    
+
     Example for MongoDB:
     ```json
     {
@@ -324,29 +334,32 @@ async def query_source(
     """
     try:
         # Verify source exists and belongs to user
-        source = db.query(MCPDataSource).filter(
-            MCPDataSource.id == source_id,
-            MCPDataSource.user_id == current_user.id
-        ).first()
-        
+        source = (
+            db.query(MCPDataSource)
+            .filter(
+                MCPDataSource.id == source_id, MCPDataSource.user_id == current_user.id
+            )
+            .first()
+        )
+
         if not source:
             raise HTTPException(status_code=404, detail="Source not found")
-            
+
         if not source.enabled:
             raise HTTPException(status_code=400, detail="Source is disabled")
-            
+
         # Execute query
         start_time = datetime.utcnow()
         result = await mcp_client.query_source(
             source_id=str(source_id),
             query=request.query,
             params=request.params,
-            use_cache=request.use_cache
+            use_cache=request.use_cache,
         )
-        
+
         if not result.get("success"):
             raise HTTPException(status_code=400, detail=result.get("error"))
-            
+
         # Record query in database
         db_query = MCPQuery(
             source_id=source_id,
@@ -354,23 +367,23 @@ async def query_source(
             result=result.get("data"),
             cached=result.get("cached", False),
             execution_time=result.get("execution_time", 0),
-            executed_at=start_time
+            executed_at=start_time,
         )
-        
+
         db.add(db_query)
-        
+
         # Update source last_used
         source.last_used = datetime.utcnow()
-        
+
         db.commit()
-        
+
         return {
             "success": True,
             "data": result.get("data"),
             "cached": result.get("cached", False),
-            "execution_time": result.get("execution_time", 0)
+            "execution_time": result.get("execution_time", 0),
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -382,24 +395,27 @@ async def query_source(
 async def test_source(
     source_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Test connection to an MCP data source"""
     try:
         # Verify source exists and belongs to user
-        source = db.query(MCPDataSource).filter(
-            MCPDataSource.id == source_id,
-            MCPDataSource.user_id == current_user.id
-        ).first()
-        
+        source = (
+            db.query(MCPDataSource)
+            .filter(
+                MCPDataSource.id == source_id, MCPDataSource.user_id == current_user.id
+            )
+            .first()
+        )
+
         if not source:
             raise HTTPException(status_code=404, detail="Source not found")
-            
+
         # Test connection
         result = await mcp_client.test_source(str(source_id))
-        
+
         return result
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -411,33 +427,33 @@ async def test_source(
 async def get_source_schema(
     source_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Get schema information from an MCP data source"""
     try:
         # Verify source exists and belongs to user
-        source = db.query(MCPDataSource).filter(
-            MCPDataSource.id == source_id,
-            MCPDataSource.user_id == current_user.id
-        ).first()
-        
+        source = (
+            db.query(MCPDataSource)
+            .filter(
+                MCPDataSource.id == source_id, MCPDataSource.user_id == current_user.id
+            )
+            .first()
+        )
+
         if not source:
             raise HTTPException(status_code=404, detail="Source not found")
-            
+
         if not source.enabled:
             raise HTTPException(status_code=400, detail="Source is disabled")
-            
+
         # Get schema
         result = await mcp_client.get_schema(str(source_id))
-        
+
         if not result.get("success"):
             raise HTTPException(status_code=400, detail=result.get("error"))
-            
-        return {
-            "success": True,
-            "schema": result.get("schema")
-        }
-        
+
+        return {"success": True, "schema": result.get("schema")}
+
     except HTTPException:
         raise
     except Exception as e:
@@ -449,11 +465,11 @@ async def get_source_schema(
 async def multi_query(
     request: MultiQueryRequest,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """
     Execute multiple queries across different sources
-    
+
     Example:
     ```json
     {
@@ -474,64 +490,62 @@ async def multi_query(
     """
     try:
         results = []
-        
+
         for query_item in request.queries:
             source_id = query_item.get("source_id")
             query = query_item.get("query")
             params = query_item.get("params")
-            
+
             # Verify source
-            source = db.query(MCPDataSource).filter(
-                MCPDataSource.id == source_id,
-                MCPDataSource.user_id == current_user.id
-            ).first()
-            
+            source = (
+                db.query(MCPDataSource)
+                .filter(
+                    MCPDataSource.id == source_id,
+                    MCPDataSource.user_id == current_user.id,
+                )
+                .first()
+            )
+
             if not source or not source.enabled:
-                results.append({
-                    "source_id": source_id,
-                    "success": False,
-                    "error": "Source not found or disabled"
-                })
+                results.append(
+                    {
+                        "source_id": source_id,
+                        "success": False,
+                        "error": "Source not found or disabled",
+                    }
+                )
                 continue
-                
+
             # Execute query
             result = await mcp_client.query_source(
-                source_id=str(source_id),
-                query=query,
-                params=params
+                source_id=str(source_id), query=query, params=params
             )
-            
-            results.append({
-                "source_id": source_id,
-                "success": result.get("success"),
-                "data": result.get("data") if result.get("success") else None,
-                "error": result.get("error") if not result.get("success") else None,
-                "cached": result.get("cached", False),
-                "execution_time": result.get("execution_time", 0)
-            })
-            
-        return {
-            "success": True,
-            "results": results
-        }
-        
+
+            results.append(
+                {
+                    "source_id": source_id,
+                    "success": result.get("success"),
+                    "data": result.get("data") if result.get("success") else None,
+                    "error": result.get("error") if not result.get("success") else None,
+                    "cached": result.get("cached", False),
+                    "execution_time": result.get("execution_time", 0),
+                }
+            )
+
+        return {"success": True, "results": results}
+
     except Exception as e:
         logger.error(f"Failed to execute multi-query: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.get("/cache/stats")
-async def get_cache_stats(
-    current_user: User = Depends(get_current_user)
-):
+async def get_cache_stats(current_user: User = Depends(get_current_user)):
     """Get MCP cache statistics"""
     try:
         stats = mcp_client.get_cache_stats()
-        return {
-            "success": True,
-            "stats": stats
-        }
-        
+        return {"success": True, "stats": stats}
+
     except Exception as e:
         logger.error(f"Failed to get cache stats: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -541,24 +555,28 @@ async def get_cache_stats(
 async def clear_cache(
     source_id: Optional[int] = None,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Clear MCP cache"""
     try:
         if source_id:
             # Verify source belongs to user
-            source = db.query(MCPDataSource).filter(
-                MCPDataSource.id == source_id,
-                MCPDataSource.user_id == current_user.id
-            ).first()
-            
+            source = (
+                db.query(MCPDataSource)
+                .filter(
+                    MCPDataSource.id == source_id,
+                    MCPDataSource.user_id == current_user.id,
+                )
+                .first()
+            )
+
             if not source:
                 raise HTTPException(status_code=404, detail="Source not found")
-                
+
         result = mcp_client.clear_cache(str(source_id) if source_id else None)
-        
+
         return result
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -571,19 +589,21 @@ async def get_query_history(
     source_id: Optional[int] = None,
     limit: int = 100,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Get query execution history"""
     try:
-        query = db.query(MCPQuery).join(MCPDataSource).filter(
-            MCPDataSource.user_id == current_user.id
+        query = (
+            db.query(MCPQuery)
+            .join(MCPDataSource)
+            .filter(MCPDataSource.user_id == current_user.id)
         )
-        
+
         if source_id:
             query = query.filter(MCPQuery.source_id == source_id)
-            
+
         queries = query.order_by(MCPQuery.executed_at.desc()).limit(limit).all()
-        
+
         return {
             "success": True,
             "history": [
@@ -593,12 +613,12 @@ async def get_query_history(
                     "query": q.query,
                     "cached": q.cached,
                     "execution_time": q.execution_time,
-                    "executed_at": q.executed_at.isoformat()
+                    "executed_at": q.executed_at.isoformat(),
                 }
                 for q in queries
-            ]
+            ],
         }
-        
+
     except Exception as e:
         logger.error(f"Failed to get query history: {e}")
         raise HTTPException(status_code=500, detail=str(e))

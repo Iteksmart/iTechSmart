@@ -6,7 +6,18 @@ Healthcare Management System
 from datetime import datetime, date
 from typing import Optional, List
 from enum import Enum
-from sqlalchemy import Column, Integer, String, Float, DateTime, Date, Boolean, Text, ForeignKey, Enum as SQLEnum
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Float,
+    DateTime,
+    Date,
+    Boolean,
+    Text,
+    ForeignKey,
+    Enum as SQLEnum,
+)
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -44,10 +55,13 @@ class PrescriptionStatus(str, Enum):
 
 class Patient(Base):
     """Patient information"""
+
     __tablename__ = "patients"
-    
+
     id = Column(Integer, primary_key=True, index=True)
-    mrn = Column(String(50), unique=True, index=True, nullable=False)  # Medical Record Number
+    mrn = Column(
+        String(50), unique=True, index=True, nullable=False
+    )  # Medical Record Number
     first_name = Column(String(100), nullable=False)
     last_name = Column(String(100), nullable=False)
     date_of_birth = Column(Date, nullable=False)
@@ -67,7 +81,7 @@ class Patient(Base):
     status = Column(SQLEnum(PatientStatus), default=PatientStatus.ACTIVE)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     # Relationships
     appointments = relationship("Appointment", back_populates="patient")
     medical_records = relationship("MedicalRecord", back_populates="patient")
@@ -77,8 +91,9 @@ class Patient(Base):
 
 class Provider(Base):
     """Healthcare provider information"""
+
     __tablename__ = "providers"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     npi = Column(String(10), unique=True, index=True)  # National Provider Identifier
     first_name = Column(String(100), nullable=False)
@@ -91,7 +106,7 @@ class Provider(Base):
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     # Relationships
     appointments = relationship("Appointment", back_populates="provider")
     medical_records = relationship("MedicalRecord", back_populates="provider")
@@ -100,8 +115,9 @@ class Provider(Base):
 
 class Appointment(Base):
     """Patient appointments"""
+
     __tablename__ = "appointments"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     patient_id = Column(Integer, ForeignKey("patients.id"), nullable=False)
     provider_id = Column(Integer, ForeignKey("providers.id"), nullable=False)
@@ -113,7 +129,7 @@ class Appointment(Base):
     room_number = Column(String(20))
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     # Relationships
     patient = relationship("Patient", back_populates="appointments")
     provider = relationship("Provider", back_populates="appointments")
@@ -121,8 +137,9 @@ class Appointment(Base):
 
 class MedicalRecord(Base):
     """Patient medical records"""
+
     __tablename__ = "medical_records"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     patient_id = Column(Integer, ForeignKey("patients.id"), nullable=False)
     provider_id = Column(Integer, ForeignKey("providers.id"), nullable=False)
@@ -136,7 +153,7 @@ class MedicalRecord(Base):
     notes = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     # Relationships
     patient = relationship("Patient", back_populates="medical_records")
     provider = relationship("Provider", back_populates="medical_records")
@@ -144,8 +161,9 @@ class MedicalRecord(Base):
 
 class Prescription(Base):
     """Patient prescriptions"""
+
     __tablename__ = "prescriptions"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     patient_id = Column(Integer, ForeignKey("patients.id"), nullable=False)
     provider_id = Column(Integer, ForeignKey("providers.id"), nullable=False)
@@ -162,7 +180,7 @@ class Prescription(Base):
     end_date = Column(Date)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     # Relationships
     patient = relationship("Patient", back_populates="prescriptions")
     provider = relationship("Provider", back_populates="prescriptions")
@@ -170,8 +188,9 @@ class Prescription(Base):
 
 class Bill(Base):
     """Patient billing"""
+
     __tablename__ = "bills"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     patient_id = Column(Integer, ForeignKey("patients.id"), nullable=False)
     bill_number = Column(String(50), unique=True, index=True)
@@ -188,15 +207,16 @@ class Bill(Base):
     notes = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     # Relationships
     patient = relationship("Patient", back_populates="bills")
 
 
 class Facility(Base):
     """Healthcare facility information"""
+
     __tablename__ = "facilities"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(200), nullable=False)
     facility_type = Column(String(100))  # Hospital, Clinic, Lab, etc.
@@ -214,8 +234,9 @@ class Facility(Base):
 
 class Department(Base):
     """Hospital departments"""
+
     __tablename__ = "departments"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(200), nullable=False)
     description = Column(Text)
@@ -229,8 +250,9 @@ class Department(Base):
 
 class LabTest(Base):
     """Laboratory tests"""
+
     __tablename__ = "lab_tests"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     patient_id = Column(Integer, ForeignKey("patients.id"), nullable=False)
     provider_id = Column(Integer, ForeignKey("providers.id"), nullable=False)
@@ -249,8 +271,9 @@ class LabTest(Base):
 
 class Inventory(Base):
     """Medical inventory management"""
+
     __tablename__ = "inventory"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     item_name = Column(String(200), nullable=False)
     item_code = Column(String(50), unique=True, index=True)

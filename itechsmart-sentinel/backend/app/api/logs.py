@@ -32,10 +32,7 @@ class IngestLogRequest(BaseModel):
 
 
 @router.post("/ingest")
-async def ingest_log(
-    request: IngestLogRequest,
-    db: Session = Depends(get_db)
-):
+async def ingest_log(request: IngestLogRequest, db: Session = Depends(get_db)):
     """Ingest a log entry"""
     engine = LogEngine(db)
     log_entry = await engine.ingest_log(**request.dict())
@@ -51,7 +48,7 @@ async def search_logs(
     is_anomaly: Optional[bool] = None,
     limit: int = Query(100, le=1000),
     offset: int = 0,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Search logs with natural language query"""
     engine = LogEngine(db)
@@ -62,7 +59,7 @@ async def search_logs(
         trace_id=trace_id,
         is_anomaly=is_anomaly,
         limit=limit,
-        offset=offset
+        offset=offset,
     )
     return {"logs": logs, "count": len(logs)}
 
@@ -72,7 +69,7 @@ async def get_log_patterns(
     service_name: Optional[str] = None,
     hours: int = Query(24, le=168),
     min_occurrences: int = Query(5, ge=1),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Identify common log patterns"""
     engine = LogEngine(db)
@@ -84,7 +81,7 @@ async def get_log_patterns(
 async def get_log_statistics(
     service_name: Optional[str] = None,
     hours: int = Query(24, le=168),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Get log statistics"""
     engine = LogEngine(db)
@@ -97,7 +94,7 @@ async def get_error_logs(
     service_name: Optional[str] = None,
     hours: int = Query(24, le=168),
     limit: int = Query(100, le=500),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Get recent error and critical logs"""
     engine = LogEngine(db)
@@ -111,7 +108,7 @@ async def get_anomalous_logs(
     hours: int = Query(24, le=168),
     min_score: float = Query(0.7, ge=0.0, le=1.0),
     limit: int = Query(100, le=500),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Get logs detected as anomalies"""
     engine = LogEngine(db)
@@ -120,10 +117,7 @@ async def get_anomalous_logs(
 
 
 @router.get("/trace/{trace_id}")
-async def correlate_logs_with_trace(
-    trace_id: str,
-    db: Session = Depends(get_db)
-):
+async def correlate_logs_with_trace(trace_id: str, db: Session = Depends(get_db)):
     """Get all logs correlated with a trace"""
     engine = LogEngine(db)
     logs = await engine.correlate_logs_with_traces(trace_id)

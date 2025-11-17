@@ -1,4 +1,15 @@
-from sqlalchemy import Column, Integer, String, Text, Float, Boolean, DateTime, ForeignKey, Enum, JSON
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Text,
+    Float,
+    Boolean,
+    DateTime,
+    ForeignKey,
+    Enum,
+    JSON,
+)
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
@@ -6,10 +17,12 @@ import enum
 
 Base = declarative_base()
 
+
 class UserRole(str, enum.Enum):
     USER = "user"
     DEVELOPER = "developer"
     ADMIN = "admin"
+
 
 class AppStatus(str, enum.Enum):
     DRAFT = "draft"
@@ -18,20 +31,23 @@ class AppStatus(str, enum.Enum):
     REJECTED = "rejected"
     SUSPENDED = "suspended"
 
+
 class PurchaseStatus(str, enum.Enum):
     PENDING = "pending"
     COMPLETED = "completed"
     FAILED = "failed"
     REFUNDED = "refunded"
 
+
 class ReviewStatus(str, enum.Enum):
     PENDING = "pending"
     APPROVED = "approved"
     REJECTED = "rejected"
 
+
 class User(Base):
     __tablename__ = "users"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String(255), unique=True, index=True, nullable=False)
     username = Column(String(100), unique=True, index=True, nullable=False)
@@ -46,16 +62,19 @@ class User(Base):
     is_verified = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     # Relationships
-    developer_profile = relationship("DeveloperProfile", back_populates="user", uselist=False)
+    developer_profile = relationship(
+        "DeveloperProfile", back_populates="user", uselist=False
+    )
     purchases = relationship("Purchase", back_populates="user")
     reviews = relationship("Review", back_populates="user")
     payment_methods = relationship("PaymentMethod", back_populates="user")
 
+
 class DeveloperProfile(Base):
     __tablename__ = "developer_profiles"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), unique=True, nullable=False)
     company_name = Column(String(255))
@@ -71,14 +90,15 @@ class DeveloperProfile(Base):
     stripe_account_id = Column(String(255))
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     # Relationships
     user = relationship("User", back_populates="developer_profile")
     apps = relationship("App", back_populates="developer")
 
+
 class Category(Base):
     __tablename__ = "categories"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(100), unique=True, nullable=False)
     slug = Column(String(100), unique=True, nullable=False, index=True)
@@ -88,14 +108,15 @@ class Category(Base):
     display_order = Column(Integer, default=0)
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
-    
+
     # Relationships
     apps = relationship("App", back_populates="category")
     parent = relationship("Category", remote_side=[id], backref="subcategories")
 
+
 class App(Base):
     __tablename__ = "apps"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     developer_id = Column(Integer, ForeignKey("developer_profiles.id"), nullable=False)
     category_id = Column(Integer, ForeignKey("categories.id"), nullable=False)
@@ -125,7 +146,7 @@ class App(Base):
     published_at = Column(DateTime)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     # Relationships
     developer = relationship("DeveloperProfile", back_populates="apps")
     category = relationship("Category", back_populates="apps")
@@ -133,9 +154,10 @@ class App(Base):
     reviews = relationship("Review", back_populates="app")
     purchases = relationship("Purchase", back_populates="app")
 
+
 class AppVersion(Base):
     __tablename__ = "app_versions"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     app_id = Column(Integer, ForeignKey("apps.id"), nullable=False)
     version = Column(String(50), nullable=False)
@@ -146,13 +168,14 @@ class AppVersion(Base):
     is_current = Column(Boolean, default=False)
     downloads = Column(Integer, default=0)
     created_at = Column(DateTime, default=datetime.utcnow)
-    
+
     # Relationships
     app = relationship("App", back_populates="versions")
 
+
 class Review(Base):
     __tablename__ = "reviews"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     app_id = Column(Integer, ForeignKey("apps.id"), nullable=False)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
@@ -164,35 +187,39 @@ class Review(Base):
     helpful_count = Column(Integer, default=0)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     # Relationships
     app = relationship("App", back_populates="reviews")
     user = relationship("User", back_populates="reviews")
     responses = relationship("ReviewResponse", back_populates="review")
 
+
 class ReviewResponse(Base):
     __tablename__ = "review_responses"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     review_id = Column(Integer, ForeignKey("reviews.id"), nullable=False)
     developer_id = Column(Integer, ForeignKey("developer_profiles.id"), nullable=False)
     response = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     # Relationships
     review = relationship("Review", back_populates="responses")
 
+
 class Purchase(Base):
     __tablename__ = "purchases"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     app_id = Column(Integer, ForeignKey("apps.id"), nullable=False)
     transaction_id = Column(String(255), unique=True, nullable=False, index=True)
     amount = Column(Float, nullable=False)
     currency = Column(String(10), default="USD")
-    status = Column(Enum(PurchaseStatus), default=PurchaseStatus.PENDING, nullable=False)
+    status = Column(
+        Enum(PurchaseStatus), default=PurchaseStatus.PENDING, nullable=False
+    )
     payment_method = Column(String(50))
     stripe_payment_intent_id = Column(String(255))
     refund_amount = Column(Float)
@@ -200,14 +227,15 @@ class Purchase(Base):
     refunded_at = Column(DateTime)
     created_at = Column(DateTime, default=datetime.utcnow)
     completed_at = Column(DateTime)
-    
+
     # Relationships
     user = relationship("User", back_populates="purchases")
     app = relationship("App", back_populates="purchases")
 
+
 class PaymentMethod(Base):
     __tablename__ = "payment_methods"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     stripe_payment_method_id = Column(String(255), unique=True, nullable=False)
@@ -218,13 +246,14 @@ class PaymentMethod(Base):
     exp_year = Column(Integer)
     is_default = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
-    
+
     # Relationships
     user = relationship("User", back_populates="payment_methods")
 
+
 class AppAnalytics(Base):
     __tablename__ = "app_analytics"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     app_id = Column(Integer, ForeignKey("apps.id"), nullable=False)
     date = Column(DateTime, nullable=False, index=True)
@@ -236,17 +265,19 @@ class AppAnalytics(Base):
     conversion_rate = Column(Float, default=0.0)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class Wishlist(Base):
     __tablename__ = "wishlists"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     app_id = Column(Integer, ForeignKey("apps.id"), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class AppReport(Base):
     __tablename__ = "app_reports"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     app_id = Column(Integer, ForeignKey("apps.id"), nullable=False)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
@@ -257,9 +288,10 @@ class AppReport(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     resolved_at = Column(DateTime)
 
+
 class AuditLog(Base):
     __tablename__ = "audit_logs"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     action = Column(String(100), nullable=False)

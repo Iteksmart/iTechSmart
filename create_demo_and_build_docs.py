@@ -6,18 +6,43 @@ Create DEMO_SETUP.md and BUILD_VERIFICATION.md for all products
 import os
 
 PRODUCTS = [
-    "itechsmart-ai", "itechsmart-analytics", "itechsmart-citadel",
-    "itechsmart-cloud", "itechsmart-compliance", "itechsmart-connect",
-    "itechsmart-copilot", "itechsmart-customer-success", "itechsmart-data-platform",
-    "itechsmart-dataflow", "itechsmart-devops", "itechsmart-enterprise",
-    "itechsmart-forge", "itechsmart-hl7", "itechsmart-impactos",
-    "itechsmart-ledger", "itechsmart-marketplace", "itechsmart-mdm-agent",
-    "itechsmart-mobile", "itechsmart-notify", "itechsmart-observatory",
-    "itechsmart-port-manager", "itechsmart-pulse", "itechsmart-qaqc",
-    "itechsmart-sandbox", "itechsmart-sentinel", "itechsmart-shield",
-    "itechsmart-supreme-plus", "itechsmart-thinktank", "itechsmart-vault",
-    "itechsmart-workflow", "itechsmart_supreme", "passport",
-    "prooflink", "legalai-pro", "license-server", "desktop-launcher"
+    "itechsmart-ai",
+    "itechsmart-analytics",
+    "itechsmart-citadel",
+    "itechsmart-cloud",
+    "itechsmart-compliance",
+    "itechsmart-connect",
+    "itechsmart-copilot",
+    "itechsmart-customer-success",
+    "itechsmart-data-platform",
+    "itechsmart-dataflow",
+    "itechsmart-devops",
+    "itechsmart-enterprise",
+    "itechsmart-forge",
+    "itechsmart-hl7",
+    "itechsmart-impactos",
+    "itechsmart-ledger",
+    "itechsmart-marketplace",
+    "itechsmart-mdm-agent",
+    "itechsmart-mobile",
+    "itechsmart-notify",
+    "itechsmart-observatory",
+    "itechsmart-port-manager",
+    "itechsmart-pulse",
+    "itechsmart-qaqc",
+    "itechsmart-sandbox",
+    "itechsmart-sentinel",
+    "itechsmart-shield",
+    "itechsmart-supreme-plus",
+    "itechsmart-thinktank",
+    "itechsmart-vault",
+    "itechsmart-workflow",
+    "itechsmart_supreme",
+    "passport",
+    "prooflink",
+    "legalai-pro",
+    "license-server",
+    "desktop-launcher",
 ]
 
 DEMO_TEMPLATE = """# {PRODUCT_NAME} - Demo Setup Guide
@@ -551,55 +576,59 @@ Recommendations:
 **End of Build Verification Report**
 """
 
+
 def main():
     print("=" * 60)
     print("Creating Demo and Build Verification Docs")
     print("=" * 60)
     print()
-    
+
     for product in PRODUCTS:
         if not os.path.exists(product):
             continue
-        
+
         print(f"Processing: {product}")
-        
-        docs_dir = os.path.join(product, 'docs')
+
+        docs_dir = os.path.join(product, "docs")
         os.makedirs(docs_dir, exist_ok=True)
-        
-        display_name = product.replace('-', ' ').replace('_', ' ').title()
-        product_slug = product.replace('_', '-')
-        
+
+        display_name = product.replace("-", " ").replace("_", " ").title()
+        product_slug = product.replace("_", "-")
+
         # Create DEMO_SETUP.md
-        demo_path = os.path.join(docs_dir, 'DEMO_SETUP.md')
+        demo_path = os.path.join(docs_dir, "DEMO_SETUP.md")
         if not os.path.exists(demo_path):
-            demo_content = DEMO_TEMPLATE.replace('{PRODUCT_NAME}', display_name)
-            demo_content = demo_content.replace('{PRODUCT_SLUG}', product_slug)
-            demo_content = demo_content.replace('{PRODUCT_DIR}', product)
-            
-            with open(demo_path, 'w') as f:
+            demo_content = DEMO_TEMPLATE.replace("{PRODUCT_NAME}", display_name)
+            demo_content = demo_content.replace("{PRODUCT_SLUG}", product_slug)
+            demo_content = demo_content.replace("{PRODUCT_DIR}", product)
+
+            with open(demo_path, "w") as f:
                 f.write(demo_content)
             print(f"  ✅ Created DEMO_SETUP.md")
         else:
             print(f"  ⏭️  DEMO_SETUP.md already exists")
-        
+
         # Create BUILD_VERIFICATION.md
-        build_path = os.path.join(docs_dir, 'BUILD_VERIFICATION.md')
+        build_path = os.path.join(docs_dir, "BUILD_VERIFICATION.md")
         if not os.path.exists(build_path):
-            build_content = BUILD_VERIFICATION_TEMPLATE.replace('{PRODUCT_NAME}', display_name)
-            build_content = build_content.replace('{PRODUCT_SLUG}', product_slug)
-            
-            with open(build_path, 'w') as f:
+            build_content = BUILD_VERIFICATION_TEMPLATE.replace(
+                "{PRODUCT_NAME}", display_name
+            )
+            build_content = build_content.replace("{PRODUCT_SLUG}", product_slug)
+
+            with open(build_path, "w") as f:
                 f.write(build_content)
             print(f"  ✅ Created BUILD_VERIFICATION.md")
         else:
             print(f"  ⏭️  BUILD_VERIFICATION.md already exists")
-        
+
         print()
-    
+
     print("=" * 60)
     print("✅ Demo and Build Docs Complete!")
     print("=" * 60)
     print()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

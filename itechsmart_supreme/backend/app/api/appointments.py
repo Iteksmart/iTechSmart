@@ -39,19 +39,16 @@ class AppointmentResponse(BaseModel):
     reason: Optional[str]
     status: AppointmentStatus
     room_number: Optional[str]
-    
+
     class Config:
         from_attributes = True
 
 
 @router.post("/", response_model=AppointmentResponse)
-def schedule_appointment(
-    appointment: AppointmentCreate,
-    db: Session = Depends(get_db)
-):
+def schedule_appointment(appointment: AppointmentCreate, db: Session = Depends(get_db)):
     """Schedule new appointment"""
     engine = SupremeEngine(db)
-    
+
     try:
         return engine.schedule_appointment(appointment.dict())
     except ValueError as e:
@@ -65,7 +62,7 @@ def get_appointments(
     start_date: Optional[date] = Query(None),
     end_date: Optional[date] = Query(None),
     status: Optional[AppointmentStatus] = Query(None),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Get appointments with filters"""
     engine = SupremeEngine(db)
@@ -74,7 +71,7 @@ def get_appointments(
         provider_id=provider_id,
         start_date=start_date,
         end_date=end_date,
-        status=status
+        status=status,
     )
 
 
@@ -82,16 +79,14 @@ def get_appointments(
 def update_appointment_status(
     appointment_id: int,
     status_update: AppointmentStatusUpdate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Update appointment status"""
     engine = SupremeEngine(db)
-    
+
     try:
         return engine.update_appointment_status(
-            appointment_id,
-            status_update.status,
-            status_update.notes
+            appointment_id, status_update.status, status_update.notes
         )
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
@@ -101,7 +96,7 @@ def update_appointment_status(
 def get_appointment_analytics(
     start_date: date = Query(...),
     end_date: date = Query(...),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Get appointment analytics"""
     engine = SupremeEngine(db)

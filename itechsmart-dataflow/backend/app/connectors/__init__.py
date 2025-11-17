@@ -11,7 +11,7 @@ from .base import (
     MongoDBConnector,
     get_connector,
     list_connectors,
-    CONNECTOR_REGISTRY
+    CONNECTOR_REGISTRY,
 )
 
 __all__ = [
@@ -23,5 +23,5 @@ __all__ = [
     "MongoDBConnector",
     "get_connector",
     "list_connectors",
-    "CONNECTOR_REGISTRY"
+    "CONNECTOR_REGISTRY",
 ]

@@ -11,7 +11,7 @@ from ..services.workspace_service import (
     workspace_service,
     WorkspaceRole,
     WorkspacePlan,
-    ResourceType
+    ResourceType,
 )
 
 router = APIRouter(prefix="/api/workspaces", tags=["workspaces"])
@@ -78,14 +78,14 @@ def get_current_user(user_id: str = Query(...)) -> dict:
 
 # Endpoints
 
+
 @router.post("/create", response_model=WorkspaceResponse)
 async def create_workspace(
-    request: CreateWorkspaceRequest,
-    current_user: dict = Depends(get_current_user)
+    request: CreateWorkspaceRequest, current_user: dict = Depends(get_current_user)
 ):
     """
     Create a new workspace
-    
+
     Creates an isolated workspace for team collaboration
     The creator becomes the workspace owner
     """
@@ -95,53 +95,51 @@ async def create_workspace(
         owner_id=current_user["user_id"],
         owner_email=current_user["email"],
         plan=request.plan,
-        description=request.description
+        description=request.description,
     )
-    
+
     return WorkspaceResponse(**result)
 
 
 @router.get("/{workspace_id}", response_model=WorkspaceResponse)
 async def get_workspace(
-    workspace_id: str,
-    current_user: dict = Depends(get_current_user)
+    workspace_id: str, current_user: dict = Depends(get_current_user)
 ):
     """
     Get workspace details
-    
+
     Returns complete workspace information including members and settings
     """
     workspace = workspace_service.get_workspace(workspace_id)
-    
+
     if not workspace:
         return WorkspaceResponse(success=False, error="Workspace not found")
-    
+
     # Check if user is member
     if current_user["user_id"] not in workspace.members:
         return WorkspaceResponse(success=False, error="Access denied")
-    
+
     return WorkspaceResponse(success=True, workspace=workspace.to_dict())
 
 
 @router.get("/slug/{slug}", response_model=WorkspaceResponse)
 async def get_workspace_by_slug(
-    slug: str,
-    current_user: dict = Depends(get_current_user)
+    slug: str, current_user: dict = Depends(get_current_user)
 ):
     """
     Get workspace by slug
-    
+
     Retrieves workspace using its unique slug identifier
     """
     workspace = workspace_service.get_workspace_by_slug(slug)
-    
+
     if not workspace:
         return WorkspaceResponse(success=False, error="Workspace not found")
-    
+
     # Check if user is member
     if current_user["user_id"] not in workspace.members:
         return WorkspaceResponse(success=False, error="Access denied")
-    
+
     return WorkspaceResponse(success=True, workspace=workspace.to_dict())
 
 
@@ -149,70 +147,60 @@ async def get_workspace_by_slug(
 async def update_workspace(
     workspace_id: str,
     request: UpdateWorkspaceRequest,
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
 ):
     """
     Update workspace details
-    
+
     Requires admin or owner permissions
     """
     updates = request.dict(exclude_unset=True)
-    
+
     result = workspace_service.update_workspace(
-        workspace_id=workspace_id,
-        user_id=current_user["user_id"],
-        **updates
+        workspace_id=workspace_id, user_id=current_user["user_id"], **updates
     )
-    
+
     return WorkspaceResponse(**result)
 
 
 @router.delete("/{workspace_id}", response_model=WorkspaceResponse)
 async def delete_workspace(
-    workspace_id: str,
-    current_user: dict = Depends(get_current_user)
+    workspace_id: str, current_user: dict = Depends(get_current_user)
 ):
     """
     Delete workspace
-    
+
     Only workspace owner can delete
     This action is irreversible
     """
     result = workspace_service.delete_workspace(
-        workspace_id=workspace_id,
-        user_id=current_user["user_id"]
+        workspace_id=workspace_id, user_id=current_user["user_id"]
     )
-    
+
     return WorkspaceResponse(**result)
 
 
 @router.get("/user/list")
-async def list_user_workspaces(
-    current_user: dict = Depends(get_current_user)
-):
+async def list_user_workspaces(current_user: dict = Depends(get_current_user)):
     """
     List all workspaces for current user
-    
+
     Returns all workspaces where user is a member
     """
     workspaces = workspace_service.get_user_workspaces(current_user["user_id"])
-    
-    return {
-        "success": True,
-        "total": len(workspaces),
-        "workspaces": workspaces
-    }
+
+    return {"success": True, "total": len(workspaces), "workspaces": workspaces}
 
 
 @router.post("/{workspace_id}/members/add", response_model=MemberResponse)
 async def add_member(
     workspace_id: str,
     request: AddMemberRequest,
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
 ):
     """
     Add member to workspace
-    
+
     Requires admin or owner permissions
     """
     result = workspace_service.add_member(
@@ -220,30 +208,26 @@ async def add_member(
         user_id=current_user["user_id"],
         new_member_id=request.user_id,
         new_member_email=request.email,
-        role=request.role
+        role=request.role,
     )
-    
+
     return MemberResponse(**result)
 
 
 @router.delete("/{workspace_id}/members/{member_id}", response_model=MemberResponse)
 async def remove_member(
-    workspace_id: str,
-    member_id: str,
-    current_user: dict = Depends(get_current_user)
+    workspace_id: str, member_id: str, current_user: dict = Depends(get_current_user)
 ):
     """
     Remove member from workspace
-    
+
     Requires admin or owner permissions
     Cannot remove workspace owner
     """
     result = workspace_service.remove_member(
-        workspace_id=workspace_id,
-        user_id=current_user["user_id"],
-        member_id=member_id
+        workspace_id=workspace_id, user_id=current_user["user_id"], member_id=member_id
     )
-    
+
     return MemberResponse(**result)
 
 
@@ -252,11 +236,11 @@ async def update_member_role(
     workspace_id: str,
     member_id: str,
     request: UpdateMemberRoleRequest,
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
 ):
     """
     Update member role
-    
+
     Requires admin or owner permissions
     Cannot change owner role
     """
@@ -264,49 +248,44 @@ async def update_member_role(
         workspace_id=workspace_id,
         user_id=current_user["user_id"],
         member_id=member_id,
-        new_role=request.role
+        new_role=request.role,
     )
-    
+
     return MemberResponse(**result)
 
 
 @router.get("/{workspace_id}/members")
 async def list_members(
-    workspace_id: str,
-    current_user: dict = Depends(get_current_user)
+    workspace_id: str, current_user: dict = Depends(get_current_user)
 ):
     """
     List all workspace members
-    
+
     Returns member details including roles and permissions
     """
     workspace = workspace_service.get_workspace(workspace_id)
-    
+
     if not workspace:
         raise HTTPException(status_code=404, detail="Workspace not found")
-    
+
     # Check if user is member
     if current_user["user_id"] not in workspace.members:
         raise HTTPException(status_code=403, detail="Access denied")
-    
+
     members = [member.to_dict() for member in workspace.members.values()]
-    
-    return {
-        "success": True,
-        "total": len(members),
-        "members": members
-    }
+
+    return {"success": True, "total": len(members), "members": members}
 
 
 @router.post("/{workspace_id}/invitations/create", response_model=InvitationResponse)
 async def create_invitation(
     workspace_id: str,
     request: CreateInvitationRequest,
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
 ):
     """
     Create workspace invitation
-    
+
     Sends invitation to email address
     Requires admin or owner permissions
     """
@@ -314,75 +293,69 @@ async def create_invitation(
         workspace_id=workspace_id,
         user_id=current_user["user_id"],
         email=request.email,
-        role=request.role
+        role=request.role,
     )
-    
+
     return InvitationResponse(**result)
 
 
 @router.post("/invitations/{invitation_id}/accept", response_model=MemberResponse)
-async def accept_invitation(
-    invitation_id: str,
-    request: AcceptInvitationRequest
-):
+async def accept_invitation(invitation_id: str, request: AcceptInvitationRequest):
     """
     Accept workspace invitation
-    
+
     User accepts invitation and joins workspace
     """
     result = workspace_service.accept_invitation(
-        invitation_id=invitation_id,
-        user_id=request.user_id,
-        user_email=request.email
+        invitation_id=invitation_id, user_id=request.user_id, user_email=request.email
     )
-    
+
     return MemberResponse(**result)
 
 
 @router.get("/{workspace_id}/limits")
 async def get_workspace_limits(
-    workspace_id: str,
-    current_user: dict = Depends(get_current_user)
+    workspace_id: str, current_user: dict = Depends(get_current_user)
 ):
     """
     Get workspace resource limits
-    
+
     Returns current usage and limits for all resources
     """
     workspace = workspace_service.get_workspace(workspace_id)
-    
+
     if not workspace:
         raise HTTPException(status_code=404, detail="Workspace not found")
-    
+
     # Check if user is member
     if current_user["user_id"] not in workspace.members:
         raise HTTPException(status_code=403, detail="Access denied")
-    
+
     limits = workspace.limits.to_dict()
     usage = workspace.resource_counts
-    
+
     # Calculate usage percentages
     usage_percentages = {}
     for resource_type in ResourceType:
         resource_key = resource_type.value
         limit_key = f"max_{resource_key}s"
-        
+
         if limit_key in limits:
             current = usage.get(resource_key, 0)
             maximum = limits[limit_key]
             percentage = (current / maximum * 100) if maximum > 0 else 0
-            
+
             usage_percentages[resource_key] = {
                 "current": current,
                 "maximum": maximum,
-                "percentage": round(percentage, 2)
+                "percentage": round(percentage, 2),
             }
-    
+
     return {
         "success": True,
         "plan": workspace.plan.value,
         "limits": limits,
-        "usage": usage_percentages
+        "usage": usage_percentages,
     }
 
 
@@ -390,78 +363,72 @@ async def get_workspace_limits(
 async def increment_resource(
     workspace_id: str,
     resource_type: ResourceType,
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
 ):
     """
     Increment resource count
-    
+
     Used internally when creating new resources
     Checks against workspace limits
     """
     workspace = workspace_service.get_workspace(workspace_id)
-    
+
     if not workspace:
         raise HTTPException(status_code=404, detail="Workspace not found")
-    
+
     # Check if user is member
     if current_user["user_id"] not in workspace.members:
         raise HTTPException(status_code=403, detail="Access denied")
-    
+
     result = workspace_service.increment_resource_count(
-        workspace_id=workspace_id,
-        resource_type=resource_type
+        workspace_id=workspace_id, resource_type=resource_type
     )
-    
+
     if not result["success"]:
         raise HTTPException(status_code=400, detail=result["error"])
-    
+
     return result
 
 
 @router.get("/{workspace_id}/settings")
 async def get_workspace_settings(
-    workspace_id: str,
-    current_user: dict = Depends(get_current_user)
+    workspace_id: str, current_user: dict = Depends(get_current_user)
 ):
     """
     Get workspace settings
-    
+
     Returns all workspace configuration settings
     """
     workspace = workspace_service.get_workspace(workspace_id)
-    
+
     if not workspace:
         raise HTTPException(status_code=404, detail="Workspace not found")
-    
+
     # Check if user is member
     if current_user["user_id"] not in workspace.members:
         raise HTTPException(status_code=403, detail="Access denied")
-    
-    return {
-        "success": True,
-        "settings": workspace.settings
-    }
+
+    return {"success": True, "settings": workspace.settings}
 
 
 @router.get("/{workspace_id}/stats")
 async def get_workspace_stats(
-    workspace_id: str,
-    current_user: dict = Depends(get_current_user)
+    workspace_id: str, current_user: dict = Depends(get_current_user)
 ):
     """
     Get workspace statistics
-    
+
     Returns overview of workspace activity and resources
     """
     workspace = workspace_service.get_workspace(workspace_id)
-    
+
     if not workspace:
         raise HTTPException(status_code=404, detail="Workspace not found")
-    
+
     # Check if user is member
     if current_user["user_id"] not in workspace.members:
         raise HTTPException(status_code=403, detail="Access denied")
-    
+
     return {
         "success": True,
         "stats": {
@@ -469,6 +436,6 @@ async def get_workspace_stats(
             "resource_counts": workspace.resource_counts,
             "plan": workspace.plan.value,
             "created_at": workspace.created_at.isoformat(),
-            "is_active": workspace.is_active
-        }
+            "is_active": workspace.is_active,
+        },
     }

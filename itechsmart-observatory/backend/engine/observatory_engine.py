@@ -40,7 +40,7 @@ class ObservatoryEngine:
         language: Optional[str] = None,
         framework: Optional[str] = None,
         metadata: Optional[Dict[str, Any]] = None,
-        tags: Optional[List[str]] = None
+        tags: Optional[List[str]] = None,
     ) -> Dict[str, Any]:
         """
         Register a new service for monitoring
@@ -59,7 +59,7 @@ class ObservatoryEngine:
             tags=tags or [],
             health_status="unknown",
             last_seen=datetime.utcnow(),
-            is_active=True
+            is_active=True,
         )
 
         self.db.add(service)
@@ -69,7 +69,7 @@ class ObservatoryEngine:
             "service_id": service.id,
             "name": service.name,
             "environment": service.environment,
-            "status": "registered"
+            "status": "registered",
         }
 
     def update_service_health(self, service_id: str, health_status: str) -> bool:
@@ -99,28 +99,32 @@ class ObservatoryEngine:
             return {}
 
         # Get dependencies
-        dependencies = self.db.query(ServiceDependency).filter(
-            ServiceDependency.service_id == service_id
-        ).all()
+        dependencies = (
+            self.db.query(ServiceDependency)
+            .filter(ServiceDependency.service_id == service_id)
+            .all()
+        )
 
         # Get dependents (services that depend on this service)
-        dependents = self.db.query(ServiceDependency).filter(
-            ServiceDependency.depends_on_service_id == service_id
-        ).all()
+        dependents = (
+            self.db.query(ServiceDependency)
+            .filter(ServiceDependency.depends_on_service_id == service_id)
+            .all()
+        )
 
         return {
             "service": {
                 "id": service.id,
                 "name": service.name,
                 "type": service.service_type,
-                "health": service.health_status
+                "health": service.health_status,
             },
             "dependencies": [
                 {
                     "service_id": dep.depends_on_service_id,
                     "type": dep.dependency_type,
                     "health": dep.health_status,
-                    "latency_ms": dep.avg_latency_ms
+                    "latency_ms": dep.avg_latency_ms,
                 }
                 for dep in dependencies
             ],
@@ -128,10 +132,10 @@ class ObservatoryEngine:
                 {
                     "service_id": dep.service_id,
                     "type": dep.dependency_type,
-                    "health": dep.health_status
+                    "health": dep.health_status,
                 }
                 for dep in dependents
-            ]
+            ],
         }
 
     # ==================== METRICS ====================
@@ -144,7 +148,7 @@ class ObservatoryEngine:
         metric_type: str = "gauge",
         unit: Optional[str] = None,
         labels: Optional[Dict[str, str]] = None,
-        timestamp: Optional[datetime] = None
+        timestamp: Optional[datetime] = None,
     ) -> str:
         """
         Ingest a metric data point
@@ -159,7 +163,7 @@ class ObservatoryEngine:
             value=value,
             unit=unit,
             labels=labels or {},
-            timestamp=timestamp or datetime.utcnow()
+            timestamp=timestamp or datetime.utcnow(),
         )
 
         self.db.add(metric)
@@ -178,7 +182,7 @@ class ObservatoryEngine:
         end_time: datetime,
         aggregation: str = "avg",
         interval: str = "5m",
-        labels: Optional[Dict[str, str]] = None
+        labels: Optional[Dict[str, str]] = None,
     ) -> List[Dict[str, Any]]:
         """
         Query metrics with aggregation
@@ -190,7 +194,7 @@ class ObservatoryEngine:
                 Metric.service_id == service_id,
                 Metric.metric_name == metric_name,
                 Metric.timestamp >= start_time,
-                Metric.timestamp <= end_time
+                Metric.timestamp <= end_time,
             )
         )
 
@@ -204,10 +208,7 @@ class ObservatoryEngine:
         return self._aggregate_by_interval(metrics, interval, aggregation)
 
     def get_metric_statistics(
-        self,
-        service_id: str,
-        metric_name: str,
-        time_range: str = "1h"
+        self, service_id: str, metric_name: str, time_range: str = "1h"
     ) -> Dict[str, Any]:
         """
         Get statistical summary of a metric
@@ -215,14 +216,18 @@ class ObservatoryEngine:
         from ..models import Metric
 
         start_time = self._parse_time_range(time_range)
-        
-        metrics = self.db.query(Metric).filter(
-            and_(
-                Metric.service_id == service_id,
-                Metric.metric_name == metric_name,
-                Metric.timestamp >= start_time
+
+        metrics = (
+            self.db.query(Metric)
+            .filter(
+                and_(
+                    Metric.service_id == service_id,
+                    Metric.metric_name == metric_name,
+                    Metric.timestamp >= start_time,
+                )
             )
-        ).all()
+            .all()
+        )
 
         if not metrics:
             return {}
@@ -237,7 +242,7 @@ class ObservatoryEngine:
             "median": statistics.median(values),
             "stddev": statistics.stdev(values) if len(values) > 1 else 0,
             "p95": self._percentile(values, 95),
-            "p99": self._percentile(values, 99)
+            "p99": self._percentile(values, 99),
         }
 
     # ==================== TRACES ====================
@@ -253,7 +258,7 @@ class ObservatoryEngine:
         http_method: Optional[str] = None,
         http_url: Optional[str] = None,
         http_status_code: Optional[int] = None,
-        attributes: Optional[Dict[str, Any]] = None
+        attributes: Optional[Dict[str, Any]] = None,
     ) -> str:
         """
         Ingest a distributed trace
@@ -275,7 +280,7 @@ class ObservatoryEngine:
             http_method=http_method,
             http_url=http_url,
             http_status_code=http_status_code,
-            attributes=attributes or {}
+            attributes=attributes or {},
         )
 
         self.db.add(trace)
@@ -294,7 +299,7 @@ class ObservatoryEngine:
         parent_span_id: Optional[str] = None,
         span_kind: str = "internal",
         status: str = "ok",
-        attributes: Optional[Dict[str, Any]] = None
+        attributes: Optional[Dict[str, Any]] = None,
     ) -> str:
         """
         Ingest a span within a trace
@@ -316,7 +321,7 @@ class ObservatoryEngine:
             end_time=end_time,
             duration_ms=duration_ms,
             status=status,
-            attributes=attributes or {}
+            attributes=attributes or {},
         )
 
         self.db.add(span)
@@ -350,10 +355,10 @@ class ObservatoryEngine:
                     "span_name": span.span_name,
                     "service_name": span.service_name,
                     "duration_ms": span.duration_ms,
-                    "status": span.status
+                    "status": span.status,
                 }
                 for span in spans
-            ]
+            ],
         }
 
     def analyze_trace_performance(self, trace_id: str) -> Dict[str, Any]:
@@ -363,15 +368,15 @@ class ObservatoryEngine:
         from ..models import Span
 
         spans = self.db.query(Span).filter(Span.trace_id == trace_id).all()
-        
+
         if not spans:
             return {}
 
         # Find slowest spans
         sorted_spans = sorted(spans, key=lambda s: s.duration_ms or 0, reverse=True)
-        
+
         total_duration = sum(s.duration_ms or 0 for s in spans)
-        
+
         return {
             "total_spans": len(spans),
             "total_duration_ms": total_duration,
@@ -380,17 +385,19 @@ class ObservatoryEngine:
                     "span_name": span.span_name,
                     "service_name": span.service_name,
                     "duration_ms": span.duration_ms,
-                    "percentage": (span.duration_ms / total_duration * 100) if total_duration > 0 else 0
+                    "percentage": (
+                        (span.duration_ms / total_duration * 100)
+                        if total_duration > 0
+                        else 0
+                    ),
                 }
                 for span in sorted_spans[:5]
             ],
             "error_spans": [
-                {
-                    "span_name": span.span_name,
-                    "error_message": span.error_message
-                }
-                for span in spans if span.status == "error"
-            ]
+                {"span_name": span.span_name, "error_message": span.error_message}
+                for span in spans
+                if span.status == "error"
+            ],
         }
 
     # ==================== LOGS ====================
@@ -405,7 +412,7 @@ class ObservatoryEngine:
         trace_id: Optional[str] = None,
         span_id: Optional[str] = None,
         attributes: Optional[Dict[str, Any]] = None,
-        stack_trace: Optional[str] = None
+        stack_trace: Optional[str] = None,
     ) -> str:
         """
         Ingest a log entry
@@ -422,7 +429,7 @@ class ObservatoryEngine:
             trace_id=trace_id,
             span_id=span_id,
             attributes=attributes or {},
-            stack_trace=stack_trace
+            stack_trace=stack_trace,
         )
 
         self.db.add(log)
@@ -438,7 +445,7 @@ class ObservatoryEngine:
         start_time: Optional[datetime] = None,
         end_time: Optional[datetime] = None,
         trace_id: Optional[str] = None,
-        limit: int = 100
+        limit: int = 100,
     ) -> List[Dict[str, Any]]:
         """
         Search logs with filters
@@ -449,19 +456,19 @@ class ObservatoryEngine:
 
         if service_id:
             query = query.filter(LogEntry.service_id == service_id)
-        
+
         if level:
             query = query.filter(LogEntry.level == level.upper())
-        
+
         if search_query:
             query = query.filter(LogEntry.message.ilike(f"%{search_query}%"))
-        
+
         if start_time:
             query = query.filter(LogEntry.timestamp >= start_time)
-        
+
         if end_time:
             query = query.filter(LogEntry.timestamp <= end_time)
-        
+
         if trace_id:
             query = query.filter(LogEntry.trace_id == trace_id)
 
@@ -474,15 +481,13 @@ class ObservatoryEngine:
                 "level": log.level,
                 "message": log.message,
                 "service_id": log.service_id,
-                "trace_id": log.trace_id
+                "trace_id": log.trace_id,
             }
             for log in logs
         ]
 
     def get_log_statistics(
-        self,
-        service_id: str,
-        time_range: str = "1h"
+        self, service_id: str, time_range: str = "1h"
     ) -> Dict[str, Any]:
         """
         Get log statistics by level
@@ -491,19 +496,18 @@ class ObservatoryEngine:
 
         start_time = self._parse_time_range(time_range)
 
-        stats = self.db.query(
-            LogEntry.level,
-            func.count(LogEntry.id).label('count')
-        ).filter(
-            and_(
-                LogEntry.service_id == service_id,
-                LogEntry.timestamp >= start_time
+        stats = (
+            self.db.query(LogEntry.level, func.count(LogEntry.id).label("count"))
+            .filter(
+                and_(
+                    LogEntry.service_id == service_id, LogEntry.timestamp >= start_time
+                )
             )
-        ).group_by(LogEntry.level).all()
+            .group_by(LogEntry.level)
+            .all()
+        )
 
-        return {
-            level: count for level, count in stats
-        }
+        return {level: count for level, count in stats}
 
     # ==================== ALERTS ====================
 
@@ -516,7 +520,7 @@ class ObservatoryEngine:
         service_id: Optional[str] = None,
         metric_name: Optional[str] = None,
         notification_channels: Optional[List[str]] = None,
-        created_by: Optional[str] = None
+        created_by: Optional[str] = None,
     ) -> str:
         """
         Create an alert rule
@@ -533,7 +537,7 @@ class ObservatoryEngine:
             condition=condition,
             notification_channels=notification_channels or [],
             is_active=True,
-            created_by=created_by
+            created_by=created_by,
         )
 
         self.db.add(alert)
@@ -548,34 +552,32 @@ class ObservatoryEngine:
         from ..models import Alert
 
         alerts = self.db.query(Alert).filter(Alert.is_active == True).all()
-        
+
         triggered_alerts = []
 
         for alert in alerts:
             if self._evaluate_alert_condition(alert):
                 incident_id = self._create_alert_incident(alert)
-                triggered_alerts.append({
-                    "alert_id": alert.id,
-                    "alert_name": alert.name,
-                    "severity": alert.severity,
-                    "incident_id": incident_id
-                })
+                triggered_alerts.append(
+                    {
+                        "alert_id": alert.id,
+                        "alert_name": alert.name,
+                        "severity": alert.severity,
+                        "incident_id": incident_id,
+                    }
+                )
 
         return triggered_alerts
 
-    def acknowledge_incident(
-        self,
-        incident_id: str,
-        acknowledged_by: str
-    ) -> bool:
+    def acknowledge_incident(self, incident_id: str, acknowledged_by: str) -> bool:
         """
         Acknowledge an alert incident
         """
         from ..models import AlertIncident
 
-        incident = self.db.query(AlertIncident).filter(
-            AlertIncident.id == incident_id
-        ).first()
+        incident = (
+            self.db.query(AlertIncident).filter(AlertIncident.id == incident_id).first()
+        )
 
         if not incident:
             return False
@@ -588,19 +590,16 @@ class ObservatoryEngine:
         return True
 
     def resolve_incident(
-        self,
-        incident_id: str,
-        resolved_by: str,
-        resolution_notes: Optional[str] = None
+        self, incident_id: str, resolved_by: str, resolution_notes: Optional[str] = None
     ) -> bool:
         """
         Resolve an alert incident
         """
         from ..models import AlertIncident
 
-        incident = self.db.query(AlertIncident).filter(
-            AlertIncident.id == incident_id
-        ).first()
+        incident = (
+            self.db.query(AlertIncident).filter(AlertIncident.id == incident_id).first()
+        )
 
         if not incident:
             return False
@@ -625,7 +624,7 @@ class ObservatoryEngine:
         widgets: List[Dict[str, Any]],
         owner_id: str,
         description: Optional[str] = None,
-        is_public: bool = False
+        is_public: bool = False,
     ) -> str:
         """
         Create a custom dashboard
@@ -639,7 +638,7 @@ class ObservatoryEngine:
             layout=layout,
             widgets=widgets,
             owner_id=owner_id,
-            is_public=is_public
+            is_public=is_public,
         )
 
         self.db.add(dashboard)
@@ -648,18 +647,16 @@ class ObservatoryEngine:
         return dashboard.id
 
     def get_dashboard_data(
-        self,
-        dashboard_id: str,
-        time_range: str = "1h"
+        self, dashboard_id: str, time_range: str = "1h"
     ) -> Dict[str, Any]:
         """
         Get data for all widgets in a dashboard
         """
         from ..models import Dashboard
 
-        dashboard = self.db.query(Dashboard).filter(
-            Dashboard.id == dashboard_id
-        ).first()
+        dashboard = (
+            self.db.query(Dashboard).filter(Dashboard.id == dashboard_id).first()
+        )
 
         if not dashboard:
             return {}
@@ -667,25 +664,24 @@ class ObservatoryEngine:
         widget_data = []
         for widget in dashboard.widgets:
             data = self._get_widget_data(widget, time_range)
-            widget_data.append({
-                "widget_id": widget.get("id"),
-                "widget_type": widget.get("type"),
-                "data": data
-            })
+            widget_data.append(
+                {
+                    "widget_id": widget.get("id"),
+                    "widget_type": widget.get("type"),
+                    "data": data,
+                }
+            )
 
         return {
             "dashboard_id": dashboard.id,
             "name": dashboard.name,
-            "widgets": widget_data
+            "widgets": widget_data,
         }
 
     # ==================== ANOMALY DETECTION ====================
 
     def detect_anomalies(
-        self,
-        service_id: str,
-        metric_name: str,
-        time_range: str = "24h"
+        self, service_id: str, metric_name: str, time_range: str = "24h"
     ) -> List[Dict[str, Any]]:
         """
         Detect anomalies in metric data
@@ -694,13 +690,18 @@ class ObservatoryEngine:
 
         start_time = self._parse_time_range(time_range)
 
-        metrics = self.db.query(Metric).filter(
-            and_(
-                Metric.service_id == service_id,
-                Metric.metric_name == metric_name,
-                Metric.timestamp >= start_time
+        metrics = (
+            self.db.query(Metric)
+            .filter(
+                and_(
+                    Metric.service_id == service_id,
+                    Metric.metric_name == metric_name,
+                    Metric.timestamp >= start_time,
+                )
             )
-        ).order_by(Metric.timestamp).all()
+            .order_by(Metric.timestamp)
+            .all()
+        )
 
         if len(metrics) < 10:
             return []
@@ -713,7 +714,7 @@ class ObservatoryEngine:
         for metric in metrics:
             if stddev > 0:
                 z_score = abs((metric.value - mean) / stddev)
-                
+
                 if z_score > 3:  # 3 standard deviations
                     anomaly = AnomalyDetection(
                         id=str(uuid.uuid4()),
@@ -725,16 +726,20 @@ class ObservatoryEngine:
                         confidence_score=min(z_score / 5, 1.0),
                         expected_value=mean,
                         actual_value=metric.value,
-                        deviation_percent=((metric.value - mean) / mean * 100) if mean != 0 else 0
+                        deviation_percent=(
+                            ((metric.value - mean) / mean * 100) if mean != 0 else 0
+                        ),
                     )
-                    
+
                     self.db.add(anomaly)
-                    anomalies.append({
-                        "timestamp": metric.timestamp.isoformat(),
-                        "expected": mean,
-                        "actual": metric.value,
-                        "severity": anomaly.severity
-                    })
+                    anomalies.append(
+                        {
+                            "timestamp": metric.timestamp.isoformat(),
+                            "expected": mean,
+                            "actual": metric.value,
+                            "severity": anomaly.severity,
+                        }
+                    )
 
         self.db.commit()
         return anomalies
@@ -749,7 +754,7 @@ class ObservatoryEngine:
         target_value: float,
         metric_name: str,
         measurement_window: str = "30d",
-        description: Optional[str] = None
+        description: Optional[str] = None,
     ) -> str:
         """
         Create a Service Level Objective
@@ -765,7 +770,7 @@ class ObservatoryEngine:
             target_value=target_value,
             metric_name=metric_name,
             measurement_window=measurement_window,
-            is_active=True
+            is_active=True,
         )
 
         self.db.add(slo)
@@ -785,13 +790,17 @@ class ObservatoryEngine:
 
         start_time = self._parse_time_range(slo.measurement_window)
 
-        metrics = self.db.query(Metric).filter(
-            and_(
-                Metric.service_id == slo.service_id,
-                Metric.metric_name == slo.metric_name,
-                Metric.timestamp >= start_time
+        metrics = (
+            self.db.query(Metric)
+            .filter(
+                and_(
+                    Metric.service_id == slo.service_id,
+                    Metric.metric_name == slo.metric_name,
+                    Metric.timestamp >= start_time,
+                )
             )
-        ).all()
+            .all()
+        )
 
         if not metrics:
             return {"status": "no_data"}
@@ -811,7 +820,9 @@ class ObservatoryEngine:
 
         # Calculate error budget
         if slo.slo_type == "availability":
-            error_budget_remaining = ((current_value - slo.target_value) / (100 - slo.target_value)) * 100
+            error_budget_remaining = (
+                (current_value - slo.target_value) / (100 - slo.target_value)
+            ) * 100
         else:
             error_budget_remaining = 100 if compliant else 0
 
@@ -828,7 +839,7 @@ class ObservatoryEngine:
             "target": slo.target_value,
             "current": current_value,
             "compliant": compliant,
-            "error_budget_remaining": error_budget_remaining
+            "error_budget_remaining": error_budget_remaining,
         }
 
     # ==================== HELPER METHODS ====================
@@ -837,26 +848,19 @@ class ObservatoryEngine:
         """
         Parse time range string to datetime
         """
-        units = {
-            'm': 'minutes',
-            'h': 'hours',
-            'd': 'days'
-        }
-        
+        units = {"m": "minutes", "h": "hours", "d": "days"}
+
         value = int(time_range[:-1])
         unit = time_range[-1]
-        
+
         if unit in units:
             delta = timedelta(**{units[unit]: value})
             return datetime.utcnow() - delta
-        
+
         return datetime.utcnow() - timedelta(hours=1)
 
     def _aggregate_by_interval(
-        self,
-        metrics: List,
-        interval: str,
-        aggregation: str
+        self, metrics: List, interval: str, aggregation: str
     ) -> List[Dict[str, Any]]:
         """
         Aggregate metrics by time interval
@@ -899,7 +903,7 @@ class ObservatoryEngine:
             alert_id=alert.id,
             status="firing",
             severity=alert.severity,
-            started_at=datetime.utcnow()
+            started_at=datetime.utcnow(),
         )
 
         self.db.add(incident)
@@ -907,7 +911,9 @@ class ObservatoryEngine:
 
         return incident.id
 
-    def _get_widget_data(self, widget: Dict[str, Any], time_range: str) -> Dict[str, Any]:
+    def _get_widget_data(
+        self, widget: Dict[str, Any], time_range: str
+    ) -> Dict[str, Any]:
         """
         Get data for a specific widget
         """

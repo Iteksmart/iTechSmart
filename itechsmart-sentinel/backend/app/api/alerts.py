@@ -42,25 +42,16 @@ class SilenceAlertRequest(BaseModel):
 
 
 @router.post("/")
-async def create_alert(
-    request: CreateAlertRequest,
-    db: Session = Depends(get_db)
-):
+async def create_alert(request: CreateAlertRequest, db: Session = Depends(get_db)):
     """Create a new alert"""
     engine = AlertingEngine(db)
     alert = await engine.create_alert(**request.dict())
-    return {
-        "id": alert.id,
-        "fingerprint": alert.fingerprint,
-        "status": alert.status
-    }
+    return {"id": alert.id, "fingerprint": alert.fingerprint, "status": alert.status}
 
 
 @router.post("/{alert_id}/acknowledge")
 async def acknowledge_alert(
-    alert_id: int,
-    request: AcknowledgeAlertRequest,
-    db: Session = Depends(get_db)
+    alert_id: int, request: AcknowledgeAlertRequest, db: Session = Depends(get_db)
 ):
     """Acknowledge an alert"""
     engine = AlertingEngine(db)
@@ -73,9 +64,7 @@ async def acknowledge_alert(
 
 @router.post("/{alert_id}/resolve")
 async def resolve_alert(
-    alert_id: int,
-    request: ResolveAlertRequest,
-    db: Session = Depends(get_db)
+    alert_id: int, request: ResolveAlertRequest, db: Session = Depends(get_db)
 ):
     """Resolve an alert"""
     engine = AlertingEngine(db)
@@ -88,17 +77,13 @@ async def resolve_alert(
 
 @router.post("/{alert_id}/silence")
 async def silence_alert(
-    alert_id: int,
-    request: SilenceAlertRequest,
-    db: Session = Depends(get_db)
+    alert_id: int, request: SilenceAlertRequest, db: Session = Depends(get_db)
 ):
     """Silence an alert for a duration"""
     engine = AlertingEngine(db)
     try:
         alert = await engine.silence_alert(
-            alert_id,
-            request.duration_minutes,
-            request.silenced_by
+            alert_id, request.duration_minutes, request.silenced_by
         )
         return {"id": alert.id, "status": alert.status}
     except ValueError as e:
@@ -110,7 +95,7 @@ async def get_active_alerts(
     service_name: Optional[str] = None,
     severity: Optional[str] = None,
     limit: int = Query(100, le=500),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Get all active alerts"""
     engine = AlertingEngine(db)
@@ -122,7 +107,7 @@ async def get_active_alerts(
 async def get_alert_statistics(
     service_name: Optional[str] = None,
     hours: int = Query(24, le=168),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Get alert statistics"""
     engine = AlertingEngine(db)
@@ -134,7 +119,7 @@ async def get_alert_statistics(
 async def detect_alert_fatigue(
     service_name: Optional[str] = None,
     hours: int = Query(24, le=168),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Detect alert fatigue patterns"""
     engine = AlertingEngine(db)

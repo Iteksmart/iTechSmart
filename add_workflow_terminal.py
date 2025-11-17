@@ -1,9 +1,9 @@
 # Read the terminal panel file
-with open('itechsmart-ninja/vscode-extension/src/terminal/panel.ts', 'r') as f:
+with open("itechsmart-ninja/vscode-extension/src/terminal/panel.ts", "r") as f:
     content = f.read()
 
 # Add workflow help command handler
-workflow_help_handler = '''
+workflow_help_handler = """
     private showWorkflowHelp() {
         const helpText = `
 Workflow Commands:
@@ -175,16 +175,21 @@ Examples:
             });
         }
     }
-'''
+"""
 
 # Find the last method and add workflow handlers
-last_method_end = content.rfind('    }\n}')
+last_method_end = content.rfind("    }\n}")
 if last_method_end != -1:
-    content = content[:last_method_end] + workflow_help_handler + '\n' + content[last_method_end:]
+    content = (
+        content[:last_method_end]
+        + workflow_help_handler
+        + "\n"
+        + content[last_method_end:]
+    )
     print("Added workflow command handlers")
 
 # Add workflow command cases
-workflow_cases = '''
+workflow_cases = """
             case 'workflow-help':
                 this.showWorkflowHelp();
                 break;
@@ -220,18 +225,18 @@ workflow_cases = '''
             case 'share-workflow':
                 this.shareWorkflow();
                 break;
-'''
+"""
 
 # Find debug-help case and add workflow cases after it
 debug_help_marker = "            case 'debug-help':"
 if debug_help_marker in content:
     pos = content.find(debug_help_marker)
-    break_pos = content.find('break;', pos) + 6
-    content = content[:break_pos] + '\n' + workflow_cases + content[break_pos:]
+    break_pos = content.find("break;", pos) + 6
+    content = content[:break_pos] + "\n" + workflow_cases + content[break_pos:]
     print("Added workflow command cases")
 
 # Write back
-with open('itechsmart-ninja/vscode-extension/src/terminal/panel.ts', 'w') as f:
+with open("itechsmart-ninja/vscode-extension/src/terminal/panel.ts", "w") as f:
     f.write(content)
 
 print("Workflow terminal commands added successfully")

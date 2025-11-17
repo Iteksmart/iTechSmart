@@ -9,10 +9,7 @@ from typing import Generator
 import os
 
 # Database URL from environment or default to SQLite
-DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "sqlite:///./sandbox.db"
-)
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./sandbox.db")
 
 # Create engine
 if DATABASE_URL.startswith("sqlite"):
@@ -31,7 +28,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 def get_db() -> Generator[Session, None, None]:
     """
     Database session dependency
-    
+
     Yields:
         Database session
     """
@@ -45,4 +42,5 @@ def get_db() -> Generator[Session, None, None]:
 def init_db():
     """Initialize database tables"""
     from app.models.models import Base
+
     Base.metadata.create_all(bind=engine)

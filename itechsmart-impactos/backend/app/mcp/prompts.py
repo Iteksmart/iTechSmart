@@ -1,12 +1,13 @@
 """
 MCP Prompt Templates for ImpactOS
 """
+
 from typing import Dict, Any
 
 
 class ImpactOSPrompts:
     """Prompt template implementations for ImpactOS"""
-    
+
     # Impact Report Generation Prompt
     IMPACT_REPORT_TEMPLATE = """
 Generate a comprehensive impact report for the following program:
@@ -170,101 +171,221 @@ Ensure the plan is realistic, measurable, and aligned with the organization's ca
 def register_impactos_prompts(mcp_server):
     """
     Register all ImpactOS prompts with MCP server
-    
+
     Args:
         mcp_server: MCP server instance
     """
     prompts = ImpactOSPrompts()
-    
+
     # Register impact report generation prompt
     mcp_server.register_prompt(
         name="generate_impact_report",
         description="Generate a comprehensive impact report for a program",
         arguments=[
-            {"name": "program_name", "description": "Name of the program", "required": True},
-            {"name": "period_start", "description": "Start date of reporting period", "required": True},
-            {"name": "period_end", "description": "End date of reporting period", "required": True},
-            {"name": "organization_name", "description": "Name of the organization", "required": True},
-            {"name": "program_details", "description": "Detailed program information", "required": True},
-            {"name": "metrics_data", "description": "Metrics and achievements data", "required": True}
+            {
+                "name": "program_name",
+                "description": "Name of the program",
+                "required": True,
+            },
+            {
+                "name": "period_start",
+                "description": "Start date of reporting period",
+                "required": True,
+            },
+            {
+                "name": "period_end",
+                "description": "End date of reporting period",
+                "required": True,
+            },
+            {
+                "name": "organization_name",
+                "description": "Name of the organization",
+                "required": True,
+            },
+            {
+                "name": "program_details",
+                "description": "Detailed program information",
+                "required": True,
+            },
+            {
+                "name": "metrics_data",
+                "description": "Metrics and achievements data",
+                "required": True,
+            },
         ],
         template=prompts.IMPACT_REPORT_TEMPLATE,
-        required_permissions=["create_impact_reports"]
+        required_permissions=["create_impact_reports"],
     )
-    
+
     # Register grant proposal generation prompt
     mcp_server.register_prompt(
         name="create_grant_proposal",
         description="Create a compelling grant proposal",
         arguments=[
-            {"name": "grant_title", "description": "Title of the grant opportunity", "required": True},
-            {"name": "funder_name", "description": "Name of the funder", "required": True},
-            {"name": "requested_amount", "description": "Amount requested", "required": True},
-            {"name": "organization_name", "description": "Name of the organization", "required": True},
-            {"name": "organization_background", "description": "Organization background", "required": True},
-            {"name": "program_description", "description": "Program description", "required": True}
+            {
+                "name": "grant_title",
+                "description": "Title of the grant opportunity",
+                "required": True,
+            },
+            {
+                "name": "funder_name",
+                "description": "Name of the funder",
+                "required": True,
+            },
+            {
+                "name": "requested_amount",
+                "description": "Amount requested",
+                "required": True,
+            },
+            {
+                "name": "organization_name",
+                "description": "Name of the organization",
+                "required": True,
+            },
+            {
+                "name": "organization_background",
+                "description": "Organization background",
+                "required": True,
+            },
+            {
+                "name": "program_description",
+                "description": "Program description",
+                "required": True,
+            },
         ],
         template=prompts.GRANT_PROPOSAL_TEMPLATE,
-        required_permissions=["create_grant_proposals"]
+        required_permissions=["create_grant_proposals"],
     )
-    
+
     # Register data analysis prompt
     mcp_server.register_prompt(
         name="analyze_program_data",
         description="Analyze program data and provide insights",
         arguments=[
-            {"name": "program_name", "description": "Name of the program", "required": True},
-            {"name": "data_type", "description": "Type of data being analyzed", "required": True},
-            {"name": "time_period", "description": "Time period for analysis", "required": True},
-            {"name": "data", "description": "The data to analyze", "required": True}
+            {
+                "name": "program_name",
+                "description": "Name of the program",
+                "required": True,
+            },
+            {
+                "name": "data_type",
+                "description": "Type of data being analyzed",
+                "required": True,
+            },
+            {
+                "name": "time_period",
+                "description": "Time period for analysis",
+                "required": True,
+            },
+            {"name": "data", "description": "The data to analyze", "required": True},
         ],
         template=prompts.DATA_ANALYSIS_TEMPLATE,
-        required_permissions=["view_all_analytics"]
+        required_permissions=["view_all_analytics"],
     )
-    
+
     # Register partner matching prompt
     mcp_server.register_prompt(
         name="find_partners",
         description="Find and recommend potential partners",
         arguments=[
-            {"name": "organization_name", "description": "Name of the organization", "required": True},
-            {"name": "focus_areas", "description": "Focus areas for partnership", "required": True},
-            {"name": "partnership_goals", "description": "Goals for partnership", "required": True},
-            {"name": "resources_needed", "description": "Resources needed from partners", "required": True},
-            {"name": "organization_profile", "description": "Organization profile", "required": True}
+            {
+                "name": "organization_name",
+                "description": "Name of the organization",
+                "required": True,
+            },
+            {
+                "name": "focus_areas",
+                "description": "Focus areas for partnership",
+                "required": True,
+            },
+            {
+                "name": "partnership_goals",
+                "description": "Goals for partnership",
+                "required": True,
+            },
+            {
+                "name": "resources_needed",
+                "description": "Resources needed from partners",
+                "required": True,
+            },
+            {
+                "name": "organization_profile",
+                "description": "Organization profile",
+                "required": True,
+            },
         ],
         template=prompts.PARTNER_MATCHING_TEMPLATE,
-        required_permissions=["manage_partners"]
+        required_permissions=["manage_partners"],
     )
-    
+
     # Register impact score analysis prompt
     mcp_server.register_prompt(
         name="calculate_impact_score",
         description="Calculate and analyze program impact score",
         arguments=[
-            {"name": "program_name", "description": "Name of the program", "required": True},
-            {"name": "organization_name", "description": "Name of the organization", "required": True},
-            {"name": "beneficiaries_served", "description": "Number of beneficiaries", "required": True},
+            {
+                "name": "program_name",
+                "description": "Name of the program",
+                "required": True,
+            },
+            {
+                "name": "organization_name",
+                "description": "Name of the organization",
+                "required": True,
+            },
+            {
+                "name": "beneficiaries_served",
+                "description": "Number of beneficiaries",
+                "required": True,
+            },
             {"name": "budget", "description": "Program budget", "required": True},
             {"name": "duration", "description": "Program duration", "required": True},
-            {"name": "outcomes_achieved", "description": "Outcomes achieved", "required": True},
-            {"name": "additional_context", "description": "Additional context", "required": False}
+            {
+                "name": "outcomes_achieved",
+                "description": "Outcomes achieved",
+                "required": True,
+            },
+            {
+                "name": "additional_context",
+                "description": "Additional context",
+                "required": False,
+            },
         ],
         template=prompts.IMPACT_SCORE_TEMPLATE,
-        required_permissions=["view_program_analytics"]
+        required_permissions=["view_program_analytics"],
     )
-    
+
     # Register strategic planning prompt
     mcp_server.register_prompt(
         name="develop_strategic_plan",
         description="Develop a comprehensive strategic plan",
         arguments=[
-            {"name": "organization_name", "description": "Name of the organization", "required": True},
-            {"name": "current_state", "description": "Current organizational state", "required": True},
-            {"name": "vision", "description": "Vision for the future", "required": True},
-            {"name": "time_horizon", "description": "Planning time horizon", "required": True},
-            {"name": "organizational_context", "description": "Organizational context", "required": True}
+            {
+                "name": "organization_name",
+                "description": "Name of the organization",
+                "required": True,
+            },
+            {
+                "name": "current_state",
+                "description": "Current organizational state",
+                "required": True,
+            },
+            {
+                "name": "vision",
+                "description": "Vision for the future",
+                "required": True,
+            },
+            {
+                "name": "time_horizon",
+                "description": "Planning time horizon",
+                "required": True,
+            },
+            {
+                "name": "organizational_context",
+                "description": "Organizational context",
+                "required": True,
+            },
         ],
         template=prompts.STRATEGIC_PLANNING_TEMPLATE,
-        required_permissions=["manage_organization"]
+        required_permissions=["manage_organization"],
     )

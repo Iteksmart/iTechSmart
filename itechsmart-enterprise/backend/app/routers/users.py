@@ -18,7 +18,7 @@ async def list_users() -> List[Dict]:
             "email": "admin@itechsmart.dev",
             "name": "Admin User",
             "role": "admin",
-            "active": True
+            "active": True,
         }
     ]
 
@@ -31,5 +31,5 @@ async def get_user(user_id: int) -> Dict:
         "email": "admin@itechsmart.dev",
         "name": "Admin User",
         "role": "admin",
-        "active": True
+        "active": True,
     }

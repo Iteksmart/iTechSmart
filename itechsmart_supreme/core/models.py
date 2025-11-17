@@ -11,6 +11,7 @@ import uuid
 
 class SeverityLevel(Enum):
     """Alert severity levels"""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -19,6 +20,7 @@ class SeverityLevel(Enum):
 
 class ActionStatus(Enum):
     """Remediation action status"""
+
     PENDING = "pending"
     PENDING_APPROVAL = "pending_approval"
     APPROVED = "approved"
@@ -30,6 +32,7 @@ class ActionStatus(Enum):
 
 class Platform(Enum):
     """Target platform types"""
+
     LINUX = "linux"
     WINDOWS = "windows"
     NETWORK = "network"
@@ -39,6 +42,7 @@ class Platform(Enum):
 
 class AlertSource(Enum):
     """Alert source systems"""
+
     PROMETHEUS = "prometheus"
     WAZUH = "wazuh"
     GITHUB = "github"
@@ -49,6 +53,7 @@ class AlertSource(Enum):
 @dataclass
 class Alert:
     """Alert data model"""
+
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
     timestamp: datetime = field(default_factory=datetime.now)
     source: AlertSource = AlertSource.SYSTEM
@@ -65,6 +70,7 @@ class Alert:
 @dataclass
 class Diagnosis:
     """AI diagnosis result"""
+
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
     alert_id: str = ""
     root_cause: str = ""
@@ -79,6 +85,7 @@ class Diagnosis:
 @dataclass
 class RemediationAction:
     """Remediation action to be executed"""
+
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
     alert_id: str = ""
     diagnosis_id: str = ""
@@ -101,6 +108,7 @@ class RemediationAction:
 @dataclass
 class ExecutionResult:
     """Command execution result"""
+
     execution_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     action_id: str = ""
     success: bool = False
@@ -115,6 +123,7 @@ class ExecutionResult:
 @dataclass
 class HostCredentials:
     """Host connection credentials"""
+
     host: str
     username: str
     password: Optional[str] = None
@@ -128,6 +137,7 @@ class HostCredentials:
 @dataclass
 class SystemHealth:
     """System health metrics"""
+
     timestamp: datetime = field(default_factory=datetime.now)
     cpu_percent: float = 0.0
     memory_percent: float = 0.0
@@ -141,6 +151,7 @@ class SystemHealth:
 @dataclass
 class AuditLog:
     """Audit log entry"""
+
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
     timestamp: datetime = field(default_factory=datetime.now)
     action_type: str = ""
@@ -154,6 +165,7 @@ class AuditLog:
 @dataclass
 class ApprovalWorkflow:
     """Approval workflow configuration"""
+
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
     action_id: str = ""
     required_approvers: List[str] = field(default_factory=list)

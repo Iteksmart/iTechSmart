@@ -13,7 +13,7 @@ def custom_openapi_schema(app) -> Dict[str, Any]:
     """
     if app.openapi_schema:
         return app.openapi_schema
-    
+
     openapi_schema = get_openapi(
         title="iTechSmart HL7 API",
         version="1.0.0",
@@ -91,50 +91,51 @@ For support and documentation, visit: https://itechsmart.dev/docs
         """,
         routes=app.routes,
     )
-    
+
     # Add security scheme
     openapi_schema["components"]["securitySchemes"] = {
         "bearerAuth": {
             "type": "http",
             "scheme": "bearer",
             "bearerFormat": "JWT",
-            "description": "Enter JWT token obtained from /api/v1/auth/login"
+            "description": "Enter JWT token obtained from /api/v1/auth/login",
         }
     }
-    
+
     # Add security to all endpoints except public ones
-    public_paths = ["/", "/health", "/api/v1/auth/login", "/docs", "/redoc", "/openapi.json"]
-    
+    public_paths = [
+        "/",
+        "/health",
+        "/api/v1/auth/login",
+        "/docs",
+        "/redoc",
+        "/openapi.json",
+    ]
+
     for path in openapi_schema["paths"]:
         if path not in public_paths:
             for method in openapi_schema["paths"][path]:
                 if method != "options":
-                    openapi_schema["paths"][path][method]["security"] = [{"bearerAuth": []}]
-    
+                    openapi_schema["paths"][path][method]["security"] = [
+                        {"bearerAuth": []}
+                    ]
+
     # Add tags metadata
     openapi_schema["tags"] = [
         {
             "name": "authentication",
-            "description": "Authentication and authorization endpoints"
+            "description": "Authentication and authorization endpoints",
         },
-        {
-            "name": "api",
-            "description": "Main API endpoints for EMR integration"
-        },
+        {"name": "api", "description": "Main API endpoints for EMR integration"},
         {
             "name": "websocket",
-            "description": "WebSocket endpoints for real-time updates"
-        }
+            "description": "WebSocket endpoints for real-time updates",
+        },
     ]
-    
+
     # Add examples
     openapi_schema["components"]["examples"] = {
-        "LoginRequest": {
-            "value": {
-                "username": "admin",
-                "password": "admin123"
-            }
-        },
+        "LoginRequest": {"value": {"username": "admin", "password": "admin123"}},
         "ConnectionConfig": {
             "value": {
                 "connection_id": "epic_main",
@@ -142,8 +143,8 @@ For support and documentation, visit: https://itechsmart.dev/docs
                 "config": {
                     "base_url": "https://fhir.epic.com",
                     "client_id": "your_client_id",
-                    "client_secret": "your_client_secret"
-                }
+                    "client_secret": "your_client_secret",
+                },
             }
         },
         "PatientSearchRequest": {
@@ -151,12 +152,12 @@ For support and documentation, visit: https://itechsmart.dev/docs
                 "criteria": {
                     "name": "Smith",
                     "birthdate": "1980-01-01",
-                    "gender": "male"
+                    "gender": "male",
                 }
             }
-        }
+        },
     }
-    
+
     app.openapi_schema = openapi_schema
     return app.openapi_schema
 
@@ -169,42 +170,31 @@ api_metadata = {
     "contact": {
         "name": "iTechSmart Support",
         "email": "support@itechsmart.dev",
-        "url": "https://itechsmart.dev"
+        "url": "https://itechsmart.dev",
     },
-    "license": {
-        "name": "Proprietary",
-        "url": "https://itechsmart.dev/license"
-    }
+    "license": {"name": "Proprietary", "url": "https://itechsmart.dev/license"},
 }
 
 
 # Example requests and responses
 example_requests = {
-    "login": {
-        "username": "admin",
-        "password": "admin123"
-    },
+    "login": {"username": "admin", "password": "admin123"},
     "create_connection": {
         "connection_id": "epic_main",
         "emr_type": "epic",
         "config": {
             "base_url": "https://fhir.epic.com",
             "client_id": "your_client_id",
-            "client_secret": "your_client_secret"
-        }
+            "client_secret": "your_client_secret",
+        },
     },
-    "search_patients": {
-        "criteria": {
-            "name": "Smith",
-            "birthdate": "1980-01-01"
-        }
-    },
+    "search_patients": {"criteria": {"name": "Smith", "birthdate": "1980-01-01"}},
     "aggregate_data": {
         "patient_identifiers": {
             "epic_main": "epic_patient_123",
-            "cerner_main": "cerner_patient_456"
+            "cerner_main": "cerner_patient_456",
         }
-    }
+    },
 }
 
 
@@ -217,8 +207,8 @@ example_responses = {
             "email": "admin@itechsmart.dev",
             "full_name": "Admin User",
             "disabled": False,
-            "roles": ["admin", "user"]
-        }
+            "roles": ["admin", "user"],
+        },
     },
     "patient": {
         "id": "patient_123",
@@ -232,20 +222,20 @@ example_responses = {
             "street": "123 Main St",
             "city": "Boston",
             "state": "MA",
-            "zip": "02101"
-        }
+            "zip": "02101",
+        },
     },
     "observation": {
         "id": "obs_123",
         "code": {
             "system": "http://loinc.org",
             "code": "8867-4",
-            "display": "Heart rate"
+            "display": "Heart rate",
         },
         "value": 72,
         "unit": "beats/minute",
         "date": "2024-01-15T10:30:00Z",
         "status": "final",
-        "category": "vital-signs"
-    }
+        "category": "vital-signs",
+    },
 }

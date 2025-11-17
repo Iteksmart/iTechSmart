@@ -25,7 +25,7 @@ from app.api import (
     ai_assistant,
     templates,
     users,
-    settings
+    settings,
 )
 
 # Import database
@@ -36,6 +36,7 @@ from app.integrations.integration import initialize_integration, shutdown_integr
 
 # Create tables
 Base.metadata.create_all(bind=engine)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -49,12 +50,13 @@ async def lifespan(app: FastAPI):
     print("👋 LegalAI Pro is shutting down...")
     await shutdown_integration()
 
+
 # Initialize FastAPI app
 app = FastAPI(
     title="LegalAI Pro",
     description="The World's Most Advanced AI-Powered Attorney Office Software - iTechSmart Suite Member",
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # CORS middleware
@@ -82,6 +84,7 @@ app.include_router(ai_assistant.router, prefix="/api/ai", tags=["AI Assistant"])
 app.include_router(templates.router, prefix="/api/templates", tags=["Templates"])
 app.include_router(settings.router, prefix="/api/settings", tags=["Settings"])
 
+
 @app.get("/")
 async def root():
     return {
@@ -101,18 +104,15 @@ async def root():
             "Client Portal",
             "iTechSmart Suite Integration",
             "Self-Healing with Ninja",
-            "Cross-Product Communication"
-        ]
+            "Cross-Product Communication",
+        ],
     }
+
 
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "service": "LegalAI Pro", "suite": "iTechSmart"}
 
+
 if __name__ == "__main__":
-    uvicorn.run(
-        "main:app",
-        host="0.0.0.0",
-        port=8000,
-        reload=True
-    )
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

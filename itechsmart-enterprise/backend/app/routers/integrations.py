@@ -18,22 +18,22 @@ async def list_integrations() -> List[Dict]:
             "name": "ServiceNow",
             "status": "active",
             "type": "ITSM",
-            "auth_type": "OAuth 2.0"
+            "auth_type": "OAuth 2.0",
         },
         {
             "id": "zendesk",
             "name": "Zendesk",
             "status": "active",
             "type": "Support",
-            "auth_type": "OAuth 2.0"
+            "auth_type": "OAuth 2.0",
         },
         {
             "id": "itglue",
             "name": "IT Glue",
             "status": "active",
             "type": "Documentation",
-            "auth_type": "API Key"
-        }
+            "auth_type": "API Key",
+        },
     ]
 
 
@@ -45,7 +45,7 @@ async def get_integration(integration_id: str) -> Dict:
         "name": integration_id.title(),
         "status": "active",
         "configured": True,
-        "last_sync": "2024-01-15T10:00:00Z"
+        "last_sync": "2024-01-15T10:00:00Z",
     }
 
 
@@ -55,5 +55,5 @@ async def test_integration(integration_id: str) -> Dict:
     return {
         "success": True,
         "message": f"Successfully connected to {integration_id}",
-        "latency_ms": 150
+        "latency_ms": 150,
     }

@@ -1,6 +1,7 @@
 """
 iTechSmart ImpactOS - Main FastAPI Application
 """
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
@@ -31,7 +32,9 @@ app.add_middleware(
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 # Include routers
-app.include_router(auth.router, prefix=f"{settings.API_V1_STR}/auth", tags=["Authentication"])
+app.include_router(
+    auth.router, prefix=f"{settings.API_V1_STR}/auth", tags=["Authentication"]
+)
 app.include_router(users.router, prefix=f"{settings.API_V1_STR}/users", tags=["Users"])
 
 
@@ -59,6 +62,7 @@ async def health_check():
 async def startup_event():
     """Startup event handler"""
     from app.db.database import init_db
+
     init_db()
     print(f"🚀 {settings.PROJECT_NAME} v{settings.VERSION} started successfully!")
 

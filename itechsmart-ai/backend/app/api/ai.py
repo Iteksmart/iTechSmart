@@ -64,32 +64,23 @@ async def create_model(request: CreateModelRequest):
             name=request.name,
             model_type=ModelType(request.model_type),
             algorithm=request.algorithm,
-            version=request.version
+            version=request.version,
         )
-        
-        return {
-            "model_id": model_id,
-            "message": "Model created successfully"
-        }
+
+        return {"model_id": model_id, "message": "Model created successfully"}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
 
 @router.get("/models")
-async def list_models(
-    model_type: Optional[str] = None,
-    status: Optional[str] = None
-):
+async def list_models(model_type: Optional[str] = None, status: Optional[str] = None):
     """List all models"""
     try:
         model_type_enum = ModelType(model_type) if model_type else None
         status_enum = ModelStatus(status) if status else None
-        
-        models = ai_engine.list_models(
-            model_type=model_type_enum,
-            status=status_enum
-        )
-        
+
+        models = ai_engine.list_models(model_type=model_type_enum, status=status_enum)
+
         return {"models": models}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -111,10 +102,10 @@ async def get_model(model_id: str):
 async def delete_model(model_id: str):
     """Delete a model"""
     success = ai_engine.delete_model(model_id)
-    
+
     if not success:
         raise HTTPException(status_code=404, detail="Model not found")
-    
+
     return {"message": "Model deleted successfully"}
 
 
@@ -123,17 +114,12 @@ async def delete_model(model_id: str):
 async def train_model(model_id: str, request: TrainModelRequest):
     """Train a model"""
     try:
-        training_data = {
-            "X_train": request.X_train,
-            "y_train": request.y_train
-        }
-        
+        training_data = {"X_train": request.X_train, "y_train": request.y_train}
+
         ai_engine.train_model(
-            model_id=model_id,
-            training_data=training_data,
-            params=request.params
+            model_id=model_id, training_data=training_data, params=request.params
         )
-        
+
         return {"message": "Model training completed successfully"}
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
@@ -145,16 +131,10 @@ async def train_model(model_id: str, request: TrainModelRequest):
 async def evaluate_model(model_id: str, request: EvaluateModelRequest):
     """Evaluate a model"""
     try:
-        test_data = {
-            "X_test": request.X_test,
-            "y_test": request.y_test
-        }
-        
-        metrics = ai_engine.evaluate_model(
-            model_id=model_id,
-            test_data=test_data
-        )
-        
+        test_data = {"X_test": request.X_test, "y_test": request.y_test}
+
+        metrics = ai_engine.evaluate_model(model_id=model_id, test_data=test_data)
+
         return {"metrics": metrics}
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
@@ -180,10 +160,9 @@ async def predict(model_id: str, request: PredictRequest):
     """Make predictions with a model"""
     try:
         predictions = ai_engine.predict(
-            model_id=model_id,
-            input_data=request.input_data
+            model_id=model_id, input_data=request.input_data
         )
-        
+
         return {"predictions": predictions}
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
@@ -207,8 +186,7 @@ async def text_classification(request: TextClassificationRequest):
     """Classify text into categories"""
     try:
         result = ai_engine.nlp_engine.text_classification(
-            text=request.text,
-            categories=request.categories
+            text=request.text, categories=request.categories
         )
         return {"scores": result}
     except Exception as e:
@@ -230,8 +208,7 @@ async def text_summarization(request: SummarizationRequest):
     """Summarize text"""
     try:
         summary = ai_engine.nlp_engine.text_summarization(
-            text=request.text,
-            max_sentences=request.max_sentences
+            text=request.text, max_sentences=request.max_sentences
         )
         return {"summary": summary}
     except Exception as e:
@@ -243,8 +220,7 @@ async def keyword_extraction(request: KeywordExtractionRequest):
     """Extract keywords from text"""
     try:
         keywords = ai_engine.nlp_engine.keyword_extraction(
-            text=request.text,
-            top_k=request.top_k
+            text=request.text, top_k=request.top_k
         )
         return {"keywords": keywords}
     except Exception as e:
@@ -254,24 +230,22 @@ async def keyword_extraction(request: KeywordExtractionRequest):
 # Computer Vision Endpoints
 @router.post("/cv/classify")
 async def image_classification(
-    image: UploadFile = File(...),
-    classes: str = "person,car,dog,cat,building"
+    image: UploadFile = File(...), classes: str = "person,car,dog,cat,building"
 ):
     """Classify image"""
     try:
         # Read image data
         image_data = await image.read()
-        
+
         # Convert to numpy array (simplified)
         # In production, use PIL or OpenCV
         image_array = np.frombuffer(image_data, dtype=np.uint8)
-        
-        classes_list = classes.split(',')
+
+        classes_list = classes.split(",")
         result = ai_engine.cv_engine.image_classification(
-            image_data=image_array,
-            classes=classes_list
+            image_data=image_array, classes=classes_list
         )
-        
+
         return {"scores": result}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -283,9 +257,9 @@ async def object_detection(image: UploadFile = File(...)):
     try:
         image_data = await image.read()
         image_array = np.frombuffer(image_data, dtype=np.uint8)
-        
+
         objects = ai_engine.cv_engine.object_detection(image_array)
-        
+
         return {"objects": objects}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -297,9 +271,9 @@ async def face_detection(image: UploadFile = File(...)):
     try:
         image_data = await image.read()
         image_array = np.frombuffer(image_data, dtype=np.uint8)
-        
+
         faces = ai_engine.cv_engine.face_detection(image_array)
-        
+
         return {"faces": faces}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -319,7 +293,7 @@ async def deploy_pretrained_model(model_id: str):
     # In production, this would download and deploy the model
     return {
         "message": f"Pre-trained model {model_id} deployed successfully",
-        "endpoint": f"/api/v1/ai/marketplace/models/{model_id}/predict"
+        "endpoint": f"/api/v1/ai/marketplace/models/{model_id}/predict",
     }
 
 
@@ -328,45 +302,45 @@ async def deploy_pretrained_model(model_id: str):
 async def automl_train(
     X_train: List[List[float]],
     y_train: List[Union[float, int, str]],
-    task_type: str = "classification"
+    task_type: str = "classification",
 ):
     """Automatically train and select best model"""
     try:
         # Try multiple algorithms
         algorithms = {
             "classification": ["random_forest", "logistic_regression", "xgboost"],
-            "regression": ["random_forest", "linear_regression", "xgboost"]
+            "regression": ["random_forest", "linear_regression", "xgboost"],
         }
-        
+
         best_model_id = None
         best_score = 0
-        
+
         for algorithm in algorithms.get(task_type, []):
             # Create model
             model_id = ai_engine.create_model(
                 name=f"AutoML_{algorithm}",
                 model_type=ModelType(task_type.upper()),
-                algorithm=algorithm
+                algorithm=algorithm,
             )
-            
+
             # Train model
             training_data = {"X_train": X_train, "y_train": y_train}
             ai_engine.train_model(model_id, training_data)
-            
+
             # Evaluate (using training data for simplicity)
             test_data = {"X_test": X_train[:10], "y_test": y_train[:10]}
             metrics = ai_engine.evaluate_model(model_id, test_data)
-            
+
             score = metrics.get("accuracy", metrics.get("r2_score", 0))
-            
+
             if score > best_score:
                 best_score = score
                 best_model_id = model_id
-        
+
         return {
             "best_model_id": best_model_id,
             "best_score": best_score,
-            "message": "AutoML training completed"
+            "message": "AutoML training completed",
         }
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -381,5 +355,5 @@ async def health_check():
         "service": "iTechSmart Inc.",
         "models_count": len(ai_engine.models),
         "nlp_available": True,
-        "cv_available": True
+        "cv_available": True,
     }

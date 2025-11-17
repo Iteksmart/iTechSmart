@@ -18,7 +18,7 @@ class ObservatoryIntegration:
         self.api_key = api_key
         self.headers = {
             "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         }
 
     # ==================== HUB INTEGRATION ====================
@@ -39,22 +39,22 @@ class ObservatoryIntegration:
                 "alerting",
                 "dashboards",
                 "anomaly_detection",
-                "slo_tracking"
+                "slo_tracking",
             ],
             "endpoints": {
                 "metrics": "/api/observatory/metrics",
                 "traces": "/api/observatory/traces",
                 "logs": "/api/observatory/logs",
                 "alerts": "/api/observatory/alerts",
-                "services": "/api/observatory/services"
-            }
+                "services": "/api/observatory/services",
+            },
         }
 
         try:
             response = requests.post(
                 f"{self.hub_url}/api/products/register",
                 json=payload,
-                headers=self.headers
+                headers=self.headers,
             )
             return response.json()
         except Exception as e:
@@ -68,14 +68,14 @@ class ObservatoryIntegration:
             "product_id": "36",
             "status": status,
             "metrics": metrics,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
         try:
             response = requests.post(
                 f"{self.hub_url}/api/products/health",
                 json=payload,
-                headers=self.headers
+                headers=self.headers,
             )
             return response.status_code == 200
         except Exception:
@@ -91,7 +91,7 @@ class ObservatoryIntegration:
             response = requests.get(
                 f"{self.hub_url}/api/enterprise/services",
                 params={"tenant_id": tenant_id},
-                headers=self.headers
+                headers=self.headers,
             )
             return response.json().get("services", [])
         except Exception:
@@ -104,7 +104,7 @@ class ObservatoryIntegration:
         try:
             response = requests.get(
                 f"{self.hub_url}/api/workflow/metrics/{workflow_id}",
-                headers=self.headers
+                headers=self.headers,
             )
             return response.json()
         except Exception:
@@ -116,8 +116,7 @@ class ObservatoryIntegration:
         """
         try:
             response = requests.get(
-                f"{self.hub_url}/api/supreme-plus/infrastructure",
-                headers=self.headers
+                f"{self.hub_url}/api/supreme-plus/infrastructure", headers=self.headers
             )
             return response.json().get("infrastructure", [])
         except Exception:
@@ -129,8 +128,7 @@ class ObservatoryIntegration:
         """
         try:
             response = requests.get(
-                f"{self.hub_url}/api/citadel/security-events",
-                headers=self.headers
+                f"{self.hub_url}/api/citadel/security-events", headers=self.headers
             )
             return response.json()
         except Exception:
@@ -139,11 +137,7 @@ class ObservatoryIntegration:
     # ==================== ALERT FORWARDING ====================
 
     def forward_alert_to_notify(
-        self,
-        alert_id: str,
-        severity: str,
-        message: str,
-        channels: List[str]
+        self, alert_id: str, severity: str, message: str, channels: List[str]
     ) -> bool:
         """
         Forward alert to iTechSmart Notify
@@ -154,25 +148,19 @@ class ObservatoryIntegration:
             "severity": severity,
             "message": message,
             "channels": channels,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
         try:
             response = requests.post(
-                f"{self.hub_url}/api/notify/send",
-                json=payload,
-                headers=self.headers
+                f"{self.hub_url}/api/notify/send", json=payload, headers=self.headers
             )
             return response.status_code == 200
         except Exception:
             return False
 
     def create_incident_in_pulse(
-        self,
-        title: str,
-        description: str,
-        severity: str,
-        service_id: str
+        self, title: str, description: str, severity: str, service_id: str
     ) -> Optional[str]:
         """
         Create incident in iTechSmart Pulse
@@ -183,14 +171,14 @@ class ObservatoryIntegration:
             "severity": severity,
             "source": "observatory",
             "source_id": service_id,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
         try:
             response = requests.post(
                 f"{self.hub_url}/api/pulse/incidents",
                 json=payload,
-                headers=self.headers
+                headers=self.headers,
             )
             return response.json().get("incident_id")
         except Exception:
@@ -199,10 +187,7 @@ class ObservatoryIntegration:
     # ==================== DATA EXPORT ====================
 
     def export_metrics_to_analytics(
-        self,
-        service_id: str,
-        start_time: datetime,
-        end_time: datetime
+        self, service_id: str, start_time: datetime, end_time: datetime
     ) -> bool:
         """
         Export metrics to iTechSmart Analytics
@@ -212,14 +197,14 @@ class ObservatoryIntegration:
             "service_id": service_id,
             "start_time": start_time.isoformat(),
             "end_time": end_time.isoformat(),
-            "data_type": "metrics"
+            "data_type": "metrics",
         }
 
         try:
             response = requests.post(
                 f"{self.hub_url}/api/analytics/import",
                 json=payload,
-                headers=self.headers
+                headers=self.headers,
             )
             return response.status_code == 200
         except Exception:
@@ -232,14 +217,14 @@ class ObservatoryIntegration:
         payload = {
             "source": "observatory",
             "data": data,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
         try:
             response = requests.post(
                 f"{self.hub_url}/api/data-platform/sync",
                 json=payload,
-                headers=self.headers
+                headers=self.headers,
             )
             return response.status_code == 200
         except Exception:
@@ -248,9 +233,7 @@ class ObservatoryIntegration:
     # ==================== COMPLIANCE INTEGRATION ====================
 
     def report_compliance_metrics(
-        self,
-        service_id: str,
-        metrics: Dict[str, Any]
+        self, service_id: str, metrics: Dict[str, Any]
     ) -> bool:
         """
         Report observability metrics to Compliance Center
@@ -259,14 +242,14 @@ class ObservatoryIntegration:
             "source": "observatory",
             "service_id": service_id,
             "metrics": metrics,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
         try:
             response = requests.post(
                 f"{self.hub_url}/api/compliance/metrics",
                 json=payload,
-                headers=self.headers
+                headers=self.headers,
             )
             return response.status_code == 200
         except Exception:
@@ -275,9 +258,7 @@ class ObservatoryIntegration:
     # ==================== AUTOMATION INTEGRATION ====================
 
     def trigger_automation_workflow(
-        self,
-        workflow_id: str,
-        trigger_data: Dict[str, Any]
+        self, workflow_id: str, trigger_data: Dict[str, Any]
     ) -> Optional[str]:
         """
         Trigger automation workflow based on observability data
@@ -286,14 +267,14 @@ class ObservatoryIntegration:
             "workflow_id": workflow_id,
             "trigger_source": "observatory",
             "trigger_data": trigger_data,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
         try:
             response = requests.post(
                 f"{self.hub_url}/api/automation-orchestrator/workflows/{workflow_id}/execute",
                 json=payload,
-                headers=self.headers
+                headers=self.headers,
             )
             return response.json().get("execution_id")
         except Exception:
@@ -302,11 +283,7 @@ class ObservatoryIntegration:
     # ==================== MARKETPLACE INTEGRATION ====================
 
     def publish_dashboard_template(
-        self,
-        dashboard_id: str,
-        name: str,
-        description: str,
-        price: float = 0.0
+        self, dashboard_id: str, name: str, description: str, price: float = 0.0
     ) -> Optional[str]:
         """
         Publish dashboard template to Marketplace
@@ -318,14 +295,14 @@ class ObservatoryIntegration:
             "name": name,
             "description": description,
             "price": price,
-            "category": "monitoring"
+            "category": "monitoring",
         }
 
         try:
             response = requests.post(
                 f"{self.hub_url}/api/marketplace/publish",
                 json=payload,
-                headers=self.headers
+                headers=self.headers,
             )
             return response.json().get("listing_id")
         except Exception:

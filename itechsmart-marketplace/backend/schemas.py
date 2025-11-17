@@ -3,11 +3,13 @@ from typing import Optional, List
 from datetime import datetime
 from enum import Enum
 
+
 # Enums
 class UserRole(str, Enum):
     USER = "user"
     DEVELOPER = "developer"
     ADMIN = "admin"
+
 
 class AppStatus(str, Enum):
     DRAFT = "draft"
@@ -16,16 +18,19 @@ class AppStatus(str, Enum):
     REJECTED = "rejected"
     SUSPENDED = "suspended"
 
+
 class PurchaseStatus(str, Enum):
     PENDING = "pending"
     COMPLETED = "completed"
     FAILED = "failed"
     REFUNDED = "refunded"
 
+
 class ReviewStatus(str, Enum):
     PENDING = "pending"
     APPROVED = "approved"
     REJECTED = "rejected"
+
 
 # User Schemas
 class UserBase(BaseModel):
@@ -38,8 +43,10 @@ class UserBase(BaseModel):
     company: Optional[str] = None
     website: Optional[str] = None
 
+
 class UserCreate(UserBase):
     password: str
+
 
 class UserUpdate(BaseModel):
     full_name: Optional[str] = None
@@ -48,14 +55,16 @@ class UserUpdate(BaseModel):
     company: Optional[str] = None
     website: Optional[str] = None
 
+
 class UserResponse(UserBase):
     id: int
     is_active: bool
     is_verified: bool
     created_at: datetime
-    
+
     class Config:
         from_attributes = True
+
 
 # Developer Profile Schemas
 class DeveloperProfileBase(BaseModel):
@@ -66,11 +75,14 @@ class DeveloperProfileBase(BaseModel):
     support_email: Optional[EmailStr] = None
     support_url: Optional[str] = None
 
+
 class DeveloperProfileCreate(DeveloperProfileBase):
     pass
 
+
 class DeveloperProfileUpdate(DeveloperProfileBase):
     pass
+
 
 class DeveloperProfileResponse(DeveloperProfileBase):
     id: int
@@ -80,9 +92,10 @@ class DeveloperProfileResponse(DeveloperProfileBase):
     average_rating: float
     is_verified: bool
     created_at: datetime
-    
+
     class Config:
         from_attributes = True
+
 
 # Category Schemas
 class CategoryBase(BaseModel):
@@ -93,8 +106,10 @@ class CategoryBase(BaseModel):
     parent_id: Optional[int] = None
     display_order: int = 0
 
+
 class CategoryCreate(CategoryBase):
     pass
+
 
 class CategoryUpdate(BaseModel):
     name: Optional[str] = None
@@ -103,13 +118,15 @@ class CategoryUpdate(BaseModel):
     display_order: Optional[int] = None
     is_active: Optional[bool] = None
 
+
 class CategoryResponse(CategoryBase):
     id: int
     is_active: bool
     created_at: datetime
-    
+
     class Config:
         from_attributes = True
+
 
 # App Schemas
 class AppBase(BaseModel):
@@ -131,8 +148,10 @@ class AppBase(BaseModel):
     features: Optional[List[str]] = []
     tags: Optional[List[str]] = []
 
+
 class AppCreate(AppBase):
     pass
+
 
 class AppUpdate(BaseModel):
     name: Optional[str] = None
@@ -153,6 +172,7 @@ class AppUpdate(BaseModel):
     tags: Optional[List[str]] = None
     status: Optional[AppStatus] = None
 
+
 class AppResponse(AppBase):
     id: int
     developer_id: int
@@ -165,13 +185,15 @@ class AppResponse(AppBase):
     published_at: Optional[datetime]
     created_at: datetime
     updated_at: datetime
-    
+
     class Config:
         from_attributes = True
+
 
 class AppDetailResponse(AppResponse):
     developer: DeveloperProfileResponse
     category: CategoryResponse
+
 
 # App Version Schemas
 class AppVersionBase(BaseModel):
@@ -181,8 +203,10 @@ class AppVersionBase(BaseModel):
     size_mb: Optional[float] = None
     min_requirements: Optional[dict] = {}
 
+
 class AppVersionCreate(AppVersionBase):
     app_id: int
+
 
 class AppVersionResponse(AppVersionBase):
     id: int
@@ -190,9 +214,10 @@ class AppVersionResponse(AppVersionBase):
     is_current: bool
     downloads: int
     created_at: datetime
-    
+
     class Config:
         from_attributes = True
+
 
 # Review Schemas
 class ReviewBase(BaseModel):
@@ -200,13 +225,16 @@ class ReviewBase(BaseModel):
     title: Optional[str] = None
     comment: Optional[str] = None
 
+
 class ReviewCreate(ReviewBase):
     app_id: int
+
 
 class ReviewUpdate(BaseModel):
     rating: Optional[int] = Field(None, ge=1, le=5)
     title: Optional[str] = None
     comment: Optional[str] = None
+
 
 class ReviewResponse(ReviewBase):
     id: int
@@ -217,12 +245,14 @@ class ReviewResponse(ReviewBase):
     helpful_count: int
     created_at: datetime
     updated_at: datetime
-    
+
     class Config:
         from_attributes = True
 
+
 class ReviewResponseCreate(BaseModel):
     response: str
+
 
 class ReviewResponseResponse(BaseModel):
     id: int
@@ -230,14 +260,16 @@ class ReviewResponseResponse(BaseModel):
     developer_id: int
     response: str
     created_at: datetime
-    
+
     class Config:
         from_attributes = True
+
 
 # Purchase Schemas
 class PurchaseCreate(BaseModel):
     app_id: int
     payment_method_id: str
+
 
 class PurchaseResponse(BaseModel):
     id: int
@@ -250,9 +282,10 @@ class PurchaseResponse(BaseModel):
     payment_method: Optional[str]
     created_at: datetime
     completed_at: Optional[datetime]
-    
+
     class Config:
         from_attributes = True
+
 
 # Payment Method Schemas
 class PaymentMethodCreate(BaseModel):
@@ -264,6 +297,7 @@ class PaymentMethodCreate(BaseModel):
     exp_year: Optional[int] = None
     is_default: bool = False
 
+
 class PaymentMethodResponse(BaseModel):
     id: int
     user_id: int
@@ -274,9 +308,10 @@ class PaymentMethodResponse(BaseModel):
     exp_year: Optional[int]
     is_default: bool
     created_at: datetime
-    
+
     class Config:
         from_attributes = True
+
 
 # Analytics Schemas
 class AppAnalyticsResponse(BaseModel):
@@ -289,9 +324,10 @@ class AppAnalyticsResponse(BaseModel):
     revenue: float
     unique_visitors: int
     conversion_rate: float
-    
+
     class Config:
         from_attributes = True
+
 
 class DashboardStats(BaseModel):
     total_apps: int
@@ -302,6 +338,7 @@ class DashboardStats(BaseModel):
     total_reviews: int
     average_rating: float
 
+
 class DeveloperStats(BaseModel):
     total_apps: int
     total_downloads: int
@@ -310,24 +347,28 @@ class DeveloperStats(BaseModel):
     total_reviews: int
     active_users: int
 
+
 # Wishlist Schemas
 class WishlistCreate(BaseModel):
     app_id: int
+
 
 class WishlistResponse(BaseModel):
     id: int
     user_id: int
     app_id: int
     created_at: datetime
-    
+
     class Config:
         from_attributes = True
+
 
 # Report Schemas
 class AppReportCreate(BaseModel):
     app_id: int
     reason: str
     description: Optional[str] = None
+
 
 class AppReportResponse(BaseModel):
     id: int
@@ -337,9 +378,10 @@ class AppReportResponse(BaseModel):
     description: Optional[str]
     status: str
     created_at: datetime
-    
+
     class Config:
         from_attributes = True
+
 
 # Search Schemas
 class AppSearchParams(BaseModel):
@@ -354,10 +396,12 @@ class AppSearchParams(BaseModel):
     page: int = 1
     page_size: int = 20
 
+
 # Token Schemas
 class Token(BaseModel):
     access_token: str
     token_type: str
+
 
 class TokenData(BaseModel):
     user_id: Optional[int] = None

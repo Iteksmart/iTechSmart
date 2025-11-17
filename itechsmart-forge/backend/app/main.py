@@ -24,38 +24,38 @@ from app.core.deployment_engine import DeploymentEngine
 async def lifespan(app: FastAPI):
     """Lifespan manager for application startup and shutdown"""
     print("🚀 Starting iTechSmart Forge...")
-    
+
     # Initialize database
     init_db()
     print("✅ Database initialized")
-    
+
     # Initialize integrations
     try:
         from app.integrations.hub_integration import hub_client
         from app.integrations.ninja_integration import ninja_client
-        
+
         await hub_client.initialize()
         await ninja_client.initialize()
         print("✅ Suite integrations initialized")
     except Exception as e:
         print(f"⚠️  Suite integrations not available: {e}")
-    
+
     print("✅ iTechSmart Forge is ready!")
-    
+
     yield
-    
+
     # Shutdown
     print("🛑 Shutting down iTechSmart Forge...")
-    
+
     try:
         from app.integrations.hub_integration import hub_client
         from app.integrations.ninja_integration import ninja_client
-        
+
         await hub_client.shutdown()
         await ninja_client.shutdown()
     except Exception as e:
         print(f"⚠️  Error during shutdown: {e}")
-    
+
     print("👋 iTechSmart Forge stopped")
 
 
@@ -77,7 +77,7 @@ app = FastAPI(
     **Part of the iTechSmart Suite** - Product #32
     """,
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # CORS middleware
@@ -149,7 +149,7 @@ async def root():
             "Data Connectors",
             "Workflow Automation",
             "One-Click Deployment",
-            "App Marketplace"
+            "App Marketplace",
         ],
         "endpoints": {
             "apps": "/api/apps",
@@ -158,19 +158,15 @@ async def root():
             "workflows": "/api/workflows",
             "deployments": "/api/deployments",
             "docs": "/docs",
-            "health": "/health"
-        }
+            "health": "/health",
+        },
     }
 
 
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
-    return {
-        "status": "healthy",
-        "service": "iTechSmart Forge",
-        "version": "1.0.0"
-    }
+    return {"status": "healthy", "service": "iTechSmart Forge", "version": "1.0.0"}
 
 
 # App Builder API
@@ -178,11 +174,13 @@ async def health_check():
 async def create_app(
     request: CreateAppRequest,
     user_id: int = Query(1),  # Mock user ID
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Create a new application"""
     engine = AppBuilderEngine(db)
-    app = await engine.create_app(user_id, request.name, request.description, request.template_id)
+    app = await engine.create_app(
+        user_id, request.name, request.description, request.template_id
+    )
     return {"id": app.id, "name": app.name, "slug": app.slug}
 
 
@@ -192,7 +190,7 @@ async def get_user_apps(
     status: Optional[str] = None,
     limit: int = Query(50, le=100),
     offset: int = 0,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Get user's applications"""
     engine = AppBuilderEngine(db)
@@ -201,10 +199,7 @@ async def get_user_apps(
 
 
 @app.get("/api/apps/{app_id}")
-async def get_app_structure(
-    app_id: int,
-    db: Session = Depends(get_db)
-):
+async def get_app_structure(app_id: int, db: Session = Depends(get_db)):
     """Get complete app structure"""
     engine = AppBuilderEngine(db)
     structure = await engine.get_app_structure(app_id)
@@ -212,11 +207,7 @@ async def get_app_structure(
 
 
 @app.post("/api/apps/{app_id}/pages")
-async def add_page(
-    app_id: int,
-    request: AddPageRequest,
-    db: Session = Depends(get_db)
-):
+async def add_page(app_id: int, request: AddPageRequest, db: Session = Depends(get_db)):
     """Add a page to an app"""
     engine = AppBuilderEngine(db)
     page = await engine.add_page(app_id, request.name, request.slug, request.title)
@@ -228,28 +219,26 @@ async def add_component(
     app_id: int,
     page_id: int,
     request: AddComponentRequest,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Add a component to a page"""
     engine = AppBuilderEngine(db)
     component = await engine.add_component_to_page(
-        page_id,
-        request.component_type,
-        request.props,
-        request.position
+        page_id, request.component_type, request.props, request.position
     )
     return component
 
 
 @app.post("/api/apps/{app_id}/publish")
-async def publish_app(
-    app_id: int,
-    db: Session = Depends(get_db)
-):
+async def publish_app(app_id: int, db: Session = Depends(get_db)):
     """Publish an app"""
     engine = AppBuilderEngine(db)
     app = await engine.publish_app(app_id)
-    return {"id": app.id, "status": app.status, "published_at": app.published_at.isoformat()}
+    return {
+        "id": app.id,
+        "status": app.status,
+        "published_at": app.published_at.isoformat(),
+    }
 
 
 @app.post("/api/apps/{app_id}/clone")
@@ -257,7 +246,7 @@ async def clone_app(
     app_id: int,
     user_id: int = Query(1),
     new_name: Optional[str] = None,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Clone an existing app"""
     engine = AppBuilderEngine(db)
@@ -270,11 +259,13 @@ async def clone_app(
 async def generate_app_from_prompt(
     request: AIGenerateAppRequest,
     user_id: int = Query(1),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Generate app from natural language prompt"""
     engine = AIEngine(db)
-    app_config = await engine.generate_app_from_prompt(user_id, request.prompt, request.context)
+    app_config = await engine.generate_app_from_prompt(
+        user_id, request.prompt, request.context
+    )
     return app_config
 
 
@@ -282,11 +273,13 @@ async def generate_app_from_prompt(
 async def generate_component_from_prompt(
     request: AIGenerateAppRequest,
     user_id: int = Query(1),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Generate component from natural language prompt"""
     engine = AIEngine(db)
-    component_config = await engine.generate_component_from_prompt(user_id, request.prompt, request.context)
+    component_config = await engine.generate_component_from_prompt(
+        user_id, request.prompt, request.context
+    )
     return component_config
 
 
@@ -295,37 +288,31 @@ async def generate_query_from_nl(
     natural_language: str,
     data_source_type: str,
     user_id: int = Query(1),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Generate database query from natural language"""
     engine = AIEngine(db)
-    query_config = await engine.generate_query_from_nl(user_id, natural_language, data_source_type)
+    query_config = await engine.generate_query_from_nl(
+        user_id, natural_language, data_source_type
+    )
     return query_config
 
 
 # Data Sources API
 @app.post("/api/data-sources")
 async def create_data_source(
-    app_id: int,
-    request: CreateDataSourceRequest,
-    db: Session = Depends(get_db)
+    app_id: int, request: CreateDataSourceRequest, db: Session = Depends(get_db)
 ):
     """Create a new data source"""
     engine = DataConnectorEngine(db)
     data_source = await engine.create_data_source(
-        app_id,
-        request.name,
-        request.source_type,
-        request.connection_config
+        app_id, request.name, request.source_type, request.connection_config
     )
     return {"id": data_source.id, "name": data_source.name}
 
 
 @app.post("/api/data-sources/{data_source_id}/test")
-async def test_data_source(
-    data_source_id: int,
-    db: Session = Depends(get_db)
-):
+async def test_data_source(data_source_id: int, db: Session = Depends(get_db)):
     """Test data source connection"""
     engine = DataConnectorEngine(db)
     result = await engine.test_connection(data_source_id)
@@ -333,9 +320,7 @@ async def test_data_source(
 
 
 @app.get("/api/data-sources/itechsmart-products")
-async def get_itechsmart_products(
-    db: Session = Depends(get_db)
-):
+async def get_itechsmart_products(db: Session = Depends(get_db)):
     """Get list of available iTechSmart products"""
     engine = DataConnectorEngine(db)
     products = await engine.get_available_itechsmart_products()
@@ -345,9 +330,7 @@ async def get_itechsmart_products(
 # Workflows API
 @app.post("/api/workflows")
 async def create_workflow(
-    app_id: int,
-    request: CreateWorkflowRequest,
-    db: Session = Depends(get_db)
+    app_id: int, request: CreateWorkflowRequest, db: Session = Depends(get_db)
 ):
     """Create a new workflow"""
     engine = WorkflowEngine(db)
@@ -356,16 +339,14 @@ async def create_workflow(
         request.name,
         request.trigger_type,
         request.trigger_config,
-        request.steps
+        request.steps,
     )
     return {"id": workflow.id, "name": workflow.name}
 
 
 @app.post("/api/workflows/{workflow_id}/execute")
 async def execute_workflow(
-    workflow_id: int,
-    input_data: Optional[dict] = None,
-    db: Session = Depends(get_db)
+    workflow_id: int, input_data: Optional[dict] = None, db: Session = Depends(get_db)
 ):
     """Execute a workflow"""
     engine = WorkflowEngine(db)
@@ -374,39 +355,37 @@ async def execute_workflow(
         "id": execution.id,
         "status": execution.status,
         "duration_ms": execution.duration_ms,
-        "output_data": execution.output_data
+        "output_data": execution.output_data,
     }
 
 
 # Deployments API
 @app.post("/api/deployments")
 async def deploy_app(
-    app_id: int,
-    request: DeployAppRequest,
-    db: Session = Depends(get_db)
+    app_id: int, request: DeployAppRequest, db: Session = Depends(get_db)
 ):
     """Deploy an app to production"""
     engine = DeploymentEngine(db)
-    deployment = await engine.deploy_app(app_id, request.environment, request.build_config)
+    deployment = await engine.deploy_app(
+        app_id, request.environment, request.build_config
+    )
     return {
         "id": deployment.id,
         "status": deployment.status,
         "deployment_url": deployment.deployment_url,
-        "preview_url": deployment.preview_url
+        "preview_url": deployment.preview_url,
     }
 
 
 @app.get("/api/deployments/{deployment_id}")
-async def get_deployment(
-    deployment_id: int,
-    db: Session = Depends(get_db)
-):
+async def get_deployment(deployment_id: int, db: Session = Depends(get_db)):
     """Get deployment details"""
     from app.models.models import Deployment
+
     deployment = db.query(Deployment).filter(Deployment.id == deployment_id).first()
     if not deployment:
         raise HTTPException(status_code=404, detail="Deployment not found")
-    
+
     return {
         "id": deployment.id,
         "app_id": deployment.app_id,
@@ -414,18 +393,15 @@ async def get_deployment(
         "environment": deployment.environment,
         "status": deployment.status,
         "deployment_url": deployment.deployment_url,
-        "deployed_at": deployment.deployed_at.isoformat() if deployment.deployed_at else None
+        "deployed_at": (
+            deployment.deployed_at.isoformat() if deployment.deployed_at else None
+        ),
     }
 
 
 if __name__ == "__main__":
     import uvicorn
-    
+
     port = int(os.getenv("PORT", "8320"))
-    
-    uvicorn.run(
-        "main:app",
-        host="0.0.0.0",
-        port=port,
-        reload=True
-    )
+
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)

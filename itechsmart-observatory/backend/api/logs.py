@@ -14,6 +14,7 @@ router = APIRouter(prefix="/api/observatory/logs", tags=["logs"])
 
 # ==================== REQUEST MODELS ====================
 
+
 class LogIngestRequest(BaseModel):
     service_id: str
     level: str
@@ -42,18 +43,16 @@ class LogSearchRequest(BaseModel):
 
 # ==================== ENDPOINTS ====================
 
+
 @router.post("/ingest")
-async def ingest_log(
-    request: LogIngestRequest,
-    db: Session = Depends(get_db)
-):
+async def ingest_log(request: LogIngestRequest, db: Session = Depends(get_db)):
     """
     Ingest a single log entry
     """
     from ..engine.observatory_engine import ObservatoryEngine
-    
+
     engine = ObservatoryEngine(db)
-    
+
     try:
         log_id = engine.ingest_log(
             service_id=request.service_id,
@@ -64,30 +63,26 @@ async def ingest_log(
             trace_id=request.trace_id,
             span_id=request.span_id,
             attributes=request.attributes,
-            stack_trace=request.stack_trace
+            stack_trace=request.stack_trace,
         )
-        
-        return {
-            "status": "success",
-            "log_id": log_id
-        }
+
+        return {"status": "success", "log_id": log_id}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.post("/ingest/batch")
 async def ingest_logs_batch(
-    request: BatchLogIngestRequest,
-    db: Session = Depends(get_db)
+    request: BatchLogIngestRequest, db: Session = Depends(get_db)
 ):
     """
     Ingest multiple logs in batch
     """
     from ..engine.observatory_engine import ObservatoryEngine
-    
+
     engine = ObservatoryEngine(db)
     ingested_count = 0
-    
+
     try:
         for log in request.logs:
             engine.ingest_log(
@@ -99,30 +94,24 @@ async def ingest_logs_batch(
                 trace_id=log.trace_id,
                 span_id=log.span_id,
                 attributes=log.attributes,
-                stack_trace=log.stack_trace
+                stack_trace=log.stack_trace,
             )
             ingested_count += 1
-        
-        return {
-            "status": "success",
-            "ingested_count": ingested_count
-        }
+
+        return {"status": "success", "ingested_count": ingested_count}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.post("/search")
-async def search_logs(
-    request: LogSearchRequest,
-    db: Session = Depends(get_db)
-):
+async def search_logs(request: LogSearchRequest, db: Session = Depends(get_db)):
     """
     Search logs with filters
     """
     from ..engine.observatory_engine import ObservatoryEngine
-    
+
     engine = ObservatoryEngine(db)
-    
+
     try:
         logs = engine.search_logs(
             service_id=request.service_id,
@@ -131,14 +120,10 @@ async def search_logs(
             start_time=request.start_time,
             end_time=request.end_time,
             trace_id=request.trace_id,
-            limit=request.limit
+            limit=request.limit,
         )
-        
-        return {
-            "status": "success",
-            "logs": logs,
-            "count": len(logs)
-        }
+
+        return {"status": "success", "logs": logs, "count": len(logs)}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -150,28 +135,25 @@ async def get_service_logs(
     start_time: Optional[datetime] = None,
     end_time: Optional[datetime] = None,
     limit: int = Query(100, le=1000),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """
     Get logs for a specific service
     """
     from ..engine.observatory_engine import ObservatoryEngine
-    
+
     engine = ObservatoryEngine(db)
-    
+
     try:
         logs = engine.search_logs(
             service_id=service_id,
             level=level,
             start_time=start_time,
             end_time=end_time,
-            limit=limit
+            limit=limit,
         )
-        
-        return {
-            "status": "success",
-            "logs": logs
-        }
+
+        return {"status": "success", "logs": logs}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -180,51 +162,36 @@ async def get_service_logs(
 async def get_log_statistics(
     service_id: str,
     time_range: str = Query("1h", description="Time range (e.g., 1h, 24h, 7d)"),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """
     Get log statistics by level
     """
     from ..engine.observatory_engine import ObservatoryEngine
-    
+
     engine = ObservatoryEngine(db)
-    
+
     try:
-        stats = engine.get_log_statistics(
-            service_id=service_id,
-            time_range=time_range
-        )
-        
-        return {
-            "status": "success",
-            "statistics": stats
-        }
+        stats = engine.get_log_statistics(service_id=service_id, time_range=time_range)
+
+        return {"status": "success", "statistics": stats}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.get("/trace/{trace_id}")
-async def get_trace_logs(
-    trace_id: str,
-    db: Session = Depends(get_db)
-):
+async def get_trace_logs(trace_id: str, db: Session = Depends(get_db)):
     """
     Get all logs associated with a trace
     """
     from ..engine.observatory_engine import ObservatoryEngine
-    
+
     engine = ObservatoryEngine(db)
-    
+
     try:
-        logs = engine.search_logs(
-            trace_id=trace_id,
-            limit=1000
-        )
-        
-        return {
-            "status": "success",
-            "logs": logs
-        }
+        logs = engine.search_logs(trace_id=trace_id, limit=1000)
+
+        return {"status": "success", "logs": logs}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -234,31 +201,37 @@ async def get_error_logs(
     service_id: str,
     time_range: str = Query("1h", description="Time range"),
     limit: int = Query(100, le=1000),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """
     Get error and critical logs for a service
     """
     from ..models import LogEntry
     from datetime import datetime, timedelta
-    
+
     try:
         # Parse time range
-        if time_range.endswith('h'):
+        if time_range.endswith("h"):
             hours = int(time_range[:-1])
             start_time = datetime.utcnow() - timedelta(hours=hours)
-        elif time_range.endswith('d'):
+        elif time_range.endswith("d"):
             days = int(time_range[:-1])
             start_time = datetime.utcnow() - timedelta(days=days)
         else:
             start_time = datetime.utcnow() - timedelta(hours=1)
-        
-        logs = db.query(LogEntry).filter(
-            LogEntry.service_id == service_id,
-            LogEntry.timestamp >= start_time,
-            LogEntry.level.in_(['ERROR', 'CRITICAL'])
-        ).order_by(LogEntry.timestamp.desc()).limit(limit).all()
-        
+
+        logs = (
+            db.query(LogEntry)
+            .filter(
+                LogEntry.service_id == service_id,
+                LogEntry.timestamp >= start_time,
+                LogEntry.level.in_(["ERROR", "CRITICAL"]),
+            )
+            .order_by(LogEntry.timestamp.desc())
+            .limit(limit)
+            .all()
+        )
+
         return {
             "status": "success",
             "logs": [
@@ -269,10 +242,10 @@ async def get_error_logs(
                     "message": log.message,
                     "logger_name": log.logger_name,
                     "trace_id": log.trace_id,
-                    "stack_trace": log.stack_trace
+                    "stack_trace": log.stack_trace,
                 }
                 for log in logs
-            ]
+            ],
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

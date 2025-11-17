@@ -18,7 +18,7 @@ async def list_tickets() -> List[Dict]:
             "title": "Sample Ticket",
             "status": "open",
             "priority": "high",
-            "created_at": "2024-01-15T10:00:00Z"
+            "created_at": "2024-01-15T10:00:00Z",
         }
     ]
 
@@ -32,5 +32,5 @@ async def get_ticket(ticket_id: int) -> Dict:
         "description": "This is a sample ticket",
         "status": "open",
         "priority": "high",
-        "created_at": "2024-01-15T10:00:00Z"
+        "created_at": "2024-01-15T10:00:00Z",
     }

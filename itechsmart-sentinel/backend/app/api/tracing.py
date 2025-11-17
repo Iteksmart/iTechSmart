@@ -44,10 +44,7 @@ class AddSpanRequest(BaseModel):
 
 
 @router.post("/traces")
-async def create_trace(
-    request: CreateTraceRequest,
-    db: Session = Depends(get_db)
-):
+async def create_trace(request: CreateTraceRequest, db: Session = Depends(get_db)):
     """Create a new distributed trace"""
     engine = TracingEngine(db)
     trace = await engine.create_trace(**request.dict())
@@ -55,10 +52,7 @@ async def create_trace(
 
 
 @router.post("/spans")
-async def add_span(
-    request: AddSpanRequest,
-    db: Session = Depends(get_db)
-):
+async def add_span(request: AddSpanRequest, db: Session = Depends(get_db)):
     """Add a span to an existing trace"""
     engine = TracingEngine(db)
     span = await engine.add_span(**request.dict())
@@ -66,10 +60,7 @@ async def add_span(
 
 
 @router.get("/traces/{trace_id}")
-async def get_trace(
-    trace_id: str,
-    db: Session = Depends(get_db)
-):
+async def get_trace(trace_id: str, db: Session = Depends(get_db)):
     """Get complete trace with all spans"""
     engine = TracingEngine(db)
     trace = await engine.get_trace(trace_id)
@@ -87,7 +78,7 @@ async def search_traces(
     max_duration_ms: Optional[float] = None,
     limit: int = Query(100, le=1000),
     offset: int = 0,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Search traces with filters"""
     engine = TracingEngine(db)
@@ -98,16 +89,13 @@ async def search_traces(
         min_duration_ms=min_duration_ms,
         max_duration_ms=max_duration_ms,
         limit=limit,
-        offset=offset
+        offset=offset,
     )
     return {"traces": traces, "count": len(traces)}
 
 
 @router.get("/services/{service_name}/dependencies")
-async def get_service_dependencies(
-    service_name: str,
-    db: Session = Depends(get_db)
-):
+async def get_service_dependencies(service_name: str, db: Session = Depends(get_db)):
     """Get service dependency graph"""
     engine = TracingEngine(db)
     dependencies = await engine.get_service_dependencies(service_name)
@@ -118,7 +106,7 @@ async def get_service_dependencies(
 async def get_trace_statistics(
     service_name: Optional[str] = None,
     hours: int = Query(24, le=168),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Get trace statistics"""
     engine = TracingEngine(db)
@@ -131,7 +119,7 @@ async def get_slow_traces(
     service_name: Optional[str] = None,
     threshold_ms: float = Query(1000.0, ge=0),
     limit: int = Query(50, le=200),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Get slowest traces above threshold"""
     engine = TracingEngine(db)
@@ -141,9 +129,7 @@ async def get_slow_traces(
 
 @router.get("/services/{service_name}/patterns")
 async def analyze_trace_patterns(
-    service_name: str,
-    hours: int = Query(24, le=168),
-    db: Session = Depends(get_db)
+    service_name: str, hours: int = Query(24, le=168), db: Session = Depends(get_db)
 ):
     """Analyze common trace patterns"""
     engine = TracingEngine(db)

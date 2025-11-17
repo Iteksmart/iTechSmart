@@ -14,6 +14,7 @@ router = APIRouter(prefix="/api/observatory/alerts", tags=["alerts"])
 
 # ==================== REQUEST MODELS ====================
 
+
 class AlertCreateRequest(BaseModel):
     name: str
     alert_type: str
@@ -44,19 +45,20 @@ class IncidentResolveRequest(BaseModel):
 
 # ==================== ENDPOINTS ====================
 
+
 @router.post("")
 async def create_alert(
     request: AlertCreateRequest,
     created_by: str = Query(..., description="User ID creating the alert"),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """
     Create a new alert rule
     """
     from ..engine.observatory_engine import ObservatoryEngine
-    
+
     engine = ObservatoryEngine(db)
-    
+
     try:
         alert_id = engine.create_alert(
             name=request.name,
@@ -66,13 +68,10 @@ async def create_alert(
             service_id=request.service_id,
             metric_name=request.metric_name,
             notification_channels=request.notification_channels,
-            created_by=created_by
+            created_by=created_by,
         )
-        
-        return {
-            "status": "success",
-            "alert_id": alert_id
-        }
+
+        return {"status": "success", "alert_id": alert_id}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -82,27 +81,27 @@ async def list_alerts(
     service_id: Optional[str] = None,
     is_active: Optional[bool] = None,
     is_firing: Optional[bool] = None,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """
     List all alert rules
     """
     from ..models import Alert
-    
+
     try:
         query = db.query(Alert)
-        
+
         if service_id:
             query = query.filter(Alert.service_id == service_id)
-        
+
         if is_active is not None:
             query = query.filter(Alert.is_active == is_active)
-        
+
         if is_firing is not None:
             query = query.filter(Alert.is_firing == is_firing)
-        
+
         alerts = query.all()
-        
+
         return {
             "status": "success",
             "alerts": [
@@ -116,31 +115,32 @@ async def list_alerts(
                     "is_active": alert.is_active,
                     "is_firing": alert.is_firing,
                     "trigger_count": alert.trigger_count,
-                    "last_triggered": alert.last_triggered.isoformat() if alert.last_triggered else None
+                    "last_triggered": (
+                        alert.last_triggered.isoformat()
+                        if alert.last_triggered
+                        else None
+                    ),
                 }
                 for alert in alerts
-            ]
+            ],
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.get("/{alert_id}")
-async def get_alert(
-    alert_id: str,
-    db: Session = Depends(get_db)
-):
+async def get_alert(alert_id: str, db: Session = Depends(get_db)):
     """
     Get alert details
     """
     from ..models import Alert
-    
+
     try:
         alert = db.query(Alert).filter(Alert.id == alert_id).first()
-        
+
         if not alert:
             raise HTTPException(status_code=404, detail="Alert not found")
-        
+
         return {
             "status": "success",
             "alert": {
@@ -156,9 +156,11 @@ async def get_alert(
                 "is_active": alert.is_active,
                 "is_firing": alert.is_firing,
                 "trigger_count": alert.trigger_count,
-                "last_triggered": alert.last_triggered.isoformat() if alert.last_triggered else None,
-                "created_at": alert.created_at.isoformat()
-            }
+                "last_triggered": (
+                    alert.last_triggered.isoformat() if alert.last_triggered else None
+                ),
+                "created_at": alert.created_at.isoformat(),
+            },
         }
     except HTTPException:
         raise
@@ -168,43 +170,38 @@ async def get_alert(
 
 @router.put("/{alert_id}")
 async def update_alert(
-    alert_id: str,
-    request: AlertUpdateRequest,
-    db: Session = Depends(get_db)
+    alert_id: str, request: AlertUpdateRequest, db: Session = Depends(get_db)
 ):
     """
     Update an alert rule
     """
     from ..models import Alert
-    
+
     try:
         alert = db.query(Alert).filter(Alert.id == alert_id).first()
-        
+
         if not alert:
             raise HTTPException(status_code=404, detail="Alert not found")
-        
+
         if request.name is not None:
             alert.name = request.name
-        
+
         if request.severity is not None:
             alert.severity = request.severity
-        
+
         if request.condition is not None:
             alert.condition = request.condition
-        
+
         if request.notification_channels is not None:
             alert.notification_channels = request.notification_channels
-        
+
         if request.is_active is not None:
             alert.is_active = request.is_active
-        
+
         alert.updated_at = datetime.utcnow()
         db.commit()
-        
-        return {
-            "status": "success",
-            "message": "Alert updated successfully"
-        }
+
+        return {"status": "success", "message": "Alert updated successfully"}
     except HTTPException:
         raise
     except Exception as e:
@@ -212,28 +209,22 @@ async def update_alert(
 
 
 @router.delete("/{alert_id}")
-async def delete_alert(
-    alert_id: str,
-    db: Session = Depends(get_db)
-):
+async def delete_alert(alert_id: str, db: Session = Depends(get_db)):
     """
     Delete an alert rule
     """
     from ..models import Alert
-    
+
     try:
         alert = db.query(Alert).filter(Alert.id == alert_id).first()
-        
+
         if not alert:
             raise HTTPException(status_code=404, detail="Alert not found")
-        
+
         db.delete(alert)
         db.commit()
-        
-        return {
-            "status": "success",
-            "message": "Alert deleted successfully"
-        }
+
+        return {"status": "success", "message": "Alert deleted successfully"}
     except HTTPException:
         raise
     except Exception as e:
@@ -241,23 +232,18 @@ async def delete_alert(
 
 
 @router.post("/evaluate")
-async def evaluate_alerts(
-    db: Session = Depends(get_db)
-):
+async def evaluate_alerts(db: Session = Depends(get_db)):
     """
     Evaluate all active alerts
     """
     from ..engine.observatory_engine import ObservatoryEngine
-    
+
     engine = ObservatoryEngine(db)
-    
+
     try:
         triggered = engine.evaluate_alerts()
-        
-        return {
-            "status": "success",
-            "triggered_alerts": triggered
-        }
+
+        return {"status": "success", "triggered_alerts": triggered}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -266,26 +252,26 @@ async def evaluate_alerts(
 async def get_active_incidents(
     service_id: Optional[str] = None,
     severity: Optional[str] = None,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """
     Get active alert incidents
     """
     from ..models import AlertIncident, Alert
-    
+
     try:
         query = db.query(AlertIncident).filter(
-            AlertIncident.status.in_(['firing', 'acknowledged'])
+            AlertIncident.status.in_(["firing", "acknowledged"])
         )
-        
+
         if service_id:
             query = query.join(Alert).filter(Alert.service_id == service_id)
-        
+
         if severity:
             query = query.filter(AlertIncident.severity == severity)
-        
+
         incidents = query.order_by(AlertIncident.started_at.desc()).all()
-        
+
         return {
             "status": "success",
             "incidents": [
@@ -295,11 +281,15 @@ async def get_active_incidents(
                     "status": incident.status,
                     "severity": incident.severity,
                     "started_at": incident.started_at.isoformat(),
-                    "acknowledged_at": incident.acknowledged_at.isoformat() if incident.acknowledged_at else None,
-                    "trigger_value": incident.trigger_value
+                    "acknowledged_at": (
+                        incident.acknowledged_at.isoformat()
+                        if incident.acknowledged_at
+                        else None
+                    ),
+                    "trigger_value": incident.trigger_value,
                 }
                 for incident in incidents
-            ]
+            ],
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -307,30 +297,24 @@ async def get_active_incidents(
 
 @router.post("/incidents/{incident_id}/acknowledge")
 async def acknowledge_incident(
-    incident_id: str,
-    request: IncidentAcknowledgeRequest,
-    db: Session = Depends(get_db)
+    incident_id: str, request: IncidentAcknowledgeRequest, db: Session = Depends(get_db)
 ):
     """
     Acknowledge an alert incident
     """
     from ..engine.observatory_engine import ObservatoryEngine
-    
+
     engine = ObservatoryEngine(db)
-    
+
     try:
         success = engine.acknowledge_incident(
-            incident_id=incident_id,
-            acknowledged_by=request.acknowledged_by
+            incident_id=incident_id, acknowledged_by=request.acknowledged_by
         )
-        
+
         if not success:
             raise HTTPException(status_code=404, detail="Incident not found")
-        
-        return {
-            "status": "success",
-            "message": "Incident acknowledged"
-        }
+
+        return {"status": "success", "message": "Incident acknowledged"}
     except HTTPException:
         raise
     except Exception as e:
@@ -339,31 +323,26 @@ async def acknowledge_incident(
 
 @router.post("/incidents/{incident_id}/resolve")
 async def resolve_incident(
-    incident_id: str,
-    request: IncidentResolveRequest,
-    db: Session = Depends(get_db)
+    incident_id: str, request: IncidentResolveRequest, db: Session = Depends(get_db)
 ):
     """
     Resolve an alert incident
     """
     from ..engine.observatory_engine import ObservatoryEngine
-    
+
     engine = ObservatoryEngine(db)
-    
+
     try:
         success = engine.resolve_incident(
             incident_id=incident_id,
             resolved_by=request.resolved_by,
-            resolution_notes=request.resolution_notes
+            resolution_notes=request.resolution_notes,
         )
-        
+
         if not success:
             raise HTTPException(status_code=404, detail="Incident not found")
-        
-        return {
-            "status": "success",
-            "message": "Incident resolved"
-        }
+
+        return {"status": "success", "message": "Incident resolved"}
     except HTTPException:
         raise
     except Exception as e:

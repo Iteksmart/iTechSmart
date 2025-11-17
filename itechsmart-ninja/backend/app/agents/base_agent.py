@@ -1,6 +1,7 @@
 """
 Base Agent class for all specialized agents
 """
+
 from abc import ABC, abstractmethod
 from typing import Dict, Any, List, Optional
 from datetime import datetime
@@ -12,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 class AgentCapability:
     """Agent capability definition"""
+
     def __init__(self, name: str, description: str, required_tools: List[str] = None):
         self.name = name
         self.description = description
@@ -20,19 +22,19 @@ class AgentCapability:
 
 class BaseAgent(ABC):
     """Base class for all AI agents"""
-    
+
     def __init__(self, name: str, description: str, ai_provider: str = "openai"):
         self.name = name
         self.description = description
         self.ai_provider = ai_provider
         self.capabilities: List[AgentCapability] = []
         self.execution_history: List[Dict[str, Any]] = []
-        
+
     @abstractmethod
     async def execute(self, task: Dict[str, Any]) -> Dict[str, Any]:
         """Execute a task - must be implemented by subclasses"""
         pass
-    
+
     async def plan(self, task: Dict[str, Any]) -> List[Dict[str, Any]]:
         """Plan the execution steps for a task"""
         # Default implementation - can be overridden
@@ -40,54 +42,56 @@ class BaseAgent(ABC):
             {
                 "step": 1,
                 "action": "analyze_task",
-                "description": f"Analyze the task: {task.get('description', '')}"
+                "description": f"Analyze the task: {task.get('description', '')}",
             },
             {
                 "step": 2,
                 "action": "execute_task",
-                "description": "Execute the main task"
+                "description": "Execute the main task",
             },
             {
                 "step": 3,
                 "action": "verify_results",
-                "description": "Verify and validate results"
-            }
+                "description": "Verify and validate results",
+            },
         ]
-    
+
     async def verify(self, result: Dict[str, Any]) -> bool:
         """Verify the execution result"""
         # Default implementation
         return result.get("success", False)
-    
+
     def log_execution(self, task: Dict[str, Any], result: Dict[str, Any]):
         """Log execution for history tracking"""
-        self.execution_history.append({
-            "timestamp": datetime.utcnow().isoformat(),
-            "task": task,
-            "result": result,
-            "agent": self.name
-        })
-    
+        self.execution_history.append(
+            {
+                "timestamp": datetime.utcnow().isoformat(),
+                "task": task,
+                "result": result,
+                "agent": self.name,
+            }
+        )
+
     def get_capabilities(self) -> List[Dict[str, Any]]:
         """Get agent capabilities"""
         return [
             {
                 "name": cap.name,
                 "description": cap.description,
-                "required_tools": cap.required_tools
+                "required_tools": cap.required_tools,
             }
             for cap in self.capabilities
         ]
-    
+
     async def self_correct(self, task: Dict[str, Any], error: str) -> Dict[str, Any]:
         """Attempt to self-correct after an error"""
         logger.warning(f"{self.name} attempting self-correction after error: {error}")
-        
+
         # Analyze the error and retry with modifications
         corrected_task = task.copy()
         corrected_task["retry"] = True
         corrected_task["previous_error"] = error
-        
+
         try:
             return await self.execute(corrected_task)
         except Exception as e:
@@ -95,9 +99,9 @@ class BaseAgent(ABC):
             return {
                 "success": False,
                 "error": f"Self-correction failed: {str(e)}",
-                "original_error": error
+                "original_error": error,
             }
-    
+
     def get_status(self) -> Dict[str, Any]:
         """Get current agent status"""
         return {
@@ -106,26 +110,28 @@ class BaseAgent(ABC):
             "ai_provider": self.ai_provider,
             "capabilities": len(self.capabilities),
             "executions": len(self.execution_history),
-            "last_execution": self.execution_history[-1] if self.execution_history else None
+            "last_execution": (
+                self.execution_history[-1] if self.execution_history else None
+            ),
         }
 
 
 class AgentResponse:
     """Standardized agent response"""
-    
+
     def __init__(
         self,
         success: bool,
         data: Any = None,
         error: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[Dict[str, Any]] = None,
     ):
         self.success = success
         self.data = data
         self.error = error
         self.metadata = metadata or {}
         self.timestamp = datetime.utcnow()
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary"""
         return {
@@ -133,5 +139,5 @@ class AgentResponse:
             "data": self.data,
             "error": self.error,
             "metadata": self.metadata,
-            "timestamp": self.timestamp.isoformat()
+            "timestamp": self.timestamp.isoformat(),
         }

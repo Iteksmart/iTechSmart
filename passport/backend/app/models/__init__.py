@@ -1,15 +1,16 @@
 """
 Database models.
 """
+
 from .user import User, Session, APIKey, AuditLog, UserRole, SubscriptionStatus
 from .password import (
-    Password, 
-    PasswordHistory, 
-    Folder, 
-    SharedPassword, 
+    Password,
+    PasswordHistory,
+    Folder,
+    SharedPassword,
     EmergencyAccess,
     PasswordType,
-    PasswordStrength
+    PasswordStrength,
 )
 
 __all__ = [

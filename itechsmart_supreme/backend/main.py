@@ -13,8 +13,7 @@ from app.api import patients, appointments, billing, dashboard, system_agents
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -26,9 +25,9 @@ async def lifespan(app: FastAPI):
     logger.info("Starting iTechSmart Supreme...")
     init_db()
     logger.info("Database initialized")
-    
+
     yield
-    
+
     # Shutdown
     logger.info("Shutting down iTechSmart Supreme...")
 
@@ -38,7 +37,7 @@ app = FastAPI(
     title="iTechSmart Supreme",
     description="Healthcare Management System - Part of iTechSmart Suite",
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # CORS middleware
@@ -55,7 +54,9 @@ app.include_router(patients.router)
 app.include_router(appointments.router)
 app.include_router(billing.router)
 app.include_router(dashboard.router)
-app.include_router(system_agents.router, prefix="/api/v1/system-agents", tags=["System Agents"])
+app.include_router(
+    system_agents.router, prefix="/api/v1/system-agents", tags=["System Agents"]
+)
 
 
 @app.get("/")
@@ -72,21 +73,18 @@ def root():
             "appointments": "/api/appointments",
             "billing": "/api/billing",
             "dashboard": "/api/dashboard",
-            "docs": "/docs"
-        }
+            "docs": "/docs",
+        },
     }
 
 
 @app.get("/health")
 def health_check():
     """Health check endpoint"""
-    return {
-        "status": "healthy",
-        "service": "iTechSmart Supreme",
-        "version": "1.0.0"
-    }
+    return {"status": "healthy", "service": "iTechSmart Supreme", "version": "1.0.0"}
 
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8004)

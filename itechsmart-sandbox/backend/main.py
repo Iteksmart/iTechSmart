@@ -13,8 +13,7 @@ from app.api import sandboxes, snapshots, tests, templates
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -26,9 +25,9 @@ async def lifespan(app: FastAPI):
     logger.info("Starting iTechSmart Sandbox...")
     init_db()
     logger.info("Database initialized")
-    
+
     yield
-    
+
     # Shutdown
     logger.info("Shutting down iTechSmart Sandbox...")
 
@@ -38,7 +37,7 @@ app = FastAPI(
     title="iTechSmart Sandbox",
     description="Secure Code Execution Environment - Part of iTechSmart Suite (Internal Use)",
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # CORS middleware
@@ -78,15 +77,15 @@ def root():
             "Resource monitoring",
             "Auto-termination",
             "Test execution for all 32 products",
-            "Custom client software testing"
+            "Custom client software testing",
         ],
         "endpoints": {
             "sandboxes": "/api/sandboxes",
             "snapshots": "/api/snapshots",
             "tests": "/api/tests",
             "templates": "/api/templates",
-            "docs": "/docs"
-        }
+            "docs": "/docs",
+        },
     }
 
 
@@ -97,10 +96,11 @@ def health_check():
         "status": "healthy",
         "service": "iTechSmart Sandbox",
         "version": "1.0.0",
-        "launch_date": "August 8, 2025"
+        "launch_date": "August 8, 2025",
     }
 
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8033)

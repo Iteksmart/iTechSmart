@@ -10,16 +10,12 @@ import os
 # Database URL from environment variable or default
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql://workflow_user:workflow_pass@localhost:5432/itechsmart_workflow"
+    "postgresql://workflow_user:workflow_pass@localhost:5432/itechsmart_workflow",
 )
 
 # Create SQLAlchemy engine
 engine = create_engine(
-    DATABASE_URL,
-    pool_pre_ping=True,
-    pool_size=10,
-    max_overflow=20,
-    echo=False
+    DATABASE_URL, pool_pre_ping=True, pool_size=10, max_overflow=20, echo=False
 )
 
 # Create SessionLocal class

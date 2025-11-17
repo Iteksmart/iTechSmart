@@ -13,7 +13,12 @@ import tempfile
 
 from ..database import get_db
 from ..models.database import VideoGeneration, User
-from ..integrations.video_generation import video_client, VideoProvider, VideoResolution, VideoStyle
+from ..integrations.video_generation import (
+    video_client,
+    VideoProvider,
+    VideoResolution,
+    VideoStyle,
+)
 from ..auth import get_current_user
 
 router = APIRouter(prefix="/api/video", tags=["video"])
@@ -65,11 +70,11 @@ class EditVideoRequest(BaseModel):
 async def generate_video(
     request: GenerateVideoRequest,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """
     Generate video from text prompt
-    
+
     Example:
     ```json
     {
@@ -89,18 +94,18 @@ async def generate_video(
         except ValueError:
             raise HTTPException(
                 status_code=400,
-                detail=f"Invalid provider. Supported: {[p.value for p in VideoProvider]}"
+                detail=f"Invalid provider. Supported: {[p.value for p in VideoProvider]}",
             )
-            
+
         # Validate resolution
         try:
             resolution = VideoResolution(request.resolution)
         except ValueError:
             raise HTTPException(
                 status_code=400,
-                detail=f"Invalid resolution. Supported: {[r.value for r in VideoResolution]}"
+                detail=f"Invalid resolution. Supported: {[r.value for r in VideoResolution]}",
             )
-            
+
         # Validate style if provided
         style = None
         if request.style:
@@ -109,9 +114,9 @@ async def generate_video(
             except ValueError:
                 raise HTTPException(
                     status_code=400,
-                    detail=f"Invalid style. Supported: {[s.value for s in VideoStyle]}"
+                    detail=f"Invalid style. Supported: {[s.value for s in VideoStyle]}",
                 )
-                
+
         # Generate video
         result = await video_client.generate_from_text(
             prompt=request.prompt,
@@ -120,12 +125,12 @@ async def generate_video(
             resolution=resolution,
             style=style,
             motion_strength=request.motion_strength,
-            seed=request.seed
+            seed=request.seed,
         )
-        
+
         if not result.get("success"):
             raise HTTPException(status_code=400, detail=result.get("error"))
-            
+
         # Save to database
         db_video = VideoGeneration(
             user_id=current_user.id,
@@ -136,13 +141,13 @@ async def generate_video(
             video_url=result.get("video_url"),
             status="completed",
             metadata=result.get("metadata", {}),
-            created_at=datetime.utcnow()
+            created_at=datetime.utcnow(),
         )
-        
+
         db.add(db_video)
         db.commit()
         db.refresh(db_video)
-        
+
         return {
             "success": True,
             "video": {
@@ -152,10 +157,10 @@ async def generate_video(
                 "duration": db_video.duration,
                 "resolution": db_video.resolution,
                 "provider": db_video.provider,
-                "created_at": db_video.created_at.isoformat()
-            }
+                "created_at": db_video.created_at.isoformat(),
+            },
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -167,11 +172,11 @@ async def generate_video(
 async def generate_from_image(
     request: GenerateFromImageRequest,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """
     Generate video from image
-    
+
     Example:
     ```json
     {
@@ -190,25 +195,25 @@ async def generate_from_image(
         except ValueError:
             raise HTTPException(
                 status_code=400,
-                detail=f"Invalid provider. Supported: {[p.value for p in VideoProvider]}"
+                detail=f"Invalid provider. Supported: {[p.value for p in VideoProvider]}",
             )
-            
+
         # Check if image exists
         if not os.path.exists(request.image_path):
             raise HTTPException(status_code=404, detail="Image file not found")
-            
+
         # Generate video
         result = await video_client.generate_from_image(
             image_path=request.image_path,
             prompt=request.prompt,
             provider=provider,
             duration=request.duration,
-            motion_strength=request.motion_strength
+            motion_strength=request.motion_strength,
         )
-        
+
         if not result.get("success"):
             raise HTTPException(status_code=400, detail=result.get("error"))
-            
+
         # Save to database
         db_video = VideoGeneration(
             user_id=current_user.id,
@@ -217,17 +222,14 @@ async def generate_from_image(
             duration=request.duration,
             video_url=result.get("video_url"),
             status="completed",
-            metadata={
-                "source_image": request.image_path,
-                **result.get("metadata", {})
-            },
-            created_at=datetime.utcnow()
+            metadata={"source_image": request.image_path, **result.get("metadata", {})},
+            created_at=datetime.utcnow(),
         )
-        
+
         db.add(db_video)
         db.commit()
         db.refresh(db_video)
-        
+
         return {
             "success": True,
             "video": {
@@ -237,10 +239,10 @@ async def generate_from_image(
                 "prompt": db_video.prompt,
                 "duration": db_video.duration,
                 "provider": db_video.provider,
-                "created_at": db_video.created_at.isoformat()
-            }
+                "created_at": db_video.created_at.isoformat(),
+            },
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -252,11 +254,11 @@ async def generate_from_image(
 async def transform_video(
     request: TransformVideoRequest,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """
     Transform existing video with AI
-    
+
     Example:
     ```json
     {
@@ -274,24 +276,24 @@ async def transform_video(
         except ValueError:
             raise HTTPException(
                 status_code=400,
-                detail=f"Invalid provider. Supported: {[p.value for p in VideoProvider]}"
+                detail=f"Invalid provider. Supported: {[p.value for p in VideoProvider]}",
             )
-            
+
         # Check if video exists
         if not os.path.exists(request.video_path):
             raise HTTPException(status_code=404, detail="Video file not found")
-            
+
         # Transform video
         result = await video_client.transform_video(
             video_path=request.video_path,
             prompt=request.prompt,
             provider=provider,
-            strength=request.strength
+            strength=request.strength,
         )
-        
+
         if not result.get("success"):
             raise HTTPException(status_code=400, detail=result.get("error"))
-            
+
         # Save to database
         db_video = VideoGeneration(
             user_id=current_user.id,
@@ -302,15 +304,15 @@ async def transform_video(
             metadata={
                 "source_video": request.video_path,
                 "operation": "transform",
-                **result.get("metadata", {})
+                **result.get("metadata", {}),
             },
-            created_at=datetime.utcnow()
+            created_at=datetime.utcnow(),
         )
-        
+
         db.add(db_video)
         db.commit()
         db.refresh(db_video)
-        
+
         return {
             "success": True,
             "video": {
@@ -319,10 +321,10 @@ async def transform_video(
                 "source_video": request.video_path,
                 "prompt": db_video.prompt,
                 "provider": db_video.provider,
-                "created_at": db_video.created_at.isoformat()
-            }
+                "created_at": db_video.created_at.isoformat(),
+            },
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -334,11 +336,11 @@ async def transform_video(
 async def upscale_video(
     request: UpscaleVideoRequest,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """
     Upscale video resolution
-    
+
     Example:
     ```json
     {
@@ -355,23 +357,23 @@ async def upscale_video(
         except ValueError:
             raise HTTPException(
                 status_code=400,
-                detail=f"Invalid resolution. Supported: {[r.value for r in VideoResolution]}"
+                detail=f"Invalid resolution. Supported: {[r.value for r in VideoResolution]}",
             )
-            
+
         # Check if video exists
         if not os.path.exists(request.video_path):
             raise HTTPException(status_code=404, detail="Video file not found")
-            
+
         # Upscale video
         result = await video_client.upscale_video(
             video_path=request.video_path,
             target_resolution=resolution,
-            enhance_quality=request.enhance_quality
+            enhance_quality=request.enhance_quality,
         )
-        
+
         if not result.get("success"):
             raise HTTPException(status_code=400, detail=result.get("error"))
-            
+
         # Save to database
         db_video = VideoGeneration(
             user_id=current_user.id,
@@ -382,15 +384,15 @@ async def upscale_video(
             metadata={
                 "source_video": request.video_path,
                 "operation": "upscale",
-                "enhanced": request.enhance_quality
+                "enhanced": request.enhance_quality,
             },
-            created_at=datetime.utcnow()
+            created_at=datetime.utcnow(),
         )
-        
+
         db.add(db_video)
         db.commit()
         db.refresh(db_video)
-        
+
         return {
             "success": True,
             "video": {
@@ -399,10 +401,10 @@ async def upscale_video(
                 "source_video": request.video_path,
                 "resolution": request.target_resolution,
                 "enhanced": request.enhance_quality,
-                "created_at": db_video.created_at.isoformat()
-            }
+                "created_at": db_video.created_at.isoformat(),
+            },
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -414,11 +416,11 @@ async def upscale_video(
 async def edit_video(
     request: EditVideoRequest,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """
     Edit video (trim, merge, effects)
-    
+
     Example for trim:
     ```json
     {
@@ -430,7 +432,7 @@ async def edit_video(
         }
     }
     ```
-    
+
     Example for merge:
     ```json
     {
@@ -441,7 +443,7 @@ async def edit_video(
         }
     }
     ```
-    
+
     Example for effect:
     ```json
     {
@@ -458,17 +460,17 @@ async def edit_video(
         # Check if video exists
         if not os.path.exists(request.video_path):
             raise HTTPException(status_code=404, detail="Video file not found")
-            
+
         # Edit video
         result = await video_client.edit_video(
             video_path=request.video_path,
             operation=request.operation,
-            **request.parameters
+            **request.parameters,
         )
-        
+
         if not result.get("success"):
             raise HTTPException(status_code=400, detail=result.get("error"))
-            
+
         # Save to database
         db_video = VideoGeneration(
             user_id=current_user.id,
@@ -478,15 +480,15 @@ async def edit_video(
             metadata={
                 "source_video": request.video_path,
                 "operation": request.operation,
-                "parameters": request.parameters
+                "parameters": request.parameters,
             },
-            created_at=datetime.utcnow()
+            created_at=datetime.utcnow(),
         )
-        
+
         db.add(db_video)
         db.commit()
         db.refresh(db_video)
-        
+
         return {
             "success": True,
             "video": {
@@ -494,10 +496,10 @@ async def edit_video(
                 "video_path": result.get("video_path"),
                 "source_video": request.video_path,
                 "operation": request.operation,
-                "created_at": db_video.created_at.isoformat()
-            }
+                "created_at": db_video.created_at.isoformat(),
+            },
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -510,16 +512,19 @@ async def list_generations(
     limit: int = 50,
     offset: int = 0,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """List all video generations for current user"""
     try:
-        videos = db.query(VideoGeneration).filter(
-            VideoGeneration.user_id == current_user.id
-        ).order_by(
-            VideoGeneration.created_at.desc()
-        ).limit(limit).offset(offset).all()
-        
+        videos = (
+            db.query(VideoGeneration)
+            .filter(VideoGeneration.user_id == current_user.id)
+            .order_by(VideoGeneration.created_at.desc())
+            .limit(limit)
+            .offset(offset)
+            .all()
+        )
+
         return {
             "success": True,
             "videos": [
@@ -531,13 +536,13 @@ async def list_generations(
                     "resolution": video.resolution,
                     "video_url": video.video_url,
                     "status": video.status,
-                    "created_at": video.created_at.isoformat()
+                    "created_at": video.created_at.isoformat(),
                 }
                 for video in videos
             ],
-            "total": len(videos)
+            "total": len(videos),
         }
-        
+
     except Exception as e:
         logger.error(f"Failed to list video generations: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -547,18 +552,22 @@ async def list_generations(
 async def get_generation(
     video_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Get specific video generation"""
     try:
-        video = db.query(VideoGeneration).filter(
-            VideoGeneration.id == video_id,
-            VideoGeneration.user_id == current_user.id
-        ).first()
-        
+        video = (
+            db.query(VideoGeneration)
+            .filter(
+                VideoGeneration.id == video_id,
+                VideoGeneration.user_id == current_user.id,
+            )
+            .first()
+        )
+
         if not video:
             raise HTTPException(status_code=404, detail="Video not found")
-            
+
         return {
             "success": True,
             "video": {
@@ -570,10 +579,10 @@ async def get_generation(
                 "video_url": video.video_url,
                 "status": video.status,
                 "metadata": video.metadata,
-                "created_at": video.created_at.isoformat()
-            }
+                "created_at": video.created_at.isoformat(),
+            },
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -585,26 +594,30 @@ async def get_generation(
 async def delete_generation(
     video_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Delete video generation"""
     try:
-        video = db.query(VideoGeneration).filter(
-            VideoGeneration.id == video_id,
-            VideoGeneration.user_id == current_user.id
-        ).first()
-        
+        video = (
+            db.query(VideoGeneration)
+            .filter(
+                VideoGeneration.id == video_id,
+                VideoGeneration.user_id == current_user.id,
+            )
+            .first()
+        )
+
         if not video:
             raise HTTPException(status_code=404, detail="Video not found")
-            
+
         db.delete(video)
         db.commit()
-        
+
         return {
             "success": True,
-            "message": f"Video generation {video_id} deleted successfully"
+            "message": f"Video generation {video_id} deleted successfully",
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -613,18 +626,13 @@ async def delete_generation(
 
 
 @router.get("/providers")
-async def list_providers(
-    current_user: User = Depends(get_current_user)
-):
+async def list_providers(current_user: User = Depends(get_current_user)):
     """List available video generation providers"""
     try:
         providers = video_client.get_providers()
-        
-        return {
-            "success": True,
-            "providers": providers
-        }
-        
+
+        return {"success": True, "providers": providers}
+
     except Exception as e:
         logger.error(f"Failed to list providers: {e}")
         raise HTTPException(status_code=500, detail=str(e))

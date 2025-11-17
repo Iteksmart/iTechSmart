@@ -10,6 +10,7 @@ from enum import Enum
 
 class ServiceCategory(str, Enum):
     """Service catalog categories"""
+
     ACCESS_REQUEST = "access_request"
     SOFTWARE = "software"
     HARDWARE = "hardware"
@@ -22,6 +23,7 @@ class ServiceCategory(str, Enum):
 
 class RequestStatus(str, Enum):
     """Service request status"""
+
     DRAFT = "draft"
     SUBMITTED = "submitted"
     PENDING_APPROVAL = "pending_approval"
@@ -35,6 +37,7 @@ class RequestStatus(str, Enum):
 
 class RequestPriority(str, Enum):
     """Request priority levels"""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -43,6 +46,7 @@ class RequestPriority(str, Enum):
 
 class ApprovalStatus(str, Enum):
     """Approval status"""
+
     PENDING = "pending"
     APPROVED = "approved"
     REJECTED = "rejected"
@@ -51,6 +55,7 @@ class ApprovalStatus(str, Enum):
 
 class FulfillmentStatus(str, Enum):
     """Fulfillment task status"""
+
     PENDING = "pending"
     IN_PROGRESS = "in_progress"
     COMPLETED = "completed"
@@ -62,17 +67,19 @@ class FulfillmentStatus(str, Enum):
 # SERVICE CATALOG MODELS
 # ============================================================================
 
+
 class ServiceCatalogItem:
     """
     Service catalog item definition
     """
+
     def __init__(
         self,
         item_id: str,
         name: str,
         description: str,
         category: ServiceCategory,
-        owner: str
+        owner: str,
     ):
         self.item_id = item_id
         self.name = name
@@ -109,13 +116,14 @@ class ServiceRequest:
     """
     Service request submitted by user
     """
+
     def __init__(
         self,
         request_id: str,
         item_id: str,
         requester_id: str,
         requester_name: str,
-        requester_email: str
+        requester_email: str,
     ):
         self.request_id = request_id
         self.item_id = item_id
@@ -152,13 +160,14 @@ class ServiceApproval:
     """
     Approval step for service request
     """
+
     def __init__(
         self,
         approval_id: str,
         request_id: str,
         approver_id: str,
         approver_name: str,
-        sequence: int
+        sequence: int,
     ):
         self.approval_id = approval_id
         self.request_id = request_id
@@ -180,13 +189,8 @@ class FulfillmentTask:
     """
     Task for fulfilling service request
     """
-    def __init__(
-        self,
-        task_id: str,
-        request_id: str,
-        title: str,
-        assigned_to: str
-    ):
+
+    def __init__(self, task_id: str, request_id: str, title: str, assigned_to: str):
         self.task_id = task_id
         self.request_id = request_id
         self.title = title
@@ -211,12 +215,8 @@ class ServiceSLA:
     """
     Service Level Agreement definition
     """
-    def __init__(
-        self,
-        sla_id: str,
-        name: str,
-        description: str
-    ):
+
+    def __init__(self, sla_id: str, name: str, description: str):
         self.sla_id = sla_id
         self.name = name
         self.description = description
@@ -247,13 +247,8 @@ class ServiceCostCenter:
     """
     Cost center for service requests
     """
-    def __init__(
-        self,
-        cost_center_id: str,
-        name: str,
-        code: str,
-        manager: str
-    ):
+
+    def __init__(self, cost_center_id: str, name: str, code: str, manager: str):
         self.cost_center_id = cost_center_id
         self.name = name
         self.code = code
@@ -272,12 +267,8 @@ class RequestWorkflow:
     """
     Workflow definition for service requests
     """
-    def __init__(
-        self,
-        workflow_id: str,
-        name: str,
-        item_id: str
-    ):
+
+    def __init__(self, workflow_id: str, name: str, item_id: str):
         self.workflow_id = workflow_id
         self.name = name
         self.item_id = item_id
@@ -295,13 +286,14 @@ class RequestComment:
     """
     Comment on service request
     """
+
     def __init__(
         self,
         comment_id: str,
         request_id: str,
         user_id: str,
         user_name: str,
-        comment: str
+        comment: str,
     ):
         self.comment_id = comment_id
         self.request_id = request_id
@@ -317,13 +309,14 @@ class RequestAttachment:
     """
     File attachment for service request
     """
+
     def __init__(
         self,
         attachment_id: str,
         request_id: str,
         filename: str,
         file_path: str,
-        uploaded_by: str
+        uploaded_by: str,
     ):
         self.attachment_id = attachment_id
         self.request_id = request_id
@@ -340,12 +333,9 @@ class ServiceMetrics:
     """
     Service catalog metrics and KPIs
     """
+
     def __init__(
-        self,
-        metric_id: str,
-        item_id: str,
-        period_start: datetime,
-        period_end: datetime
+        self, metric_id: str, item_id: str, period_start: datetime, period_end: datetime
     ):
         self.metric_id = metric_id
         self.item_id = item_id

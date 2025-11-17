@@ -10,9 +10,9 @@ from .decision_support import ClinicalDecisionSupport
 from .care_coordination import CareCoordinator
 
 __all__ = [
-    'ClinicalWorkflowEngine',
-    'ClinicalAIInsights',
-    'DrugInteractionChecker',
-    'ClinicalDecisionSupport',
-    'CareCoordinator'
+    "ClinicalWorkflowEngine",
+    "ClinicalAIInsights",
+    "DrugInteractionChecker",
+    "ClinicalDecisionSupport",
+    "CareCoordinator",
 ]

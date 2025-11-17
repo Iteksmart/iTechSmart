@@ -1,5 +1,5 @@
 # Read the terminal panel file
-with open('itechsmart-ninja/vscode-extension/src/terminal/panel.ts', 'r') as f:
+with open("itechsmart-ninja/vscode-extension/src/terminal/panel.ts", "r") as f:
     content = f.read()
 
 # Find the position to insert document commands (before chart commands)
@@ -44,7 +44,7 @@ else:
     print("✗ Could not find insertion point")
 
 # Write back
-with open('itechsmart-ninja/vscode-extension/src/terminal/panel.ts', 'w') as f:
+with open("itechsmart-ninja/vscode-extension/src/terminal/panel.ts", "w") as f:
     f.write(content)
 
 print("✓ Terminal document commands added")

@@ -6,7 +6,18 @@ ML-Powered Analytics Platform
 from datetime import datetime
 from typing import Optional
 from enum import Enum
-from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean, Text, ForeignKey, JSON, Enum as SQLEnum
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Float,
+    DateTime,
+    Boolean,
+    Text,
+    ForeignKey,
+    JSON,
+    Enum as SQLEnum,
+)
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -54,8 +65,9 @@ class ReportStatus(str, Enum):
 
 class DataSource(Base):
     """Data source configuration"""
+
     __tablename__ = "data_sources"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(200), nullable=False)
     source_type = Column(SQLEnum(DataSourceType), nullable=False)
@@ -66,15 +78,16 @@ class DataSource(Base):
     last_sync = Column(DateTime)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     # Relationships
     datasets = relationship("Dataset", back_populates="data_source")
 
 
 class Dataset(Base):
     """Dataset information"""
+
     __tablename__ = "datasets"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(200), nullable=False)
     description = Column(Text)
@@ -84,7 +97,7 @@ class Dataset(Base):
     size_bytes = Column(Integer, default=0)
     last_updated = Column(DateTime)
     created_at = Column(DateTime, default=datetime.utcnow)
-    
+
     # Relationships
     data_source = relationship("DataSource", back_populates="datasets")
     analyses = relationship("Analysis", back_populates="dataset")
@@ -92,8 +105,9 @@ class Dataset(Base):
 
 class Dashboard(Base):
     """Dashboard configuration"""
+
     __tablename__ = "dashboards"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(200), nullable=False)
     description = Column(Text)
@@ -107,8 +121,9 @@ class Dashboard(Base):
 
 class Widget(Base):
     """Dashboard widget"""
+
     __tablename__ = "widgets"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     dashboard_id = Column(Integer, ForeignKey("dashboards.id"))
     widget_type = Column(String(50))  # line, bar, pie, table, etc.
@@ -121,8 +136,9 @@ class Widget(Base):
 
 class Analysis(Base):
     """Analysis job"""
+
     __tablename__ = "analyses"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(200), nullable=False)
     analysis_type = Column(SQLEnum(AnalysisType), nullable=False)
@@ -135,15 +151,16 @@ class Analysis(Base):
     started_at = Column(DateTime)
     completed_at = Column(DateTime)
     created_at = Column(DateTime, default=datetime.utcnow)
-    
+
     # Relationships
     dataset = relationship("Dataset", back_populates="analyses")
 
 
 class Report(Base):
     """Generated report"""
+
     __tablename__ = "reports"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(200), nullable=False)
     description = Column(Text)
@@ -159,8 +176,9 @@ class Report(Base):
 
 class Metric(Base):
     """Metric definition"""
+
     __tablename__ = "metrics"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(200), nullable=False, unique=True)
     description = Column(Text)
@@ -173,8 +191,9 @@ class Metric(Base):
 
 class MetricValue(Base):
     """Metric value over time"""
+
     __tablename__ = "metric_values"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     metric_id = Column(Integer, ForeignKey("metrics.id"))
     value = Column(Float, nullable=False)
@@ -185,8 +204,9 @@ class MetricValue(Base):
 
 class Alert(Base):
     """Analytics alert"""
+
     __tablename__ = "alerts"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(200), nullable=False)
     metric_id = Column(Integer, ForeignKey("metrics.id"))
@@ -199,8 +219,9 @@ class Alert(Base):
 
 class Insight(Base):
     """AI-generated insight"""
+
     __tablename__ = "insights"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(200), nullable=False)
     description = Column(Text)

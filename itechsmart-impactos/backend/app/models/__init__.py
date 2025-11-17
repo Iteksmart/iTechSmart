@@ -1,6 +1,7 @@
 """
 Database models for iTechSmart ImpactOS
 """
+
 from app.models.user import User, Organization, UserOrganization
 from app.models.program import Program, ProgramMetric
 from app.models.grant import Grant, GrantProposal

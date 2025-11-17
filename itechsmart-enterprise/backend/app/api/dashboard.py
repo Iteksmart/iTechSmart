@@ -19,7 +19,7 @@ router = APIRouter(prefix="/api/dashboard", tags=["dashboard"])
 async def get_suite_overview(db: Session = Depends(get_db)) -> Dict[str, Any]:
     """
     Get comprehensive overview of entire iTechSmart Suite
-    
+
     Returns:
         - Products summary
         - Health status
@@ -36,7 +36,7 @@ async def get_suite_overview(db: Session = Depends(get_db)) -> Dict[str, Any]:
 async def get_products_summary(db: Session = Depends(get_db)) -> Dict[str, Any]:
     """
     Get summary of all integrated products
-    
+
     Returns:
         - Total products count
         - Active/inactive breakdown
@@ -49,15 +49,14 @@ async def get_products_summary(db: Session = Depends(get_db)) -> Dict[str, Any]:
 
 @router.get("/products/{service_id}")
 async def get_product_details(
-    service_id: int,
-    db: Session = Depends(get_db)
+    service_id: int, db: Session = Depends(get_db)
 ) -> Dict[str, Any]:
     """
     Get detailed information about a specific product
-    
+
     Args:
         service_id: ID of the integrated service
-    
+
     Returns:
         - Service details
         - Health metrics
@@ -66,10 +65,10 @@ async def get_product_details(
     """
     dashboard = DashboardEngine(db)
     details = await dashboard.get_product_details(service_id)
-    
+
     if "error" in details:
         raise HTTPException(status_code=404, detail=details["error"])
-    
+
     return details
 
 
@@ -77,7 +76,7 @@ async def get_product_details(
 async def get_health_summary(db: Session = Depends(get_db)) -> Dict[str, Any]:
     """
     Get health summary across all products
-    
+
     Returns:
         - Overall health status
         - Healthy/degraded/unhealthy counts
@@ -92,7 +91,7 @@ async def get_health_summary(db: Session = Depends(get_db)) -> Dict[str, Any]:
 async def get_activity_summary(db: Session = Depends(get_db)) -> Dict[str, Any]:
     """
     Get activity summary across all products
-    
+
     Returns:
         - Total events (24h)
         - Events by type
@@ -108,7 +107,7 @@ async def get_activity_summary(db: Session = Depends(get_db)) -> Dict[str, Any]:
 async def get_performance_metrics(db: Session = Depends(get_db)) -> Dict[str, Any]:
     """
     Get performance metrics across all products
-    
+
     Returns:
         - Average response time
         - P95/P99 response times
@@ -123,7 +122,7 @@ async def get_performance_metrics(db: Session = Depends(get_db)) -> Dict[str, An
 async def get_active_alerts(db: Session = Depends(get_db)) -> List[Dict[str, Any]]:
     """
     Get active alerts and issues
-    
+
     Returns:
         - List of active alerts
         - Severity levels
@@ -138,7 +137,7 @@ async def get_active_alerts(db: Session = Depends(get_db)) -> List[Dict[str, Any
 async def get_trend_analysis(db: Session = Depends(get_db)) -> Dict[str, Any]:
     """
     Get trend analysis for key metrics
-    
+
     Returns:
         - Health trends (7 days)
         - Sync trends (7 days)
@@ -153,7 +152,7 @@ async def get_trend_analysis(db: Session = Depends(get_db)) -> Dict[str, Any]:
 async def get_realtime_metrics(db: Session = Depends(get_db)) -> Dict[str, Any]:
     """
     Get real-time metrics for live dashboard updates
-    
+
     Returns:
         - Current active services
         - Events per minute
@@ -167,17 +166,17 @@ async def get_realtime_metrics(db: Session = Depends(get_db)) -> Dict[str, Any]:
 # WebSocket endpoint for real-time updates
 class ConnectionManager:
     """Manage WebSocket connections for real-time dashboard updates"""
-    
+
     def __init__(self):
         self.active_connections: List[WebSocket] = []
-    
+
     async def connect(self, websocket: WebSocket):
         await websocket.accept()
         self.active_connections.append(websocket)
-    
+
     def disconnect(self, websocket: WebSocket):
         self.active_connections.remove(websocket)
-    
+
     async def broadcast(self, message: dict):
         for connection in self.active_connections:
             try:
@@ -192,12 +191,11 @@ manager = ConnectionManager()
 
 @router.websocket("/ws/realtime")
 async def websocket_realtime_updates(
-    websocket: WebSocket,
-    db: Session = Depends(get_db)
+    websocket: WebSocket, db: Session = Depends(get_db)
 ):
     """
     WebSocket endpoint for real-time dashboard updates
-    
+
     Sends updates every 5 seconds with:
         - Real-time metrics
         - Health status changes
@@ -205,21 +203,18 @@ async def websocket_realtime_updates(
     """
     await manager.connect(websocket)
     dashboard = DashboardEngine(db)
-    
+
     try:
         while True:
             # Get real-time metrics
             metrics = await dashboard.get_real_time_metrics()
-            
+
             # Send to client
-            await websocket.send_json({
-                "type": "metrics_update",
-                "data": metrics
-            })
-            
+            await websocket.send_json({"type": "metrics_update", "data": metrics})
+
             # Wait 5 seconds before next update
             await asyncio.sleep(5)
-            
+
     except WebSocketDisconnect:
         manager.disconnect(websocket)
     except Exception as e:
@@ -229,31 +224,29 @@ async def websocket_realtime_updates(
 
 @router.get("/export/overview")
 async def export_overview_data(
-    format: str = "json",
-    db: Session = Depends(get_db)
+    format: str = "json", db: Session = Depends(get_db)
 ) -> Dict[str, Any]:
     """
     Export dashboard overview data
-    
+
     Args:
         format: Export format (json, csv) - currently only json supported
-    
+
     Returns:
         Complete dashboard data for export
     """
     if format not in ["json"]:
         raise HTTPException(
-            status_code=400,
-            detail="Only 'json' format is currently supported"
+            status_code=400, detail="Only 'json' format is currently supported"
         )
-    
+
     dashboard = DashboardEngine(db)
     overview = await dashboard.get_suite_overview()
-    
+
     return {
         "export_format": format,
         "exported_at": overview["timestamp"],
-        "data": overview
+        "data": overview,
     }
 
 
@@ -261,14 +254,11 @@ async def export_overview_data(
 async def refresh_dashboard_cache(db: Session = Depends(get_db)) -> Dict[str, str]:
     """
     Force refresh of dashboard cache
-    
+
     Returns:
         Success message
     """
     dashboard = DashboardEngine(db)
     dashboard.cache.clear()
-    
-    return {
-        "status": "success",
-        "message": "Dashboard cache refreshed successfully"
-    }
+
+    return {"status": "success", "message": "Dashboard cache refreshed successfully"}

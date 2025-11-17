@@ -13,8 +13,7 @@ from contextlib import contextmanager
 
 # Database URLs
 DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "postgresql://connect_user:connect_password@postgres:5432/connect"
+    "DATABASE_URL", "postgresql://connect_user:connect_password@postgres:5432/connect"
 )
 
 REDIS_HOST = os.getenv("REDIS_HOST", "redis")
@@ -33,15 +32,11 @@ engine = create_engine(
     max_overflow=20,
     pool_pre_ping=True,
     pool_recycle=3600,
-    echo=False
+    echo=False,
 )
 
 # Create SessionLocal class
-SessionLocal = sessionmaker(
-    autocommit=False,
-    autoflush=False,
-    bind=engine
-)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Base class for models
 Base = declarative_base()
@@ -58,12 +53,13 @@ redis_client = redis.Redis(
     db=REDIS_DB,
     decode_responses=True,
     socket_connect_timeout=5,
-    socket_timeout=5
+    socket_timeout=5,
 )
 
 # ============================================================================
 # DATABASE DEPENDENCY
 # ============================================================================
+
 
 def get_db() -> Generator[Session, None, None]:
     """
@@ -75,6 +71,7 @@ def get_db() -> Generator[Session, None, None]:
         yield db
     finally:
         db.close()
+
 
 @contextmanager
 def get_db_context():
@@ -92,13 +89,15 @@ def get_db_context():
     finally:
         db.close()
 
+
 # ============================================================================
 # REDIS UTILITIES
 # ============================================================================
 
+
 class RedisCache:
     """Redis cache utilities"""
-    
+
     @staticmethod
     def get(key: str) -> str:
         """Get value from cache"""
@@ -107,7 +106,7 @@ class RedisCache:
         except Exception as e:
             print(f"Redis get error: {e}")
             return None
-    
+
     @staticmethod
     def set(key: str, value: str, expire: int = 3600) -> bool:
         """Set value in cache with expiration"""
@@ -116,7 +115,7 @@ class RedisCache:
         except Exception as e:
             print(f"Redis set error: {e}")
             return False
-    
+
     @staticmethod
     def delete(key: str) -> bool:
         """Delete key from cache"""
@@ -125,7 +124,7 @@ class RedisCache:
         except Exception as e:
             print(f"Redis delete error: {e}")
             return False
-    
+
     @staticmethod
     def exists(key: str) -> bool:
         """Check if key exists"""
@@ -134,7 +133,7 @@ class RedisCache:
         except Exception as e:
             print(f"Redis exists error: {e}")
             return False
-    
+
     @staticmethod
     def increment(key: str, amount: int = 1) -> int:
         """Increment counter"""
@@ -143,7 +142,7 @@ class RedisCache:
         except Exception as e:
             print(f"Redis increment error: {e}")
             return 0
-    
+
     @staticmethod
     def expire(key: str, seconds: int) -> bool:
         """Set expiration on key"""
@@ -153,66 +152,73 @@ class RedisCache:
             print(f"Redis expire error: {e}")
             return False
 
+
 # ============================================================================
 # RATE LIMITING UTILITIES
 # ============================================================================
 
+
 class RateLimiter:
     """Rate limiting using Redis"""
-    
+
     @staticmethod
     def check_rate_limit(
-        identifier: str,
-        limit: int,
-        window_seconds: int = 60
+        identifier: str, limit: int, window_seconds: int = 60
     ) -> tuple[bool, int]:
         """
         Check if rate limit is exceeded
         Returns: (is_allowed, remaining_requests)
         """
         key = f"rate_limit:{identifier}"
-        
+
         try:
             current = redis_client.get(key)
-            
+
             if current is None:
                 # First request in window
                 redis_client.setex(key, window_seconds, 1)
                 return True, limit - 1
-            
+
             current = int(current)
-            
+
             if current >= limit:
                 # Rate limit exceeded
                 ttl = redis_client.ttl(key)
                 return False, 0
-            
+
             # Increment counter
             new_count = redis_client.incr(key)
             return True, limit - new_count
-            
+
         except Exception as e:
             print(f"Rate limit check error: {e}")
             # Allow request on error
             return True, limit
 
+
 # ============================================================================
 # DATABASE INITIALIZATION
 # ============================================================================
 
+
 def init_db():
     """Initialize database tables"""
     from models import Base
+
     Base.metadata.create_all(bind=engine)
+
 
 def drop_db():
     """Drop all database tables"""
     from models import Base
+
     Base.metadata.drop_all(bind=engine)
+
 
 # ============================================================================
 # HEALTH CHECK
 # ============================================================================
+
 
 def check_db_health() -> bool:
     """Check if database is healthy"""
@@ -224,6 +230,7 @@ def check_db_health() -> bool:
     except Exception as e:
         print(f"Database health check failed: {e}")
         return False
+
 
 def check_redis_health() -> bool:
     """Check if Redis is healthy"""

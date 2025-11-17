@@ -1,7 +1,18 @@
 """
 Database models for iTechSmart Shield
 """
-from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, JSON, Float, Enum
+
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Text,
+    Boolean,
+    DateTime,
+    JSON,
+    Float,
+    Enum,
+)
 from datetime import datetime
 import enum
 
@@ -10,6 +21,7 @@ from app.core.database import Base
 
 class ThreatSeverity(str, enum.Enum):
     """Threat severity levels"""
+
     CRITICAL = "critical"
     HIGH = "high"
     MEDIUM = "medium"
@@ -19,6 +31,7 @@ class ThreatSeverity(str, enum.Enum):
 
 class ThreatStatus(str, enum.Enum):
     """Threat status"""
+
     DETECTED = "detected"
     INVESTIGATING = "investigating"
     CONTAINED = "contained"
@@ -29,6 +42,7 @@ class ThreatStatus(str, enum.Enum):
 
 class ComplianceStatus(str, enum.Enum):
     """Compliance status"""
+
     COMPLIANT = "compliant"
     NON_COMPLIANT = "non_compliant"
     PARTIALLY_COMPLIANT = "partially_compliant"
@@ -37,8 +51,9 @@ class ComplianceStatus(str, enum.Enum):
 
 class ThreatDetection(Base):
     """Detected security threats"""
+
     __tablename__ = "threat_detections"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     timestamp = Column(DateTime, default=datetime.utcnow, index=True)
     threat_type = Column(String(100), index=True)  # malware, intrusion, ddos, etc.
@@ -65,8 +80,9 @@ class ThreatDetection(Base):
 
 class Vulnerability(Base):
     """Detected vulnerabilities"""
+
     __tablename__ = "vulnerabilities"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     discovered_at = Column(DateTime, default=datetime.utcnow, index=True)
     cve_id = Column(String(50), index=True, nullable=True)  # CVE identifier
@@ -92,14 +108,17 @@ class Vulnerability(Base):
 
 class SecurityIncident(Base):
     """Security incidents"""
+
     __tablename__ = "security_incidents"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     incident_id = Column(String(50), unique=True, index=True)
     created_at = Column(DateTime, default=datetime.utcnow, index=True)
     incident_type = Column(String(100), index=True)
     severity = Column(Enum(ThreatSeverity), index=True)
-    status = Column(String(50), default="open")  # open, investigating, contained, resolved
+    status = Column(
+        String(50), default="open"
+    )  # open, investigating, contained, resolved
     title = Column(String(200))
     description = Column(Text)
     affected_systems = Column(JSON)
@@ -119,8 +138,9 @@ class SecurityIncident(Base):
 
 class SecurityAlert(Base):
     """Security alerts"""
+
     __tablename__ = "security_alerts"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     timestamp = Column(DateTime, default=datetime.utcnow, index=True)
     alert_type = Column(String(100), index=True)
@@ -139,8 +159,9 @@ class SecurityAlert(Base):
 
 class ComplianceCheck(Base):
     """Compliance check results"""
+
     __tablename__ = "compliance_checks"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     timestamp = Column(DateTime, default=datetime.utcnow, index=True)
     framework = Column(String(50), index=True)  # SOC2, ISO27001, GDPR, HIPAA
@@ -161,8 +182,9 @@ class ComplianceCheck(Base):
 
 class SecurityPolicy(Base):
     """Security policies"""
+
     __tablename__ = "security_policies"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     policy_id = Column(String(50), unique=True, index=True)
     name = Column(String(200))
@@ -180,8 +202,9 @@ class SecurityPolicy(Base):
 
 class ThreatIntelligence(Base):
     """Threat intelligence data"""
+
     __tablename__ = "threat_intelligence"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     timestamp = Column(DateTime, default=datetime.utcnow, index=True)
     ioc_type = Column(String(50), index=True)  # ip, domain, hash, url, email
@@ -201,8 +224,9 @@ class ThreatIntelligence(Base):
 
 class SecurityAuditLog(Base):
     """Security audit trail"""
+
     __tablename__ = "security_audit_logs"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     timestamp = Column(DateTime, default=datetime.utcnow, index=True)
     event_type = Column(String(100), index=True)
@@ -218,8 +242,9 @@ class SecurityAuditLog(Base):
 
 class SecurityMetric(Base):
     """Security metrics and KPIs"""
+
     __tablename__ = "security_metrics"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     timestamp = Column(DateTime, default=datetime.utcnow, index=True)
     metric_type = Column(String(50), index=True)
@@ -233,8 +258,9 @@ class SecurityMetric(Base):
 
 class PenetrationTest(Base):
     """Penetration testing results"""
+
     __tablename__ = "penetration_tests"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     test_id = Column(String(50), unique=True, index=True)
     started_at = Column(DateTime, default=datetime.utcnow)
@@ -256,8 +282,9 @@ class PenetrationTest(Base):
 
 class SecurityPosture(Base):
     """Overall security posture assessment"""
+
     __tablename__ = "security_posture"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     timestamp = Column(DateTime, default=datetime.utcnow, index=True)
     overall_score = Column(Float)  # 0-100

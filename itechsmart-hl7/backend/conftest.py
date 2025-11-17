@@ -22,17 +22,11 @@ from app.core.security import get_password_hash
 TEST_DATABASE_URL = "postgresql+asyncpg://test:test@localhost:5432/hl7_test"
 
 # Create test engine
-test_engine = create_async_engine(
-    TEST_DATABASE_URL,
-    poolclass=NullPool,
-    echo=False
-)
+test_engine = create_async_engine(TEST_DATABASE_URL, poolclass=NullPool, echo=False)
 
 # Create test session maker
 TestSessionLocal = async_sessionmaker(
-    test_engine,
-    class_=AsyncSession,
-    expire_on_commit=False
+    test_engine, class_=AsyncSession, expire_on_commit=False
 )
 
 
@@ -49,10 +43,10 @@ async def db_session() -> AsyncGenerator[AsyncSession, None]:
     """Create test database session"""
     async with test_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-    
+
     async with TestSessionLocal() as session:
         yield session
-    
+
     async with test_engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
 
@@ -60,14 +54,15 @@ async def db_session() -> AsyncGenerator[AsyncSession, None]:
 @pytest.fixture(scope="function")
 async def client(db_session: AsyncSession) -> AsyncGenerator[AsyncClient, None]:
     """Create test client"""
+
     async def override_get_db():
         yield db_session
-    
+
     app.dependency_overrides[get_db] = override_get_db
-    
+
     async with AsyncClient(app=app, base_url="http://test") as ac:
         yield ac
-    
+
     app.dependency_overrides.clear()
 
 
@@ -80,7 +75,7 @@ async def test_user(db_session: AsyncSession) -> User:
         hashed_password=get_password_hash("Test123!"),
         role="clinician",
         is_active=True,
-        is_verified=True
+        is_verified=True,
     )
     db_session.add(user)
     await db_session.commit()
@@ -98,7 +93,7 @@ async def test_admin(db_session: AsyncSession) -> User:
         role="admin",
         is_active=True,
         is_verified=True,
-        is_superuser=True
+        is_superuser=True,
     )
     db_session.add(admin)
     await db_session.commit()
@@ -110,11 +105,7 @@ async def test_admin(db_session: AsyncSession) -> User:
 async def auth_headers(client: AsyncClient, test_user: User) -> dict:
     """Get authentication headers for test user"""
     response = await client.post(
-        "/api/v1/auth/login",
-        json={
-            "email": test_user.email,
-            "password": "Test123!"
-        }
+        "/api/v1/auth/login", json={"email": test_user.email, "password": "Test123!"}
     )
     token = response.json()["access_token"]
     return {"Authorization": f"Bearer {token}"}
@@ -124,11 +115,7 @@ async def auth_headers(client: AsyncClient, test_user: User) -> dict:
 async def admin_headers(client: AsyncClient, test_admin: User) -> dict:
     """Get authentication headers for admin user"""
     response = await client.post(
-        "/api/v1/auth/login",
-        json={
-            "email": test_admin.email,
-            "password": "Admin123!"
-        }
+        "/api/v1/auth/login", json={"email": test_admin.email, "password": "Admin123!"}
     )
     token = response.json()["access_token"]
     return {"Authorization": f"Bearer {token}"}
@@ -143,7 +130,7 @@ async def test_patient(db_session: AsyncSession) -> Patient:
         last_name="Doe",
         date_of_birth="1980-01-01",
         gender="M",
-        ssn="123-45-6789"
+        ssn="123-45-6789",
     )
     db_session.add(patient)
     await db_session.commit()
@@ -152,14 +139,16 @@ async def test_patient(db_session: AsyncSession) -> Patient:
 
 
 @pytest.fixture
-async def test_hl7_message(db_session: AsyncSession, test_patient: Patient) -> HL7Message:
+async def test_hl7_message(
+    db_session: AsyncSession, test_patient: Patient
+) -> HL7Message:
     """Create test HL7 message"""
     message = HL7Message(
         patient_id=test_patient.id,
         message_type="ADT^A01",
         raw_message="MSH|^~\\&|EPIC|HOSPITAL|||20240101120000||ADT^A01|MSG123|P|2.5",
         status="processed",
-        source_system="EPIC"
+        source_system="EPIC",
     )
     db_session.add(message)
     await db_session.commit()
@@ -183,20 +172,10 @@ def sample_fhir_patient() -> dict:
     return {
         "resourceType": "Patient",
         "id": "example",
-        "identifier": [
-            {
-                "system": "http://hospital.com/mrn",
-                "value": "MRN123456"
-            }
-        ],
-        "name": [
-            {
-                "family": "Doe",
-                "given": ["John"]
-            }
-        ],
+        "identifier": [{"system": "http://hospital.com/mrn", "value": "MRN123456"}],
+        "name": [{"family": "Doe", "given": ["John"]}],
         "gender": "male",
-        "birthDate": "1980-01-01"
+        "birthDate": "1980-01-01",
     }
 
 
@@ -207,7 +186,7 @@ def sample_user_data() -> dict:
         "email": "newuser@hospital.com",
         "full_name": "New User",
         "password": "NewUser123!",
-        "role": "clinician"
+        "role": "clinician",
     }
 
 

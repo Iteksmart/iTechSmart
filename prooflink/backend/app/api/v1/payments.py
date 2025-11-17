@@ -41,7 +41,7 @@ class SubscriptionResponse(BaseModel):
 @router.get("/plans")
 async def get_subscription_plans():
     """Get available subscription plans"""
-    
+
     return {
         "plans": [
             {
@@ -53,8 +53,8 @@ async def get_subscription_plans():
                     "10 proofs per month",
                     "10MB file size limit",
                     "Basic verification",
-                    "Public proofs only"
-                ]
+                    "Public proofs only",
+                ],
             },
             {
                 "plan_id": "monthly",
@@ -69,8 +69,8 @@ async def get_subscription_plans():
                     "Private proofs",
                     "API access",
                     "Batch processing",
-                    "Custom branding"
-                ]
+                    "Custom branding",
+                ],
             },
             {
                 "plan_id": "yearly",
@@ -87,8 +87,8 @@ async def get_subscription_plans():
                     "Batch processing",
                     "Custom branding",
                     "Priority support",
-                    "Save $2/year"
-                ]
+                    "Save $2/year",
+                ],
             },
             {
                 "plan_id": "lifetime",
@@ -100,9 +100,9 @@ async def get_subscription_plans():
                     "All Premium features",
                     "Lifetime access",
                     "One-time payment",
-                    "Best value!"
-                ]
-            }
+                    "Best value!",
+                ],
+            },
         ]
     }
 
@@ -111,91 +111,81 @@ async def get_subscription_plans():
 async def create_checkout_session(
     plan_id: str,
     current_user: User = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
 ):
     """Create Stripe checkout session"""
-    
+
     # In production, integrate with Stripe
     # For now, return mock data
-    
+
     if not settings.STRIPE_SECRET_KEY:
         raise PaymentError("Payment system not configured")
-    
+
     # Map plan_id to Stripe price ID
     price_id_map = {
         "monthly": settings.STRIPE_MONTHLY_PRICE_ID,
         "yearly": settings.STRIPE_YEARLY_PRICE_ID,
-        "lifetime": settings.STRIPE_LIFETIME_PRICE_ID
+        "lifetime": settings.STRIPE_LIFETIME_PRICE_ID,
     }
-    
+
     price_id = price_id_map.get(plan_id)
     if not price_id:
         raise PaymentError("Invalid plan")
-    
+
     # TODO: Create actual Stripe checkout session
     # import stripe
     # stripe.api_key = settings.STRIPE_SECRET_KEY
     # session = stripe.checkout.Session.create(...)
-    
+
     return CheckoutSession(
         session_id="mock_session_id",
-        checkout_url=f"https://checkout.stripe.com/mock?plan={plan_id}"
+        checkout_url=f"https://checkout.stripe.com/mock?plan={plan_id}",
     )
 
 
 @router.post("/webhook")
-async def stripe_webhook(
-    request: Request,
-    db: AsyncSession = Depends(get_db)
-):
+async def stripe_webhook(request: Request, db: AsyncSession = Depends(get_db)):
     """Handle Stripe webhooks"""
-    
+
     # TODO: Implement Stripe webhook handling
     # Verify webhook signature
     # Handle events: checkout.session.completed, subscription.updated, etc.
-    
+
     return {"status": "success"}
 
 
 @router.get("/subscription", response_model=SubscriptionResponse)
-async def get_subscription(
-    current_user: User = Depends(get_current_user)
-):
+async def get_subscription(current_user: User = Depends(get_current_user)):
     """Get current subscription status"""
-    
+
     return SubscriptionResponse(
         status=current_user.subscription_status.value,
         plan=current_user.role.value,
-        expires_at=current_user.subscription_expires_at
+        expires_at=current_user.subscription_expires_at,
     )
 
 
 @router.post("/cancel-subscription")
 async def cancel_subscription(
-    current_user: User = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db)
+    current_user: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)
 ):
     """Cancel subscription"""
-    
+
     if current_user.role == UserRole.FREE:
         raise PaymentError("No active subscription")
-    
+
     # TODO: Cancel Stripe subscription
-    
+
     current_user.subscription_status = SubscriptionStatus.CANCELLED
     await db.commit()
-    
+
     return {"message": "Subscription cancelled successfully"}
 
 
 @router.get("/billing-portal")
-async def get_billing_portal(
-    current_user: User = Depends(get_current_user)
-):
+async def get_billing_portal(current_user: User = Depends(get_current_user)):
     """Get Stripe billing portal URL"""
-    
+
     # TODO: Create Stripe billing portal session
-    
-    return {
-        "portal_url": "https://billing.stripe.com/mock"
-    }
+
+    return {"portal_url": "https://billing.stripe.com/mock"}

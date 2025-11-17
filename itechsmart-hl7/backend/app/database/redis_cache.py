@@ -26,7 +26,7 @@ redis_client = redis.Redis(
     password=REDIS_PASSWORD,
     decode_responses=True,
     socket_connect_timeout=5,
-    socket_timeout=5
+    socket_timeout=5,
 )
 
 
@@ -34,11 +34,11 @@ class CacheManager:
     """
     Redis cache manager with common operations
     """
-    
+
     def __init__(self, client: redis.Redis = redis_client):
         self.client = client
         self.default_ttl = 3600  # 1 hour default TTL
-    
+
     def get(self, key: str) -> Optional[Any]:
         """
         Get value from cache
@@ -51,7 +51,7 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache get error for key {key}: {e}")
             return None
-    
+
     def set(self, key: str, value: Any, ttl: Optional[int] = None) -> bool:
         """
         Set value in cache with optional TTL
@@ -63,7 +63,7 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache set error for key {key}: {e}")
             return False
-    
+
     def delete(self, key: str) -> bool:
         """
         Delete key from cache
@@ -73,7 +73,7 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache delete error for key {key}: {e}")
             return False
-    
+
     def exists(self, key: str) -> bool:
         """
         Check if key exists in cache
@@ -83,7 +83,7 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache exists error for key {key}: {e}")
             return False
-    
+
     def expire(self, key: str, ttl: int) -> bool:
         """
         Set expiration time for key
@@ -93,7 +93,7 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache expire error for key {key}: {e}")
             return False
-    
+
     def ttl(self, key: str) -> int:
         """
         Get remaining TTL for key
@@ -103,7 +103,7 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache TTL error for key {key}: {e}")
             return -1
-    
+
     def flush_all(self) -> bool:
         """
         Flush all keys from cache (use with caution!)
@@ -113,7 +113,7 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache flush error: {e}")
             return False
-    
+
     def get_keys(self, pattern: str = "*") -> list:
         """
         Get all keys matching pattern
@@ -123,7 +123,7 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache get_keys error: {e}")
             return []
-    
+
     def increment(self, key: str, amount: int = 1) -> Optional[int]:
         """
         Increment counter
@@ -133,7 +133,7 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache increment error for key {key}: {e}")
             return None
-    
+
     def decrement(self, key: str, amount: int = 1) -> Optional[int]:
         """
         Decrement counter
@@ -143,9 +143,9 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache decrement error for key {key}: {e}")
             return None
-    
+
     # Hash operations
-    
+
     def hget(self, name: str, key: str) -> Optional[Any]:
         """
         Get value from hash
@@ -158,7 +158,7 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache hget error for {name}:{key}: {e}")
             return None
-    
+
     def hset(self, name: str, key: str, value: Any) -> bool:
         """
         Set value in hash
@@ -169,7 +169,7 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache hset error for {name}:{key}: {e}")
             return False
-    
+
     def hgetall(self, name: str) -> dict:
         """
         Get all values from hash
@@ -180,7 +180,7 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache hgetall error for {name}: {e}")
             return {}
-    
+
     def hdel(self, name: str, *keys: str) -> int:
         """
         Delete keys from hash
@@ -190,9 +190,9 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache hdel error for {name}: {e}")
             return 0
-    
+
     # List operations
-    
+
     def lpush(self, key: str, *values: Any) -> Optional[int]:
         """
         Push values to left of list
@@ -203,7 +203,7 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache lpush error for key {key}: {e}")
             return None
-    
+
     def rpush(self, key: str, *values: Any) -> Optional[int]:
         """
         Push values to right of list
@@ -214,7 +214,7 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache rpush error for key {key}: {e}")
             return None
-    
+
     def lrange(self, key: str, start: int = 0, end: int = -1) -> list:
         """
         Get range of values from list
@@ -225,7 +225,7 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache lrange error for key {key}: {e}")
             return []
-    
+
     def llen(self, key: str) -> int:
         """
         Get length of list
@@ -235,9 +235,9 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache llen error for key {key}: {e}")
             return 0
-    
+
     # Set operations
-    
+
     def sadd(self, key: str, *values: Any) -> Optional[int]:
         """
         Add values to set
@@ -248,7 +248,7 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache sadd error for key {key}: {e}")
             return None
-    
+
     def smembers(self, key: str) -> set:
         """
         Get all members of set
@@ -259,7 +259,7 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache smembers error for key {key}: {e}")
             return set()
-    
+
     def sismember(self, key: str, value: Any) -> bool:
         """
         Check if value is member of set
@@ -270,7 +270,7 @@ class CacheManager:
         except Exception as e:
             logger.error(f"Cache sismember error for key {key}: {e}")
             return False
-    
+
     def srem(self, key: str, *values: Any) -> int:
         """
         Remove values from set
@@ -292,45 +292,45 @@ class CacheKeys:
     """
     Cache key generators for consistent naming
     """
-    
+
     @staticmethod
     def patient(patient_id: str) -> str:
         return f"patient:{patient_id}"
-    
+
     @staticmethod
     def patient_by_mrn(mrn: str) -> str:
         return f"patient:mrn:{mrn}"
-    
+
     @staticmethod
     def observations(patient_id: str, category: Optional[str] = None) -> str:
         if category:
             return f"observations:{patient_id}:{category}"
         return f"observations:{patient_id}"
-    
+
     @staticmethod
     def medications(patient_id: str) -> str:
         return f"medications:{patient_id}"
-    
+
     @staticmethod
     def allergies(patient_id: str) -> str:
         return f"allergies:{patient_id}"
-    
+
     @staticmethod
     def connection(connection_id: str) -> str:
         return f"connection:{connection_id}"
-    
+
     @staticmethod
     def connection_status(connection_id: str) -> str:
         return f"connection:status:{connection_id}"
-    
+
     @staticmethod
     def hl7_message(message_control_id: str) -> str:
         return f"hl7:message:{message_control_id}"
-    
+
     @staticmethod
     def rate_limit(client_id: str) -> str:
         return f"ratelimit:{client_id}"
-    
+
     @staticmethod
     def session(session_id: str) -> str:
         return f"session:{session_id}"
@@ -352,16 +352,12 @@ def get_redis_health() -> dict:
     """
     Get Redis health status
     """
-    health = {
-        "status": "unknown",
-        "connection": False,
-        "info": {}
-    }
-    
+    health = {"status": "unknown", "connection": False, "info": {}}
+
     try:
         # Check connection
         health["connection"] = check_redis_connection()
-        
+
         if health["connection"]:
             # Get Redis info
             info = redis_client.info()
@@ -370,15 +366,15 @@ def get_redis_health() -> dict:
                 "uptime_seconds": info.get("uptime_in_seconds"),
                 "connected_clients": info.get("connected_clients"),
                 "used_memory_human": info.get("used_memory_human"),
-                "total_keys": sum(redis_client.dbsize() for _ in range(16))
+                "total_keys": sum(redis_client.dbsize() for _ in range(16)),
             }
             health["status"] = "healthy"
         else:
             health["status"] = "unhealthy"
-    
+
     except Exception as e:
         logger.error(f"Failed to get Redis health: {e}")
         health["status"] = "error"
         health["error"] = str(e)
-    
+
     return health

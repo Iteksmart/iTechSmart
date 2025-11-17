@@ -14,20 +14,51 @@ from passlib.context import CryptContext
 
 from database import get_db, init_db
 from models import (
-    User, Vault, Secret, SecretVersion, Policy, AccessGrant,
-    AuditLog, SecretRotation, SecretShare, APIKey, EncryptionKey,
-    SecretStatus, AuditAction
+    User,
+    Vault,
+    Secret,
+    SecretVersion,
+    Policy,
+    AccessGrant,
+    AuditLog,
+    SecretRotation,
+    SecretShare,
+    APIKey,
+    EncryptionKey,
+    SecretStatus,
+    AuditAction,
 )
 from schemas import (
-    UserCreate, UserResponse, UserUpdate,
-    VaultCreate, VaultUpdate, VaultResponse,
-    SecretCreate, SecretUpdate, SecretResponse, SecretWithValue, SecretListResponse,
-    SecretVersionResponse, PolicyCreate, PolicyUpdate, PolicyResponse,
-    AccessGrantCreate, AccessGrantUpdate, AccessGrantResponse,
-    AuditLogResponse, SecretRotationRequest, SecretRotationResponse,
-    SecretShareCreate, SecretShareResponse,
-    APIKeyCreate, APIKeyResponse, APIKeyWithValue,
-    VaultAnalytics, SecretAccessStats, Token, TokenData
+    UserCreate,
+    UserResponse,
+    UserUpdate,
+    VaultCreate,
+    VaultUpdate,
+    VaultResponse,
+    SecretCreate,
+    SecretUpdate,
+    SecretResponse,
+    SecretWithValue,
+    SecretListResponse,
+    SecretVersionResponse,
+    PolicyCreate,
+    PolicyUpdate,
+    PolicyResponse,
+    AccessGrantCreate,
+    AccessGrantUpdate,
+    AccessGrantResponse,
+    AuditLogResponse,
+    SecretRotationRequest,
+    SecretRotationResponse,
+    SecretShareCreate,
+    SecretShareResponse,
+    APIKeyCreate,
+    APIKeyResponse,
+    APIKeyWithValue,
+    VaultAnalytics,
+    SecretAccessStats,
+    Token,
+    TokenData,
 )
 from crypto import crypto_service
 
@@ -43,7 +74,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 app = FastAPI(
     title="iTechSmart Vault",
     description="Enterprise Secrets Management Platform",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 # CORS middleware
@@ -80,8 +111,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
 
 
 async def get_current_user(
-    token: str = Depends(oauth2_scheme),
-    db: Session = Depends(get_db)
+    token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
 ) -> User:
     """Get current authenticated user"""
     credentials_exception = HTTPException(
@@ -96,7 +126,7 @@ async def get_current_user(
             raise credentials_exception
     except jwt.PyJWTError:
         raise credentials_exception
-    
+
     user = db.query(User).filter(User.id == user_id).first()
     if user is None:
         raise credentials_exception
@@ -114,7 +144,7 @@ def log_audit(
     details: dict = None,
     success: bool = True,
     error_message: str = None,
-    ip_address: str = None
+    ip_address: str = None,
 ):
     """Log audit event"""
     audit_log = AuditLog(
@@ -127,7 +157,7 @@ def log_audit(
         details=details,
         success=success,
         error_message=error_message,
-        ip_address=ip_address
+        ip_address=ip_address,
     )
     db.add(audit_log)
     db.commit()
@@ -150,8 +180,7 @@ async def health_check():
 # Authentication endpoints
 @app.post("/token", response_model=Token)
 async def login(
-    form_data: OAuth2PasswordRequestForm = Depends(),
-    db: Session = Depends(get_db)
+    form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
 ):
     """Login and get access token"""
     user = db.query(User).filter(User.username == form_data.username).first()
@@ -161,7 +190,7 @@ async def login(
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    
+
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
         data={"sub": user.id}, expires_delta=access_token_expires
@@ -169,34 +198,36 @@ async def login(
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-@app.post("/users/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+@app.post(
+    "/users/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED
+)
 async def register_user(user: UserCreate, db: Session = Depends(get_db)):
     """Register new user"""
     if db.query(User).filter(User.email == user.email).first():
         raise HTTPException(status_code=400, detail="Email already registered")
     if db.query(User).filter(User.username == user.username).first():
         raise HTTPException(status_code=400, detail="Username already taken")
-    
+
     db_user = User(
         email=user.email,
         username=user.username,
         full_name=user.full_name,
-        hashed_password=get_password_hash(user.password)
+        hashed_password=get_password_hash(user.password),
     )
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
-    
+
     # Create default vault for user
     default_vault = Vault(
         name="Default Vault",
         description="Default vault for storing secrets",
         owner_id=db_user.id,
-        is_default=True
+        is_default=True,
     )
     db.add(default_vault)
     db.commit()
-    
+
     return db_user
 
 
@@ -212,10 +243,16 @@ async def list_vaults(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=100),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """List vaults"""
-    vaults = db.query(Vault).filter(Vault.owner_id == current_user.id).offset(skip).limit(limit).all()
+    vaults = (
+        db.query(Vault)
+        .filter(Vault.owner_id == current_user.id)
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
     return vaults
 
 
@@ -223,7 +260,7 @@ async def list_vaults(
 async def create_vault(
     vault: VaultCreate,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Create new vault"""
     db_vault = Vault(
@@ -231,14 +268,16 @@ async def create_vault(
         description=vault.description,
         owner_id=current_user.id,
         is_default=vault.is_default,
-        tags=vault.tags
+        tags=vault.tags,
     )
     db.add(db_vault)
     db.commit()
     db.refresh(db_vault)
-    
-    log_audit(db, current_user.id, AuditAction.CREATE, "vault", db_vault.id, db_vault.name)
-    
+
+    log_audit(
+        db, current_user.id, AuditAction.CREATE, "vault", db_vault.id, db_vault.name
+    )
+
     return db_vault
 
 
@@ -246,17 +285,18 @@ async def create_vault(
 async def get_vault(
     vault_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Get vault by ID"""
-    vault = db.query(Vault).filter(
-        Vault.id == vault_id,
-        Vault.owner_id == current_user.id
-    ).first()
-    
+    vault = (
+        db.query(Vault)
+        .filter(Vault.id == vault_id, Vault.owner_id == current_user.id)
+        .first()
+    )
+
     if not vault:
         raise HTTPException(status_code=404, detail="Vault not found")
-    
+
     return vault
 
 
@@ -265,27 +305,28 @@ async def update_vault(
     vault_id: int,
     vault_update: VaultUpdate,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Update vault"""
-    vault = db.query(Vault).filter(
-        Vault.id == vault_id,
-        Vault.owner_id == current_user.id
-    ).first()
-    
+    vault = (
+        db.query(Vault)
+        .filter(Vault.id == vault_id, Vault.owner_id == current_user.id)
+        .first()
+    )
+
     if not vault:
         raise HTTPException(status_code=404, detail="Vault not found")
-    
+
     update_data = vault_update.dict(exclude_unset=True)
     for field, value in update_data.items():
         setattr(vault, field, value)
-    
+
     vault.updated_at = datetime.utcnow()
     db.commit()
     db.refresh(vault)
-    
+
     log_audit(db, current_user.id, AuditAction.UPDATE, "vault", vault.id, vault.name)
-    
+
     return vault
 
 
@@ -293,22 +334,23 @@ async def update_vault(
 async def delete_vault(
     vault_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Delete vault"""
-    vault = db.query(Vault).filter(
-        Vault.id == vault_id,
-        Vault.owner_id == current_user.id
-    ).first()
-    
+    vault = (
+        db.query(Vault)
+        .filter(Vault.id == vault_id, Vault.owner_id == current_user.id)
+        .first()
+    )
+
     if not vault:
         raise HTTPException(status_code=404, detail="Vault not found")
-    
+
     if vault.is_default:
         raise HTTPException(status_code=400, detail="Cannot delete default vault")
-    
+
     log_audit(db, current_user.id, AuditAction.DELETE, "vault", vault.id, vault.name)
-    
+
     db.delete(vault)
     db.commit()
     return None
@@ -323,41 +365,44 @@ async def list_secrets(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=100),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """List secrets"""
     query = db.query(Secret).join(Vault).filter(Vault.owner_id == current_user.id)
-    
+
     if vault_id:
         query = query.filter(Secret.vault_id == vault_id)
     if secret_type:
         query = query.filter(Secret.secret_type == secret_type)
     if status:
         query = query.filter(Secret.status == status)
-    
+
     secrets = query.offset(skip).limit(limit).all()
     return secrets
 
 
-@app.post("/secrets", response_model=SecretResponse, status_code=status.HTTP_201_CREATED)
+@app.post(
+    "/secrets", response_model=SecretResponse, status_code=status.HTTP_201_CREATED
+)
 async def create_secret(
     secret: SecretCreate,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Create new secret"""
     # Verify vault exists and belongs to user
-    vault = db.query(Vault).filter(
-        Vault.id == secret.vault_id,
-        Vault.owner_id == current_user.id
-    ).first()
-    
+    vault = (
+        db.query(Vault)
+        .filter(Vault.id == secret.vault_id, Vault.owner_id == current_user.id)
+        .first()
+    )
+
     if not vault:
         raise HTTPException(status_code=404, detail="Vault not found")
-    
+
     # Encrypt secret value
     encrypted_value = crypto_service.encrypt(secret.value)
-    
+
     # Create secret
     db_secret = Secret(
         vault_id=secret.vault_id,
@@ -368,29 +413,37 @@ async def create_secret(
         created_by_id=current_user.id,
         tags=secret.tags,
         expires_at=secret.expires_at,
-        rotation_interval_days=secret.rotation_interval_days
+        rotation_interval_days=secret.rotation_interval_days,
     )
     db.add(db_secret)
     db.commit()
     db.refresh(db_secret)
-    
+
     # Create initial version
     version = SecretVersion(
         secret_id=db_secret.id,
         version_number=1,
         encrypted_value=encrypted_value,
         created_by_id=current_user.id,
-        change_description="Initial version"
+        change_description="Initial version",
     )
     db.add(version)
-    
+
     # Update vault secret count
     vault.secret_count += 1
-    
+
     db.commit()
-    
-    log_audit(db, current_user.id, AuditAction.CREATE, "secret", db_secret.id, db_secret.name, vault.id)
-    
+
+    log_audit(
+        db,
+        current_user.id,
+        AuditAction.CREATE,
+        "secret",
+        db_secret.id,
+        db_secret.name,
+        vault.id,
+    )
+
     return db_secret
 
 
@@ -398,31 +451,41 @@ async def create_secret(
 async def get_secret(
     secret_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Get secret by ID with decrypted value"""
-    secret = db.query(Secret).join(Vault).filter(
-        Secret.id == secret_id,
-        Vault.owner_id == current_user.id
-    ).first()
-    
+    secret = (
+        db.query(Secret)
+        .join(Vault)
+        .filter(Secret.id == secret_id, Vault.owner_id == current_user.id)
+        .first()
+    )
+
     if not secret:
         raise HTTPException(status_code=404, detail="Secret not found")
-    
+
     # Decrypt value
     decrypted_value = crypto_service.decrypt(secret.encrypted_value)
-    
+
     # Update access tracking
     secret.access_count += 1
     secret.last_accessed_at = datetime.utcnow()
     db.commit()
-    
-    log_audit(db, current_user.id, AuditAction.READ, "secret", secret.id, secret.name, secret.vault_id)
-    
+
+    log_audit(
+        db,
+        current_user.id,
+        AuditAction.READ,
+        "secret",
+        secret.id,
+        secret.name,
+        secret.vault_id,
+    )
+
     # Return secret with decrypted value
     secret_dict = SecretResponse.from_orm(secret).dict()
-    secret_dict['value'] = decrypted_value
-    
+    secret_dict["value"] = decrypted_value
+
     return secret_dict
 
 
@@ -431,44 +494,54 @@ async def update_secret(
     secret_id: int,
     secret_update: SecretUpdate,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Update secret"""
-    secret = db.query(Secret).join(Vault).filter(
-        Secret.id == secret_id,
-        Vault.owner_id == current_user.id
-    ).first()
-    
+    secret = (
+        db.query(Secret)
+        .join(Vault)
+        .filter(Secret.id == secret_id, Vault.owner_id == current_user.id)
+        .first()
+    )
+
     if not secret:
         raise HTTPException(status_code=404, detail="Secret not found")
-    
+
     # If value is being updated, create new version
     if secret_update.value:
         encrypted_value = crypto_service.encrypt(secret_update.value)
         secret.encrypted_value = encrypted_value
         secret.version += 1
-        
+
         # Create new version
         version = SecretVersion(
             secret_id=secret.id,
             version_number=secret.version,
             encrypted_value=encrypted_value,
             created_by_id=current_user.id,
-            change_description="Manual update"
+            change_description="Manual update",
         )
         db.add(version)
-    
+
     # Update other fields
-    update_data = secret_update.dict(exclude_unset=True, exclude={'value'})
+    update_data = secret_update.dict(exclude_unset=True, exclude={"value"})
     for field, value in update_data.items():
         setattr(secret, field, value)
-    
+
     secret.updated_at = datetime.utcnow()
     db.commit()
     db.refresh(secret)
-    
-    log_audit(db, current_user.id, AuditAction.UPDATE, "secret", secret.id, secret.name, secret.vault_id)
-    
+
+    log_audit(
+        db,
+        current_user.id,
+        AuditAction.UPDATE,
+        "secret",
+        secret.id,
+        secret.name,
+        secret.vault_id,
+    )
+
     return secret
 
 
@@ -476,22 +549,32 @@ async def update_secret(
 async def delete_secret(
     secret_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Delete secret"""
-    secret = db.query(Secret).join(Vault).filter(
-        Secret.id == secret_id,
-        Vault.owner_id == current_user.id
-    ).first()
-    
+    secret = (
+        db.query(Secret)
+        .join(Vault)
+        .filter(Secret.id == secret_id, Vault.owner_id == current_user.id)
+        .first()
+    )
+
     if not secret:
         raise HTTPException(status_code=404, detail="Secret not found")
-    
+
     vault = secret.vault
     vault.secret_count -= 1
-    
-    log_audit(db, current_user.id, AuditAction.DELETE, "secret", secret.id, secret.name, secret.vault_id)
-    
+
+    log_audit(
+        db,
+        current_user.id,
+        AuditAction.DELETE,
+        "secret",
+        secret.id,
+        secret.name,
+        secret.vault_id,
+    )
+
     db.delete(secret)
     db.commit()
     return None
@@ -502,37 +585,39 @@ async def rotate_secret(
     secret_id: int,
     rotation_request: SecretRotationRequest,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Rotate secret (generate new value)"""
-    secret = db.query(Secret).join(Vault).filter(
-        Secret.id == secret_id,
-        Vault.owner_id == current_user.id
-    ).first()
-    
+    secret = (
+        db.query(Secret)
+        .join(Vault)
+        .filter(Secret.id == secret_id, Vault.owner_id == current_user.id)
+        .first()
+    )
+
     if not secret:
         raise HTTPException(status_code=404, detail="Secret not found")
-    
+
     old_version = secret.version
-    
+
     # Generate new secret value based on type
     new_value = crypto_service.generate_token(32)
     encrypted_value = crypto_service.encrypt(new_value)
-    
+
     secret.encrypted_value = encrypted_value
     secret.version += 1
     secret.last_rotated_at = datetime.utcnow()
-    
+
     # Create new version
     version = SecretVersion(
         secret_id=secret.id,
         version_number=secret.version,
         encrypted_value=encrypted_value,
         created_by_id=current_user.id,
-        change_description=rotation_request.rotation_reason or "Manual rotation"
+        change_description=rotation_request.rotation_reason or "Manual rotation",
     )
     db.add(version)
-    
+
     # Log rotation
     rotation = SecretRotation(
         secret_id=secret.id,
@@ -541,15 +626,23 @@ async def rotate_secret(
         rotation_type="manual",
         rotated_by_id=current_user.id,
         rotation_reason=rotation_request.rotation_reason,
-        success=True
+        success=True,
     )
     db.add(rotation)
-    
+
     db.commit()
     db.refresh(rotation)
-    
-    log_audit(db, current_user.id, AuditAction.ROTATE, "secret", secret.id, secret.name, secret.vault_id)
-    
+
+    log_audit(
+        db,
+        current_user.id,
+        AuditAction.ROTATE,
+        "secret",
+        secret.id,
+        secret.name,
+        secret.vault_id,
+    )
+
     return rotation
 
 
@@ -557,54 +650,64 @@ async def rotate_secret(
 async def get_secret_versions(
     secret_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Get secret version history"""
-    secret = db.query(Secret).join(Vault).filter(
-        Secret.id == secret_id,
-        Vault.owner_id == current_user.id
-    ).first()
-    
+    secret = (
+        db.query(Secret)
+        .join(Vault)
+        .filter(Secret.id == secret_id, Vault.owner_id == current_user.id)
+        .first()
+    )
+
     if not secret:
         raise HTTPException(status_code=404, detail="Secret not found")
-    
-    versions = db.query(SecretVersion).filter(
-        SecretVersion.secret_id == secret_id
-    ).order_by(SecretVersion.version_number.desc()).all()
-    
+
+    versions = (
+        db.query(SecretVersion)
+        .filter(SecretVersion.secret_id == secret_id)
+        .order_by(SecretVersion.version_number.desc())
+        .all()
+    )
+
     return versions
 
 
 # Analytics endpoints
 @app.get("/analytics/overview", response_model=VaultAnalytics)
 async def get_analytics_overview(
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    current_user: User = Depends(get_current_user), db: Session = Depends(get_db)
 ):
     """Get analytics overview"""
     vaults = db.query(Vault).filter(Vault.owner_id == current_user.id).all()
-    secrets = db.query(Secret).join(Vault).filter(Vault.owner_id == current_user.id).all()
-    
+    secrets = (
+        db.query(Secret).join(Vault).filter(Vault.owner_id == current_user.id).all()
+    )
+
     total_vaults = len(vaults)
     total_secrets = len(secrets)
     active_secrets = sum(1 for s in secrets if s.status == SecretStatus.ACTIVE)
     expired_secrets = sum(1 for s in secrets if s.status == SecretStatus.EXPIRED)
     revoked_secrets = sum(1 for s in secrets if s.status == SecretStatus.REVOKED)
-    
+
     # Count secrets by type
     secrets_by_type = {}
     for secret in secrets:
         secret_type = secret.secret_type.value
         secrets_by_type[secret_type] = secrets_by_type.get(secret_type, 0) + 1
-    
-    total_access_grants = db.query(AccessGrant).join(Secret).join(Vault).filter(
-        Vault.owner_id == current_user.id
-    ).count()
-    
-    total_policies = db.query(Policy).join(Vault).filter(
-        Vault.owner_id == current_user.id
-    ).count()
-    
+
+    total_access_grants = (
+        db.query(AccessGrant)
+        .join(Secret)
+        .join(Vault)
+        .filter(Vault.owner_id == current_user.id)
+        .count()
+    )
+
+    total_policies = (
+        db.query(Policy).join(Vault).filter(Vault.owner_id == current_user.id).count()
+    )
+
     return VaultAnalytics(
         total_vaults=total_vaults,
         total_secrets=total_secrets,
@@ -613,7 +716,7 @@ async def get_analytics_overview(
         revoked_secrets=revoked_secrets,
         total_access_grants=total_access_grants,
         total_policies=total_policies,
-        secrets_by_type=secrets_by_type
+        secrets_by_type=secrets_by_type,
     )
 
 
@@ -624,20 +727,21 @@ async def get_audit_logs(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=100),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Get audit logs"""
     query = db.query(AuditLog).filter(AuditLog.user_id == current_user.id)
-    
+
     if vault_id:
         query = query.filter(AuditLog.vault_id == vault_id)
     if action:
         query = query.filter(AuditLog.action == action)
-    
+
     logs = query.order_by(AuditLog.created_at.desc()).offset(skip).limit(limit).all()
     return logs
 
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)

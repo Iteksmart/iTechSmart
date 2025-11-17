@@ -40,16 +40,13 @@ class BillResponse(BaseModel):
     paid_amount: float
     balance: float
     status: BillingStatus
-    
+
     class Config:
         from_attributes = True
 
 
 @router.post("/", response_model=BillResponse)
-def create_bill(
-    bill: BillCreate,
-    db: Session = Depends(get_db)
-):
+def create_bill(bill: BillCreate, db: Session = Depends(get_db)):
     """Create new bill"""
     engine = SupremeEngine(db)
     return engine.create_bill(bill.dict())
@@ -59,7 +56,7 @@ def create_bill(
 def get_patient_bills(
     patient_id: int,
     status: Optional[BillingStatus] = Query(None),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """Get patient bills"""
     engine = SupremeEngine(db)
@@ -68,13 +65,11 @@ def get_patient_bills(
 
 @router.post("/{bill_id}/payment", response_model=BillResponse)
 def process_payment(
-    bill_id: int,
-    payment: PaymentProcess,
-    db: Session = Depends(get_db)
+    bill_id: int, payment: PaymentProcess, db: Session = Depends(get_db)
 ):
     """Process bill payment"""
     engine = SupremeEngine(db)
-    
+
     try:
         return engine.process_payment(bill_id, payment.payment_amount)
     except ValueError as e:

@@ -1,6 +1,7 @@
 """
 API endpoints for product management
 """
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List, Optional
@@ -69,17 +70,17 @@ async def list_products(
     limit: int = 100,
     is_active: Optional[bool] = None,
     status: Optional[ProductStatus] = None,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """List all products with optional filtering"""
     query = db.query(Product)
-    
+
     if is_active is not None:
         query = query.filter(Product.is_active == is_active)
-    
+
     if status is not None:
         query = query.filter(Product.status == status)
-    
+
     products = query.offset(skip).limit(limit).all()
     return products
 
@@ -109,7 +110,7 @@ async def create_product(product: ProductCreate, db: Session = Depends(get_db)):
     existing = db.query(Product).filter(Product.name == product.name).first()
     if existing:
         raise HTTPException(status_code=400, detail="Product already exists")
-    
+
     db_product = Product(**product.dict())
     db.add(db_product)
     db.commit()
@@ -119,20 +120,18 @@ async def create_product(product: ProductCreate, db: Session = Depends(get_db)):
 
 @router.put("/{product_id}", response_model=ProductResponse)
 async def update_product(
-    product_id: int,
-    product: ProductUpdate,
-    db: Session = Depends(get_db)
+    product_id: int, product: ProductUpdate, db: Session = Depends(get_db)
 ):
     """Update a product"""
     db_product = db.query(Product).filter(Product.id == product_id).first()
     if not db_product:
         raise HTTPException(status_code=404, detail="Product not found")
-    
+
     # Update fields
     update_data = product.dict(exclude_unset=True)
     for field, value in update_data.items():
         setattr(db_product, field, value)
-    
+
     db_product.updated_at = datetime.utcnow()
     db.commit()
     db.refresh(db_product)
@@ -145,7 +144,7 @@ async def delete_product(product_id: int, db: Session = Depends(get_db)):
     db_product = db.query(Product).filter(Product.id == product_id).first()
     if not db_product:
         raise HTTPException(status_code=404, detail="Product not found")
-    
+
     db.delete(db_product)
     db.commit()
     return None
@@ -157,7 +156,7 @@ async def get_product_stats(product_id: int, db: Session = Depends(get_db)):
     product = db.query(Product).filter(Product.id == product_id).first()
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
-    
+
     return {
         "product_id": product.id,
         "name": product.name,
@@ -166,10 +165,14 @@ async def get_product_stats(product_id: int, db: Session = Depends(get_db)):
         "passed_checks": product.passed_checks,
         "failed_checks": product.failed_checks,
         "warning_checks": product.warning_checks,
-        "pass_rate": (product.passed_checks / product.total_checks * 100) if product.total_checks > 0 else 0,
+        "pass_rate": (
+            (product.passed_checks / product.total_checks * 100)
+            if product.total_checks > 0
+            else 0
+        ),
         "status": product.status,
         "last_health_check": product.last_health_check,
-        "last_qa_scan": product.last_qa_scan
+        "last_qa_scan": product.last_qa_scan,
     }
 
 
@@ -179,11 +182,11 @@ async def activate_product(product_id: int, db: Session = Depends(get_db)):
     product = db.query(Product).filter(Product.id == product_id).first()
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
-    
+
     product.is_active = True
     product.updated_at = datetime.utcnow()
     db.commit()
-    
+
     return {"message": "Product activated successfully", "product_id": product_id}
 
 
@@ -193,9 +196,9 @@ async def deactivate_product(product_id: int, db: Session = Depends(get_db)):
     product = db.query(Product).filter(Product.id == product_id).first()
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
-    
+
     product.is_active = False
     product.updated_at = datetime.utcnow()
     db.commit()
-    
+
     return {"message": "Product deactivated successfully", "product_id": product_id}

@@ -2,6 +2,7 @@
 System Agents API Routes
 Provides access to iTechSmart Agent monitoring and management
 """
+
 from fastapi import APIRouter, Depends, HTTPException, Query
 from typing import List, Optional, Dict, Any
 from datetime import datetime
@@ -18,7 +19,8 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 # License Server configuration
-LICENSE_SERVER_URL = os.getenv('LICENSE_SERVER_URL', 'http://localhost:3000')
+LICENSE_SERVER_URL = os.getenv("LICENSE_SERVER_URL", "http://localhost:3000")
+
 
 # Pydantic models for request/response
 class SystemMetrics(BaseModel):
@@ -28,10 +30,12 @@ class SystemMetrics(BaseModel):
     network_rx: float
     network_tx: float
 
+
 class SecurityStatus(BaseModel):
     firewall_enabled: bool
     antivirus_enabled: bool
     updates_available: int
+
 
 class AgentStatus(BaseModel):
     id: str
@@ -43,6 +47,7 @@ class AgentStatus(BaseModel):
     version: str
     organization_id: Optional[str] = None
 
+
 class AgentMetric(BaseModel):
     id: str
     agent_id: str
@@ -53,6 +58,7 @@ class AgentMetric(BaseModel):
     network_rx: float
     network_tx: float
 
+
 class AgentAlert(BaseModel):
     id: str
     agent_id: str
@@ -61,6 +67,7 @@ class AgentAlert(BaseModel):
     created_at: datetime
     resolved: bool
     resolved_at: Optional[datetime] = None
+
 
 class AgentCommand(BaseModel):
     id: str
@@ -72,9 +79,11 @@ class AgentCommand(BaseModel):
     executed_at: Optional[datetime] = None
     result: Optional[Dict[str, Any]] = None
 
+
 class CommandRequest(BaseModel):
     command: str
     parameters: Optional[Dict[str, Any]] = None
+
 
 # Helper function to make authenticated requests to License Server
 async def make_license_server_request(
@@ -82,12 +91,12 @@ async def make_license_server_request(
     endpoint: str,
     token: str,
     data: Optional[Dict] = None,
-    params: Optional[Dict] = None
+    params: Optional[Dict] = None,
 ):
     """Make authenticated request to License Server"""
     url = f"{LICENSE_SERVER_URL}{endpoint}"
     headers = {"Authorization": f"Bearer {token}"}
-    
+
     async with httpx.AsyncClient() as client:
         try:
             if method == "GET":
@@ -100,12 +109,15 @@ async def make_license_server_request(
                 response = await client.delete(url, headers=headers)
             else:
                 raise ValueError(f"Unsupported HTTP method: {method}")
-            
+
             response.raise_for_status()
             return response.json()
         except httpx.HTTPError as e:
             logger.error(f"License Server request failed: {e}")
-            raise HTTPException(status_code=500, detail=f"License Server error: {str(e)}")
+            raise HTTPException(
+                status_code=500, detail=f"License Server error: {str(e)}"
+            )
+
 
 @router.get("/", response_model=Dict[str, Any])
 async def list_agents(
@@ -113,11 +125,11 @@ async def list_agents(
     page: int = Query(1, ge=1),
     limit: int = Query(50, ge=1, le=100),
     status: Optional[str] = None,
-    search: Optional[str] = None
+    search: Optional[str] = None,
 ):
     """
     List all system monitoring agents
-    
+
     Returns agents with their current status, metrics, and alerts
     """
     params = {
@@ -128,82 +140,64 @@ async def list_agents(
         params["status"] = status
     if search:
         params["search"] = search
-    
+
     # Get user's auth token (assuming it's stored in the user object or session)
-    token = getattr(current_user, 'token', None)
+    token = getattr(current_user, "token", None)
     if not token:
         raise HTTPException(status_code=401, detail="Authentication token not found")
-    
+
     result = await make_license_server_request(
-        "GET",
-        "/api/agents",
-        token,
-        params=params
+        "GET", "/api/agents", token, params=params
     )
-    
+
     return result
 
+
 @router.get("/{agent_id}", response_model=AgentStatus)
-async def get_agent(
-    agent_id: str,
-    current_user: User = Depends(get_current_user)
-):
+async def get_agent(agent_id: str, current_user: User = Depends(get_current_user)):
     """
     Get detailed information about a specific agent
     """
-    token = getattr(current_user, 'token', None)
+    token = getattr(current_user, "token", None)
     if not token:
         raise HTTPException(status_code=401, detail="Authentication token not found")
-    
-    result = await make_license_server_request(
-        "GET",
-        f"/api/agents/{agent_id}",
-        token
-    )
-    
+
+    result = await make_license_server_request("GET", f"/api/agents/{agent_id}", token)
+
     return result
+
 
 @router.put("/{agent_id}", response_model=AgentStatus)
 async def update_agent(
-    agent_id: str,
-    data: Dict[str, Any],
-    current_user: User = Depends(get_current_user)
+    agent_id: str, data: Dict[str, Any], current_user: User = Depends(get_current_user)
 ):
     """
     Update agent configuration
     """
-    token = getattr(current_user, 'token', None)
+    token = getattr(current_user, "token", None)
     if not token:
         raise HTTPException(status_code=401, detail="Authentication token not found")
-    
+
     result = await make_license_server_request(
-        "PUT",
-        f"/api/agents/{agent_id}",
-        token,
-        data=data
+        "PUT", f"/api/agents/{agent_id}", token, data=data
     )
-    
+
     return result
 
+
 @router.delete("/{agent_id}")
-async def delete_agent(
-    agent_id: str,
-    current_user: User = Depends(get_current_user)
-):
+async def delete_agent(agent_id: str, current_user: User = Depends(get_current_user)):
     """
     Delete an agent
     """
-    token = getattr(current_user, 'token', None)
+    token = getattr(current_user, "token", None)
     if not token:
         raise HTTPException(status_code=401, detail="Authentication token not found")
-    
-    await make_license_server_request(
-        "DELETE",
-        f"/api/agents/{agent_id}",
-        token
-    )
-    
+
+    await make_license_server_request("DELETE", f"/api/agents/{agent_id}", token)
+
     return {"message": "Agent deleted successfully"}
+
 
 @router.get("/{agent_id}/metrics", response_model=List[AgentMetric])
 async def get_agent_metrics(
@@ -211,299 +205,271 @@ async def get_agent_metrics(
     current_user: User = Depends(get_current_user),
     start_date: Optional[datetime] = None,
     end_date: Optional[datetime] = None,
-    limit: int = Query(100, ge=1, le=1000)
+    limit: int = Query(100, ge=1, le=1000),
 ):
     """
     Get historical metrics for an agent
     """
-    token = getattr(current_user, 'token', None)
+    token = getattr(current_user, "token", None)
     if not token:
         raise HTTPException(status_code=401, detail="Authentication token not found")
-    
+
     params = {"limit": limit}
     if start_date:
         params["startDate"] = start_date.isoformat()
     if end_date:
         params["endDate"] = end_date.isoformat()
-    
+
     result = await make_license_server_request(
-        "GET",
-        f"/api/agents/{agent_id}/metrics",
-        token,
-        params=params
+        "GET", f"/api/agents/{agent_id}/metrics", token, params=params
     )
-    
+
     return result
+
 
 @router.get("/{agent_id}/metrics/latest", response_model=AgentMetric)
 async def get_latest_metrics(
-    agent_id: str,
-    current_user: User = Depends(get_current_user)
+    agent_id: str, current_user: User = Depends(get_current_user)
 ):
     """
     Get the most recent metrics for an agent
     """
-    token = getattr(current_user, 'token', None)
+    token = getattr(current_user, "token", None)
     if not token:
         raise HTTPException(status_code=401, detail="Authentication token not found")
-    
+
     result = await make_license_server_request(
-        "GET",
-        f"/api/agents/{agent_id}/metrics/latest",
-        token
+        "GET", f"/api/agents/{agent_id}/metrics/latest", token
     )
-    
+
     return result
+
 
 @router.get("/{agent_id}/metrics/system", response_model=SystemMetrics)
 async def get_system_metrics(
-    agent_id: str,
-    current_user: User = Depends(get_current_user)
+    agent_id: str, current_user: User = Depends(get_current_user)
 ):
     """
     Get current system metrics (CPU, Memory, Disk, Network)
     """
-    token = getattr(current_user, 'token', None)
+    token = getattr(current_user, "token", None)
     if not token:
         raise HTTPException(status_code=401, detail="Authentication token not found")
-    
+
     # Get latest metrics
     metrics = await make_license_server_request(
-        "GET",
-        f"/api/agents/{agent_id}/metrics/latest",
-        token
+        "GET", f"/api/agents/{agent_id}/metrics/latest", token
     )
-    
+
     return SystemMetrics(
-        cpu_usage=metrics.get('cpu_usage', 0),
-        memory_usage=metrics.get('memory_usage', 0),
-        disk_usage=metrics.get('disk_usage', 0),
-        network_rx=metrics.get('network_rx', 0),
-        network_tx=metrics.get('network_tx', 0)
+        cpu_usage=metrics.get("cpu_usage", 0),
+        memory_usage=metrics.get("memory_usage", 0),
+        disk_usage=metrics.get("disk_usage", 0),
+        network_rx=metrics.get("network_rx", 0),
+        network_tx=metrics.get("network_tx", 0),
     )
+
 
 @router.get("/{agent_id}/security", response_model=SecurityStatus)
 async def get_security_status(
-    agent_id: str,
-    current_user: User = Depends(get_current_user)
+    agent_id: str, current_user: User = Depends(get_current_user)
 ):
     """
     Get security status for an agent
     """
-    token = getattr(current_user, 'token', None)
+    token = getattr(current_user, "token", None)
     if not token:
         raise HTTPException(status_code=401, detail="Authentication token not found")
-    
+
     # Get latest metrics which includes security info
     metrics = await make_license_server_request(
-        "GET",
-        f"/api/agents/{agent_id}/metrics/latest",
-        token
+        "GET", f"/api/agents/{agent_id}/metrics/latest", token
     )
-    
+
     return SecurityStatus(
-        firewall_enabled=metrics.get('firewall_enabled', False),
-        antivirus_enabled=metrics.get('antivirus_enabled', False),
-        updates_available=metrics.get('updates_available', 0)
+        firewall_enabled=metrics.get("firewall_enabled", False),
+        antivirus_enabled=metrics.get("antivirus_enabled", False),
+        updates_available=metrics.get("updates_available", 0),
     )
+
 
 @router.get("/{agent_id}/alerts", response_model=List[AgentAlert])
 async def get_agent_alerts(
     agent_id: str,
     current_user: User = Depends(get_current_user),
     severity: Optional[str] = None,
-    resolved: Optional[bool] = None
+    resolved: Optional[bool] = None,
 ):
     """
     Get alerts for an agent
     """
-    token = getattr(current_user, 'token', None)
+    token = getattr(current_user, "token", None)
     if not token:
         raise HTTPException(status_code=401, detail="Authentication token not found")
-    
+
     params = {}
     if severity:
         params["severity"] = severity
     if resolved is not None:
         params["resolved"] = resolved
-    
+
     result = await make_license_server_request(
-        "GET",
-        f"/api/agents/{agent_id}/alerts",
-        token,
-        params=params
+        "GET", f"/api/agents/{agent_id}/alerts", token, params=params
     )
-    
+
     return result
+
 
 @router.put("/{agent_id}/alerts/{alert_id}/resolve")
 async def resolve_alert(
-    agent_id: str,
-    alert_id: str,
-    current_user: User = Depends(get_current_user)
+    agent_id: str, alert_id: str, current_user: User = Depends(get_current_user)
 ):
     """
     Mark an alert as resolved
     """
-    token = getattr(current_user, 'token', None)
+    token = getattr(current_user, "token", None)
     if not token:
         raise HTTPException(status_code=401, detail="Authentication token not found")
-    
+
     await make_license_server_request(
-        "PUT",
-        f"/api/agents/{agent_id}/alerts/{alert_id}/resolve",
-        token
+        "PUT", f"/api/agents/{agent_id}/alerts/{alert_id}/resolve", token
     )
-    
+
     return {"message": "Alert resolved successfully"}
+
 
 @router.get("/{agent_id}/alerts/count")
 async def get_unresolved_alert_count(
-    agent_id: str,
-    current_user: User = Depends(get_current_user)
+    agent_id: str, current_user: User = Depends(get_current_user)
 ):
     """
     Get count of unresolved alerts
     """
-    token = getattr(current_user, 'token', None)
+    token = getattr(current_user, "token", None)
     if not token:
         raise HTTPException(status_code=401, detail="Authentication token not found")
-    
+
     result = await make_license_server_request(
-        "GET",
-        f"/api/agents/{agent_id}/alerts/count",
-        token
+        "GET", f"/api/agents/{agent_id}/alerts/count", token
     )
-    
+
     return result
+
 
 @router.post("/{agent_id}/commands", response_model=AgentCommand)
 async def send_command(
     agent_id: str,
     command_request: CommandRequest,
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """
     Send a command to an agent
     """
-    token = getattr(current_user, 'token', None)
+    token = getattr(current_user, "token", None)
     if not token:
         raise HTTPException(status_code=401, detail="Authentication token not found")
-    
+
     result = await make_license_server_request(
-        "POST",
-        f"/api/agents/{agent_id}/commands",
-        token,
-        data=command_request.dict()
+        "POST", f"/api/agents/{agent_id}/commands", token, data=command_request.dict()
     )
-    
+
     return result
+
 
 @router.post("/{agent_id}/commands/execute")
 async def execute_command(
     agent_id: str,
     command_request: CommandRequest,
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """
     Execute a command on an agent and wait for result
     """
-    token = getattr(current_user, 'token', None)
+    token = getattr(current_user, "token", None)
     if not token:
         raise HTTPException(status_code=401, detail="Authentication token not found")
-    
+
     result = await make_license_server_request(
         "POST",
         f"/api/agents/{agent_id}/commands/execute",
         token,
-        data=command_request.dict()
+        data=command_request.dict(),
     )
-    
+
     return result
+
 
 @router.get("/{agent_id}/commands", response_model=List[AgentCommand])
 async def get_agent_commands(
-    agent_id: str,
-    current_user: User = Depends(get_current_user)
+    agent_id: str, current_user: User = Depends(get_current_user)
 ):
     """
     Get command history for an agent
     """
-    token = getattr(current_user, 'token', None)
+    token = getattr(current_user, "token", None)
     if not token:
         raise HTTPException(status_code=401, detail="Authentication token not found")
-    
+
     result = await make_license_server_request(
-        "GET",
-        f"/api/agents/{agent_id}/commands",
-        token
+        "GET", f"/api/agents/{agent_id}/commands", token
     )
-    
+
     return result
+
 
 @router.get("/{agent_id}/commands/{command_id}", response_model=AgentCommand)
 async def get_command_status(
-    agent_id: str,
-    command_id: str,
-    current_user: User = Depends(get_current_user)
+    agent_id: str, command_id: str, current_user: User = Depends(get_current_user)
 ):
     """
     Get status of a specific command
     """
-    token = getattr(current_user, 'token', None)
+    token = getattr(current_user, "token", None)
     if not token:
         raise HTTPException(status_code=401, detail="Authentication token not found")
-    
+
     result = await make_license_server_request(
-        "GET",
-        f"/api/agents/{agent_id}/commands/{command_id}",
-        token
+        "GET", f"/api/agents/{agent_id}/commands/{command_id}", token
     )
-    
+
     return result
 
+
 @router.get("/stats/overview")
-async def get_agent_stats(
-    current_user: User = Depends(get_current_user)
-):
+async def get_agent_stats(current_user: User = Depends(get_current_user)):
     """
     Get overview statistics for all agents
     """
-    token = getattr(current_user, 'token', None)
+    token = getattr(current_user, "token", None)
     if not token:
         raise HTTPException(status_code=401, detail="Authentication token not found")
-    
+
     # Get all agents
     agents_result = await make_license_server_request(
-        "GET",
-        "/api/agents",
-        token,
-        params={"limit": 1000}
+        "GET", "/api/agents", token, params={"limit": 1000}
     )
-    
-    agents = agents_result.get('agents', [])
+
+    agents = agents_result.get("agents", [])
     total = len(agents)
-    active = len([a for a in agents if a.get('status') == 'ACTIVE'])
-    offline = len([a for a in agents if a.get('status') == 'OFFLINE'])
-    error = len([a for a in agents if a.get('status') == 'ERROR'])
-    
+    active = len([a for a in agents if a.get("status") == "ACTIVE"])
+    offline = len([a for a in agents if a.get("status") == "OFFLINE"])
+    error = len([a for a in agents if a.get("status") == "ERROR"])
+
     # Get total unresolved alerts
     total_alerts = 0
     for agent in agents:
         try:
             alert_count = await make_license_server_request(
-                "GET",
-                f"/api/agents/{agent['id']}/alerts/count",
-                token
+                "GET", f"/api/agents/{agent['id']}/alerts/count", token
             )
-            total_alerts += alert_count.get('count', 0)
+            total_alerts += alert_count.get("count", 0)
         except:
             pass
-    
+
     return {
         "total_agents": total,
         "active_agents": active,
         "offline_agents": offline,
         "error_agents": error,
-        "total_unresolved_alerts": total_alerts
+        "total_unresolved_alerts": total_alerts,
     }

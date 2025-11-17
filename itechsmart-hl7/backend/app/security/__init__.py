@@ -10,14 +10,14 @@ from .security_monitor import SecurityMonitor, security_monitor
 from .audit_logger import AuditLogger, audit_logger
 
 __all__ = [
-    'HIPAACompliance',
-    'hipaa_manager',
-    'EncryptionManager',
-    'encryption_manager',
-    'AccessControl',
-    'access_control',
-    'SecurityMonitor',
-    'security_monitor',
-    'AuditLogger',
-    'audit_logger'
+    "HIPAACompliance",
+    "hipaa_manager",
+    "EncryptionManager",
+    "encryption_manager",
+    "AccessControl",
+    "access_control",
+    "SecurityMonitor",
+    "security_monitor",
+    "AuditLogger",
+    "audit_logger",
 ]

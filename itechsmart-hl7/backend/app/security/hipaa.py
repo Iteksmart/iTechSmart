@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 
 class PHIType(Enum):
     """Types of Protected Health Information"""
+
     NAME = "name"
     ADDRESS = "address"
     DATE = "date"
@@ -36,25 +37,40 @@ class HIPAACompliance:
     """
     HIPAA compliance enforcement and utilities
     """
-    
+
     def __init__(self):
         self.phi_identifiers = [
-            'name', 'address', 'date', 'phone', 'fax', 'email', 'ssn',
-            'mrn', 'account', 'certificate', 'vehicle', 'device', 'url',
-            'ip', 'biometric', 'photo'
+            "name",
+            "address",
+            "date",
+            "phone",
+            "fax",
+            "email",
+            "ssn",
+            "mrn",
+            "account",
+            "certificate",
+            "vehicle",
+            "device",
+            "url",
+            "ip",
+            "biometric",
+            "photo",
         ]
-    
-    def log_phi_access(self,
-                      user_id: str,
-                      action: str,
-                      resource_type: str,
-                      resource_id: str,
-                      phi_types: List[PHIType],
-                      justification: str,
-                      ip_address: Optional[str] = None) -> Dict[str, Any]:
+
+    def log_phi_access(
+        self,
+        user_id: str,
+        action: str,
+        resource_type: str,
+        resource_id: str,
+        phi_types: List[PHIType],
+        justification: str,
+        ip_address: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """
         Log PHI access for HIPAA audit trail
-        
+
         Args:
             user_id: User accessing PHI
             action: Action performed (read, write, delete)
@@ -63,154 +79,179 @@ class HIPAACompliance:
             phi_types: Types of PHI accessed
             justification: Business justification for access
             ip_address: User's IP address
-            
+
         Returns:
             Audit log entry
         """
         log_entry = {
-            'log_id': f"AUDIT-{datetime.utcnow().timestamp()}",
-            'timestamp': datetime.utcnow().isoformat(),
-            'user_id': user_id,
-            'action': action,
-            'resource_type': resource_type,
-            'resource_id': resource_id,
-            'phi_types': [phi.value for phi in phi_types],
-            'justification': justification,
-            'ip_address': ip_address,
-            'phi_accessed': True
+            "log_id": f"AUDIT-{datetime.utcnow().timestamp()}",
+            "timestamp": datetime.utcnow().isoformat(),
+            "user_id": user_id,
+            "action": action,
+            "resource_type": resource_type,
+            "resource_id": resource_id,
+            "phi_types": [phi.value for phi in phi_types],
+            "justification": justification,
+            "ip_address": ip_address,
+            "phi_accessed": True,
         }
-        
+
         # In production: store in database with 7-year retention
         logger.info(f"PHI Access Logged: {log_entry['log_id']}")
-        
+
         return log_entry
-    
-    def de_identify_data(self, data: Dict[str, Any], method: str = 'hash') -> Dict[str, Any]:
+
+    def de_identify_data(
+        self, data: Dict[str, Any], method: str = "hash"
+    ) -> Dict[str, Any]:
         """
         De-identify PHI data
-        
+
         Args:
             data: Data containing PHI
             method: De-identification method (hash, mask, remove)
-            
+
         Returns:
             De-identified data
         """
         de_identified = data.copy()
-        
-        phi_fields = ['name', 'ssn', 'mrn', 'phone', 'email', 'address']
-        
+
+        phi_fields = ["name", "ssn", "mrn", "phone", "email", "address"]
+
         for field in phi_fields:
             if field in de_identified:
-                if method == 'hash':
+                if method == "hash":
                     de_identified[field] = self._hash_value(str(de_identified[field]))
-                elif method == 'mask':
+                elif method == "mask":
                     de_identified[field] = self._mask_value(str(de_identified[field]))
-                elif method == 'remove':
+                elif method == "remove":
                     del de_identified[field]
-        
+
         return de_identified
-    
+
     def _hash_value(self, value: str) -> str:
         """Hash value using SHA-256"""
         return hashlib.sha256(value.encode()).hexdigest()[:16]
-    
+
     def _mask_value(self, value: str) -> str:
         """Mask value (show first/last chars only)"""
         if len(value) <= 4:
-            return '****'
+            return "****"
         return f"{value[:2]}{'*' * (len(value) - 4)}{value[-2:]}"
-    
-    def validate_minimum_necessary(self,
-                                   requested_fields: List[str],
-                                   user_role: str,
-                                   purpose: str) -> Dict[str, Any]:
+
+    def validate_minimum_necessary(
+        self, requested_fields: List[str], user_role: str, purpose: str
+    ) -> Dict[str, Any]:
         """
         Validate minimum necessary principle
-        
+
         Args:
             requested_fields: Fields being requested
             user_role: Role of requesting user
             purpose: Purpose of data access
-            
+
         Returns:
             Validation result with allowed fields
         """
         # Define role-based access rules
         role_permissions = {
-            'physician': ['name', 'mrn', 'dob', 'gender', 'vitals', 'labs', 'medications', 'diagnoses', 'notes'],
-            'nurse': ['name', 'mrn', 'dob', 'vitals', 'medications', 'allergies', 'care_plan'],
-            'therapist': ['name', 'mrn', 'dob', 'therapy_notes', 'progress'],
-            'billing': ['name', 'mrn', 'insurance', 'billing_codes'],
-            'analyst': ['age', 'gender', 'diagnoses', 'outcomes']  # De-identified only
+            "physician": [
+                "name",
+                "mrn",
+                "dob",
+                "gender",
+                "vitals",
+                "labs",
+                "medications",
+                "diagnoses",
+                "notes",
+            ],
+            "nurse": [
+                "name",
+                "mrn",
+                "dob",
+                "vitals",
+                "medications",
+                "allergies",
+                "care_plan",
+            ],
+            "therapist": ["name", "mrn", "dob", "therapy_notes", "progress"],
+            "billing": ["name", "mrn", "insurance", "billing_codes"],
+            "analyst": ["age", "gender", "diagnoses", "outcomes"],  # De-identified only
         }
-        
+
         allowed_fields = role_permissions.get(user_role, [])
         approved_fields = [f for f in requested_fields if f in allowed_fields]
         denied_fields = [f for f in requested_fields if f not in allowed_fields]
-        
+
         return {
-            'approved': len(denied_fields) == 0,
-            'approved_fields': approved_fields,
-            'denied_fields': denied_fields,
-            'justification_required': len(denied_fields) > 0
+            "approved": len(denied_fields) == 0,
+            "approved_fields": approved_fields,
+            "denied_fields": denied_fields,
+            "justification_required": len(denied_fields) > 0,
         }
-    
-    def check_breach_notification_required(self, incident: Dict[str, Any]) -> Dict[str, Any]:
+
+    def check_breach_notification_required(
+        self, incident: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Check if breach notification is required
-        
+
         Args:
             incident: Security incident details
-            
+
         Returns:
             Breach notification assessment
         """
         # HIPAA breach notification criteria
         criteria = {
-            'unauthorized_access': False,
-            'phi_compromised': False,
-            'affects_500_plus': False,
-            'notification_required': False,
-            'notification_deadline': None
+            "unauthorized_access": False,
+            "phi_compromised": False,
+            "affects_500_plus": False,
+            "notification_required": False,
+            "notification_deadline": None,
         }
-        
+
         # Check if PHI was accessed
-        if incident.get('phi_accessed'):
-            criteria['phi_compromised'] = True
-        
+        if incident.get("phi_accessed"):
+            criteria["phi_compromised"] = True
+
         # Check if unauthorized
-        if incident.get('unauthorized'):
-            criteria['unauthorized_access'] = True
-        
+        if incident.get("unauthorized"):
+            criteria["unauthorized_access"] = True
+
         # Check number of individuals affected
-        affected_count = incident.get('affected_individuals', 0)
+        affected_count = incident.get("affected_individuals", 0)
         if affected_count >= 500:
-            criteria['affects_500_plus'] = True
-        
+            criteria["affects_500_plus"] = True
+
         # Determine if notification required
-        if criteria['unauthorized_access'] and criteria['phi_compromised']:
-            criteria['notification_required'] = True
-            
+        if criteria["unauthorized_access"] and criteria["phi_compromised"]:
+            criteria["notification_required"] = True
+
             # Calculate deadline (60 days for <500, immediate for 500+)
-            if criteria['affects_500_plus']:
-                criteria['notification_deadline'] = 'immediate'
+            if criteria["affects_500_plus"]:
+                criteria["notification_deadline"] = "immediate"
             else:
-                deadline = datetime.utcnow().timestamp() + (60 * 24 * 60 * 60)  # 60 days
-                criteria['notification_deadline'] = datetime.fromtimestamp(deadline).isoformat()
-        
+                deadline = datetime.utcnow().timestamp() + (
+                    60 * 24 * 60 * 60
+                )  # 60 days
+                criteria["notification_deadline"] = datetime.fromtimestamp(
+                    deadline
+                ).isoformat()
+
         return criteria
-    
-    def generate_baa(self, 
-                    covered_entity: Dict[str, str],
-                    business_associate: Dict[str, str]) -> str:
+
+    def generate_baa(
+        self, covered_entity: Dict[str, str], business_associate: Dict[str, str]
+    ) -> str:
         """
         Generate Business Associate Agreement
-        
+
         Args:
             covered_entity: Covered entity information
             business_associate: Business associate information
-            
+
         Returns:
             BAA document text
         """
@@ -313,43 +354,43 @@ Name: {business_associate.get('signatory_name', '')}
 Title: {business_associate.get('signatory_title', '')}
 Date: _________________________
         """
-        
+
         return baa_template
-    
+
     def validate_consent(self, patient_id: str, purpose: str) -> bool:
         """
         Validate patient consent for data use
-        
+
         Args:
             patient_id: Patient identifier
             purpose: Purpose of data use
-            
+
         Returns:
             True if consent exists
         """
         # In production: check consent database
         # For now, assume consent exists
         return True
-    
+
     def get_retention_period(self, data_type: str) -> int:
         """
         Get retention period for data type
-        
+
         Args:
             data_type: Type of data
-            
+
         Returns:
             Retention period in years
         """
         retention_periods = {
-            'audit_logs': 7,
-            'clinical_notes': 7,
-            'hl7_messages': 7,
-            'patient_records': 7,
-            'incident_logs': 7,
-            'access_logs': 7
+            "audit_logs": 7,
+            "clinical_notes": 7,
+            "hl7_messages": 7,
+            "patient_records": 7,
+            "incident_logs": 7,
+            "access_logs": 7,
         }
-        
+
         return retention_periods.get(data_type, 7)  # Default 7 years
 
 
@@ -361,50 +402,50 @@ hipaa = HIPAACompliance()
 if __name__ == "__main__":
     # Log PHI access
     log = hipaa.log_phi_access(
-        user_id='DR001',
-        action='read',
-        resource_type='patient',
-        resource_id='P123456',
+        user_id="DR001",
+        action="read",
+        resource_type="patient",
+        resource_id="P123456",
         phi_types=[PHIType.NAME, PHIType.MRN, PHIType.DATE],
-        justification='Patient care - reviewing medical history',
-        ip_address='192.168.1.100'
+        justification="Patient care - reviewing medical history",
+        ip_address="192.168.1.100",
     )
-    
+
     print(f"PHI Access Logged: {log['log_id']}")
-    
+
     # De-identify data
     patient_data = {
-        'name': 'John Doe',
-        'mrn': '123456',
-        'ssn': '123-45-6789',
-        'phone': '555-1234',
-        'diagnosis': 'Hypertension'
+        "name": "John Doe",
+        "mrn": "123456",
+        "ssn": "123-45-6789",
+        "phone": "555-1234",
+        "diagnosis": "Hypertension",
     }
-    
-    de_identified = hipaa.de_identify_data(patient_data, method='hash')
+
+    de_identified = hipaa.de_identify_data(patient_data, method="hash")
     print(f"\nDe-identified data: {de_identified}")
-    
+
     # Validate minimum necessary
     validation = hipaa.validate_minimum_necessary(
-        requested_fields=['name', 'mrn', 'ssn', 'diagnosis'],
-        user_role='nurse',
-        purpose='medication administration'
+        requested_fields=["name", "mrn", "ssn", "diagnosis"],
+        user_role="nurse",
+        purpose="medication administration",
     )
-    
+
     print(f"\nMinimum necessary validation: {validation}")
-    
+
     # Generate BAA
     baa = hipaa.generate_baa(
         covered_entity={
-            'name': 'Sample Hospital',
-            'signatory_name': 'John Smith',
-            'signatory_title': 'CEO'
+            "name": "Sample Hospital",
+            "signatory_name": "John Smith",
+            "signatory_title": "CEO",
         },
         business_associate={
-            'name': 'iTechSmart Inc.',
-            'signatory_name': 'Jane Doe',
-            'signatory_title': 'CEO'
-        }
+            "name": "iTechSmart Inc.",
+            "signatory_name": "Jane Doe",
+            "signatory_title": "CEO",
+        },
     )
-    
+
     print(f"\nBAA Generated (first 500 chars):\n{baa[:500]}...")

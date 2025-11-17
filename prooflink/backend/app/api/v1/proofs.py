@@ -2,7 +2,16 @@
 Proof creation and verification endpoints
 """
 
-from fastapi import APIRouter, Depends, UploadFile, File, Form, HTTPException, status, BackgroundTasks
+from fastapi import (
+    APIRouter,
+    Depends,
+    UploadFile,
+    File,
+    Form,
+    HTTPException,
+    status,
+    BackgroundTasks,
+)
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func, and_
 from pydantic import BaseModel, HttpUrl
@@ -15,7 +24,13 @@ from app.core.security import hash_file, generate_proof_link
 from app.core.exceptions import ValidationError, ProofCreationError, NotFoundError
 from app.api.deps import get_current_user, get_current_verified_user, verify_api_key
 from app.models.user import User
-from app.models.proof import Proof, ProofType, ProofStatus, VerificationMethod, ProofVerification
+from app.models.proof import (
+    Proof,
+    ProofType,
+    ProofStatus,
+    VerificationMethod,
+    ProofVerification,
+)
 
 router = APIRouter()
 
@@ -39,7 +54,7 @@ class ProofResponse(BaseModel):
     timestamp: datetime
     verification_url: str
     qr_code_url: str
-    
+
     class Config:
         from_attributes = True
 
@@ -65,7 +80,9 @@ class ProofListResponse(BaseModel):
 
 
 # Endpoints
-@router.post("/create", response_model=ProofResponse, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/create", response_model=ProofResponse, status_code=status.HTTP_201_CREATED
+)
 async def create_proof(
     file: UploadFile = File(...),
     proof_type: ProofType = Form(ProofType.FILE),
@@ -73,32 +90,36 @@ async def create_proof(
     is_downloadable: bool = Form(False),
     metadata: Optional[str] = Form(None),
     current_user: User = Depends(get_current_verified_user),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
 ):
     """Create a new proof"""
-    
+
     # Check user limits
     if current_user.role.value == "free":
         if current_user.proofs_created_this_month >= 10:
-            raise ValidationError("Free tier limit reached. Upgrade to create more proofs.")
-    
+            raise ValidationError(
+                "Free tier limit reached. Upgrade to create more proofs."
+            )
+
     # Validate file size
     file_content = await file.read()
     file_size = len(file_content)
-    
-    max_size = 10 * 1024 * 1024 if current_user.role.value == "free" else 100 * 1024 * 1024
+
+    max_size = (
+        10 * 1024 * 1024 if current_user.role.value == "free" else 100 * 1024 * 1024
+    )
     if file_size > max_size:
         raise ValidationError(f"File size exceeds limit of {max_size // (1024*1024)}MB")
-    
+
     # Hash the file
     file_hash = hash_file(file_content, algorithm="SHA256")
-    
+
     # Generate proof link
     proof_link = generate_proof_link()
-    
+
     # Parse metadata
     metadata_dict = json.loads(metadata) if metadata else {}
-    
+
     # Create proof
     proof = Proof(
         user_id=current_user.id,
@@ -114,22 +135,22 @@ async def create_proof(
         verification_method=VerificationMethod.HASH,
         is_public=is_public,
         is_downloadable=is_downloadable,
-        metadata=json.dumps(metadata_dict)
+        metadata=json.dumps(metadata_dict),
     )
-    
+
     db.add(proof)
-    
+
     # Update user stats
     current_user.proofs_created_this_month += 1
     current_user.storage_used_mb += file_size // (1024 * 1024)
-    
+
     await db.commit()
     await db.refresh(proof)
-    
+
     # TODO: Upload file to S3
     # TODO: Generate QR code
     # TODO: Trigger AI verification (background task)
-    
+
     return ProofResponse(
         id=proof.id,
         proof_link=proof.proof_link,
@@ -139,50 +160,49 @@ async def create_proof(
         file_hash=proof.file_hash,
         timestamp=proof.timestamp,
         verification_url=f"https://prooflink.ai/verify/{proof.proof_link}",
-        qr_code_url=f"https://prooflink.ai/qr/{proof.proof_link}"
+        qr_code_url=f"https://prooflink.ai/qr/{proof.proof_link}",
     )
 
 
 @router.post("/verify", response_model=ProofVerifyResponse)
 async def verify_proof(
-    verify_data: ProofVerifyRequest,
-    db: AsyncSession = Depends(get_db)
+    verify_data: ProofVerifyRequest, db: AsyncSession = Depends(get_db)
 ):
     """Verify a proof"""
-    
+
     # Get proof by link
     result = await db.execute(
         select(Proof).where(Proof.proof_link == verify_data.proof_link)
     )
     proof = result.scalar_one_or_none()
-    
+
     if not proof:
         raise NotFoundError("Proof not found")
-    
+
     # Check if proof is public
     if not proof.is_public:
         raise ValidationError("This proof is private")
-    
+
     # Verify hash if provided
     hash_match = True
     if verify_data.file_hash:
         hash_match = verify_data.file_hash == proof.file_hash
-    
+
     # Update verification count
     proof.verification_count += 1
     proof.last_verified_at = datetime.utcnow()
-    
+
     # Create verification record
     verification = ProofVerification(
         proof_id=proof.id,
         verification_result=hash_match,
         verification_method="hash",
-        verified_at=datetime.utcnow()
+        verified_at=datetime.utcnow(),
     )
-    
+
     db.add(verification)
     await db.commit()
-    
+
     return ProofVerifyResponse(
         verified=hash_match and proof.status == ProofStatus.VERIFIED,
         proof={
@@ -192,7 +212,7 @@ async def verify_proof(
             "file_hash": proof.file_hash,
             "timestamp": proof.timestamp.isoformat(),
             "created_by": proof.user_id,
-            "verification_count": proof.verification_count
+            "verification_count": proof.verification_count,
         },
         confidence_score=proof.ai_confidence_score,
         tamper_detected=proof.ai_tamper_detected,
@@ -200,35 +220,30 @@ async def verify_proof(
             "hash_match": hash_match,
             "status": proof.status.value,
             "verification_method": proof.verification_method.value,
-            "ai_verified": proof.ai_verified
-        }
+            "ai_verified": proof.ai_verified,
+        },
     )
 
 
 @router.get("/verify/{proof_link}", response_model=ProofVerifyResponse)
-async def verify_proof_by_link(
-    proof_link: str,
-    db: AsyncSession = Depends(get_db)
-):
+async def verify_proof_by_link(proof_link: str, db: AsyncSession = Depends(get_db)):
     """Verify a proof by link (public endpoint)"""
-    
-    result = await db.execute(
-        select(Proof).where(Proof.proof_link == proof_link)
-    )
+
+    result = await db.execute(select(Proof).where(Proof.proof_link == proof_link))
     proof = result.scalar_one_or_none()
-    
+
     if not proof:
         raise NotFoundError("Proof not found")
-    
+
     if not proof.is_public:
         raise ValidationError("This proof is private")
-    
+
     # Update stats
     proof.verification_count += 1
     proof.view_count += 1
     proof.last_verified_at = datetime.utcnow()
     await db.commit()
-    
+
     return ProofVerifyResponse(
         verified=proof.status == ProofStatus.VERIFIED,
         proof={
@@ -237,15 +252,15 @@ async def verify_proof_by_link(
             "file_name": proof.file_name,
             "file_hash": proof.file_hash,
             "timestamp": proof.timestamp.isoformat(),
-            "verification_count": proof.verification_count
+            "verification_count": proof.verification_count,
         },
         confidence_score=proof.ai_confidence_score,
         tamper_detected=proof.ai_tamper_detected,
         verification_details={
             "status": proof.status.value,
             "verification_method": proof.verification_method.value,
-            "ai_verified": proof.ai_verified
-        }
+            "ai_verified": proof.ai_verified,
+        },
     )
 
 
@@ -254,16 +269,16 @@ async def get_my_proofs(
     page: int = 1,
     page_size: int = 20,
     current_user: User = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
 ):
     """Get current user's proofs"""
-    
+
     # Get total count
     count_result = await db.execute(
         select(func.count(Proof.id)).where(Proof.user_id == current_user.id)
     )
     total = count_result.scalar()
-    
+
     # Get proofs
     offset = (page - 1) * page_size
     result = await db.execute(
@@ -274,7 +289,7 @@ async def get_my_proofs(
         .limit(page_size)
     )
     proofs = result.scalars().all()
-    
+
     return ProofListResponse(
         proofs=[
             ProofResponse(
@@ -286,13 +301,13 @@ async def get_my_proofs(
                 file_hash=proof.file_hash,
                 timestamp=proof.timestamp,
                 verification_url=f"https://prooflink.ai/verify/{proof.proof_link}",
-                qr_code_url=f"https://prooflink.ai/qr/{proof.proof_link}"
+                qr_code_url=f"https://prooflink.ai/qr/{proof.proof_link}",
             )
             for proof in proofs
         ],
         total=total,
         page=page,
-        page_size=page_size
+        page_size=page_size,
     )
 
 
@@ -300,23 +315,20 @@ async def get_my_proofs(
 async def get_proof(
     proof_id: str,
     current_user: User = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
 ):
     """Get proof details"""
-    
+
     result = await db.execute(
         select(Proof).where(
-            and_(
-                Proof.id == proof_id,
-                Proof.user_id == current_user.id
-            )
+            and_(Proof.id == proof_id, Proof.user_id == current_user.id)
         )
     )
     proof = result.scalar_one_or_none()
-    
+
     if not proof:
         raise NotFoundError("Proof not found")
-    
+
     return ProofResponse(
         id=proof.id,
         proof_link=proof.proof_link,
@@ -326,7 +338,7 @@ async def get_proof(
         file_hash=proof.file_hash,
         timestamp=proof.timestamp,
         verification_url=f"https://prooflink.ai/verify/{proof.proof_link}",
-        qr_code_url=f"https://prooflink.ai/qr/{proof.proof_link}"
+        qr_code_url=f"https://prooflink.ai/qr/{proof.proof_link}",
     )
 
 
@@ -334,28 +346,25 @@ async def get_proof(
 async def delete_proof(
     proof_id: str,
     current_user: User = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
 ):
     """Delete a proof"""
-    
+
     result = await db.execute(
         select(Proof).where(
-            and_(
-                Proof.id == proof_id,
-                Proof.user_id == current_user.id
-            )
+            and_(Proof.id == proof_id, Proof.user_id == current_user.id)
         )
     )
     proof = result.scalar_one_or_none()
-    
+
     if not proof:
         raise NotFoundError("Proof not found")
-    
+
     # TODO: Delete file from S3
-    
+
     await db.delete(proof)
     await db.commit()
-    
+
     return {"message": "Proof deleted successfully"}
 
 
@@ -363,23 +372,23 @@ async def delete_proof(
 async def create_batch_proofs(
     files: List[UploadFile] = File(...),
     current_user: User = Depends(get_current_verified_user),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
 ):
     """Create multiple proofs at once"""
-    
+
     if current_user.role.value == "free":
         raise ValidationError("Batch processing requires premium subscription")
-    
+
     if len(files) > 100:
         raise ValidationError("Maximum 100 files per batch")
-    
+
     created_proofs = []
-    
+
     for file in files:
         file_content = await file.read()
         file_hash = hash_file(file_content, algorithm="SHA256")
         proof_link = generate_proof_link()
-        
+
         proof = Proof(
             user_id=current_user.id,
             proof_link=proof_link,
@@ -391,14 +400,14 @@ async def create_batch_proofs(
             file_hash=file_hash,
             hash_algorithm="SHA256",
             timestamp=datetime.utcnow(),
-            verification_method=VerificationMethod.HASH
+            verification_method=VerificationMethod.HASH,
         )
-        
+
         db.add(proof)
         created_proofs.append(proof)
-    
+
     await db.commit()
-    
+
     return {
         "message": f"Created {len(created_proofs)} proofs successfully",
         "proofs": [
@@ -406,8 +415,8 @@ async def create_batch_proofs(
                 "id": proof.id,
                 "proof_link": proof.proof_link,
                 "file_name": proof.file_name,
-                "verification_url": f"https://prooflink.ai/verify/{proof.proof_link}"
+                "verification_url": f"https://prooflink.ai/verify/{proof.proof_link}",
             }
             for proof in created_proofs
-        ]
+        ],
     }

@@ -146,6 +146,7 @@ class SecretResponse(SecretBase):
 
 class SecretWithValue(SecretResponse):
     """Secret response with decrypted value"""
+
     value: str
 
 
@@ -330,6 +331,7 @@ class APIKeyResponse(BaseModel):
 
 class APIKeyWithValue(APIKeyResponse):
     """API key response with full key value (only returned on creation)"""
+
     api_key: str
 
 

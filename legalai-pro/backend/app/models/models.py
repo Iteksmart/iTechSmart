@@ -2,11 +2,23 @@
 Database models for LegalAI Pro
 """
 
-from sqlalchemy import Column, Integer, String, Text, DateTime, Float, Boolean, ForeignKey, JSON, Enum
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Text,
+    DateTime,
+    Float,
+    Boolean,
+    ForeignKey,
+    JSON,
+    Enum,
+)
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.core.database import Base
 import enum
+
 
 # Enums
 class UserRole(str, enum.Enum):
@@ -16,11 +28,13 @@ class UserRole(str, enum.Enum):
     STAFF = "staff"
     CLIENT = "client"
 
+
 class CaseStatus(str, enum.Enum):
     OPEN = "open"
     PENDING = "pending"
     CLOSED = "closed"
     ARCHIVED = "archived"
+
 
 class CaseType(str, enum.Enum):
     CIVIL = "civil"
@@ -34,6 +48,7 @@ class CaseType(str, enum.Enum):
     EMPLOYMENT = "employment"
     OTHER = "other"
 
+
 class BillingStatus(str, enum.Enum):
     DRAFT = "draft"
     SENT = "sent"
@@ -41,16 +56,18 @@ class BillingStatus(str, enum.Enum):
     OVERDUE = "overdue"
     CANCELLED = "cancelled"
 
+
 class TaskPriority(str, enum.Enum):
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
     URGENT = "urgent"
 
+
 # Models
 class User(Base):
     __tablename__ = "users"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
@@ -62,15 +79,16 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    
+
     # Relationships
     cases = relationship("Case", back_populates="attorney")
     time_entries = relationship("TimeEntry", back_populates="user")
     tasks = relationship("Task", back_populates="assigned_to_user")
 
+
 class Client(Base):
     __tablename__ = "clients"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=False)
@@ -89,14 +107,15 @@ class Client(Base):
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    
+
     # Relationships
     cases = relationship("Case", back_populates="client")
     invoices = relationship("Invoice", back_populates="client")
 
+
 class Case(Base):
     __tablename__ = "cases"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     case_number = Column(String, unique=True, index=True, nullable=False)
     title = Column(String, nullable=False)
@@ -120,7 +139,7 @@ class Case(Base):
     custom_fields = Column(JSON)  # For flexible data storage
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    
+
     # Relationships
     client = relationship("Client", back_populates="cases")
     attorney = relationship("User", back_populates="cases")
@@ -129,9 +148,10 @@ class Case(Base):
     tasks = relationship("Task", back_populates="case")
     calendar_events = relationship("CalendarEvent", back_populates="case")
 
+
 class Document(Base):
     __tablename__ = "documents"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     case_id = Column(Integer, ForeignKey("cases.id"), nullable=False)
     title = Column(String, nullable=False)
@@ -148,13 +168,14 @@ class Document(Base):
     created_by = Column(Integer, ForeignKey("users.id"))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    
+
     # Relationships
     case = relationship("Case", back_populates="documents")
 
+
 class TimeEntry(Base):
     __tablename__ = "time_entries"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     case_id = Column(Integer, ForeignKey("cases.id"), nullable=False)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
@@ -167,15 +188,16 @@ class TimeEntry(Base):
     invoice_id = Column(Integer, ForeignKey("invoices.id"))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    
+
     # Relationships
     case = relationship("Case", back_populates="time_entries")
     user = relationship("User", back_populates="time_entries")
     invoice = relationship("Invoice", back_populates="time_entries")
 
+
 class Invoice(Base):
     __tablename__ = "invoices"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     invoice_number = Column(String, unique=True, index=True, nullable=False)
     client_id = Column(Integer, ForeignKey("clients.id"), nullable=False)
@@ -190,15 +212,16 @@ class Invoice(Base):
     notes = Column(Text)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    
+
     # Relationships
     client = relationship("Client", back_populates="invoices")
     time_entries = relationship("TimeEntry", back_populates="invoice")
     expenses = relationship("Expense", back_populates="invoice")
 
+
 class Expense(Base):
     __tablename__ = "expenses"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     case_id = Column(Integer, ForeignKey("cases.id"), nullable=False)
     invoice_id = Column(Integer, ForeignKey("invoices.id"))
@@ -211,13 +234,14 @@ class Expense(Base):
     is_billed = Column(Boolean, default=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    
+
     # Relationships
     invoice = relationship("Invoice", back_populates="expenses")
 
+
 class Task(Base):
     __tablename__ = "tasks"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     case_id = Column(Integer, ForeignKey("cases.id"))
     title = Column(String, nullable=False)
@@ -229,14 +253,15 @@ class Task(Base):
     completed_at = Column(DateTime)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    
+
     # Relationships
     case = relationship("Case", back_populates="tasks")
     assigned_to_user = relationship("User", back_populates="tasks")
 
+
 class CalendarEvent(Base):
     __tablename__ = "calendar_events"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     case_id = Column(Integer, ForeignKey("cases.id"))
     title = Column(String, nullable=False)
@@ -250,13 +275,14 @@ class CalendarEvent(Base):
     is_all_day = Column(Boolean, default=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    
+
     # Relationships
     case = relationship("Case", back_populates="calendar_events")
 
+
 class Template(Base):
     __tablename__ = "templates"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
     description = Column(Text)
@@ -268,9 +294,10 @@ class Template(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
+
 class AIConversation(Base):
     __tablename__ = "ai_conversations"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     case_id = Column(Integer, ForeignKey("cases.id"))

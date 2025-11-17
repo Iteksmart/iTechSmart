@@ -14,9 +14,14 @@ from app.core.auto_remediation import (
     HL7Issue,
     RemediationAction,
     IssueType,
-    IssueSeverity
+    IssueSeverity,
 )
-from app.core.message_retry import MessageRetrySystem, HL7Message, MessageStatus, RetryPolicy
+from app.core.message_retry import (
+    MessageRetrySystem,
+    HL7Message,
+    MessageStatus,
+    RetryPolicy,
+)
 from app.core.service_manager import ServiceHealthManager, ServiceConfig, ServiceType
 from app.monitoring.message_queue_monitor import MessageQueueMonitor
 
@@ -32,6 +37,7 @@ queue_monitor = MessageQueueMonitor()
 # Request/Response Models
 class AlertRequest(BaseModel):
     """Alert submission request"""
+
     type: str
     severity: str
     description: str
@@ -42,6 +48,7 @@ class AlertRequest(BaseModel):
 
 class IssueResponse(BaseModel):
     """Issue response"""
+
     issue_id: str
     issue_type: str
     severity: str
@@ -54,6 +61,7 @@ class IssueResponse(BaseModel):
 
 class ActionApprovalRequest(BaseModel):
     """Action approval request"""
+
     action_id: str
     approved: bool
     reason: Optional[str] = None
@@ -61,6 +69,7 @@ class ActionApprovalRequest(BaseModel):
 
 class ConfigUpdateRequest(BaseModel):
     """Configuration update request"""
+
     mode: Optional[str] = None
     approval_timeout: Optional[int] = None
     max_retries: Optional[int] = None
@@ -68,11 +77,12 @@ class ConfigUpdateRequest(BaseModel):
 
 # Auto-Remediation Endpoints
 
+
 @router.post("/alerts", response_model=IssueResponse)
 async def submit_alert(alert: AlertRequest):
     """
     Submit an alert for autonomous remediation
-    
+
     The system will:
     1. Detect and classify the issue
     2. Perform AI-powered diagnosis
@@ -82,18 +92,20 @@ async def submit_alert(alert: AlertRequest):
     try:
         # Convert to alert dict
         alert_dict = alert.dict()
-        
+
         # Detect issue
         issue = await remediation_engine.detect_issue(alert_dict)
         if not issue:
-            raise HTTPException(status_code=400, detail="Unable to detect issue from alert")
-        
+            raise HTTPException(
+                status_code=400, detail="Unable to detect issue from alert"
+            )
+
         # Diagnose issue
         issue = await remediation_engine.diagnose(issue)
-        
+
         # Attempt remediation
         success = await remediation_engine.remediate(issue)
-        
+
         return IssueResponse(
             issue_id=issue.issue_id,
             issue_type=issue.issue_type.value,
@@ -102,9 +114,9 @@ async def submit_alert(alert: AlertRequest):
             affected_system=issue.affected_system,
             detected_at=issue.detected_at.isoformat(),
             root_cause=issue.root_cause,
-            recommended_actions=issue.recommended_actions
+            recommended_actions=issue.recommended_actions,
         )
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -113,10 +125,7 @@ async def submit_alert(alert: AlertRequest):
 async def get_issues(limit: int = 100):
     """Get recent issues"""
     # In production, retrieve from database
-    return {
-        "issues": [],
-        "total": 0
-    }
+    return {"issues": [], "total": 0}
 
 
 @router.get("/actions/pending")
@@ -131,11 +140,11 @@ async def get_pending_actions():
                 "action_type": a.action_type,
                 "description": a.description,
                 "risk_level": a.risk_level,
-                "created_at": a.created_at.isoformat()
+                "created_at": a.created_at.isoformat(),
             }
             for a in pending
         ],
-        "count": len(pending)
+        "count": len(pending),
     }
 
 
@@ -147,10 +156,12 @@ async def approve_action(request: ActionApprovalRequest):
         if success:
             return {"message": "Action approved", "action_id": request.action_id}
     else:
-        success = remediation_engine.reject_action(request.action_id, request.reason or "")
+        success = remediation_engine.reject_action(
+            request.action_id, request.reason or ""
+        )
         if success:
             return {"message": "Action rejected", "action_id": request.action_id}
-    
+
     raise HTTPException(status_code=404, detail="Action not found")
 
 
@@ -166,11 +177,11 @@ async def get_action_history(limit: int = 100):
                 "action_type": a.action_type,
                 "status": a.status,
                 "executed_at": a.executed_at.isoformat() if a.executed_at else None,
-                "result": a.result
+                "result": a.result,
             }
             for a in history
         ],
-        "count": len(history)
+        "count": len(history),
     }
 
 
@@ -189,7 +200,7 @@ async def update_config(config: ConfigUpdateRequest):
         remediation_engine.approval_timeout = config.approval_timeout
     if config.max_retries:
         remediation_engine.max_retries = config.max_retries
-    
+
     return {"message": "Configuration updated"}
 
 
@@ -208,6 +219,7 @@ async def disable_kill_switch():
 
 
 # Message Retry Endpoints
+
 
 @router.post("/messages/submit")
 async def submit_message(message: Dict[str, Any]):
@@ -239,11 +251,13 @@ async def get_retry_queue(limit: int = 100):
                 "message_id": m.message_id,
                 "status": m.status,
                 "retry_count": m.retry_count,
-                "next_retry_at": m.next_retry_at.isoformat() if m.next_retry_at else None
+                "next_retry_at": (
+                    m.next_retry_at.isoformat() if m.next_retry_at else None
+                ),
             }
             for m in messages
         ],
-        "count": len(messages)
+        "count": len(messages),
     }
 
 
@@ -257,11 +271,11 @@ async def get_dead_letter_queue(limit: int = 100):
                 "message_id": m.message_id,
                 "status": m.status,
                 "retry_count": m.retry_count,
-                "last_error": m.last_error
+                "last_error": m.last_error,
             }
             for m in messages
         ],
-        "count": len(messages)
+        "count": len(messages),
     }
 
 
@@ -271,7 +285,9 @@ async def retry_dead_letter_message(message_id: str):
     success = await retry_system.retry_dead_letter_message(message_id)
     if success:
         return {"message": "Message moved to retry queue", "message_id": message_id}
-    raise HTTPException(status_code=404, detail="Message not found in dead letter queue")
+    raise HTTPException(
+        status_code=404, detail="Message not found in dead letter queue"
+    )
 
 
 @router.get("/messages/statistics")
@@ -282,13 +298,17 @@ async def get_retry_statistics():
 
 # Service Management Endpoints
 
+
 @router.post("/services/register")
 async def register_service(config: Dict[str, Any]):
     """Register a service for health monitoring"""
     try:
         service_config = ServiceConfig(**config)
         service_manager.register_service(service_config)
-        return {"message": "Service registered", "service_name": service_config.service_name}
+        return {
+            "message": "Service registered",
+            "service_name": service_config.service_name,
+        }
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -304,11 +324,11 @@ async def get_all_services():
                 "status": s.status,
                 "response_time": s.response_time,
                 "checked_at": s.checked_at.isoformat(),
-                "error": s.error
+                "error": s.error,
             }
             for s in status.values()
         ],
-        "count": len(status)
+        "count": len(status),
     }
 
 
@@ -318,14 +338,14 @@ async def get_service_status(service_name: str):
     status = service_manager.get_service_status(service_name)
     if not status:
         raise HTTPException(status_code=404, detail="Service not found")
-    
+
     return {
         "service_name": status.service_name,
         "status": status.status,
         "response_time": status.response_time,
         "checked_at": status.checked_at.isoformat(),
         "error": status.error,
-        "metrics": status.metrics
+        "metrics": status.metrics,
     }
 
 
@@ -334,7 +354,10 @@ async def restart_service(service_name: str):
     """Manually restart a service"""
     success = await service_manager.restart_service(service_name)
     if success:
-        return {"message": "Service restarted successfully", "service_name": service_name}
+        return {
+            "message": "Service restarted successfully",
+            "service_name": service_name,
+        }
     raise HTTPException(status_code=500, detail="Failed to restart service")
 
 
@@ -348,11 +371,11 @@ async def get_service_history(service_name: str, limit: int = 100):
                 "status": h.status,
                 "response_time": h.response_time,
                 "checked_at": h.checked_at.isoformat(),
-                "error": h.error
+                "error": h.error,
             }
             for h in history
         ],
-        "count": len(history)
+        "count": len(history),
     }
 
 
@@ -363,6 +386,7 @@ async def get_service_statistics():
 
 
 # Queue Monitoring Endpoints
+
 
 @router.post("/queues/register")
 async def register_queue(queue_name: str, config: Optional[Dict[str, Any]] = None):
@@ -382,11 +406,11 @@ async def get_all_queues():
                 "queue_depth": m.queue_depth,
                 "messages_per_second": m.messages_per_second,
                 "status": m.status,
-                "timestamp": m.timestamp.isoformat()
+                "timestamp": m.timestamp.isoformat(),
             }
             for m in metrics.values()
         ],
-        "count": len(metrics)
+        "count": len(metrics),
     }
 
 
@@ -396,7 +420,7 @@ async def get_queue_metrics(queue_name: str):
     metrics = queue_monitor.get_queue_metrics(queue_name)
     if not metrics:
         raise HTTPException(status_code=404, detail="Queue not found")
-    
+
     return {
         "queue_name": metrics.queue_name,
         "queue_depth": metrics.queue_depth,
@@ -408,7 +432,7 @@ async def get_queue_metrics(queue_name: str):
         "success_rate": metrics.success_rate,
         "error_rate": metrics.error_rate,
         "status": metrics.status,
-        "timestamp": metrics.timestamp.isoformat()
+        "timestamp": metrics.timestamp.isoformat(),
     }
 
 
@@ -422,11 +446,11 @@ async def get_queue_history(queue_name: str, limit: int = 100):
                 "queue_depth": m.queue_depth,
                 "messages_per_second": m.messages_per_second,
                 "status": m.status,
-                "timestamp": m.timestamp.isoformat()
+                "timestamp": m.timestamp.isoformat(),
             }
             for m in history
         ],
-        "count": len(history)
+        "count": len(history),
     }
 
 
@@ -441,11 +465,11 @@ async def get_active_alerts():
                 "queue_name": a.queue_name,
                 "queue_depth": a.queue_depth,
                 "severity": a.severity,
-                "detected_at": a.detected_at.isoformat()
+                "detected_at": a.detected_at.isoformat(),
             }
             for a in alerts
         ],
-        "count": len(alerts)
+        "count": len(alerts),
     }
 
 
@@ -475,6 +499,6 @@ async def health_check():
             "remediation_engine": "operational",
             "retry_system": "operational",
             "service_manager": "operational",
-            "queue_monitor": "operational"
-        }
+            "queue_monitor": "operational",
+        },
     }

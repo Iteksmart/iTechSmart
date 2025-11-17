@@ -1,9 +1,9 @@
 # Read the terminal panel file
-with open('itechsmart-ninja/vscode-extension/src/terminal/panel.ts', 'r') as f:
+with open("itechsmart-ninja/vscode-extension/src/terminal/panel.ts", "r") as f:
     content = f.read()
 
 # Add debug help command handler after video help
-debug_help_handler = '''
+debug_help_handler = """
     private showDebugHelp() {
         const helpText = `
 Debug Commands:
@@ -191,18 +191,23 @@ Examples:
             });
         }
     }
-'''
+"""
 
 # Find the last method and add debug handlers before the closing brace
-last_method_end = content.rfind('    }\n}')
+last_method_end = content.rfind("    }\n}")
 if last_method_end != -1:
-    content = content[:last_method_end] + debug_help_handler + '\n' + content[last_method_end:]
+    content = (
+        content[:last_method_end]
+        + debug_help_handler
+        + "\n"
+        + content[last_method_end:]
+    )
     print("Added debug command handlers")
 else:
     print("Warning: Could not find insertion point")
 
 # Add debug command cases to handleCommand method
-debug_cases = '''
+debug_cases = """
             case 'debug-help':
                 this.showDebugHelp();
                 break;
@@ -238,21 +243,21 @@ debug_cases = '''
             case 'get-coverage':
                 this.getCodeCoverage();
                 break;
-'''
+"""
 
 # Find video-help case and add debug cases after it
 video_help_marker = "            case 'video-help':"
 if video_help_marker in content:
     # Find the break after video-help
     pos = content.find(video_help_marker)
-    break_pos = content.find('break;', pos) + 6
-    content = content[:break_pos] + '\n' + debug_cases + content[break_pos:]
+    break_pos = content.find("break;", pos) + 6
+    content = content[:break_pos] + "\n" + debug_cases + content[break_pos:]
     print("Added debug command cases")
 else:
     print("Warning: Could not find video-help marker")
 
 # Write back
-with open('itechsmart-ninja/vscode-extension/src/terminal/panel.ts', 'w') as f:
+with open("itechsmart-ninja/vscode-extension/src/terminal/panel.ts", "w") as f:
     f.write(content)
 
 print("Debug terminal commands added successfully")

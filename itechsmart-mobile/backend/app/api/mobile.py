@@ -66,13 +66,10 @@ async def register_device(request: RegisterDeviceRequest):
             user_id=request.user_id,
             platform=DevicePlatform(request.platform),
             device_token=request.device_token,
-            device_info=request.device_info
+            device_info=request.device_info,
         )
-        
-        return {
-            "device_id": device_id,
-            "message": "Device registered successfully"
-        }
+
+        return {"device_id": device_id, "message": "Device registered successfully"}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -81,10 +78,10 @@ async def register_device(request: RegisterDeviceRequest):
 async def get_device(device_id: str):
     """Get device information"""
     device = mobile_gateway.get_device(device_id)
-    
+
     if not device:
         raise HTTPException(status_code=404, detail="Device not found")
-    
+
     return {
         "device_id": device.device_id,
         "user_id": device.user_id,
@@ -93,7 +90,7 @@ async def get_device(device_id: str):
         "os_version": device.os_version,
         "is_active": device.is_active,
         "registered_at": device.registered_at.isoformat(),
-        "last_active": device.last_active.isoformat()
+        "last_active": device.last_active.isoformat(),
     }
 
 
@@ -103,12 +100,12 @@ async def update_device(device_id: str, request: UpdateDeviceRequest):
     success = mobile_gateway.update_device(
         device_id=device_id,
         device_token=request.device_token,
-        device_info=request.device_info
+        device_info=request.device_info,
     )
-    
+
     if not success:
         raise HTTPException(status_code=404, detail="Device not found")
-    
+
     return {"message": "Device updated successfully"}
 
 
@@ -116,10 +113,10 @@ async def update_device(device_id: str, request: UpdateDeviceRequest):
 async def deactivate_device(device_id: str):
     """Deactivate a device"""
     success = mobile_gateway.deactivate_device(device_id)
-    
+
     if not success:
         raise HTTPException(status_code=404, detail="Device not found")
-    
+
     return {"message": "Device deactivated successfully"}
 
 
@@ -127,7 +124,7 @@ async def deactivate_device(device_id: str):
 async def get_user_devices(user_id: str):
     """Get all devices for a user"""
     devices = mobile_gateway.get_user_devices(user_id)
-    
+
     return {
         "devices": [
             {
@@ -135,7 +132,7 @@ async def get_user_devices(user_id: str):
                 "platform": d.platform.value,
                 "app_version": d.app_version,
                 "is_active": d.is_active,
-                "last_active": d.last_active.isoformat()
+                "last_active": d.last_active.isoformat(),
             }
             for d in devices
         ]
@@ -148,14 +145,10 @@ async def create_session(request: CreateSessionRequest):
     """Create a new mobile session"""
     try:
         session_id = mobile_gateway.create_session(
-            device_id=request.device_id,
-            user_id=request.user_id
+            device_id=request.device_id, user_id=request.user_id
         )
-        
-        return {
-            "session_id": session_id,
-            "message": "Session created successfully"
-        }
+
+        return {"session_id": session_id, "message": "Session created successfully"}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -164,10 +157,10 @@ async def create_session(request: CreateSessionRequest):
 async def get_session(session_id: str):
     """Get session information"""
     session = mobile_gateway.get_session(session_id)
-    
+
     if not session:
         raise HTTPException(status_code=404, detail="Session not found")
-    
+
     return {
         "session_id": session.session_id,
         "device_id": session.device_id,
@@ -176,7 +169,7 @@ async def get_session(session_id: str):
         "started_at": session.started_at.isoformat(),
         "last_activity": session.last_activity.isoformat(),
         "events_count": len(session.events),
-        "data_usage": session.data_usage
+        "data_usage": session.data_usage,
     }
 
 
@@ -184,10 +177,10 @@ async def get_session(session_id: str):
 async def session_heartbeat(session_id: str):
     """Update session activity"""
     success = mobile_gateway.update_session_activity(session_id)
-    
+
     if not success:
         raise HTTPException(status_code=404, detail="Session not found")
-    
+
     return {"message": "Session updated"}
 
 
@@ -195,10 +188,10 @@ async def session_heartbeat(session_id: str):
 async def end_session(session_id: str):
     """End a mobile session"""
     success = mobile_gateway.end_session(session_id)
-    
+
     if not success:
         raise HTTPException(status_code=404, detail="Session not found")
-    
+
     return {"message": "Session ended successfully"}
 
 
@@ -208,12 +201,12 @@ async def track_event(session_id: str, request: TrackEventRequest):
     success = mobile_gateway.track_event(
         session_id=session_id,
         event_type=request.event_type,
-        event_data=request.event_data
+        event_data=request.event_data,
     )
-    
+
     if not success:
         raise HTTPException(status_code=404, detail="Session not found")
-    
+
     return {"message": "Event tracked successfully"}
 
 
@@ -226,13 +219,10 @@ async def queue_offline_data(device_id: str, request: QueueDataRequest):
             device_id=device_id,
             entity_type=request.entity_type,
             operation=request.operation,
-            data=request.data
+            data=request.data,
         )
-        
-        return {
-            "data_id": data_id,
-            "message": "Data queued for sync"
-        }
+
+        return {"data_id": data_id, "message": "Data queued for sync"}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -264,12 +254,12 @@ async def send_notification(device_id: str, request: SendNotificationRequest):
             title=request.title,
             body=request.body,
             notification_type=NotificationType(request.notification_type),
-            data=request.data
+            data=request.data,
         )
-        
+
         return {
             "notification_id": notification_id,
-            "message": "Notification sent successfully"
+            "message": "Notification sent successfully",
         }
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -284,13 +274,13 @@ async def send_user_notification(request: SendUserNotificationRequest):
             title=request.title,
             body=request.body,
             notification_type=NotificationType(request.notification_type),
-            data=request.data
+            data=request.data,
         )
-        
+
         return {
             "notification_ids": notification_ids,
             "devices_count": len(notification_ids),
-            "message": "Notifications sent successfully"
+            "message": "Notifications sent successfully",
         }
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -300,10 +290,10 @@ async def send_user_notification(request: SendUserNotificationRequest):
 async def mark_notification_delivered(notification_id: str):
     """Mark notification as delivered"""
     success = mobile_gateway.mark_notification_delivered(notification_id)
-    
+
     if not success:
         raise HTTPException(status_code=404, detail="Notification not found")
-    
+
     return {"message": "Notification marked as delivered"}
 
 
@@ -311,10 +301,10 @@ async def mark_notification_delivered(notification_id: str):
 async def mark_notification_opened(notification_id: str):
     """Mark notification as opened"""
     success = mobile_gateway.mark_notification_opened(notification_id)
-    
+
     if not success:
         raise HTTPException(status_code=404, detail="Notification not found")
-    
+
     return {"message": "Notification marked as opened"}
 
 
@@ -330,10 +320,10 @@ async def get_device_notifications(device_id: str, limit: int = 50):
 async def get_device_analytics(device_id: str):
     """Get analytics for a device"""
     analytics = mobile_gateway.get_device_analytics(device_id)
-    
+
     if not analytics:
         raise HTTPException(status_code=404, detail="Device not found")
-    
+
     return analytics
 
 
@@ -349,10 +339,10 @@ async def get_platform_statistics():
 async def get_cached_data(cache_key: str):
     """Get cached API response"""
     data = mobile_gateway.get_cached_response(cache_key)
-    
+
     if data is None:
         raise HTTPException(status_code=404, detail="Cache miss")
-    
+
     return {"data": data, "cached": True}
 
 
@@ -368,10 +358,10 @@ async def clear_cache(pattern: Optional[str] = None):
 async def health_check():
     """Health check endpoint"""
     stats = mobile_gateway.get_platform_statistics()
-    
+
     return {
         "status": "healthy",
         "service": "iTechSmart Mobile",
         "timestamp": datetime.utcnow().isoformat(),
-        "statistics": stats
+        "statistics": stats,
     }

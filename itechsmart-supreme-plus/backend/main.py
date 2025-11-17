@@ -17,10 +17,10 @@ from api import incidents, remediations, integrations, monitoring, devices
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -33,11 +33,12 @@ async def lifespan(app: FastAPI):
     # Shutdown
     logger.info("Shutting down iTechSmart Supreme Plus...")
 
+
 app = FastAPI(
     title="iTechSmart Supreme Plus",
     description="AI-Powered Infrastructure Auto-Remediation Platform - Enhanced with Workstation, Server & Network Device Support",
     version="1.1.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # CORS middleware
@@ -51,10 +52,15 @@ app.add_middleware(
 
 # Include routers
 app.include_router(incidents.router, prefix="/api/incidents", tags=["Incidents"])
-app.include_router(remediations.router, prefix="/api/remediations", tags=["Remediations"])
-app.include_router(integrations.router, prefix="/api/integrations", tags=["Integrations"])
+app.include_router(
+    remediations.router, prefix="/api/remediations", tags=["Remediations"]
+)
+app.include_router(
+    integrations.router, prefix="/api/integrations", tags=["Integrations"]
+)
 app.include_router(monitoring.router, prefix="/api/monitoring", tags=["Monitoring"])
 app.include_router(devices.router, prefix="/api/devices", tags=["Devices"])
+
 
 @app.get("/")
 async def root():
@@ -74,7 +80,7 @@ async def root():
             "Network Device Support (Cisco/Juniper/Palo Alto/F5)",
             "SSH/PowerShell/WinRM Execution",
             "Real-time Monitoring",
-            "Integration Management"
+            "Integration Management",
         ],
         "supported_devices": [
             "Linux Servers",
@@ -86,9 +92,10 @@ async def root():
             "Palo Alto Firewalls",
             "F5 BIG-IP",
             "Arista EOS",
-            "HP ProCurve"
-        ]
+            "HP ProCurve",
+        ],
     }
+
 
 @app.get("/health")
 async def health_check():
@@ -96,8 +103,9 @@ async def health_check():
     return {
         "status": "healthy",
         "timestamp": datetime.utcnow().isoformat(),
-        "service": "supreme-plus"
+        "service": "supreme-plus",
     }
+
 
 @app.get("/api/stats")
 async def get_stats():
@@ -105,37 +113,45 @@ async def get_stats():
     from sqlalchemy.orm import Session
     from database import SessionLocal
     from models import Incident, Remediation, Integration
-    
+
     db = SessionLocal()
     try:
         total_incidents = db.query(Incident).count()
         active_incidents = db.query(Incident).filter(Incident.status == "open").count()
         total_remediations = db.query(Remediation).count()
-        successful_remediations = db.query(Remediation).filter(Remediation.status == "success").count()
-        active_integrations = db.query(Integration).filter(Integration.enabled == True).count()
-        
-        success_rate = (successful_remediations / total_remediations * 100) if total_remediations > 0 else 0
-        
+        successful_remediations = (
+            db.query(Remediation).filter(Remediation.status == "success").count()
+        )
+        active_integrations = (
+            db.query(Integration).filter(Integration.enabled == True).count()
+        )
+
+        success_rate = (
+            (successful_remediations / total_remediations * 100)
+            if total_remediations > 0
+            else 0
+        )
+
         return {
             "incidents": {
                 "total": total_incidents,
                 "active": active_incidents,
-                "resolved": total_incidents - active_incidents
+                "resolved": total_incidents - active_incidents,
             },
             "remediations": {
                 "total": total_remediations,
                 "successful": successful_remediations,
                 "failed": total_remediations - successful_remediations,
-                "success_rate": round(success_rate, 2)
+                "success_rate": round(success_rate, 2),
             },
-            "integrations": {
-                "active": active_integrations
-            },
-            "timestamp": datetime.utcnow().isoformat()
+            "integrations": {"active": active_integrations},
+            "timestamp": datetime.utcnow().isoformat(),
         }
     finally:
         db.close()
 
+
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8034)

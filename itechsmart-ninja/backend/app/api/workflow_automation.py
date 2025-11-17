@@ -16,7 +16,7 @@ from ..core.workflow_engine import (
     WorkflowStatus,
     TriggerType,
     ActionType,
-    get_workflow_engine
+    get_workflow_engine,
 )
 
 router = APIRouter(prefix="/workflow-automation", tags=["workflow-automation"])
@@ -25,6 +25,7 @@ router = APIRouter(prefix="/workflow-automation", tags=["workflow-automation"])
 # Request/Response Models
 class WorkflowTriggerRequest(BaseModel):
     """Request for workflow trigger"""
+
     trigger_type: str = Field(..., description="Trigger type")
     config: Dict[str, Any] = Field(..., description="Trigger configuration")
     enabled: bool = Field(default=True, description="Enable trigger")
@@ -32,6 +33,7 @@ class WorkflowTriggerRequest(BaseModel):
 
 class WorkflowActionRequest(BaseModel):
     """Request for workflow action"""
+
     action_id: str = Field(..., description="Action ID")
     action_type: str = Field(..., description="Action type")
     name: str = Field(..., description="Action name")
@@ -42,6 +44,7 @@ class WorkflowActionRequest(BaseModel):
 
 class CreateWorkflowRequest(BaseModel):
     """Request to create a workflow"""
+
     name: str = Field(..., description="Workflow name")
     description: str = Field(..., description="Workflow description")
     trigger: WorkflowTriggerRequest = Field(..., description="Workflow trigger")
@@ -52,11 +55,15 @@ class CreateWorkflowRequest(BaseModel):
 
 class ExecuteWorkflowRequest(BaseModel):
     """Request to execute a workflow"""
-    trigger_data: Optional[Dict[str, Any]] = Field(default=None, description="Trigger data")
+
+    trigger_data: Optional[Dict[str, Any]] = Field(
+        default=None, description="Trigger data"
+    )
 
 
 class WorkflowResponse(BaseModel):
     """Response with workflow information"""
+
     workflow_id: str
     name: str
     description: str
@@ -72,6 +79,7 @@ class WorkflowResponse(BaseModel):
 
 class WorkflowExecutionResponse(BaseModel):
     """Response with workflow execution information"""
+
     execution_id: str
     workflow_id: str
     status: str
@@ -85,12 +93,14 @@ class WorkflowExecutionResponse(BaseModel):
 
 class WorkflowListResponse(BaseModel):
     """Response with list of workflows"""
+
     workflows: List[WorkflowResponse]
     total: int
 
 
 class ExecutionListResponse(BaseModel):
     """Response with list of executions"""
+
     executions: List[WorkflowExecutionResponse]
     total: int
 
@@ -99,22 +109,22 @@ class ExecutionListResponse(BaseModel):
 @router.post("/create", response_model=WorkflowResponse)
 async def create_workflow(
     request: CreateWorkflowRequest,
-    engine: WorkflowEngine = Depends(get_workflow_engine)
+    engine: WorkflowEngine = Depends(get_workflow_engine),
 ):
     """
     Create a new workflow
-    
+
     **Trigger Types:** manual, scheduled, event, webhook, api
-    **Action Types:** http_request, run_code, send_email, send_notification, create_file, 
+    **Action Types:** http_request, run_code, send_email, send_notification, create_file,
                      transform_data, conditional, loop, delay, ai_task
     """
     try:
         trigger = WorkflowTrigger(
             trigger_type=TriggerType(request.trigger.trigger_type),
             config=request.trigger.config,
-            enabled=request.trigger.enabled
+            enabled=request.trigger.enabled,
         )
-        
+
         actions = [
             WorkflowAction(
                 action_id=action.action_id,
@@ -122,32 +132,33 @@ async def create_workflow(
                 name=action.name,
                 config=action.config,
                 next_action=action.next_action,
-                on_error=action.on_error
+                on_error=action.on_error,
             )
             for action in request.actions
         ]
-        
+
         workflow = await engine.create_workflow(
             name=request.name,
             description=request.description,
             trigger=trigger,
             actions=actions,
             created_by=request.created_by,
-            tags=request.tags
+            tags=request.tags,
         )
-        
+
         return WorkflowResponse(**workflow.to_dict())
-        
+
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to create workflow: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Failed to create workflow: {str(e)}"
+        )
 
 
 @router.post("/{workflow_id}/activate", response_model=WorkflowResponse)
 async def activate_workflow(
-    workflow_id: str,
-    engine: WorkflowEngine = Depends(get_workflow_engine)
+    workflow_id: str, engine: WorkflowEngine = Depends(get_workflow_engine)
 ):
     """Activate a workflow"""
     try:
@@ -156,13 +167,14 @@ async def activate_workflow(
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to activate workflow: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Failed to activate workflow: {str(e)}"
+        )
 
 
 @router.post("/{workflow_id}/pause", response_model=WorkflowResponse)
 async def pause_workflow(
-    workflow_id: str,
-    engine: WorkflowEngine = Depends(get_workflow_engine)
+    workflow_id: str, engine: WorkflowEngine = Depends(get_workflow_engine)
 ):
     """Pause a workflow"""
     try:
@@ -171,32 +183,34 @@ async def pause_workflow(
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to pause workflow: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Failed to pause workflow: {str(e)}"
+        )
 
 
 @router.post("/{workflow_id}/execute", response_model=WorkflowExecutionResponse)
 async def execute_workflow(
     workflow_id: str,
     request: ExecuteWorkflowRequest,
-    engine: WorkflowEngine = Depends(get_workflow_engine)
+    engine: WorkflowEngine = Depends(get_workflow_engine),
 ):
     """Execute a workflow"""
     try:
         execution = await engine.execute_workflow(
-            workflow_id=workflow_id,
-            trigger_data=request.trigger_data
+            workflow_id=workflow_id, trigger_data=request.trigger_data
         )
         return WorkflowExecutionResponse(**execution.to_dict())
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to execute workflow: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Failed to execute workflow: {str(e)}"
+        )
 
 
 @router.get("/{workflow_id}", response_model=WorkflowResponse)
 async def get_workflow(
-    workflow_id: str,
-    engine: WorkflowEngine = Depends(get_workflow_engine)
+    workflow_id: str, engine: WorkflowEngine = Depends(get_workflow_engine)
 ):
     """Get workflow information"""
     workflow = await engine.get_workflow(workflow_id)
@@ -210,38 +224,39 @@ async def list_workflows(
     created_by: Optional[str] = None,
     status: Optional[str] = None,
     tags: Optional[str] = None,
-    engine: WorkflowEngine = Depends(get_workflow_engine)
+    engine: WorkflowEngine = Depends(get_workflow_engine),
 ):
     """List all workflows with optional filtering"""
     try:
         status_enum = WorkflowStatus(status) if status else None
         tag_list = tags.split(",") if tags else None
-        
+
         workflows = await engine.list_workflows(
-            created_by=created_by,
-            status=status_enum,
-            tags=tag_list
+            created_by=created_by, status=status_enum, tags=tag_list
         )
-        
+
         return WorkflowListResponse(
             workflows=[WorkflowResponse(**w.to_dict()) for w in workflows],
-            total=len(workflows)
+            total=len(workflows),
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to list workflows: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Failed to list workflows: {str(e)}"
+        )
 
 
 @router.get("/executions/{execution_id}", response_model=WorkflowExecutionResponse)
 async def get_execution(
-    execution_id: str,
-    engine: WorkflowEngine = Depends(get_workflow_engine)
+    execution_id: str, engine: WorkflowEngine = Depends(get_workflow_engine)
 ):
     """Get workflow execution information"""
     execution = await engine.get_execution(execution_id)
     if not execution:
-        raise HTTPException(status_code=404, detail=f"Execution {execution_id} not found")
+        raise HTTPException(
+            status_code=404, detail=f"Execution {execution_id} not found"
+        )
     return WorkflowExecutionResponse(**execution.to_dict())
 
 
@@ -249,27 +264,30 @@ async def get_execution(
 async def list_executions(
     workflow_id: Optional[str] = None,
     status: Optional[str] = None,
-    engine: WorkflowEngine = Depends(get_workflow_engine)
+    engine: WorkflowEngine = Depends(get_workflow_engine),
 ):
     """List workflow executions with optional filtering"""
     try:
         status_enum = WorkflowStatus(status) if status else None
-        executions = await engine.list_executions(workflow_id=workflow_id, status=status_enum)
-        
+        executions = await engine.list_executions(
+            workflow_id=workflow_id, status=status_enum
+        )
+
         return ExecutionListResponse(
             executions=[WorkflowExecutionResponse(**e.to_dict()) for e in executions],
-            total=len(executions)
+            total=len(executions),
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to list executions: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Failed to list executions: {str(e)}"
+        )
 
 
 @router.delete("/{workflow_id}")
 async def delete_workflow(
-    workflow_id: str,
-    engine: WorkflowEngine = Depends(get_workflow_engine)
+    workflow_id: str, engine: WorkflowEngine = Depends(get_workflow_engine)
 ):
     """Delete a workflow"""
     try:
@@ -277,9 +295,13 @@ async def delete_workflow(
         if success:
             return {"message": f"Workflow {workflow_id} deleted successfully"}
         else:
-            raise HTTPException(status_code=404, detail=f"Workflow {workflow_id} not found")
+            raise HTTPException(
+                status_code=404, detail=f"Workflow {workflow_id} not found"
+            )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to delete workflow: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Failed to delete workflow: {str(e)}"
+        )
 
 
 @router.get("/health")
@@ -288,19 +310,19 @@ async def health_check(engine: WorkflowEngine = Depends(get_workflow_engine)):
     try:
         workflows = await engine.list_workflows()
         executions = await engine.list_executions()
-        
+
         status_counts = {}
         for workflow in workflows:
             status = workflow.status.value
             status_counts[status] = status_counts.get(status, 0) + 1
-        
+
         return {
             "status": "healthy",
             "total_workflows": len(workflows),
             "total_executions": len(executions),
             "workflow_status_breakdown": status_counts,
             "supported_trigger_types": [t.value for t in TriggerType],
-            "supported_action_types": [a.value for a in ActionType]
+            "supported_action_types": [a.value for a in ActionType],
         }
     except Exception as e:
         return {"status": "unhealthy", "error": str(e)}

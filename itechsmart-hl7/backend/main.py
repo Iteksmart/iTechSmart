@@ -11,8 +11,7 @@ from datetime import datetime
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 
 logger = logging.getLogger(__name__)
@@ -23,7 +22,7 @@ app = FastAPI(
     description="Autonomous HL7 Monitoring & Self-Healing for Healthcare IT",
     version="1.0.0",
     docs_url="/api/docs",
-    redoc_url="/api/redoc"
+    redoc_url="/api/redoc",
 )
 
 # CORS middleware
@@ -63,8 +62,8 @@ async def root():
             "emr": "/api/emr",
             "ai": "/api/ai",
             "clinicals": "/api/clinicals",
-            "monitoring": "/api/monitoring"
-        }
+            "monitoring": "/api/monitoring",
+        },
     }
 
 
@@ -81,8 +80,8 @@ async def health_check():
             "redis": "healthy",
             "hl7_engine": "healthy",
             "self_healing": "healthy",
-            "ai_agents": "healthy"
-        }
+            "ai_agents": "healthy",
+        },
     }
 
 
@@ -96,8 +95,8 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={
             "error": "Internal server error",
             "message": str(exc),
-            "timestamp": datetime.utcnow().isoformat()
-        }
+            "timestamp": datetime.utcnow().isoformat(),
+        },
     )
 
 
@@ -125,11 +124,5 @@ async def shutdown_event():
 
 if __name__ == "__main__":
     import uvicorn
-    
-    uvicorn.run(
-        "main:app",
-        host="0.0.0.0",
-        port=8000,
-        reload=True,
-        log_level="info"
-    )
+
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, log_level="info")

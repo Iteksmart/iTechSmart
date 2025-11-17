@@ -14,6 +14,7 @@ router = APIRouter(prefix="/api/v1/vision", tags=["Vision Analysis"])
 
 class VisionAnalyzeRequest(BaseModel):
     """Vision analysis request"""
+
     image_url: Optional[str] = None
     image_base64: Optional[str] = None
     task: str = "general_analysis"
@@ -24,6 +25,7 @@ class VisionAnalyzeRequest(BaseModel):
 
 class VisualQARequest(BaseModel):
     """Visual Q&A request"""
+
     image_url: Optional[str] = None
     image_base64: Optional[str] = None
     question: str
@@ -34,7 +36,7 @@ class VisualQARequest(BaseModel):
 async def analyze_image(request: VisionAnalyzeRequest) -> Dict[str, Any]:
     """
     Analyze an image
-    
+
     Example:
     ```json
     {
@@ -44,7 +46,7 @@ async def analyze_image(request: VisionAnalyzeRequest) -> Dict[str, Any]:
         "detail_level": "high"
     }
     ```
-    
+
     Or with base64:
     ```json
     {
@@ -61,23 +63,25 @@ async def analyze_image(request: VisionAnalyzeRequest) -> Dict[str, Any]:
         elif request.image_base64:
             image = base64.b64decode(request.image_base64)
         else:
-            raise HTTPException(status_code=400, detail="Either image_url or image_base64 required")
-        
+            raise HTTPException(
+                status_code=400, detail="Either image_url or image_base64 required"
+            )
+
         # Map task and provider
         task = VisionTask(request.task)
         provider = VisionProvider(request.provider)
-        
+
         # Analyze
         result = await vision_service.analyze_image(
             image=image,
             task=task,
             prompt=request.prompt,
             provider=provider,
-            detail_level=request.detail_level
+            detail_level=request.detail_level,
         )
-        
+
         return result
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -87,31 +91,31 @@ async def upload_and_analyze(
     file: UploadFile = File(...),
     task: str = "general_analysis",
     provider: str = "openai",
-    detail_level: str = "high"
+    detail_level: str = "high",
 ) -> Dict[str, Any]:
     """
     Upload and analyze an image file
-    
+
     Supports: JPG, PNG, GIF, WEBP
     """
     try:
         # Read file
         image_bytes = await file.read()
-        
+
         # Map task and provider
         vision_task = VisionTask(task)
         vision_provider = VisionProvider(provider)
-        
+
         # Analyze
         result = await vision_service.analyze_image(
             image=image_bytes,
             task=vision_task,
             provider=vision_provider,
-            detail_level=detail_level
+            detail_level=detail_level,
         )
-        
+
         return result
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -120,7 +124,7 @@ async def upload_and_analyze(
 async def extract_text(request: VisionAnalyzeRequest) -> Dict[str, Any]:
     """
     Extract text from image (OCR)
-    
+
     Example:
     ```json
     {
@@ -136,13 +140,15 @@ async def extract_text(request: VisionAnalyzeRequest) -> Dict[str, Any]:
         elif request.image_base64:
             image = base64.b64decode(request.image_base64)
         else:
-            raise HTTPException(status_code=400, detail="Either image_url or image_base64 required")
-        
+            raise HTTPException(
+                status_code=400, detail="Either image_url or image_base64 required"
+            )
+
         provider = VisionProvider(request.provider)
-        
+
         result = await vision_service.extract_text(image, provider=provider)
         return result
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -151,7 +157,7 @@ async def extract_text(request: VisionAnalyzeRequest) -> Dict[str, Any]:
 async def detect_code(request: VisionAnalyzeRequest) -> Dict[str, Any]:
     """
     Detect and extract code from image
-    
+
     Useful for:
     - Screenshots of code
     - Photos of whiteboards
@@ -164,13 +170,15 @@ async def detect_code(request: VisionAnalyzeRequest) -> Dict[str, Any]:
         elif request.image_base64:
             image = base64.b64decode(request.image_base64)
         else:
-            raise HTTPException(status_code=400, detail="Either image_url or image_base64 required")
-        
+            raise HTTPException(
+                status_code=400, detail="Either image_url or image_base64 required"
+            )
+
         provider = VisionProvider(request.provider)
-        
+
         result = await vision_service.detect_code(image, provider=provider)
         return result
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -179,7 +187,7 @@ async def detect_code(request: VisionAnalyzeRequest) -> Dict[str, Any]:
 async def analyze_diagram(request: VisionAnalyzeRequest) -> Dict[str, Any]:
     """
     Analyze diagram or flowchart
-    
+
     Useful for:
     - Architecture diagrams
     - Flowcharts
@@ -193,13 +201,15 @@ async def analyze_diagram(request: VisionAnalyzeRequest) -> Dict[str, Any]:
         elif request.image_base64:
             image = base64.b64decode(request.image_base64)
         else:
-            raise HTTPException(status_code=400, detail="Either image_url or image_base64 required")
-        
+            raise HTTPException(
+                status_code=400, detail="Either image_url or image_base64 required"
+            )
+
         provider = VisionProvider(request.provider)
-        
+
         result = await vision_service.analyze_diagram(image, provider=provider)
         return result
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -208,7 +218,7 @@ async def analyze_diagram(request: VisionAnalyzeRequest) -> Dict[str, Any]:
 async def analyze_ui(request: VisionAnalyzeRequest) -> Dict[str, Any]:
     """
     Analyze UI/UX design
-    
+
     Provides feedback on:
     - Layout and composition
     - Color scheme
@@ -223,13 +233,15 @@ async def analyze_ui(request: VisionAnalyzeRequest) -> Dict[str, Any]:
         elif request.image_base64:
             image = base64.b64decode(request.image_base64)
         else:
-            raise HTTPException(status_code=400, detail="Either image_url or image_base64 required")
-        
+            raise HTTPException(
+                status_code=400, detail="Either image_url or image_base64 required"
+            )
+
         provider = VisionProvider(request.provider)
-        
+
         result = await vision_service.analyze_ui(image, provider=provider)
         return result
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -238,7 +250,7 @@ async def analyze_ui(request: VisionAnalyzeRequest) -> Dict[str, Any]:
 async def visual_qa(request: VisualQARequest) -> Dict[str, Any]:
     """
     Answer questions about an image
-    
+
     Example:
     ```json
     {
@@ -255,17 +267,17 @@ async def visual_qa(request: VisualQARequest) -> Dict[str, Any]:
         elif request.image_base64:
             image = base64.b64decode(request.image_base64)
         else:
-            raise HTTPException(status_code=400, detail="Either image_url or image_base64 required")
-        
+            raise HTTPException(
+                status_code=400, detail="Either image_url or image_base64 required"
+            )
+
         provider = VisionProvider(request.provider)
-        
+
         result = await vision_service.visual_qa(
-            image=image,
-            question=request.question,
-            provider=provider
+            image=image, question=request.question, provider=provider
         )
         return result
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -276,12 +288,9 @@ async def list_vision_tasks() -> Dict[str, Any]:
     return {
         "success": True,
         "tasks": [
-            {
-                "name": task.value,
-                "description": _get_task_description(task)
-            }
+            {"name": task.value, "description": _get_task_description(task)}
             for task in VisionTask
-        ]
+        ],
     }
 
 
@@ -291,12 +300,9 @@ async def list_providers() -> Dict[str, Any]:
     return {
         "success": True,
         "providers": [
-            {
-                "name": provider.value,
-                "models": _get_provider_models(provider)
-            }
+            {"name": provider.value, "models": _get_provider_models(provider)}
             for provider in VisionProvider
-        ]
+        ],
     }
 
 
@@ -311,7 +317,7 @@ def _get_task_description(task: VisionTask) -> str:
         VisionTask.CODE_DETECTION: "Detect and extract code from images",
         VisionTask.DIAGRAM_ANALYSIS: "Analyze diagrams and flowcharts",
         VisionTask.UI_ANALYSIS: "Analyze UI/UX designs",
-        VisionTask.VISUAL_QA: "Answer questions about images"
+        VisionTask.VISUAL_QA: "Answer questions about images",
     }
     return descriptions.get(task, "Unknown task")
 
@@ -321,6 +327,6 @@ def _get_provider_models(provider: VisionProvider) -> List[str]:
     models = {
         VisionProvider.OPENAI: ["gpt-4o", "gpt-4-turbo"],
         VisionProvider.ANTHROPIC: ["claude-3-5-sonnet", "claude-3-opus"],
-        VisionProvider.GOOGLE: ["gemini-1.5-pro", "gemini-1.5-flash"]
+        VisionProvider.GOOGLE: ["gemini-1.5-pro", "gemini-1.5-flash"],
     }
     return models.get(provider, [])

@@ -39,11 +39,11 @@ PRODUCTS_MISSING_REQUIREMENTS = [
 def create_requirements_file(product_path: Path):
     """Create requirements.txt file for a product."""
     requirements_path = product_path / "backend" / "requirements.txt"
-    
+
     if requirements_path.exists():
         print(f"  ⚠️  requirements.txt already exists for {product_path.name}")
         return False
-    
+
     requirements_path.write_text(STANDARD_REQUIREMENTS.strip() + "\n")
     print(f"  ✅ Created requirements.txt for {product_path.name}")
     return True
@@ -52,20 +52,20 @@ def create_requirements_file(product_path: Path):
 def main():
     """Main function."""
     repo_root = Path(__file__).parent.parent
-    
+
     print("📦 Creating missing requirements.txt files...\n")
-    
+
     created_count = 0
-    
+
     for product in PRODUCTS_MISSING_REQUIREMENTS:
         product_path = repo_root / product
         if not product_path.exists():
             print(f"  ⚠️  Product directory not found: {product}")
             continue
-        
+
         if create_requirements_file(product_path):
             created_count += 1
-    
+
     print(f"\n✅ Created {created_count} requirements.txt files")
     return 0
 
