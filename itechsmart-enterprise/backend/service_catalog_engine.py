@@ -11,6 +11,7 @@ from typing import Dict, List, Optional, Any
 import paramiko
 import requests
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 
 from .service_catalog_models import (
     ServiceItem,

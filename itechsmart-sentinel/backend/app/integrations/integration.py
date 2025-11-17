@@ -67,12 +67,10 @@ integration: Optional[SuiteIntegration] = None
 
 
 async def init_integration(service_name: str, service_port: int):
-    global integration
     integration = SuiteIntegration(service_name, service_port)
     await integration.start()
 
 
 async def shutdown_integration():
-    global integration
     if integration:
         await integration.stop()

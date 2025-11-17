@@ -9,6 +9,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 import enum
 from ..db.database import Base
+from .password import Password
 
 
 class UserRole(str, enum.Enum):

@@ -6,6 +6,7 @@ from datetime import datetime
 from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, Float, JSON
 from sqlalchemy.orm import relationship
 from app.models.user import Base
+from sqlalchemy import Boolean
 
 
 class Program(Base):

@@ -11,6 +11,7 @@ from ..db.database import get_db
 from ..models.user import User, APIKey
 from ..core.security import decode_token, hash_api_key
 import json
+from sqlalchemy import func
 
 security = HTTPBearer()
 

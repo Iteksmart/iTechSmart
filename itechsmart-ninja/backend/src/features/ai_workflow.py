@@ -9,6 +9,7 @@ import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
 import logging
+from flask import request, jsonify
 
 logger = logging.getLogger(__name__)
 

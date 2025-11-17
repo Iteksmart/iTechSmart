@@ -8,6 +8,8 @@ from sqlalchemy.orm import Session
 from typing import List, Optional, Dict, Any
 from datetime import datetime
 from pydantic import BaseModel
+from sqlalchemy import and_
+from .database import get_db
 
 router = APIRouter(prefix="/api/observatory/traces", tags=["traces"])
 

@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
 from typing import Optional
+from ...config import settings
 
 from app.core.database import get_db
 from app.api.deps import get_current_user

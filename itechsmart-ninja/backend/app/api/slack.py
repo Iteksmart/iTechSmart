@@ -6,6 +6,9 @@ Provides REST API for Slack messaging and notifications
 from fastapi import APIRouter, HTTPException, Query, Request
 from typing import List, Optional
 from pydantic import BaseModel, Field
+import logging
+
+logger = logging.getLogger(__name__)
 
 from ..services.slack_service import slack_service, NotificationPriority
 

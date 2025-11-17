@@ -177,13 +177,11 @@ integration: Optional[SupremeIntegration] = None
 
 async def init_integration():
     """Initialize integration"""
-    global integration
     integration = SupremeIntegration()
     await integration.start()
 
 
 async def shutdown_integration():
     """Shutdown integration"""
-    global integration
     if integration:
         await integration.stop()
