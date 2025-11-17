@@ -13,7 +13,7 @@ import logging
 from datetime import datetime
 
 from database import engine, Base
-from api import security, compliance, threats, monitoring
+from api import security, compliance, threats, monitoring, system_agents
 
 # Configure logging
 logging.basicConfig(
@@ -54,6 +54,7 @@ app.include_router(security.router, prefix="/api/security", tags=["Security"])
 app.include_router(compliance.router, prefix="/api/compliance", tags=["Compliance"])
 app.include_router(threats.router, prefix="/api/threats", tags=["Threats"])
 app.include_router(monitoring.router, prefix="/api/monitoring", tags=["Monitoring"])
+app.include_router(system_agents.router, prefix="/api/v1/system-agents", tags=["System Agents"])
 
 @app.get("/")
 async def root():
