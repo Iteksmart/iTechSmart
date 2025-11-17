@@ -3,6 +3,7 @@ import path from 'path';
 import { DockerManager } from './docker-manager';
 import { LicenseManager } from './license-manager';
 import { UpdateManager } from './update-manager';
+import { systemAgentsManager } from './system-agents-manager';
 import { PRODUCTS } from './products';
 
 let mainWindow: BrowserWindow | null = null;
@@ -228,6 +229,98 @@ app.on('window-all-closed', () => {
 
 app.on('before-quit', () => {
   isQuitting = true;
+});
+
+// System Agents IPC Handlers
+ipcMain.handle('agents:get-all', async () => {
+  try {
+    return await systemAgentsManager.getAgents();
+  } catch (error) {
+    console.error('Failed to get agents:', error);
+    throw error;
+  }
+});
+
+ipcMain.handle('agents:get', async (_, agentId: string) => {
+  try {
+    return await systemAgentsManager.getAgent(agentId);
+  } catch (error) {
+    console.error(`Failed to get agent ${agentId}:`, error);
+    throw error;
+  }
+});
+
+ipcMain.handle('agents:get-metrics', async (_, agentId: string) => {
+  try {
+    return await systemAgentsManager.getSystemMetrics(agentId);
+  } catch (error) {
+    console.error(`Failed to get metrics for agent ${agentId}:`, error);
+    throw error;
+  }
+});
+
+ipcMain.handle('agents:get-alerts', async (_, agentId: string) => {
+  try {
+    return await systemAgentsManager.getAgentAlerts(agentId);
+  } catch (error) {
+    console.error(`Failed to get alerts for agent ${agentId}:`, error);
+    throw error;
+  }
+});
+
+ipcMain.handle('agents:resolve-alert', async (_, agentId: string, alertId: string) => {
+  try {
+    await systemAgentsManager.resolveAlert(agentId, alertId);
+    return { success: true };
+  } catch (error) {
+    console.error(`Failed to resolve alert ${alertId}:`, error);
+    throw error;
+  }
+});
+
+ipcMain.handle('agents:execute-command', async (_, agentId: string, command: string, parameters?: any) => {
+  try {
+    return await systemAgentsManager.executeCommand(agentId, command, parameters);
+  } catch (error) {
+    console.error(`Failed to execute command on agent ${agentId}:`, error);
+    throw error;
+  }
+});
+
+ipcMain.handle('agents:get-stats', async () => {
+  try {
+    return await systemAgentsManager.getAgentStats();
+  } catch (error) {
+    console.error('Failed to get agent stats:', error);
+    throw error;
+  }
+});
+
+ipcMain.handle('agents:get-health-score', async () => {
+  try {
+    return await systemAgentsManager.getSystemHealthScore();
+  } catch (error) {
+    console.error('Failed to get health score:', error);
+    return 0;
+  }
+});
+
+ipcMain.handle('agents:has-critical-alerts', async () => {
+  try {
+    return await systemAgentsManager.hasCriticalAlerts();
+  } catch (error) {
+    console.error('Failed to check critical alerts:', error);
+    return false;
+  }
+});
+
+ipcMain.handle('agents:get-tray-status', async () => {
+  try {
+    return await systemAgentsManager.getSystemTrayStatus();
+  } catch (error) {
+    console.error('Failed to get tray status:', error);
+    return 'Status unavailable';
+  }
 });
 
 // Handle uncaught exceptions
