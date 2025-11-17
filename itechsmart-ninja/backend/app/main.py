@@ -11,7 +11,7 @@ from typing import Dict, Set
 
 from app.core.config import settings
 from app.core.database import engine, Base
-from app.api import auth, tasks, agents, admin, files, deployments, models, research, editors, github, image_generation
+from app.api import auth, tasks, agents, admin, files, deployments, models, research, editors, github, image_generation, system_agents
 
 # Configure logging
 logging.basicConfig(
@@ -114,6 +114,7 @@ app.include_router(research.router, prefix="/api/v1/research", tags=["Research"]
 app.include_router(editors.router, prefix="/api/v1/editors", tags=["Editors"])
 app.include_router(github.router, prefix="/api/v1/github", tags=["GitHub"])
 app.include_router(image_generation.router, prefix="/api/v1/images", tags=["Image Generation"])
+   app.include_router(system_agents.router, prefix="/api/v1/system-agents", tags=["System Agents"])
 
 # Mount static files (for uploaded files)
 try:
