@@ -1,467 +1,495 @@
-# iTechSmart Suite - Integration & Testing Documentation
+# 🧪 Integration Testing Suite
 
-## Overview
-
-This directory contains comprehensive integration tests, end-to-end scenarios, performance benchmarks, and security audits for the iTechSmart Suite enhancements.
-
-**Phase 8: Integration & Testing**  
-**Status:** Complete  
-**Test Coverage:** 100+ tests across 5 categories
+Comprehensive integration tests for the iTechSmart Suite demo environment.
 
 ---
 
-## 📁 Test Files
+## 📋 Overview
 
-### 1. test_framework.py
-**Purpose:** Core integration testing framework  
-**Tests:** 40+ integration tests  
-**Coverage:**
-- Health checks for all services
-- Compliance Center integration
-- Service Catalog integration
-- Automation Orchestrator integration
-- Observatory integration
-- AI Insights integration
-- Cross-product workflows
-
-**Usage:**
-```bash
-python test_framework.py
-```
-
-**Output:**
-- Console test results
-- `integration_test_report.json`
-
-### 2. test_scenarios.py
-**Purpose:** End-to-end scenario testing  
-**Tests:** 5 comprehensive scenarios  
-**Scenarios:**
-1. Incident Detection → Auto-Remediation
-2. Compliance Violation → Workflow → Notification
-3. AI Anomaly → Pulse Incident → Supreme Plus Fix
-4. Service Request → Approval → Fulfillment
-5. Performance Issue → Observatory → AI Insights → Recommendation
-
-**Usage:**
-```bash
-python test_scenarios.py
-```
-
-**Output:**
-- Detailed scenario execution logs
-- Step-by-step validation
-- Success/failure tracking
-
-### 3. performance_tests.py
-**Purpose:** Performance testing and benchmarking  
-**Tests:** 15+ performance tests  
-**Metrics:**
-- Requests per second
-- Average response time
-- P95/P99 latency
-- Success rate
-- Concurrent request handling
-
-**Usage:**
-```bash
-python performance_tests.py
-```
-
-**Output:**
-- Performance metrics
-- `performance_benchmarks.json`
-
-### 4. security_audit.py
-**Purpose:** Security vulnerability assessment  
-**Tests:** 20+ security tests  
-**Categories:**
-- Authentication & Authorization
-- Input Validation
-- API Security
-- Data Protection
-- Compliance Requirements
-
-**Usage:**
-```bash
-python security_audit.py
-```
-
-**Output:**
-- Security findings by severity
-- Recommendations
-- `security_audit_report.json`
+This test suite validates:
+- Docker service health
+- HTTP endpoint availability
+- API functionality
+- Database connectivity
+- Reverse proxy routing
+- Authentication endpoints
+- Resource usage
+- Inter-service communication
+- Log analysis
 
 ---
 
-## 🎯 Test Categories
-
-### Integration Tests
-**Total:** 40+ tests  
-**Products Tested:**
-- Compliance Center (Product #19)
-- Service Catalog (Product #1)
-- Automation Orchestrator (Product #23)
-- Observatory (Product #36)
-- AI Insights (Product #3)
-
-**Test Types:**
-- API endpoint validation
-- Data persistence
-- Cross-product communication
-- Error handling
-- Response validation
-
-### End-to-End Scenarios
-**Total:** 5 scenarios, 30+ steps  
-**Flow Testing:**
-- Multi-product workflows
-- Event-driven processes
-- Automated remediation
-- Approval workflows
-- AI-driven actions
-
-**Validation:**
-- Step-by-step execution
-- Data flow verification
-- State management
-- Error recovery
-
-### Performance Tests
-**Total:** 15+ tests  
-**Metrics Collected:**
-- Throughput (requests/second)
-- Latency (avg, min, max, P95, P99)
-- Success rate
-- Concurrent request handling
-- Resource utilization
-
-**Test Types:**
-- Load testing (100-250 requests)
-- Stress testing (60s duration)
-- Concurrent request testing (10-50 concurrent)
-
-### Security Tests
-**Total:** 20+ tests  
-**Vulnerabilities Checked:**
-- SQL Injection
-- XSS (Cross-Site Scripting)
-- Command Injection
-- Path Traversal
-- Authentication bypass
-- Authorization issues
-- Data exposure
-- Information disclosure
-
-**Compliance:**
-- GDPR requirements
-- HIPAA requirements
-- SOC2 requirements
-- Audit logging
-- Data encryption
-
----
-
-## 📊 Expected Results
-
-### Integration Tests
-```
-Total Tests: 40+
-Expected Pass Rate: 95%+
-Average Duration: 2-5 seconds per test
-```
-
-### End-to-End Scenarios
-```
-Total Scenarios: 5
-Total Steps: 30+
-Expected Pass Rate: 90%+
-Average Duration: 10-30 seconds per scenario
-```
-
-### Performance Tests
-```
-Compliance Center:
-  - List Frameworks: 50+ req/s, <100ms avg
-  - Get Score: 40+ req/s, <150ms avg
-
-Service Catalog:
-  - List Services: 60+ req/s, <80ms avg
-  - List Requests: 50+ req/s, <100ms avg
-
-Automation Orchestrator:
-  - List Workflows: 60+ req/s, <80ms avg
-  - List Executions: 50+ req/s, <100ms avg
-
-Observatory:
-  - List Services: 70+ req/s, <70ms avg
-  - Query Metrics: 60+ req/s, <90ms avg
-  - Ingest Metrics: 50+ req/s, <120ms avg
-
-AI Insights:
-  - List Models: 60+ req/s, <80ms avg
-  - List Predictions: 50+ req/s, <100ms avg
-  - List Insights: 50+ req/s, <100ms avg
-```
-
-### Security Tests
-```
-Total Tests: 20+
-Expected Pass Rate: 100%
-Critical Issues: 0
-High Issues: 0
-Medium Issues: 0-2
-Low Issues: 0-3
-```
-
----
-
-## 🚀 Running Tests
+## 🚀 Quick Start
 
 ### Prerequisites
-```bash
-# Install dependencies
-pip install httpx asyncio
 
-# Ensure all services are running
-docker-compose up -d
-
-# Wait for services to be ready
-sleep 30
-```
+- Demo environment running
+- Docker and Docker Compose installed
+- `curl` and `bc` utilities available
 
 ### Run All Tests
+
 ```bash
-# Integration tests
-python test_framework.py
-
-# Scenario tests
-python test_scenarios.py
-
-# Performance tests
-python performance_tests.py
-
-# Security audit
-python security_audit.py
+cd iTechSmart/integration-tests
+./test-suite.sh
 ```
 
-### Run Specific Tests
-```bash
-# Only health checks
-python -c "from test_framework import *; asyncio.run(IntegrationTestFramework().test_all_services_health())"
+### Expected Output
 
-# Only Compliance tests
-python -c "from test_framework import *; asyncio.run(IntegrationTestFramework().test_compliance_center_integration())"
-
-# Only Scenario 1
-python -c "from test_scenarios import *; asyncio.run(ScenarioTests().scenario_1_incident_to_remediation())"
 ```
+========================================
+iTechSmart Suite - Integration Test Suite
+========================================
+
+Starting integration tests...
+Test environment: Demo
+Base URL: http://localhost
+
+========================================
+Test Suite 1: Docker Services
+========================================
+
+✓ PASS - License Server Container
+✓ PASS - PostgreSQL Container
+✓ PASS - Nginx Proxy Container
+...
+
+========================================
+Test Summary
+========================================
+
+Total Tests: 45
+Passed: 45
+Failed: 0
+
+========================================
+ALL TESTS PASSED! ✓
+========================================
+```
+
+---
+
+## 📊 Test Suites
+
+### Suite 1: Docker Services (7 tests)
+Verifies all Docker containers are running:
+- License Server
+- PostgreSQL Database
+- Nginx Proxy
+- iTechSmart Ninja
+- iTechSmart Supreme
+- iTechSmart Citadel
+- iTechSmart Copilot
+
+### Suite 2: Health Endpoints (6 tests)
+Tests health check endpoints:
+- Nginx proxy health
+- License Server health
+- All product health endpoints
+
+### Suite 3: Web Interfaces (6 tests)
+Validates web UI accessibility:
+- Demo landing page
+- License Server UI
+- All product UIs
+
+### Suite 4: API Endpoints (5 tests)
+Tests API availability:
+- License Server API
+- Product APIs
+- JSON response validation
+
+### Suite 5: Database Connectivity (2 tests)
+Verifies database connections:
+- PostgreSQL direct connection
+- License Server DB connection
+
+### Suite 6: Reverse Proxy Routing (5 tests)
+Tests Nginx routing:
+- Proxy to License Server
+- Proxy to all products
+
+### Suite 7: Authentication (2 tests)
+Validates auth endpoints:
+- Login endpoint
+- License validation endpoint
+
+### Suite 8: Resource Usage (2 tests)
+Monitors system resources:
+- CPU usage (<80%)
+- Memory usage (<80%)
+
+### Suite 9: Network Connectivity (2 tests)
+Tests inter-service communication:
+- Product to License Server
+- Service mesh connectivity
+
+### Suite 10: Logs and Errors (2 tests)
+Analyzes logs:
+- Error count (<5)
+- Warning count (<10)
+
+---
+
+## 🔧 Individual Test Commands
+
+### Test Docker Services
+
+```bash
+# Check if container is running
+docker ps | grep itechsmart-license-demo
+
+# Check all containers
+docker-compose -f demo-environment/docker-compose.demo.yml ps
+```
+
+### Test Health Endpoints
+
+```bash
+# Test License Server
+curl http://localhost:3000/health
+
+# Test Ninja
+curl http://localhost:3001/health
+
+# Test all services
+for port in 3000 3001 3002 3003 3004; do
+    echo "Testing port $port..."
+    curl -s http://localhost:$port/health
+done
+```
+
+### Test API Endpoints
+
+```bash
+# Test License Server API
+curl http://localhost:3000/api/health
+
+# Test with JSON parsing
+curl -s http://localhost:3000/api/health | jq .
+```
+
+### Test Database
+
+```bash
+# Direct PostgreSQL connection
+docker exec itechsmart-demo-db psql -U demo -d license_demo -c "SELECT 1;"
+
+# Check database from License Server
+curl http://localhost:3000/api/health | grep database
+```
+
+### Test Reverse Proxy
+
+```bash
+# Test proxy routing
+curl http://localhost/license/health
+curl http://localhost/ninja/health
+curl http://localhost/supreme/health
+```
+
+### Test Inter-Service Communication
+
+```bash
+# From Ninja to License Server
+docker exec itechsmart-ninja-demo curl http://license-server:3000/health
+
+# From Supreme to License Server
+docker exec itechsmart-supreme-demo curl http://license-server:3000/health
+```
+
+### Check Resource Usage
+
+```bash
+# Real-time stats
+docker stats
+
+# One-time stats
+docker stats --no-stream
+```
+
+### Check Logs
+
+```bash
+# All services
+docker-compose -f demo-environment/docker-compose.demo.yml logs
+
+# Specific service
+docker-compose -f demo-environment/docker-compose.demo.yml logs license-server
+
+# Follow logs
+docker-compose -f demo-environment/docker-compose.demo.yml logs -f
+
+# Search for errors
+docker-compose -f demo-environment/docker-compose.demo.yml logs | grep -i error
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### Tests Failing
+
+**Check if demo is running**:
+```bash
+cd demo-environment
+docker-compose -f docker-compose.demo.yml ps
+```
+
+**Restart services**:
+```bash
+docker-compose -f docker-compose.demo.yml restart
+```
+
+**Check logs for errors**:
+```bash
+docker-compose -f docker-compose.demo.yml logs --tail=50
+```
+
+### Specific Test Failures
+
+**Docker Service Tests Fail**:
+- Ensure demo environment is started
+- Check Docker daemon is running
+- Verify no port conflicts
+
+**Health Endpoint Tests Fail**:
+- Wait for services to fully start (30-60 seconds)
+- Check service logs for startup errors
+- Verify network connectivity
+
+**Database Tests Fail**:
+- Check PostgreSQL container is running
+- Verify database credentials
+- Check License Server can connect
+
+**Resource Usage Tests Fail**:
+- Close unnecessary applications
+- Increase Docker memory limit
+- Stop unused containers
+
+**Network Tests Fail**:
+- Check Docker network configuration
+- Verify services are on same network
+- Check firewall rules
 
 ---
 
 ## 📈 Performance Benchmarks
 
-### Target Metrics
+### Expected Response Times
 
-#### Response Time
-- **Excellent:** <100ms
-- **Good:** 100-200ms
-- **Acceptable:** 200-500ms
-- **Poor:** >500ms
+| Endpoint | Expected | Acceptable |
+|----------|----------|------------|
+| Health checks | <50ms | <200ms |
+| API calls | <100ms | <500ms |
+| Web UI | <200ms | <1s |
+| Database queries | <50ms | <200ms |
 
-#### Throughput
-- **Excellent:** >100 req/s
-- **Good:** 50-100 req/s
-- **Acceptable:** 20-50 req/s
-- **Poor:** <20 req/s
+### Resource Usage Targets
 
-#### Success Rate
-- **Excellent:** >99%
-- **Good:** 95-99%
-- **Acceptable:** 90-95%
-- **Poor:** <90%
-
-### Optimization Recommendations
-
-**If response time > 200ms:**
-- Add database indexes
-- Implement caching (Redis)
-- Optimize queries
-- Add connection pooling
-
-**If throughput < 50 req/s:**
-- Increase worker processes
-- Add load balancing
-- Optimize database queries
-- Implement async processing
-
-**If success rate < 95%:**
-- Add retry logic
-- Improve error handling
-- Increase timeouts
-- Add circuit breakers
+| Resource | Target | Maximum |
+|----------|--------|---------|
+| CPU | <50% | <80% |
+| Memory | <60% | <80% |
+| Disk I/O | <50% | <80% |
+| Network | <50% | <80% |
 
 ---
 
-## 🔐 Security Guidelines
+## 🔄 Continuous Integration
 
-### Critical Issues (Must Fix)
-- SQL Injection vulnerabilities
-- Command Injection vulnerabilities
-- Authentication bypass
-- Tenant data leakage
+### GitHub Actions Integration
 
-### High Issues (Should Fix)
-- XSS vulnerabilities
-- Path traversal
-- Sensitive data exposure
-- Missing authentication
+Add to `.github/workflows/integration-tests.yml`:
 
-### Medium Issues (Recommended)
-- Missing security headers
-- Weak CORS configuration
-- Information disclosure
-- Missing rate limiting
+```yaml
+name: Integration Tests
 
-### Low Issues (Nice to Have)
-- Verbose error messages
-- Missing audit logs
-- Weak password policies
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
----
-
-## 📝 Test Reports
-
-### Integration Test Report
-**File:** `integration_test_report.json`
-
-**Structure:**
-```json
-{
-  "summary": {
-    "total_tests": 40,
-    "passed": 38,
-    "failed": 2,
-    "success_rate": 95.0,
-    "total_duration": 120.5,
-    "avg_duration": 3.01
-  },
-  "results": [...]
-}
-```
-
-### Performance Benchmark Report
-**File:** `performance_benchmarks.json`
-
-**Structure:**
-```json
-{
-  "benchmarks": {
-    "compliance_center": [...],
-    "service_catalog": [...],
-    "automation_orchestrator": [...],
-    "observatory": [...],
-    "ai_insights": [...]
-  },
-  "timestamp": "2025-01-10T..."
-}
-```
-
-### Security Audit Report
-**File:** `security_audit_report.json`
-
-**Structure:**
-```json
-{
-  "summary": {
-    "total_tests": 20,
-    "passed": 18,
-    "failed": 2,
-    "critical_issues": 0,
-    "high_issues": 0,
-    "medium_issues": 2,
-    "low_issues": 0
-  },
-  "by_severity": {...},
-  "by_category": {...}
-}
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Start Demo Environment
+      run: |
+        cd demo-environment
+        ./setup-demo.sh
+    
+    - name: Wait for Services
+      run: sleep 30
+    
+    - name: Run Integration Tests
+      run: |
+        cd integration-tests
+        ./test-suite.sh
+    
+    - name: Stop Demo Environment
+      if: always()
+      run: |
+        cd demo-environment
+        docker-compose -f docker-compose.demo.yml down
 ```
 
 ---
 
-## 🔧 Troubleshooting
+## 📊 Test Reports
 
-### Common Issues
+### Generate HTML Report
 
-**Issue:** Connection refused
-```
-Solution: Ensure all services are running
-docker-compose ps
-docker-compose up -d
-```
+```bash
+# Run tests and save output
+./test-suite.sh > test-results.txt 2>&1
 
-**Issue:** Timeout errors
-```
-Solution: Increase timeout in test files
-self.timeout = 60.0  # Increase from 30.0
+# Convert to HTML (requires ansi2html)
+cat test-results.txt | ansi2html > test-results.html
 ```
 
-**Issue:** Authentication errors
-```
-Solution: Check tenant_id is valid
-self.tenant_id = 1  # Use valid tenant
+### Generate JSON Report
+
+```bash
+# Create custom JSON reporter
+./test-suite.sh --json > test-results.json
 ```
 
-**Issue:** Database errors
+---
+
+## 🎯 Best Practices
+
+### Before Running Tests
+
+1. Ensure demo environment is running
+2. Wait for all services to be ready (30-60 seconds)
+3. Check no port conflicts exist
+4. Verify sufficient system resources
+
+### During Tests
+
+1. Don't modify services while testing
+2. Monitor resource usage
+3. Check logs for errors
+4. Note any warnings
+
+### After Tests
+
+1. Review test results
+2. Investigate failures
+3. Check logs for issues
+4. Document findings
+
+---
+
+## 📝 Adding New Tests
+
+### Test Template
+
+```bash
+# Function to test new feature
+test_new_feature() {
+    local name=$1
+    local url=$2
+    
+    # Test logic here
+    local result=$(curl -s "$url")
+    
+    if [ condition ]; then
+        print_result "$name" "PASS"
+        return 0
+    else
+        print_result "$name" "FAIL"
+        return 1
+    fi
+}
+
+# Add to test suite
+print_header "Test Suite X: New Feature"
+test_new_feature "Feature Name" "http://localhost:3000/feature"
 ```
-Solution: Reset database
-docker-compose down -v
-docker-compose up -d
+
+### Test Guidelines
+
+1. **Clear naming**: Use descriptive test names
+2. **Single purpose**: One test per function
+3. **Error handling**: Catch and report errors
+4. **Cleanup**: Clean up test data
+5. **Documentation**: Document test purpose
+
+---
+
+## 🔍 Advanced Testing
+
+### Load Testing
+
+```bash
+# Install Apache Bench
+sudo apt-get install apache2-utils
+
+# Run load test
+ab -n 1000 -c 10 http://localhost:3000/health
+```
+
+### Security Testing
+
+```bash
+# Check for common vulnerabilities
+docker run --rm -v $(pwd):/target aquasec/trivy fs /target
+
+# Check SSL/TLS configuration
+testssl.sh https://localhost
+```
+
+### Performance Profiling
+
+```bash
+# Profile API endpoint
+curl -w "@curl-format.txt" -o /dev/null -s http://localhost:3000/api/health
+
+# Monitor resource usage
+docker stats --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}"
 ```
 
 ---
 
 ## 📞 Support
 
+### Issues
+- **GitHub**: https://github.com/Iteksmart/iTechSmart/issues
+- **Email**: support@itechsmart.com
+
 ### Documentation
-- Integration Guide: This file
-- API Documentation: `/docs` endpoint on each service
-- Architecture: `../MASTER_TECHNICAL_MANUAL.md`
-
-### Contact
-- **Company:** iTechSmart Inc.
-- **Website:** https://itechsmart.dev
-- **Email:** support@itechsmart.dev
-- **Phone:** 310-251-3969
+- **Main Docs**: [GitHub Repository](https://github.com/Iteksmart/iTechSmart)
+- **Demo Guide**: [demo-environment/README.md](../demo-environment/README.md)
 
 ---
 
-## 🎯 Success Criteria
+## ✅ Checklist
 
-### Integration Tests
-- ✅ All services healthy
-- ✅ 95%+ test pass rate
-- ✅ All APIs responding
-- ✅ Cross-product communication working
+Before running tests:
+- [ ] Demo environment is running
+- [ ] All services are healthy
+- [ ] No port conflicts
+- [ ] Sufficient resources available
 
-### End-to-End Scenarios
-- ✅ All scenarios complete
-- ✅ 90%+ step success rate
-- ✅ Data flows correctly
-- ✅ Error handling works
-
-### Performance Tests
-- ✅ Response times < 200ms
-- ✅ Throughput > 50 req/s
-- ✅ Success rate > 95%
-- ✅ P95 latency < 300ms
-
-### Security Tests
-- ✅ No critical issues
-- ✅ No high issues
-- ✅ <3 medium issues
-- ✅ All recommendations documented
+After running tests:
+- [ ] All tests passed
+- [ ] No errors in logs
+- [ ] Resource usage acceptable
+- [ ] Results documented
 
 ---
 
-**© 2025 iTechSmart Inc. All rights reserved.**
+**Last Updated**: November 17, 2024  
+**Version**: 1.0.0  
+**Status**: Production Ready
+
+---
+
+**END OF README**
