@@ -341,4 +341,4 @@ Every single feature has been implemented, polished, and tested. The platform is
 
 **Built with ❤️ by SuperNinja AI**
 
-*Version 1.0.0 | January 2024*
+*Version 1.0.0 | January 2025*
