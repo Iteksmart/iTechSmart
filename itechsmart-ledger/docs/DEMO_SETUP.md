@@ -9,17 +9,17 @@
 
 ### Quick Demo Access
 
-**Demo URL**: https://itechsmart-ledger-demo.itechsmart.com  
+**Demo URL**: https://itechsmart-ledger-demo.itechsmart.dev  
 **Status**: Available 24/7
 
 ### Demo Credentials
 
 **Admin Account**:
-- Email: admin@demo.itechsmart.com
+- Email: admin@demo.itechsmart.dev
 - Password: Demo@2025!Admin
 
 **User Account**:
-- Email: user@demo.itechsmart.com
+- Email: user@demo.itechsmart.dev
 - Password: Demo@2025!User
 
 **API Key** (for testing):
@@ -123,7 +123,7 @@ ENABLE_EMAIL=false
 curl -X POST http://localhost:8000/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "user@demo.itechsmart.com",
+    "email": "user@demo.itechsmart.dev",
     "password": "Demo@2025!User"
   }'
 ```
@@ -168,7 +168,7 @@ curl -X POST http://localhost:8000/api/resources \
    - Common endpoints
    - Error handling
 
-**Watch**: https://demo.itechsmart.com/videos
+**Watch**: https://demo.itechsmart.dev/videos
 
 ---
 
@@ -177,13 +177,13 @@ curl -X POST http://localhost:8000/api/resources \
 ### Report Issues
 
 Found a bug in the demo?
-- Email: demo-feedback@itechsmart.com
+- Email: demo-feedback@itechsmart.dev
 - GitHub: https://github.com/Iteksmart/iTechSmart/issues
 
 ### Request Features
 
 Want to see something in the demo?
-- Email: demo-requests@itechsmart.com
+- Email: demo-requests@itechsmart.dev
 
 ---
 
@@ -192,7 +192,7 @@ Want to see something in the demo?
 Ready to move to production?
 
 1. See **DEPLOYMENT_GUIDE.md** for production setup
-2. Contact sales@itechsmart.com for licensing
+2. Contact sales@itechsmart.dev for licensing
 3. Schedule onboarding session
 
 ---

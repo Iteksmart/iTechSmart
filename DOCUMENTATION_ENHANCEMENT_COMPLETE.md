@@ -395,7 +395,7 @@ The enhanced guides represent a **967% increase** in documentation content and p
 For questions or feedback about this documentation:
 
 - **GitHub Issues**: https://github.com/Iteksmart/iTechSmart/issues
-- **Email**: support@itechsmart.com
+- **Email**: support@itechsmart.dev
 - **Documentation**: See DOCUMENTATION_INDEX.md
 
 ---

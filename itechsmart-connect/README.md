@@ -377,7 +377,7 @@ Key considerations:
 - **Version**: 1.0.0
 - **Status**: Production Ready (100% Complete)
 - **Last Updated**: January 2025
-- **Maintainer**: iTechSmart Team
+- **Maintainer**: iTechSmart Inc
 
 ### Features Complete
 - ✅ API Management (100%)
@@ -407,7 +407,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**Made with ❤️ by the iTechSmart Team**
+**Made with ❤️ by the iTechSmart Inc**
 
 [Website](https://itechsmart.dev) • [Documentation](https://docs.itechsmart.dev) • [Blog](https://blog.itechsmart.dev)
 

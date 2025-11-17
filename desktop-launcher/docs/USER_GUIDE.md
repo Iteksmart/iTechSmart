@@ -169,7 +169,7 @@ When you launch the Desktop Launcher for the first time:
    - Click "Get Started" to proceed
 
 2. **License Configuration**
-   - Enter your license server URL (e.g., `https://license.itechsmart.com`)
+   - Enter your license server URL (e.g., `https://license.itechsmart.dev`)
    - Enter your organization API key
    - Click "Connect"
 
@@ -399,7 +399,7 @@ Each product is displayed as a card showing:
 
 **License Server:**
 ```
-License Server URL: https://license.itechsmart.com
+License Server URL: https://license.itechsmart.dev
 Organization ID: your-org-id
 API Key: your-api-key
 ```
@@ -549,7 +549,7 @@ API Key: your-api-key
 1. **Check Network Connection**
    ```bash
    # Test connectivity
-   ping license.itechsmart.com
+   ping license.itechsmart.dev
    ```
 
 2. **Verify License Server URL**
@@ -746,7 +746,7 @@ iTechSmart --reset
 **Example Configuration:**
 ```json
 {
-  "licenseServer": "https://license.itechsmart.com",
+  "licenseServer": "https://license.itechsmart.dev",
   "organizationId": "your-org-id",
   "theme": "dark",
   "autoUpdate": true,
@@ -839,12 +839,12 @@ npm run package:linux  # Linux
 - **GitHub**: https://github.com/Iteksmart/iTechSmart
 - **Issues**: https://github.com/Iteksmart/iTechSmart/issues
 - **Discussions**: https://github.com/Iteksmart/iTechSmart/discussions
-- **Email**: support@itechsmart.com
+- **Email**: support@itechsmart.dev
 
 ### Community
 - **Discord**: Join our community server
 - **Twitter**: @iTechSmart
-- **Blog**: https://blog.itechsmart.com
+- **Blog**: https://blog.itechsmart.dev
 
 ---
 
@@ -863,7 +863,7 @@ npm run package:linux  # Linux
 
 **Last Updated**: November 17, 2025  
 **Document Version**: 1.0  
-**Maintained by**: iTechSmart Team
+**Maintained by**: iTechSmart Inc
 
 ---
 

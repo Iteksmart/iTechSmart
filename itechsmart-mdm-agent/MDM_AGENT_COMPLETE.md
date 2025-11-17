@@ -378,4 +378,4 @@ The agent is ready to deploy and manage all 27 other products in the suite with 
 
 ---
 
-**Built with ❤️ by the iTechSmart Team**
+**Built with ❤️ by the iTechSmart Inc**

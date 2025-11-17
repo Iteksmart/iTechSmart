@@ -61,7 +61,7 @@
         "title": "iTechSmart: Select AI Model"
       },
       {
-        "command": "itechsmart.compareModels",
+        "command": "itechsmart.devpareModels",
         "title": "iTechSmart: Compare AI Models"
       },
       {
@@ -277,7 +277,7 @@
         "title": "iTechSmart: Search in Documents"
       },
       {
-        "command": "itechsmart.compareDocuments",
+        "command": "itechsmart.devpareDocuments",
         "title": "iTechSmart: Compare Documents"
       },
       {

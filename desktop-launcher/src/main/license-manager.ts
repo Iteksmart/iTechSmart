@@ -22,7 +22,7 @@ export class LicenseManager {
 
   constructor() {
     this.store = new Store();
-    this.licenseServerUrl = process.env.LICENSE_SERVER_URL || 'https://license.itechsmart.com/api';
+    this.licenseServerUrl = process.env.LICENSE_SERVER_URL || 'https://license.itechsmart.dev/api';
   }
 
   /**

@@ -375,5 +375,5 @@ These enhancements position iTechSmart Suite as a comprehensive, enterprise-grad
 
 **Document Control**  
 Created: January 10, 2025  
-Author: iTechSmart Development Team  
+Author: iTechSmart Inc  
 Classification: Internal Planning Document

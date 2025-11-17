@@ -200,7 +200,7 @@ A: Use the backup script: `./scripts/backup.sh`
 A: Yes, see DEPLOYMENT_GUIDE.md for production setup.
 
 **Q: Where can I get support?**  
-A: Contact support@itechsmart.com or visit our documentation.
+A: Contact support@itechsmart.dev or visit our documentation.
 
 ---
 
@@ -209,7 +209,7 @@ A: Contact support@itechsmart.com or visit our documentation.
 - **API Documentation**: See API_DOCUMENTATION.md
 - **Deployment Guide**: See DEPLOYMENT_GUIDE.md
 - **GitHub**: https://github.com/Iteksmart/iTechSmart
-- **Support**: support@itechsmart.com
+- **Support**: support@itechsmart.dev
 
 ---
 

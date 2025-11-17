@@ -594,4 +594,4 @@ The **iTechSmart Portfolio** is a complete, production-ready suite of 10 enterpr
 
 **© 2025 iTechSmart. All rights reserved.**
 
-**Built with ❤️ and excellence by the iTechSmart Development Team**
+**Built with ❤️ and excellence by the iTechSmart Inc**

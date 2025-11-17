@@ -237,9 +237,9 @@
 
 ## 📞 Support
 
-- **Documentation Issues**: docs@itechsmart.com
-- **Technical Support**: support@itechsmart.com
-- **Sales Inquiries**: sales@itechsmart.com
+- **Documentation Issues**: docs@itechsmart.dev
+- **Technical Support**: support@itechsmart.dev
+- **Sales Inquiries**: sales@itechsmart.dev
 - **GitHub**: https://github.com/Iteksmart/iTechSmart
 
 ---

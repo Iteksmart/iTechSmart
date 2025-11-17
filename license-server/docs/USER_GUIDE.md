@@ -802,7 +802,7 @@ SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=your-email
 SMTP_PASS=your-password
-EMAIL_FROM=noreply@itechsmart.com
+EMAIL_FROM=noreply@itechsmart.dev
 
 # Monitoring
 SENTRY_DSN=your-sentry-dsn
@@ -1001,13 +1001,13 @@ A: Use the import API to bulk import licenses and organizations. Contact support
 - **Deployment Guide**: [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)
 - **Demo Setup**: [DEMO_SETUP.md](DEMO_SETUP.md)
 - **GitHub**: https://github.com/Iteksmart/iTechSmart
-- **Support**: support@itechsmart.com
+- **Support**: support@itechsmart.dev
 
 ---
 
 **Last Updated**: November 17, 2025  
 **Document Version**: 1.0  
-**Maintained by**: iTechSmart Team
+**Maintained by**: iTechSmart Inc
 
 ---
 

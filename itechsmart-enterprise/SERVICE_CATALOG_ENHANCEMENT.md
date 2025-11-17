@@ -589,4 +589,4 @@ Copyright © 2025 iTechSmart Inc. All rights reserved.
 
 **Document Version**: 1.0  
 **Last Updated**: January 10, 2025  
-**Author**: iTechSmart Development Team
+**Author**: iTechSmart Inc

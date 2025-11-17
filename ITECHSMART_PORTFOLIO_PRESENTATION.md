@@ -890,4 +890,4 @@ Launch your chosen products and grow with confidence
 
 **© 2025 iTechSmart. All rights reserved.**
 
-**Built with ❤️ and excellence by the iTechSmart Development Team**
+**Built with ❤️ and excellence by the iTechSmart Inc**

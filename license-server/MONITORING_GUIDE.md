@@ -833,5 +833,5 @@ chmod +x dashboard.sh
 
 For monitoring and maintenance support:
 - GitHub Issues: https://github.com/Iteksmart/iTechSmart/issues
-- Email: support@itechsmart.com
-- Documentation: https://docs.itechsmart.com
+- Email: support@itechsmart.dev
+- Documentation: https://docs.itechsmart.dev

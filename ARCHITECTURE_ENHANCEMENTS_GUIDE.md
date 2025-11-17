@@ -573,4 +573,4 @@ You now have:
 
 *Created: August 2025*  
 *Version: 1.0*  
-*For: iTechSmart Team*
+*For: iTechSmart Inc*

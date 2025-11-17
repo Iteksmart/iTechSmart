@@ -237,10 +237,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - itechsmart-port-manager.itechsmart.com
+    - itechsmart-port-manager.itechsmart.dev
     secretName: Itechsmart Port Manager-tls
   rules:
-  - host: itechsmart-port-manager.itechsmart.com
+  - host: itechsmart-port-manager.itechsmart.dev
     http:
       paths:
       - path: /
@@ -536,15 +536,15 @@ crontab -e
 
 ```bash
 # Generate SSL certificate with Let's Encrypt
-sudo certbot certonly --standalone -d itechsmart-port-manager.itechsmart.com
+sudo certbot certonly --standalone -d itechsmart-port-manager.itechsmart.dev
 
 # Configure nginx
 server {
     listen 443 ssl http2;
-    server_name itechsmart-port-manager.itechsmart.com;
+    server_name itechsmart-port-manager.itechsmart.dev;
     
-    ssl_certificate /etc/letsencrypt/live/itechsmart-port-manager.itechsmart.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/itechsmart-port-manager.itechsmart.com/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/itechsmart-port-manager.itechsmart.dev/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/itechsmart-port-manager.itechsmart.dev/privkey.pem;
     
     location / {
         proxy_pass http://localhost:8100;
@@ -638,9 +638,9 @@ ENABLE_GZIP=true
 
 ## Support
 
-- **Documentation**: https://docs.itechsmart.com
-- **Status Page**: https://status.itechsmart.com
-- **Support Email**: support@itechsmart.com
+- **Documentation**: https://docs.itechsmart.dev
+- **Status Page**: https://status.itechsmart.dev
+- **Support Email**: support@itechsmart.dev
 - **GitHub Issues**: https://github.com/Iteksmart/iTechSmart/issues
 
 ---

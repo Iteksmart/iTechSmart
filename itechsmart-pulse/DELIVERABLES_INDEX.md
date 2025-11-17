@@ -507,4 +507,4 @@ cd itechsmart-pulse
 
 **Last Updated**: January 2025  
 **Version**: 1.0.0  
-**Maintainer**: iTechSmart Team
+**Maintainer**: iTechSmart Inc

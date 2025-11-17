@@ -286,7 +286,7 @@ See each product's documentation for specific requirements.
 - Implement firewall rules
 
 ### Reporting Security Issues
-Please report security vulnerabilities to: security@itechsmart.com
+Please report security vulnerabilities to: security@itechsmart.dev
 
 ---
 
@@ -336,9 +336,9 @@ We welcome contributions! Please see:
 - **Documentation**: Complete guides in repository
 
 ### Commercial Support
-- **Email**: support@itechsmart.com
-- **Sales**: sales@itechsmart.com
-- **Website**: https://itechsmart.com (coming soon)
+- **Email**: support@itechsmart.dev
+- **Sales**: sales@itechsmart.dev
+- **Website**: https://itechsmart.dev (coming soon)
 
 ---
 
@@ -403,7 +403,7 @@ See [LICENSE](LICENSE) file for details.
 Thank you for choosing iTechSmart Suite! We're excited to see what you build with it.
 
 For questions, feedback, or support, please reach out:
-- **Email**: support@itechsmart.com
+- **Email**: support@itechsmart.dev
 - **GitHub**: https://github.com/Iteksmart/iTechSmart
 
 ---

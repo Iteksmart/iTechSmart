@@ -352,7 +352,7 @@ The build configuration is in `package.json`:
 
 ### Support
 - **GitHub Issues:** https://github.com/Iteksmart/iTechSmart/issues
-- **Email:** support@itechsmart.com
+- **Email:** support@itechsmart.dev
 - **Documentation:** Check repository README files
 
 ---

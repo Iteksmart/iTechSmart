@@ -671,8 +671,8 @@ iTechSmart/
 - **Repository**: https://github.com/Iteksmart/iTechSmart
 - **Documentation**: See DOCUMENTATION_INDEX.md
 - **Installers**: https://github.com/Iteksmart/iTechSmart/actions
-- **Support**: support@itechsmart.com
-- **Sales**: sales@itechsmart.com
+- **Support**: support@itechsmart.dev
+- **Sales**: sales@itechsmart.dev
 
 ---
 

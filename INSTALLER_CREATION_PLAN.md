@@ -239,7 +239,7 @@ interface License {
 
 class LicenseManager {
   private store: Store;
-  private licenseServerUrl = 'https://license.itechsmart.com/api';
+  private licenseServerUrl = 'https://license.itechsmart.dev/api';
   
   constructor() {
     this.store = new Store();
@@ -505,7 +505,7 @@ linux:
     - rpm
   icon: assets/icons/
   category: Development
-  maintainer: support@itechsmart.com
+  maintainer: support@itechsmart.dev
   vendor: iTechSmart Inc.
   synopsis: iTechSmart Suite - Complete IT Management Platform
   description: |

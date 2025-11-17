@@ -613,7 +613,7 @@ npm run dev
 
 Special thanks to:
 - **DJuane Jackson** - Founder & Visionary
-- **iTechSmart Team** - Support and guidance
+- **iTechSmart Inc** - Support and guidance
 - **Open Source Community** - Amazing tools and libraries
 - **AI Community** - Cutting-edge models and protocols
 

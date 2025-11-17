@@ -123,7 +123,7 @@ If you need professionally designed icons:
 1. Hire a designer on Fiverr/Upwork ($20-50)
 2. Use AI tools like Midjourney/DALL-E
 3. Use icon design tools like Figma/Sketch
-4. Contact: design@itechsmart.com
+4. Contact: design@itechsmart.dev
 
 ## Current Status
 

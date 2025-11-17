@@ -617,9 +617,9 @@ npm run package
 - **Releases**: https://github.com/Iteksmart/iTechSmart/releases
 
 ### Contact
-- **Email**: support@itechsmart.com
-- **Website**: https://itechsmart.com
-- **Documentation**: https://docs.itechsmart.com
+- **Email**: support@itechsmart.dev
+- **Website**: https://itechsmart.dev
+- **Documentation**: https://docs.itechsmart.dev
 
 ---
 

@@ -237,10 +237,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - itechsmart-shield.itechsmart.com
+    - itechsmart-shield.itechsmart.dev
     secretName: Itechsmart Shield-tls
   rules:
-  - host: itechsmart-shield.itechsmart.com
+  - host: itechsmart-shield.itechsmart.dev
     http:
       paths:
       - path: /
@@ -536,15 +536,15 @@ crontab -e
 
 ```bash
 # Generate SSL certificate with Let's Encrypt
-sudo certbot certonly --standalone -d itechsmart-shield.itechsmart.com
+sudo certbot certonly --standalone -d itechsmart-shield.itechsmart.dev
 
 # Configure nginx
 server {
     listen 443 ssl http2;
-    server_name itechsmart-shield.itechsmart.com;
+    server_name itechsmart-shield.itechsmart.dev;
     
-    ssl_certificate /etc/letsencrypt/live/itechsmart-shield.itechsmart.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/itechsmart-shield.itechsmart.com/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/itechsmart-shield.itechsmart.dev/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/itechsmart-shield.itechsmart.dev/privkey.pem;
     
     location / {
         proxy_pass http://localhost:8000;
@@ -638,9 +638,9 @@ ENABLE_GZIP=true
 
 ## Support
 
-- **Documentation**: https://docs.itechsmart.com
-- **Status Page**: https://status.itechsmart.com
-- **Support Email**: support@itechsmart.com
+- **Documentation**: https://docs.itechsmart.dev
+- **Status Page**: https://status.itechsmart.dev
+- **Support Email**: support@itechsmart.dev
 - **GitHub Issues**: https://github.com/Iteksmart/iTechSmart/issues
 
 ---

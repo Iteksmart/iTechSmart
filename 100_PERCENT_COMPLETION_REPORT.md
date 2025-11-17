@@ -296,19 +296,19 @@ Improvement:     +5% (Final Push)
 ## 📞 Support & Resources
 
 ### Technical Support
-- **Email**: support@itechsmart.com
+- **Email**: support@itechsmart.dev
 - **GitHub Issues**: https://github.com/Iteksmart/iTechSmart/issues
 - **Documentation**: https://github.com/Iteksmart/iTechSmart
 - **Community**: https://github.com/Iteksmart/iTechSmart/discussions
 
 ### Enterprise Support
-- **Email**: enterprise@itechsmart.com
+- **Email**: enterprise@itechsmart.dev
 - **Phone**: Available for enterprise customers
 - **SLA**: 24/7 support with guaranteed response times
 - **Dedicated Support**: Available for enterprise plans
 
 ### Training & Consulting
-- **Email**: training@itechsmart.com
+- **Email**: training@itechsmart.dev
 - **Custom Training**: Available on request
 - **Consulting Services**: Implementation assistance
 - **Professional Services**: Custom development
@@ -348,7 +348,7 @@ The suite is now ready for:
 ### ✅ PERFORMANCE OPTIMIZED
 ### ✅ SUPPORT ENABLED
 
-**Certified By**: iTechSmart Development Team  
+**Certified By**: iTechSmart Inc  
 **Date**: November 17, 2025  
 **Version**: 1.0.0  
 **Status**: PRODUCTION READY ✅

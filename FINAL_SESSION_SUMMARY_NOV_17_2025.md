@@ -309,7 +309,7 @@ This is to certify that the iTechSmart Suite has successfully achieved:
 - ✅ **100% Production Ready**: Deployment ready
 - ✅ **100% Date Consistency**: All dates updated to 2025
 
-**Certified By**: iTechSmart Development Team  
+**Certified By**: iTechSmart Inc  
 **Date**: November 17, 2025  
 **Version**: 1.0.0  
 **Status**: PRODUCTION READY ✅

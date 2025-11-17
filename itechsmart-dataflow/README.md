@@ -373,4 +373,4 @@ Copyright © 2025 iTechSmart. All rights reserved.
 
 ---
 
-**Built with ❤️ by the iTechSmart Team**
+**Built with ❤️ by the iTechSmart Inc**

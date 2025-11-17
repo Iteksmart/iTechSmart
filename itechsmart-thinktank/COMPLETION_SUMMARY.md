@@ -244,7 +244,7 @@ docker-compose up -d
 
 ## 💰 Value Proposition
 
-### For iTechSmart Team
+### For iTechSmart Inc
 - ✅ **10x Faster Development**: AI-powered code generation
 - ✅ **Better Collaboration**: Real-time chat and file sharing
 - ✅ **Centralized Management**: All projects in one place
@@ -428,5 +428,5 @@ itechsmart-thinktank/
 
 ---
 
-**Built with ❤️ for the iTechSmart Team**  
+**Built with ❤️ for the iTechSmart Inc**  
 **Product #30 - Internal Use Only**

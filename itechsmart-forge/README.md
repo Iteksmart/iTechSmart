@@ -470,6 +470,6 @@ Part of the iTechSmart Suite - Proprietary Software
 
 ---
 
-**Built with ❤️ by the iTechSmart Team**
+**Built with ❤️ by the iTechSmart Inc**
 
 *Democratizing Application Development - One App at a Time*

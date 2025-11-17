@@ -488,6 +488,6 @@ iTechSmart Marketplace is a **production-ready, enterprise-grade app store platf
 
 ---
 
-**Developed by:** iTechSmart Development Team  
+**Developed by:** iTechSmart Inc  
 **Contact:** dev@itechsmart.dev  
 **Date:** January 2025

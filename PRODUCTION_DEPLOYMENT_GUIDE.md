@@ -683,10 +683,10 @@ psql -U postgres -c "SELECT * FROM pg_stat_statements ORDER BY total_time DESC L
 
 ### Emergency Contacts
 
-- **Technical Support**: support@itechsmart.com
+- **Technical Support**: support@itechsmart.dev
 - **Emergency Hotline**: +1-XXX-XXX-XXXX
 - **Documentation**: https://github.com/Iteksmart/iTechSmart
-- **Community Forum**: https://community.itechsmart.com
+- **Community Forum**: https://community.itechsmart.dev
 
 ---
 
@@ -704,9 +704,9 @@ psql -U postgres -c "SELECT * FROM pg_stat_statements ORDER BY total_time DESC L
 - [Discussions](https://github.com/Iteksmart/iTechSmart/discussions)
 
 ### Professional Support
-- Email: support@itechsmart.com
-- Enterprise Support: enterprise@itechsmart.com
-- Training: training@itechsmart.com
+- Email: support@itechsmart.dev
+- Enterprise Support: enterprise@itechsmart.dev
+- Training: training@itechsmart.dev
 
 ---
 
@@ -744,6 +744,6 @@ psql -U postgres -c "SELECT * FROM pg_stat_statements ORDER BY total_time DESC L
 
 **Document Version**: 1.0.0  
 **Last Updated**: November 17, 2025  
-**Maintained By**: iTechSmart Team
+**Maintained By**: iTechSmart Inc
 
 For the latest version of this guide, visit: https://github.com/Iteksmart/iTechSmart/blob/main/PRODUCTION_DEPLOYMENT_GUIDE.md

@@ -50,7 +50,7 @@ The suite includes 35 products across 7 categories:
 
 Yes! We offer a **14-day free trial** with full access to all products. No credit card required.
 
-**Start your trial:** https://itechsmart.com/trial
+**Start your trial:** https://itechsmart.dev/trial
 
 ---
 
@@ -127,7 +127,7 @@ Yes! We offer:
 - **Non-Profit:** 40% discount for registered non-profits
 - **Open Source:** Free licenses for open source projects
 
-**Apply:** https://itechsmart.com/discounts
+**Apply:** https://itechsmart.dev/discounts
 
 ---
 
@@ -429,7 +429,7 @@ Yes! Security measures include:
 - Browsing history
 - Sensitive information
 
-**Privacy Policy:** https://itechsmart.com/privacy
+**Privacy Policy:** https://itechsmart.dev/privacy
 
 ### Can I use this in a regulated environment?
 
@@ -455,14 +455,14 @@ Yes! iTechSmart Suite supports:
 ### How do you handle security vulnerabilities?
 
 **Security Process:**
-1. **Report:** security@itechsmart.com
+1. **Report:** security@itechsmart.dev
 2. **Acknowledge:** Within 24 hours
 3. **Assess:** Severity and impact
 4. **Fix:** Develop and test patch
 5. **Release:** Emergency update if critical
 6. **Disclose:** After fix is deployed
 
-**Bug Bounty:** https://itechsmart.com/security/bounty
+**Bug Bounty:** https://itechsmart.dev/security/bounty
 
 ---
 
@@ -471,10 +471,10 @@ Yes! iTechSmart Suite supports:
 ### How do I get support?
 
 **Support Channels:**
-- **Email:** support@itechsmart.com (24-48 hour response)
-- **Live Chat:** https://itechsmart.com (business hours)
+- **Email:** support@itechsmart.dev (24-48 hour response)
+- **Live Chat:** https://itechsmart.dev (business hours)
 - **Phone:** 1-800-ITECH-SMART (24/7 for critical)
-- **Community:** https://community.itechsmart.com
+- **Community:** https://community.itechsmart.dev
 
 **Support Levels:**
 - **Trial/Starter:** Email support
@@ -526,7 +526,7 @@ Yes! iTechSmart Suite supports:
 
 **Bug Report:**
 1. Go to Settings > Advanced > Report Bug
-2. Or email: bugs@itechsmart.com
+2. Or email: bugs@itechsmart.dev
 3. Include:
    - What you were doing
    - What happened
@@ -539,8 +539,8 @@ Yes! iTechSmart Suite supports:
 ### Where can I request features?
 
 **Feature Requests:**
-- **Community Forum:** https://community.itechsmart.com/features
-- **Email:** features@itechsmart.com
+- **Community Forum:** https://community.itechsmart.dev/features
+- **Email:** features@itechsmart.dev
 - **GitHub:** https://github.com/Iteksmart/iTechSmart/discussions
 
 **Voting:** Upvote existing requests to prioritize
@@ -552,19 +552,19 @@ Yes! iTechSmart Suite supports:
 ### Contact Us
 
 **General Inquiries:**
-- Email: info@itechsmart.com
+- Email: info@itechsmart.dev
 - Phone: 1-800-ITECH-INFO
-- Website: https://itechsmart.com/contact
+- Website: https://itechsmart.dev/contact
 
 **Sales:**
-- Email: sales@itechsmart.com
+- Email: sales@itechsmart.dev
 - Phone: 1-800-ITECH-SALES
-- Schedule Demo: https://itechsmart.com/demo
+- Schedule Demo: https://itechsmart.dev/demo
 
 **Technical Support:**
-- Email: support@itechsmart.com
+- Email: support@itechsmart.dev
 - Phone: 1-800-ITECH-SMART
-- Portal: https://support.itechsmart.com
+- Portal: https://support.itechsmart.dev
 
 **Social Media:**
 - Twitter: @iTechSmart
@@ -575,16 +575,16 @@ Yes! iTechSmart Suite supports:
 ### Resources
 
 **Documentation:**
-- User Guide: https://docs.itechsmart.com/user
-- Admin Guide: https://docs.itechsmart.com/admin
-- API Reference: https://docs.itechsmart.com/api
+- User Guide: https://docs.itechsmart.dev/user
+- Admin Guide: https://docs.itechsmart.dev/admin
+- API Reference: https://docs.itechsmart.dev/api
 - Video Tutorials: https://youtube.com/itechsmart
 
 **Community:**
-- Forums: https://community.itechsmart.com
-- Blog: https://blog.itechsmart.com
-- Newsletter: https://itechsmart.com/newsletter
-- Events: https://itechsmart.com/events
+- Forums: https://community.itechsmart.dev
+- Blog: https://blog.itechsmart.dev
+- Newsletter: https://itechsmart.dev/newsletter
+- Events: https://itechsmart.dev/events
 
 ---
 
@@ -592,4 +592,4 @@ Yes! iTechSmart Suite supports:
 **Last Updated:** November 16, 2025  
 **For:** iTechSmart Suite v1.0.0
 
-**Have a question not answered here?** Contact us at support@itechsmart.com
+**Have a question not answered here?** Contact us at support@itechsmart.dev

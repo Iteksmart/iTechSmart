@@ -449,6 +449,6 @@ For questions or support:
 
 ---
 
-**Built with ❤️ by the iTechSmart Team**
+**Built with ❤️ by the iTechSmart Inc**
 
 *Revolutionizing Medical Coding with AI*

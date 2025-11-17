@@ -405,7 +405,7 @@ SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=your-email@gmail.com
 SMTP_PASSWORD=your-password
-EMAIL_FROM=noreply@itechsmart.com
+EMAIL_FROM=noreply@itechsmart.dev
 
 # Redis (optional)
 REDIS_URL=redis://localhost:6379
@@ -441,13 +441,13 @@ docker-compose down
 ```nginx
 server {
     listen 80;
-    server_name license.itechsmart.com;
+    server_name license.itechsmart.dev;
     return 301 https://$server_name$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name license.itechsmart.com;
+    server_name license.itechsmart.dev;
 
     ssl_certificate /path/to/cert.pem;
     ssl_certificate_key /path/to/key.pem;
@@ -534,8 +534,8 @@ kill -9 <PID>
 
 ## Support
 
-- **Email**: support@itechsmart.com
-- **Documentation**: https://docs.itechsmart.com
+- **Email**: support@itechsmart.dev
+- **Documentation**: https://docs.itechsmart.dev
 - **GitHub Issues**: https://github.com/Iteksmart/iTechSmart/issues
 
 ## License

@@ -894,7 +894,7 @@ POST /api/workflows/create
     },
     {
       "type": "send_email",
-      "to": "founder@itechsmart.com",
+      "to": "founder@itechsmart.dev",
       "subject": "Daily Report",
       "body": "{{report_output}}"
     }
@@ -1261,7 +1261,7 @@ All API requests require authentication:
 # Get access token
 POST /api/auth/login
 {
-  "email": "founder@itechsmart.com",
+  "email": "founder@itechsmart.dev",
   "password": "your-password"
 }
 
@@ -1347,7 +1347,7 @@ curl -H "Authorization: Bearer YOUR_TOKEN" \
 # Get new token
 curl -X POST http://localhost:8000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"founder@itechsmart.com","password":"your-password"}'
+  -d '{"email":"founder@itechsmart.dev","password":"your-password"}'
 ```
 
 #### 3. Slow Performance
@@ -1385,7 +1385,7 @@ docker-compose restart
 
 - **Documentation**: http://localhost:8000/docs
 - **Logs**: `docker-compose logs -f`
-- **Support**: support@itechsmart.com
+- **Support**: support@itechsmart.dev
 - **GitHub Issues**: https://github.com/Iteksmart/iTechSmart/issues
 
 ---
@@ -1512,4 +1512,4 @@ docker exec -i ninja-postgres psql -U ninja ninja_db < backup.sql
 For the latest updates and API documentation, visit:
 - API Docs: http://localhost:8000/docs
 - GitHub: https://github.com/Iteksmart/iTechSmart
-- Support: support@itechsmart.com
+- Support: support@itechsmart.dev

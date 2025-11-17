@@ -237,10 +237,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - license-server.itechsmart.com
+    - license-server.itechsmart.dev
     secretName: License Server-tls
   rules:
-  - host: license-server.itechsmart.com
+  - host: license-server.itechsmart.dev
     http:
       paths:
       - path: /
@@ -536,15 +536,15 @@ crontab -e
 
 ```bash
 # Generate SSL certificate with Let's Encrypt
-sudo certbot certonly --standalone -d license-server.itechsmart.com
+sudo certbot certonly --standalone -d license-server.itechsmart.dev
 
 # Configure nginx
 server {
     listen 443 ssl http2;
-    server_name license-server.itechsmart.com;
+    server_name license-server.itechsmart.dev;
     
-    ssl_certificate /etc/letsencrypt/live/license-server.itechsmart.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/license-server.itechsmart.com/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/license-server.itechsmart.dev/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/license-server.itechsmart.dev/privkey.pem;
     
     location / {
         proxy_pass http://localhost:5432;
@@ -638,9 +638,9 @@ ENABLE_GZIP=true
 
 ## Support
 
-- **Documentation**: https://docs.itechsmart.com
-- **Status Page**: https://status.itechsmart.com
-- **Support Email**: support@itechsmart.com
+- **Documentation**: https://docs.itechsmart.dev
+- **Status Page**: https://status.itechsmart.dev
+- **Support Email**: support@itechsmart.dev
 - **GitHub Issues**: https://github.com/Iteksmart/iTechSmart/issues
 
 ---

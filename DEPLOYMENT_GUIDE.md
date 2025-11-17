@@ -164,8 +164,8 @@ python license_manager.py generate <type> <name> <email> [days]
 
 ## Support
 
-- **Documentation**: https://itechsmart.com/docs
-- **Support Portal**: https://itechsmart.com/support
-- **Email**: support@itechsmart.com
+- **Documentation**: https://itechsmart.dev/docs
+- **Support Portal**: https://itechsmart.dev/support
+- **Email**: support@itechsmart.dev
 
 © 2025 iTechSmart. All rights reserved.

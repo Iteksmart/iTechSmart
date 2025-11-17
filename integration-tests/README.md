@@ -462,7 +462,7 @@ docker stats --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}"
 
 ### Issues
 - **GitHub**: https://github.com/Iteksmart/iTechSmart/issues
-- **Email**: support@itechsmart.com
+- **Email**: support@itechsmart.dev
 
 ### Documentation
 - **Main Docs**: [GitHub Repository](https://github.com/Iteksmart/iTechSmart)

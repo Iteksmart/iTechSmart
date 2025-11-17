@@ -385,8 +385,8 @@ Both systems are production-ready and can be deployed immediately:
 - Branch: `main`
 
 ### Contact
-- Email: support@itechsmart.com
-- Documentation: https://docs.itechsmart.com
+- Email: support@itechsmart.dev
+- Documentation: https://docs.itechsmart.dev
 - GitHub Issues: https://github.com/Iteksmart/iTechSmart/issues
 
 ---

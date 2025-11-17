@@ -854,7 +854,7 @@ User encounters various errors
 
 For testing support:
 - **GitHub Issues:** https://github.com/Iteksmart/iTechSmart/issues
-- **Email:** testing@itechsmart.com
+- **Email:** testing@itechsmart.dev
 - **Slack:** #testing channel
 
 ---

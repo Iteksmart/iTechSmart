@@ -204,7 +204,7 @@ export async function activate(context: vscode.ExtensionContext) {
             await modelCommands.selectModel();
         }),
 
-        vscode.commands.registerCommand('itechsmart.compareModels', async () => {
+        vscode.commands.registerCommand('itechsmart.devpareModels', async () => {
             await modelCommands.compareModels();
         }),
 

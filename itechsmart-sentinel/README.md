@@ -412,6 +412,6 @@ Part of the iTechSmart Suite - Proprietary Software
 
 ---
 
-**Built with ❤️ by the iTechSmart Team**
+**Built with ❤️ by the iTechSmart Inc**
 
 *Replacing Datadog, PagerDuty, and New Relic - One Platform at a Time*

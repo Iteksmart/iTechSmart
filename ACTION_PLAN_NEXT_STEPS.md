@@ -72,7 +72,7 @@ cd desktop-launcher/assets/icons
 
 **Requirements**:
 - Server with Docker (DigitalOcean, AWS, Azure, etc.)
-- Domain name (e.g., license.itechsmart.com)
+- Domain name (e.g., license.itechsmart.dev)
 
 **Steps**:
 ```bash
@@ -103,7 +103,7 @@ curl http://localhost:3000/api/health
 # 8. Configure Nginx + SSL (see DEPLOYMENT_INSTRUCTIONS.md)
 ```
 
-**Result**: License server running at https://license.itechsmart.com ✅
+**Result**: License server running at https://license.itechsmart.dev ✅
 
 ### Step 3: Build Desktop Launcher (20 minutes)
 
@@ -275,9 +275,9 @@ gh release create v1.0.0 \
 - **Branch**: main
 
 ### Contact
-- **Email**: support@itechsmart.com
-- **Website**: https://itechsmart.com
-- **Documentation**: https://docs.itechsmart.com
+- **Email**: support@itechsmart.dev
+- **Website**: https://itechsmart.dev
+- **Documentation**: https://docs.itechsmart.dev
 
 ---
 

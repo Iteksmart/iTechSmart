@@ -755,6 +755,6 @@ For support and questions:
 
 ---
 
-**Built with ❤️ by the iTechSmart Team**
+**Built with ❤️ by the iTechSmart Inc**
 
 *iTechSmart Ledger - Empowering Blockchain Integration*

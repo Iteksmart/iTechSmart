@@ -278,9 +278,9 @@ npm run package:all  # All platforms
 - **Latest Commit**: eceae71
 
 ### Contact
-- **Email**: support@itechsmart.com
-- **Website**: https://itechsmart.com
-- **Docs**: https://docs.itechsmart.com
+- **Email**: support@itechsmart.dev
+- **Website**: https://itechsmart.dev
+- **Docs**: https://docs.itechsmart.dev
 
 ---
 

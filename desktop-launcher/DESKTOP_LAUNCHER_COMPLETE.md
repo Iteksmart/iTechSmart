@@ -442,9 +442,9 @@ Common issues and solutions:
    - Try manual download
 
 ### Contact
-- **Email:** support@itechsmart.com
+- **Email:** support@itechsmart.dev
 - **GitHub:** https://github.com/Iteksmart/iTechSmart/issues
-- **Website:** https://itechsmart.com
+- **Website:** https://itechsmart.dev
 
 ## Development Status
 

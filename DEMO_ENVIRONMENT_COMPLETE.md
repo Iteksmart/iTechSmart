@@ -441,8 +441,8 @@ For production:
 
 ### Getting Help
 - **Issues**: GitHub Issues
-- **Email**: support@itechsmart.com
-- **Sales**: sales@itechsmart.com
+- **Email**: support@itechsmart.dev
+- **Sales**: sales@itechsmart.dev
 
 ---
 

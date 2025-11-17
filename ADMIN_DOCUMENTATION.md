@@ -1056,14 +1056,14 @@ docker compose logs -f license-server | grep DEBUG
 - Monitoring: `license-server/MONITORING_GUIDE.md`
 
 **Support Channels:**
-- **Email:** admin-support@itechsmart.com
+- **Email:** admin-support@itechsmart.dev
 - **Slack:** #admin-support
 - **Phone:** 1-800-ITECH-ADMIN
-- **Portal:** https://admin.itechsmart.com
+- **Portal:** https://admin.itechsmart.dev
 
 **Emergency Contact:**
 - **24/7 Hotline:** 1-800-ITECH-911
-- **Email:** emergency@itechsmart.com
+- **Email:** emergency@itechsmart.dev
 - **Response Time:** < 1 hour for critical issues
 
 ---
@@ -1072,4 +1072,4 @@ docker compose logs -f license-server | grep DEBUG
 **Last Updated:** November 16, 2025  
 **For:** iTechSmart Suite v1.0.0
 
-For the latest documentation, visit: https://docs.itechsmart.com/admin
+For the latest documentation, visit: https://docs.itechsmart.dev/admin

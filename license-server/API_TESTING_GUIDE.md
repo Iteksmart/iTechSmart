@@ -910,4 +910,4 @@ curl -X POST http://localhost:3001/api/licenses/validate \
 
 For issues or questions:
 - GitHub Issues: https://github.com/Iteksmart/iTechSmart/issues
-- Email: support@itechsmart.com
+- Email: support@itechsmart.dev

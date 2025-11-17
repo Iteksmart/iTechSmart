@@ -85,7 +85,7 @@ Before starting, make sure you have:
 ### Windows Installation
 
 #### Step 1: Download the Installer
-1. Visit [https://itechsmart.com/download](https://itechsmart.com/download)
+1. Visit [https://itechsmart.dev/download](https://itechsmart.dev/download)
 2. Click "Download for Windows"
 3. Save `iTechSmart-Suite-Setup.exe` to your computer
 
@@ -108,7 +108,7 @@ Before starting, make sure you have:
 ### macOS Installation
 
 #### Step 1: Download the Installer
-1. Visit [https://itechsmart.com/download](https://itechsmart.com/download)
+1. Visit [https://itechsmart.dev/download](https://itechsmart.dev/download)
 2. Click "Download for macOS"
 3. Save `iTechSmart-Suite.dmg` to your Downloads folder
 
@@ -130,7 +130,7 @@ Before starting, make sure you have:
 #### Option 1: AppImage (Recommended)
 ```bash
 # Download
-wget https://itechsmart.com/download/iTechSmart-Suite.AppImage
+wget https://itechsmart.dev/download/iTechSmart-Suite.AppImage
 
 # Make executable
 chmod +x iTechSmart-Suite.AppImage
@@ -142,7 +142,7 @@ chmod +x iTechSmart-Suite.AppImage
 #### Option 2: DEB Package (Debian/Ubuntu)
 ```bash
 # Download
-wget https://itechsmart.com/download/itechsmart-suite.deb
+wget https://itechsmart.dev/download/itechsmart-suite.deb
 
 # Install
 sudo dpkg -i itechsmart-suite.deb
@@ -154,7 +154,7 @@ itechsmart-suite
 #### Option 3: RPM Package (Fedora/RedHat)
 ```bash
 # Download
-wget https://itechsmart.com/download/itechsmart-suite.rpm
+wget https://itechsmart.dev/download/itechsmart-suite.rpm
 
 # Install
 sudo rpm -i itechsmart-suite.rpm
@@ -463,8 +463,8 @@ You can run multiple products simultaneously:
 5. Share with support if needed
 
 #### Contact Support
-- **Email:** support@itechsmart.com
-- **Website:** https://itechsmart.com/support
+- **Email:** support@itechsmart.dev
+- **Website:** https://itechsmart.dev/support
 - **Phone:** 1-800-ITECH-SMART
 - **Hours:** 24/7 support available
 
@@ -526,7 +526,7 @@ A: Yes! Contact sales to upgrade from Professional to Enterprise or Unlimited.
 A: Products will stop working. You'll need to renew to continue using them.
 
 **Q: Is there a free trial?**
-A: Yes! Sign up at https://itechsmart.com/trial for a 14-day free trial.
+A: Yes! Sign up at https://itechsmart.dev/trial for a 14-day free trial.
 
 ---
 
@@ -537,12 +537,12 @@ A: Yes! Sign up at https://itechsmart.com/trial for a 14-day free trial.
 We're here to help! Contact us through:
 
 **📧 Email Support**
-- support@itechsmart.com
+- support@itechsmart.dev
 - Response time: Within 24 hours
 - Include: License key, error messages, screenshots
 
 **💬 Live Chat**
-- Available on https://itechsmart.com
+- Available on https://itechsmart.dev
 - Hours: Monday-Friday, 9 AM - 5 PM EST
 - Instant responses during business hours
 
@@ -552,7 +552,7 @@ We're here to help! Contact us through:
 - Business hours: Monday-Friday, 9 AM - 5 PM EST
 
 **🌐 Knowledge Base**
-- https://docs.itechsmart.com
+- https://docs.itechsmart.dev
 - Searchable articles
 - Video tutorials
 - Community forums
@@ -569,7 +569,7 @@ Please have ready:
 ### Community Resources
 
 **Forums**
-- https://community.itechsmart.com
+- https://community.itechsmart.dev
 - Ask questions
 - Share tips
 - Connect with other users
@@ -581,7 +581,7 @@ Please have ready:
 - Tips and tricks
 
 **Blog**
-- https://blog.itechsmart.com
+- https://blog.itechsmart.dev
 - Product updates
 - Best practices
 - Case studies
@@ -624,4 +624,4 @@ Please have ready:
 **Last Updated:** November 16, 2025  
 **For:** iTechSmart Suite v1.0.0
 
-For the latest documentation, visit: https://docs.itechsmart.com
+For the latest documentation, visit: https://docs.itechsmart.dev

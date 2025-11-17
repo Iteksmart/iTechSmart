@@ -227,7 +227,7 @@ ls -lh win-ia32-unpacked/
 - Check system requirements
 - Verify Docker is installed
 - Review installation logs
-- Contact support@itechsmart.com
+- Contact support@itechsmart.dev
 
 ### Build Issues
 - Ensure Wine is installed (for Windows builds on Linux)

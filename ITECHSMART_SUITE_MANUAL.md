@@ -67,7 +67,7 @@ Download the installer for your platform:
 
 #### 2. Obtain License
 
-Contact sales@itechsmart.com or visit https://itechsmart.com/pricing
+Contact sales@itechsmart.dev or visit https://itechsmart.dev/pricing
 
 #### 3. Launch Suite
 
@@ -295,7 +295,7 @@ POST /api/licenses/validate
 - System monitoring
 
 **Installation**:
-- Download from https://itechsmart.com/downloads
+- Download from https://itechsmart.dev/downloads
 - Run installer for your platform
 - Enter license key
 - Start using products
@@ -972,10 +972,10 @@ WHERE organization_id = ?;
 
 ### Support
 
-- **Documentation**: https://docs.itechsmart.com
-- **Support**: support@itechsmart.com
-- **Community**: https://community.itechsmart.com
-- **Status**: https://status.itechsmart.com
+- **Documentation**: https://docs.itechsmart.dev
+- **Support**: support@itechsmart.dev
+- **Community**: https://community.itechsmart.dev
+- **Status**: https://status.itechsmart.dev
 
 ---
 
@@ -1013,4 +1013,4 @@ All products support:
 **End of Manual**
 
 For the latest updates and detailed product documentation, visit:
-https://docs.itechsmart.com
+https://docs.itechsmart.dev

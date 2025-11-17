@@ -323,7 +323,7 @@ itechsmart-supreme --install-update
 
 ### Update Server
 
-**URL**: https://updates.itechsmart.com
+**URL**: https://updates.itechsmart.dev
 
 **Endpoints**:
 - `/api/updates/<product>` - Check for updates
@@ -334,16 +334,16 @@ itechsmart-supreme --install-update
 
 ### Documentation
 
-- **User Guides**: https://itechsmart.com/docs
-- **API Documentation**: https://itechsmart.com/api
-- **Video Tutorials**: https://itechsmart.com/tutorials
-- **FAQ**: https://itechsmart.com/faq
+- **User Guides**: https://itechsmart.dev/docs
+- **API Documentation**: https://itechsmart.dev/api
+- **Video Tutorials**: https://itechsmart.dev/tutorials
+- **FAQ**: https://itechsmart.dev/faq
 
 ### Support Channels
 
-- **Email**: support@itechsmart.com
-- **Portal**: https://itechsmart.com/support
-- **Community**: https://community.itechsmart.com
+- **Email**: support@itechsmart.dev
+- **Portal**: https://itechsmart.dev/support
+- **Community**: https://community.itechsmart.dev
 - **GitHub Issues**: https://github.com/Iteksmart/iTechSmart/issues
 
 ### Installation Support
@@ -443,9 +443,9 @@ shasum -a 256 itechsmart-supreme
 ## Contact
 
 For distribution questions:
-- **Email**: distribution@itechsmart.com
-- **Sales**: sales@itechsmart.com
-- **Support**: support@itechsmart.com
+- **Email**: distribution@itechsmart.dev
+- **Sales**: sales@itechsmart.dev
+- **Support**: support@itechsmart.dev
 
 ---
 

@@ -800,19 +800,19 @@ npm test
 ### Appendix B: Support Contacts
 
 **Technical Support:**
-- Email: support@itechsmart.com
+- Email: support@itechsmart.dev
 - Phone: 1-800-ITECH-SMART
-- Portal: https://support.itechsmart.com
+- Portal: https://support.itechsmart.dev
 
 **Sales:**
-- Email: sales@itechsmart.com
+- Email: sales@itechsmart.dev
 - Phone: 1-800-ITECH-SALES
-- Demo: https://itechsmart.com/demo
+- Demo: https://itechsmart.dev/demo
 
 **Documentation:**
-- User Docs: https://docs.itechsmart.com/user
-- Admin Docs: https://docs.itechsmart.com/admin
-- API Docs: https://docs.itechsmart.com/api
+- User Docs: https://docs.itechsmart.dev/user
+- Admin Docs: https://docs.itechsmart.dev/admin
+- API Docs: https://docs.itechsmart.dev/api
 
 ### Appendix C: Additional Resources
 

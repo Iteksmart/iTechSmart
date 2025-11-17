@@ -413,4 +413,4 @@ The iTechSmart QA/QC System is fully functional and ready for production deploym
 
 ---
 
-**Built with ❤️ by the iTechSmart Team**
+**Built with ❤️ by the iTechSmart Inc**

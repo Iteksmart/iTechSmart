@@ -381,7 +381,7 @@ This portfolio represents an extraordinary achievement in software development, 
 
 ## 📞 Contact Information
 
-**iTechSmart Development Team**
+**iTechSmart Inc**
 - Email: dev@itechsmart.dev
 - Website: https://itechsmart.dev
 - Support: support@itechsmart.dev
@@ -408,7 +408,7 @@ This portfolio represents an extraordinary achievement in software development, 
 
 ---
 
-**Session Completed By:** iTechSmart Development Team  
+**Session Completed By:** iTechSmart Inc  
 **Completion Date:** January 2025  
 **Final Status:** ✅ **PORTFOLIO 100% COMPLETE**  
 **Quality Rating:** ⭐⭐⭐⭐⭐ **EXCELLENT**

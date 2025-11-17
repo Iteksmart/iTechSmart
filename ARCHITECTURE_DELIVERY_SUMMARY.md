@@ -315,4 +315,4 @@ You now have professional architecture diagrams that:
 
 *Created: August 2025*  
 *Version: 1.0*  
-*For: iTechSmart Team*
+*For: iTechSmart Inc*

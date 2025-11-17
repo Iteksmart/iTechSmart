@@ -18,7 +18,7 @@ export function registerDocumentCommands(context: vscode.ExtensionContext, apiCl
         vscode.commands.registerCommand('itechsmart.ocrDocument', () => ocrDocument(apiClient)),
         vscode.commands.registerCommand('itechsmart.convertDocument', () => convertDocument(apiClient)),
         vscode.commands.registerCommand('itechsmart.searchDocuments', () => searchDocuments(apiClient)),
-        vscode.commands.registerCommand('itechsmart.compareDocuments', () => compareDocuments(apiClient))
+        vscode.commands.registerCommand('itechsmart.devpareDocuments', () => compareDocuments(apiClient))
     );
 }
 

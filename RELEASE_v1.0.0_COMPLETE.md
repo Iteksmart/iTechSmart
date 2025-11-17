@@ -225,9 +225,9 @@ cd iTechSmart/demo-environment
 - **Release Page**: https://github.com/Iteksmart/iTechSmart/releases/tag/v1.0.0
 
 ### Commercial
-- **Email**: support@itechsmart.com
-- **Sales**: sales@itechsmart.com
-- **Website**: https://itechsmart.com (coming soon)
+- **Email**: support@itechsmart.dev
+- **Sales**: sales@itechsmart.dev
+- **Website**: https://itechsmart.dev (coming soon)
 
 ---
 
@@ -382,7 +382,7 @@ The iTechSmart Suite v1.0.0 is now live and ready to transform IT operations wor
 
 **Download**: https://github.com/Iteksmart/iTechSmart/releases/tag/v1.0.0  
 **Demo**: Clone repo and run `./demo-environment/setup-demo.sh`  
-**Support**: support@itechsmart.com
+**Support**: support@itechsmart.dev
 
 ---
 

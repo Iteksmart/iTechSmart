@@ -353,9 +353,9 @@ find . -path "*/docs/BUILD_VERIFICATION.md" | wc -l
 ## 📞 Support
 
 For questions about the documentation:
-- **Email**: docs@itechsmart.com
+- **Email**: docs@itechsmart.dev
 - **GitHub**: https://github.com/Iteksmart/iTechSmart
-- **Documentation Portal**: https://docs.itechsmart.com
+- **Documentation Portal**: https://docs.itechsmart.dev
 
 ---
 

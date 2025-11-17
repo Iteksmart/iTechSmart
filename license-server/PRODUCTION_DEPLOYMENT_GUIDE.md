@@ -536,8 +536,8 @@ docker compose exec postgres psql -U postgres -d itechsmart_licenses -c "
 
 For issues or questions:
 - GitHub Issues: https://github.com/Iteksmart/iTechSmart/issues
-- Email: support@itechsmart.com
-- Documentation: https://docs.itechsmart.com
+- Email: support@itechsmart.dev
+- Documentation: https://docs.itechsmart.dev
 
 ## License
 

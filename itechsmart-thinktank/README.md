@@ -440,7 +440,7 @@ npm test
 
 ## 🎉 Benefits
 
-### For iTechSmart Team
+### For iTechSmart Inc
 - ✅ Faster app development with AI
 - ✅ Better collaboration
 - ✅ Centralized project management
@@ -483,6 +483,6 @@ For internal support:
 
 ---
 
-**Built with ❤️ by the iTechSmart Team**
+**Built with ❤️ by the iTechSmart Inc**
 
 **Status**: ✅ Production Ready - Internal Use Only

@@ -395,4 +395,4 @@ iTechSmart Analytics is now a **fully functional, production-ready analytics pla
 
 **Last Updated**: 2025
 **Version**: 1.0.0
-**Team**: iTechSmart Development Team
+**Team**: iTechSmart Inc

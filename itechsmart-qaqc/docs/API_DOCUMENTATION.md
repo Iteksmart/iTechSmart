@@ -246,9 +246,9 @@ const result = await client.resources.create({ name: 'My Resource' });
 
 ## Support
 
-- **Documentation**: https://docs.itechsmart.com
-- **API Status**: https://status.itechsmart.com
-- **Support**: support@itechsmart.com
+- **Documentation**: https://docs.itechsmart.dev
+- **API Status**: https://status.itechsmart.dev
+- **Support**: support@itechsmart.dev
 
 ---
 

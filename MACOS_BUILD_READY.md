@@ -292,7 +292,7 @@ After successful build:
 
 - **Documentation:** `MACOS_BUILD_INSTRUCTIONS.md`
 - **GitHub Issues:** https://github.com/Iteksmart/iTechSmart/issues
-- **Email:** support@itechsmart.com
+- **Email:** support@itechsmart.dev
 
 ---
 

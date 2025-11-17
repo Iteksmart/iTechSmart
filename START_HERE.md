@@ -140,7 +140,7 @@ Use **[INTEGRATION_TESTING_GUIDE.md](INTEGRATION_TESTING_GUIDE.md)** for integra
 - Review the comprehensive FAQ
 
 ### Support
-- **Email:** support@itechsmart.com
+- **Email:** support@itechsmart.dev
 - **GitHub Issues:** https://github.com/Iteksmart/iTechSmart/issues
 - **Documentation:** All included in repository
 

@@ -10,7 +10,7 @@ This guide covers deploying both the **SaaS License Server** and **Desktop Launc
 
 ### For License Server
 - Docker and Docker Compose
-- Domain name (e.g., license.itechsmart.com)
+- Domain name (e.g., license.itechsmart.dev)
 - SSL certificate (Let's Encrypt recommended)
 - PostgreSQL 15+ (included in Docker Compose)
 - Redis 7+ (included in Docker Compose)
@@ -110,23 +110,23 @@ curl http://localhost:3000/api/health
 sudo apt-get install nginx
 
 # Create configuration
-sudo nano /etc/nginx/sites-available/license.itechsmart.com
+sudo nano /etc/nginx/sites-available/license.itechsmart.dev
 ```
 
 **Nginx configuration**:
 ```nginx
 server {
     listen 80;
-    server_name license.itechsmart.com;
+    server_name license.itechsmart.dev;
     return 301 https://$server_name$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name license.itechsmart.com;
+    server_name license.itechsmart.dev;
 
-    ssl_certificate /etc/letsencrypt/live/license.itechsmart.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/license.itechsmart.com/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/license.itechsmart.dev/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/license.itechsmart.dev/privkey.pem;
 
     location / {
         proxy_pass http://localhost:3000;
@@ -144,7 +144,7 @@ server {
 
 ```bash
 # Enable site
-sudo ln -s /etc/nginx/sites-available/license.itechsmart.com /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/license.itechsmart.dev /etc/nginx/sites-enabled/
 
 # Test configuration
 sudo nginx -t
@@ -160,7 +160,7 @@ sudo systemctl reload nginx
 sudo apt-get install certbot python3-certbot-nginx
 
 # Get certificate
-sudo certbot --nginx -d license.itechsmart.com
+sudo certbot --nginx -d license.itechsmart.dev
 
 # Test auto-renewal
 sudo certbot renew --dry-run
@@ -170,10 +170,10 @@ sudo certbot renew --dry-run
 
 ```bash
 # Test from outside
-curl https://license.itechsmart.com/api/health
+curl https://license.itechsmart.dev/api/health
 
 # Test registration
-curl -X POST https://license.itechsmart.com/api/auth/register \
+curl -X POST https://license.itechsmart.dev/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "organizationName": "Test Corp",
@@ -365,7 +365,7 @@ gh release create v1.0.0 \
 **Option B: Custom Download Server**
 ```bash
 # Upload to S3/CDN
-aws s3 cp release/ s3://downloads.itechsmart.com/v1.0.0/ --recursive
+aws s3 cp release/ s3://downloads.itechsmart.dev/v1.0.0/ --recursive
 
 # Create download page
 # Link to installers
@@ -411,7 +411,7 @@ aws s3 cp release/ s3://downloads.itechsmart.com/v1.0.0/ --recursive
 
 ```bash
 # Register organization
-curl -X POST https://license.itechsmart.com/api/auth/register \
+curl -X POST https://license.itechsmart.dev/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "organizationName": "Acme Corp",
@@ -424,7 +424,7 @@ curl -X POST https://license.itechsmart.com/api/auth/register \
 # Save the token from response
 
 # Validate license
-curl -X POST https://license.itechsmart.com/api/licenses/validate \
+curl -X POST https://license.itechsmart.dev/api/licenses/validate \
   -H "Content-Type: application/json" \
   -d '{
     "licenseKey": "XXXX-XXXX-XXXX-XXXX-XXXX",
@@ -541,9 +541,9 @@ With pricing from $99-$9,999/month:
 - Deployment: `license-server/DEPLOYMENT_INSTRUCTIONS.md`
 
 ### Contact
-- Email: support@itechsmart.com
+- Email: support@itechsmart.dev
 - GitHub: https://github.com/Iteksmart/iTechSmart
-- Documentation: https://docs.itechsmart.com
+- Documentation: https://docs.itechsmart.dev
 
 ---
 

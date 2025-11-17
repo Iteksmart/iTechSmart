@@ -243,7 +243,7 @@ Phase 4 focused on creating comprehensive documentation and training materials f
 ### Online Access
 
 **Documentation Website:**
-- https://docs.itechsmart.com
+- https://docs.itechsmart.dev
 - Searchable
 - Mobile-friendly
 - Always up-to-date
@@ -356,7 +356,7 @@ Phase 4 focused on creating comprehensive documentation and training materials f
 ### Immediate Actions
 
 1. **Publish Documentation**
-   - Deploy to docs.itechsmart.com
+   - Deploy to docs.itechsmart.dev
    - Update GitHub repository
    - Announce to users
 

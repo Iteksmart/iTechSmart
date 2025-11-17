@@ -390,8 +390,8 @@ See production deployment guides:
 
 ### Getting Help
 - **Issues**: [GitHub Issues](https://github.com/Iteksmart/iTechSmart/issues)
-- **Email**: support@itechsmart.com
-- **Sales**: sales@itechsmart.com
+- **Email**: support@itechsmart.dev
+- **Sales**: sales@itechsmart.dev
 
 ---
 
@@ -432,7 +432,7 @@ This demo environment has the following limitations:
 - **Security**: Uses demo credentials (not production-ready)
 - **Support**: Community support only
 
-For production deployment, contact sales@itechsmart.com
+For production deployment, contact sales@itechsmart.dev
 
 ---
 

@@ -459,7 +459,7 @@ npm run package:all    # All platforms
 - Add desktop launcher later
 
 ### Questions?
-- Email: support@itechsmart.com
+- Email: support@itechsmart.dev
 - GitHub: https://github.com/Iteksmart/iTechSmart
 
 ---

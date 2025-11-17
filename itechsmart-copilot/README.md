@@ -659,6 +659,6 @@ For support and questions:
 
 ---
 
-**Built with ❤️ by the iTechSmart Team**
+**Built with ❤️ by the iTechSmart Inc**
 
 *iTechSmart Copilot - Your AI Assistant Platform*

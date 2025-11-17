@@ -375,7 +375,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 👥 Team
 
-**iTechSmart Development Team**
+**iTechSmart Inc**
 - Email: dev@itechsmart.dev
 - Website: https://itechsmart.dev
 
@@ -438,4 +438,4 @@ For support and questions:
 
 ---
 
-**Built with ❤️ by the iTechSmart Team**
+**Built with ❤️ by the iTechSmart Inc**

@@ -465,7 +465,7 @@ This portfolio represents an extraordinary development journey across multiple s
 
 ## 📞 Contact & Support
 
-**iTechSmart Development Team**
+**iTechSmart Inc**
 - Email: dev@itechsmart.dev
 - Website: https://itechsmart.dev
 - Support: support@itechsmart.dev
@@ -490,4 +490,4 @@ This portfolio represents an extraordinary development journey across multiple s
 
 ---
 
-**Built with ❤️, dedication, and excellence by the iTechSmart Development Team**
+**Built with ❤️, dedication, and excellence by the iTechSmart Inc**

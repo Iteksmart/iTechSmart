@@ -5,7 +5,7 @@
   "main": "dist/main/index.js",
   "author": "iTechSmart Inc.",
   "license": "MIT",
-  "homepage": "https://itechsmart.com",
+  "homepage": "https://itechsmart.dev",
   "scripts": {
     "start": "electron .",
     "dev": "concurrently &quot;npm run dev:main&quot; &quot;npm run dev:renderer&quot;",
@@ -124,7 +124,7 @@
       ],
       "icon": "assets/icons/",
       "category": "Development",
-      "maintainer": "support@itechsmart.com",
+      "maintainer": "support@itechsmart.dev",
       "vendor": "iTechSmart Inc.",
       "synopsis": "iTechSmart Suite - Complete IT Management Platform",
       "description": "iTechSmart Suite provides 35 enterprise-grade applications for IT management, automation, security, and operations."

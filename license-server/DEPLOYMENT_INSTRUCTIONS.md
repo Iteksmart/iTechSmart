@@ -123,16 +123,16 @@ sudo systemctl start license-server
 ```nginx
 server {
     listen 80;
-    server_name license.itechsmart.com;
+    server_name license.itechsmart.dev;
     return 301 https://$server_name$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name license.itechsmart.com;
+    server_name license.itechsmart.dev;
 
-    ssl_certificate /etc/letsencrypt/live/license.itechsmart.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/license.itechsmart.com/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/license.itechsmart.dev/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/license.itechsmart.dev/privkey.pem;
 
     location / {
         proxy_pass http://localhost:3000;
@@ -155,7 +155,7 @@ server {
 sudo apt-get install certbot python3-certbot-nginx
 
 # Get certificate
-sudo certbot --nginx -d license.itechsmart.com
+sudo certbot --nginx -d license.itechsmart.dev
 
 # Auto-renewal
 sudo certbot renew --dry-run
@@ -283,6 +283,6 @@ psql -U postgres itechsmart_licenses < backup.sql
 ## Support
 
 For deployment issues:
-- Email: support@itechsmart.com
-- Documentation: https://docs.itechsmart.com
+- Email: support@itechsmart.dev
+- Documentation: https://docs.itechsmart.dev
 - GitHub Issues: https://github.com/Iteksmart/iTechSmart/issues

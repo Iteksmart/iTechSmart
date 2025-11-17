@@ -274,13 +274,13 @@ Each product includes complete documentation:
 ## 📞 Support & Resources
 
 ### Technical Support
-- **Email**: support@itechsmart.com
+- **Email**: support@itechsmart.dev
 - **Documentation**: https://github.com/Iteksmart/iTechSmart
 - **Issue Tracker**: https://github.com/Iteksmart/iTechSmart/issues
 - **Community**: https://github.com/Iteksmart/iTechSmart/discussions
 
 ### Enterprise Support
-- **Email**: enterprise@itechsmart.com
+- **Email**: enterprise@itechsmart.dev
 - **Phone**: +1-XXX-XXX-XXXX
 - **SLA**: 24/7 support available
 - **Response Time**: < 4 hours for critical issues

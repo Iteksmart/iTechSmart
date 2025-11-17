@@ -526,7 +526,7 @@ jobs:
 
 ### Getting Help
 - **Issues**: GitHub Issues
-- **Email**: support@itechsmart.com
+- **Email**: support@itechsmart.dev
 - **Discussions**: GitHub Discussions
 
 ---

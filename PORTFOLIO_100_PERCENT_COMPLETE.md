@@ -413,7 +413,7 @@ The iTechSmart Portfolio represents a **complete, production-ready suite of ente
 
 ---
 
-**Developed by:** iTechSmart Development Team  
+**Developed by:** iTechSmart Inc  
 **Project Duration:** Multiple sessions  
 **Final Status:** ✅ 100% COMPLETE (9/10 products)  
 **Quality Rating:** ⭐⭐⭐⭐⭐ EXCELLENT  
