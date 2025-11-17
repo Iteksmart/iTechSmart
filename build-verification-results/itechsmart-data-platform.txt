@@ -1,0 +1,2 @@
+FAILED: Docker Compose configuration invalid
+./verify_all_builds.sh: line 103: docker-compose: command not found
