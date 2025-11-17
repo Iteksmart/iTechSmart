@@ -321,3 +321,20 @@ LICENSE_SERVER_URL=http://localhost:3000
 
 The product will automatically connect to the License Server to access agent data and monitoring capabilities.
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **Behavioral analysis and anomaly detection**
+2. **Automated threat hunting capabilities**
+3. **Integration with SIEM platforms**
+4. **Threat intelligence feeds (real-time)**
+5. **Advanced malware detection and prevention**
+6. **Network traffic analysis and monitoring**
+7. **Endpoint detection and response (EDR)**
+8. **Security compliance automation**
+
+**Product Value**: $2.5M  
+**Tier**: 2  
+**Total Features**: 8
+

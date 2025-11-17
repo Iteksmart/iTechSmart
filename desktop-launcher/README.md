@@ -171,6 +171,23 @@ The launcher can be configured through:
 4. Test thoroughly
 5. Submit a pull request
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **Quick actions menu with customizable shortcuts**
+2. **Centralized notification center**
+3. **Plugin system for third-party integrations**
+4. **Offline mode with local caching**
+5. **Multi-monitor support**
+6. **Keyboard shortcuts and hotkeys**
+7. **Theme customization and dark mode**
+8. **Auto-update mechanism with rollback**
+
+**Product Value**: $1.5M  
+**Tier**: 1  
+**Total Features**: 8
+
 ## License
 
 MIT License - see LICENSE file for details

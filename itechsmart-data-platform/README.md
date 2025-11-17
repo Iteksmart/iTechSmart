@@ -298,3 +298,20 @@ LICENSE_SERVER_URL=http://localhost:3000
 
 The product will automatically connect to the License Server to access agent data and monitoring capabilities.
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **Data catalog**
+2. **Lineage tracking**
+3. **Quality monitoring**
+4. **Master data management**
+5. **Data governance**
+6. **Self-service access**
+7. **Data versioning**
+8. **Data lake integration**
+
+**Product Value**: $2.8M  
+**Tier**: 3  
+**Total Features**: 8
+

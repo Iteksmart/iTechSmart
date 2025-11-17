@@ -346,3 +346,20 @@ LICENSE_SERVER_URL=http://localhost:3000
 
 The product will automatically connect to the License Server to access agent data and monitoring capabilities.
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **Dependency mapping**
+2. **Risk assessment**
+3. **Change simulation**
+4. **Impact analysis**
+5. **Approval workflows**
+6. **Rollback planning**
+7. **ITSM integration**
+8. **Historical analysis**
+
+**Product Value**: $1.6M  
+**Tier**: 3  
+**Total Features**: 8
+

@@ -1,0 +1,74 @@
+{
+  "product": "itechsmart-dataflow",
+  "version": "1.4.0",
+  "value": "$2.0M",
+  "tier": 3,
+  "total_features": 8,
+  "features": [
+    {
+      "id": "feature_1",
+      "name": "Visual pipeline builder",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "high"
+    },
+    {
+      "id": "feature_2",
+      "name": "Real-time streaming",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "high"
+    },
+    {
+      "id": "feature_3",
+      "name": "Data transformation",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "high"
+    },
+    {
+      "id": "feature_4",
+      "name": "Scheduled pipelines",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    },
+    {
+      "id": "feature_5",
+      "name": "Data validation",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    },
+    {
+      "id": "feature_6",
+      "name": "Pipeline monitoring",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    },
+    {
+      "id": "feature_7",
+      "name": "Source integration",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    },
+    {
+      "id": "feature_8",
+      "name": "Parallel processing",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    }
+  ],
+  "last_updated": "2025-01-17"
+}

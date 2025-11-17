@@ -524,3 +524,20 @@ LICENSE_SERVER_URL=http://localhost:3000
 
 The product will automatically connect to the License Server to access agent data and monitoring capabilities.
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **FHIR R4 support**
+2. **EHR integrations**
+3. **Clinical workflows**
+4. **Patient interoperability**
+5. **HL7 conversion**
+6. **Data validation**
+7. **HIPAA compliance**
+8. **Clinical decision support**
+
+**Product Value**: $2.2M  
+**Tier**: 3  
+**Total Features**: 8
+

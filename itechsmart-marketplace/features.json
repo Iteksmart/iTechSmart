@@ -1,0 +1,74 @@
+{
+  "product": "itechsmart-marketplace",
+  "version": "1.4.0",
+  "value": "$2.1M",
+  "tier": 3,
+  "total_features": 8,
+  "features": [
+    {
+      "id": "feature_1",
+      "name": "Plugin SDK",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "high"
+    },
+    {
+      "id": "feature_2",
+      "name": "Revenue sharing",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "high"
+    },
+    {
+      "id": "feature_3",
+      "name": "App analytics",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "high"
+    },
+    {
+      "id": "feature_4",
+      "name": "Rating system",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    },
+    {
+      "id": "feature_5",
+      "name": "App versioning",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    },
+    {
+      "id": "feature_6",
+      "name": "Developer portal",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    },
+    {
+      "id": "feature_7",
+      "name": "App certification",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    },
+    {
+      "id": "feature_8",
+      "name": "Marketing tools",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    }
+  ],
+  "last_updated": "2025-01-17"
+}

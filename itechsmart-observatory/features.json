@@ -1,0 +1,74 @@
+{
+  "product": "itechsmart-observatory",
+  "version": "1.4.0",
+  "value": "$1.9M",
+  "tier": 3,
+  "total_features": 8,
+  "features": [
+    {
+      "id": "feature_1",
+      "name": "Distributed tracing",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "high"
+    },
+    {
+      "id": "feature_2",
+      "name": "Log aggregation",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "high"
+    },
+    {
+      "id": "feature_3",
+      "name": "APM integration",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "high"
+    },
+    {
+      "id": "feature_4",
+      "name": "Custom metrics",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    },
+    {
+      "id": "feature_5",
+      "name": "Anomaly detection",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    },
+    {
+      "id": "feature_6",
+      "name": "Service mapping",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    },
+    {
+      "id": "feature_7",
+      "name": "Performance profiling",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    },
+    {
+      "id": "feature_8",
+      "name": "Real-time alerting",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    }
+  ],
+  "last_updated": "2025-01-17"
+}

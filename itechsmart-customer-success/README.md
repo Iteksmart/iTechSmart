@@ -293,3 +293,20 @@ LICENSE_SERVER_URL=http://localhost:3000
 
 The product will automatically connect to the License Server to access agent data and monitoring capabilities.
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **Health score tracking**
+2. **Automated playbooks**
+3. **Journey mapping**
+4. **Churn prediction**
+5. **Onboarding automation**
+6. **Success metrics**
+7. **CRM integration**
+8. **Feedback tools**
+
+**Product Value**: $1.7M  
+**Tier**: 3  
+**Total Features**: 8
+

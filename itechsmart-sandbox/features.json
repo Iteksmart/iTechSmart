@@ -1,0 +1,74 @@
+{
+  "product": "itechsmart-sandbox",
+  "version": "1.4.0",
+  "value": "$1.4M",
+  "tier": 3,
+  "total_features": 8,
+  "features": [
+    {
+      "id": "feature_1",
+      "name": "Container isolation",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "high"
+    },
+    {
+      "id": "feature_2",
+      "name": "Snapshot management",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "high"
+    },
+    {
+      "id": "feature_3",
+      "name": "Resource limits",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "high"
+    },
+    {
+      "id": "feature_4",
+      "name": "Network isolation",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    },
+    {
+      "id": "feature_5",
+      "name": "Template library",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    },
+    {
+      "id": "feature_6",
+      "name": "Automated cleanup",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    },
+    {
+      "id": "feature_7",
+      "name": "Dev tool integration",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    },
+    {
+      "id": "feature_8",
+      "name": "Collaboration",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    }
+  ],
+  "last_updated": "2025-01-17"
+}

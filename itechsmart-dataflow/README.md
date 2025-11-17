@@ -341,6 +341,23 @@ npm test
 - Slack: https://itechsmart.slack.com
 - Email: support@itechsmart.dev
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **Visual pipeline builder**
+2. **Real-time streaming**
+3. **Data transformation**
+4. **Scheduled pipelines**
+5. **Data validation**
+6. **Pipeline monitoring**
+7. **Source integration**
+8. **Parallel processing**
+
+**Product Value**: $2.0M  
+**Tier**: 3  
+**Total Features**: 8
+
 ## License
 
 Copyright © 2025 iTechSmart. All rights reserved.

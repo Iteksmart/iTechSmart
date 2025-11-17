@@ -1,0 +1,74 @@
+{
+  "product": "itechsmart-mobile",
+  "version": "1.4.0",
+  "value": "$2.0M",
+  "tier": 3,
+  "total_features": 8,
+  "features": [
+    {
+      "id": "feature_1",
+      "name": "Cross-platform SDK",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "high"
+    },
+    {
+      "id": "feature_2",
+      "name": "Push notifications",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "high"
+    },
+    {
+      "id": "feature_3",
+      "name": "Offline sync",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "high"
+    },
+    {
+      "id": "feature_4",
+      "name": "In-app messaging",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    },
+    {
+      "id": "feature_5",
+      "name": "Mobile analytics",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    },
+    {
+      "id": "feature_6",
+      "name": "A/B testing",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    },
+    {
+      "id": "feature_7",
+      "name": "Performance monitoring",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    },
+    {
+      "id": "feature_8",
+      "name": "Deep linking",
+      "status": "planned",
+      "version": "1.4.0",
+      "category": "enhancement",
+      "priority": "medium"
+    }
+  ],
+  "last_updated": "2025-01-17"
+}

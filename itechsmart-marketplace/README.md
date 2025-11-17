@@ -458,3 +458,20 @@ LICENSE_SERVER_URL=http://localhost:3000
 
 The product will automatically connect to the License Server to access agent data and monitoring capabilities.
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **Plugin SDK**
+2. **Revenue sharing**
+3. **App analytics**
+4. **Rating system**
+5. **App versioning**
+6. **Developer portal**
+7. **App certification**
+8. **Marketing tools**
+
+**Product Value**: $2.1M  
+**Tier**: 3  
+**Total Features**: 8
+

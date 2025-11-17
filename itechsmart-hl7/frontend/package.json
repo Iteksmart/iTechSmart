@@ -1,6 +1,6 @@
 {
   "name": "itechsmart-hl7-frontend",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "iTechSmart HL7 Frontend Dashboard",
   "private": true,
   "scripts": {

@@ -863,3 +863,20 @@ LICENSE_SERVER_URL=http://localhost:3000
 
 The product will automatically connect to the License Server to access agent data and monitoring capabilities.
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **Zero-touch enrollment**
+2. **App distribution**
+3. **Remote wipe**
+4. **Compliance policies**
+5. **Geofencing**
+6. **Containerization**
+7. **Identity integration**
+8. **Device inventory**
+
+**Product Value**: $1.5M  
+**Tier**: 3  
+**Total Features**: 8
+

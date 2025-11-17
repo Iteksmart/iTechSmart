@@ -505,3 +505,20 @@ LICENSE_SERVER_URL=http://localhost:3000
 
 The product will automatically connect to the License Server to access agent data and monitoring capabilities.
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **AI brainstorming**
+2. **Voting system**
+3. **Project tracking**
+4. **Collaboration features**
+5. **Idea categorization**
+6. **PM integration**
+7. **Analytics dashboard**
+8. **Gamification**
+
+**Product Value**: $1.5M  
+**Tier**: 3  
+**Total Features**: 8
+

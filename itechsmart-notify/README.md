@@ -403,3 +403,20 @@ LICENSE_SERVER_URL=http://localhost:3000
 
 The product will automatically connect to the License Server to access agent data and monitoring capabilities.
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **Multi-channel delivery**
+2. **Template builder**
+3. **A/B testing**
+4. **Delivery tracking**
+5. **Scheduled notifications**
+6. **User preferences**
+7. **Rate limiting**
+8. **Marketing integration**
+
+**Product Value**: $1.3M  
+**Tier**: 3  
+**Total Features**: 8
+

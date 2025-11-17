@@ -240,3 +240,20 @@ LICENSE_SERVER_URL=http://localhost:3000
 
 The product will automatically connect to the License Server to access agent data and monitoring capabilities.
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **GitOps workflows and automation**
+2. **Container orchestration (Kubernetes, Docker Swarm)**
+3. **Infrastructure as code (Terraform, CloudFormation)**
+4. **Automated testing and quality gates**
+5. **Blue-green and canary deployments**
+6. **Pipeline templates and reusable components**
+7. **Integration with version control systems**
+8. **Performance monitoring and optimization**
+
+**Product Value**: $2.3M  
+**Tier**: 2  
+**Total Features**: 8
+

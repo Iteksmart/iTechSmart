@@ -1,6 +1,6 @@
 {
   "name": "itechsmart-enterprise-frontend",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "iTechSmart Enterprise - Integration Management Dashboard",
   "private": true,
   "scripts": {

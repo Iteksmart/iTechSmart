@@ -434,3 +434,20 @@ LICENSE_SERVER_URL=http://localhost:3000
 
 The product will automatically connect to the License Server to access agent data and monitoring capabilities.
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **Smart alert grouping and correlation**
+2. **Escalation policies with multiple channels**
+3. **On-call scheduling and rotation**
+4. **Mobile push notifications (iOS/Android)**
+5. **Integration with incident management tools**
+6. **Custom alert rules and conditions**
+7. **Historical alert analysis and trends**
+8. **Automated alert remediation**
+
+**Product Value**: $1.8M  
+**Tier**: 2  
+**Total Features**: 8
+

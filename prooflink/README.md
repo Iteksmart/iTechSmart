@@ -342,3 +342,19 @@ Every single feature has been implemented, polished, and tested. The platform is
 **Built with ❤️ by SuperNinja AI**
 
 *Version 1.0.0 | January 2025*
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **Digital signatures PKI**
+2. **Timestamp verification**
+3. **Blockchain audit trail**
+4. **Document versioning**
+5. **Multi-party signing**
+6. **Document management**
+7. **eIDAS compliance**
+8. **Mobile signing**
+
+**Product Value**: $1.6M  
+**Tier**: 3  
+**Total Features**: 8
+

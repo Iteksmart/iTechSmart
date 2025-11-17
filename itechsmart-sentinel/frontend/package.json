@@ -1,6 +1,6 @@
 {
   "name": "itechsmart-sentinel-frontend",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "iTechSmart Sentinel - Real-Time Observability & Incident Management",
   "private": true,
   "type": "module",

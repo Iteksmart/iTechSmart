@@ -283,3 +283,20 @@ LICENSE_SERVER_URL=http://localhost:3000
 
 The product will automatically connect to the License Server to access agent data and monitoring capabilities.
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **Automated compliance checks**
+2. **Audit trail visualization**
+3. **Policy templates**
+4. **Risk assessment**
+5. **Continuous monitoring**
+6. **Evidence collection**
+7. **Compliance dashboard**
+8. **GRC integration**
+
+**Product Value**: $1.8M  
+**Tier**: 3  
+**Total Features**: 8
+

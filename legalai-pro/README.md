@@ -246,3 +246,19 @@ For support, email support@legalai.pro or visit our documentation at https://doc
 **Built with ❤️ for attorneys by attorneys**
 
 *LegalAI Pro - Making legal practice smarter, faster, and more profitable*
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **Contract analysis**
+2. **Clause extraction**
+3. **Compliance checking**
+4. **Document generation**
+5. **E-discovery**
+6. **Legal research AI**
+7. **Multi-language**
+8. **Legal database integration**
+
+**Product Value**: $2.5M  
+**Tier**: 3  
+**Total Features**: 8
+

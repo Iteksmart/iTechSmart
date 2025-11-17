@@ -208,6 +208,23 @@ iTechSmart Analytics integrates seamlessly with:
 
 We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **Real-time data streaming and processing**
+2. **Custom visualization builder with templates**
+3. **Machine learning models for predictive analytics**
+4. **Advanced statistical analysis tools**
+5. **Data export in multiple formats**
+6. **Scheduled reports and dashboards**
+7. **Natural language query interface**
+8. **Integration with BI tools (Tableau, Power BI)**
+
+**Product Value**: $2.2M  
+**Tier**: 2  
+**Total Features**: 8
+
 ## License
 
 Copyright © 2025 iTechSmart. All rights reserved.

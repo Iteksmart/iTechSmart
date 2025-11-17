@@ -360,3 +360,20 @@ LICENSE_SERVER_URL=http://localhost:3000
 
 The product will automatically connect to the License Server to access agent data and monitoring capabilities.
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **Visual builder**
+2. **Conditional logic**
+3. **Human approvals**
+4. **Parallel execution**
+5. **Error handling**
+6. **100+ integrations**
+7. **Workflow versioning**
+8. **Performance monitoring**
+
+**Product Value**: $2.2M  
+**Tier**: 3  
+**Total Features**: 8
+

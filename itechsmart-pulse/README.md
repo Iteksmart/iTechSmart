@@ -493,3 +493,20 @@ LICENSE_SERVER_URL=http://localhost:3000
 
 The product will automatically connect to the License Server to access agent data and monitoring capabilities.
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **Custom health checks**
+2. **SLA monitoring**
+3. **Uptime tracking**
+4. **Multi-region monitoring**
+5. **Synthetic monitoring**
+6. **Performance benchmarking**
+7. **Tool integration**
+8. **Automated failover**
+
+**Product Value**: $1.6M  
+**Tier**: 3  
+**Total Features**: 8
+

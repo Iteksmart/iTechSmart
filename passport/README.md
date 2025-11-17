@@ -348,3 +348,19 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Made with ❤️ by [iTechSmart Inc.](https://itechsmart.dev)**
 
 **🚀 Deploy your own instance today and take control of your digital identity!**
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **SSO integration**
+2. **Multi-factor auth**
+3. **Identity federation**
+4. **Passwordless auth**
+5. **Biometric auth**
+6. **Session management**
+7. **Lifecycle management**
+8. **Compliance reporting**
+
+**Product Value**: $1.8M  
+**Tier**: 3  
+**Total Features**: 8
+

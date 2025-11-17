@@ -398,3 +398,20 @@ LICENSE_SERVER_URL=http://localhost:3000
 
 The product will automatically connect to the License Server to access agent data and monitoring capabilities.
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **AI cost optimization**
+2. **Multi-cloud migration**
+3. **CSPM**
+4. **Resource governance**
+5. **Automated backup**
+6. **Spend forecasting**
+7. **Compliance monitoring**
+8. **Performance optimization**
+
+**Product Value**: $2.5M  
+**Tier**: 3  
+**Total Features**: 8
+

@@ -492,3 +492,20 @@ LICENSE_SERVER_URL=http://localhost:3000
 
 The product will automatically connect to the License Server to access agent data and monitoring capabilities.
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **Cloud-based IDE**
+2. **Collaborative coding**
+3. **Code review tools**
+4. **Integrated debugging**
+5. **Version control**
+6. **Code templates**
+7. **AI suggestions**
+8. **Multi-language support**
+
+**Product Value**: $1.9M  
+**Tier**: 3  
+**Total Features**: 8
+

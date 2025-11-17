@@ -371,6 +371,23 @@ Observatory monitors itself:
 - **Phone**: 310-251-3969
 - **Website**: https://itechsmart.dev
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **Distributed tracing**
+2. **Log aggregation**
+3. **APM integration**
+4. **Custom metrics**
+5. **Anomaly detection**
+6. **Service mapping**
+7. **Performance profiling**
+8. **Real-time alerting**
+
+**Product Value**: $1.9M  
+**Tier**: 3  
+**Total Features**: 8
+
 ## License
 
 Copyright © 2025 iTechSmart Inc. All rights reserved.

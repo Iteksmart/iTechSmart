@@ -2,7 +2,7 @@
   "name": "itechsmart-ninja",
   "displayName": "iTechSmart Ninja",
   "description": "AI-powered development assistant with autonomous agents",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "publisher": "itechsmart",
   "engines": {
     "vscode": "^1.80.0"

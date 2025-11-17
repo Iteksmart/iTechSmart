@@ -1,6 +1,6 @@
 {
   "name": "itechsmart-vault-frontend",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "iTechSmart Vault - Secrets Management Platform",
   "private": true,
   "type": "module",

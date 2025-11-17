@@ -777,3 +777,20 @@ LICENSE_SERVER_URL=http://localhost:3000
 
 The product will automatically connect to the License Server to access agent data and monitoring capabilities.
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **Smart contracts**
+2. **Multi-chain support**
+3. **DeFi integrations**
+4. **NFT minting**
+5. **Blockchain analytics**
+6. **Wallet integration**
+7. **Gas optimization**
+8. **Audit trail**
+
+**Product Value**: $2.4M  
+**Tier**: 3  
+**Total Features**: 8
+

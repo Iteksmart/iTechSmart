@@ -361,3 +361,20 @@ LICENSE_SERVER_URL=http://localhost:3000
 
 The product will automatically connect to the License Server to access agent data and monitoring capabilities.
 
+
+
+## 🚀 Upcoming Features (v1.4.0)
+
+1. **Dynamic secrets**
+2. **Key rotation**
+3. **Audit logging**
+4. **Secret versioning**
+5. **Cloud integration**
+6. **Certificate management**
+7. **Access policies**
+8. **Encryption service**
+
+**Product Value**: $2.0M  
+**Tier**: 3  
+**Total Features**: 8
+
