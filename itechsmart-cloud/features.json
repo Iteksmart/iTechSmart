@@ -1,6 +1,6 @@
 {
   "product": "itechsmart-cloud",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "value": "$2.5M",
   "tier": 3,
   "total_features": 8,
@@ -70,5 +70,21 @@
       "priority": "medium"
     }
   ],
-  "last_updated": "2025-01-17"
+  "last_updated": "2025-01-17",
+  "coming_in_v1_5_0": {
+    "version": "1.5.0",
+    "release_date": "Q1 2025",
+    "features": [
+      "Enhanced AI cost optimization with 40% savings",
+      "Advanced multi-cloud migration automation",
+      "Improved CSPM with real-time alerts",
+      "Integration with FinOps best practices"
+    ],
+    "enhancements": [
+      "Performance improvements",
+      "Enhanced security features",
+      "Improved user experience",
+      "Extended API capabilities"
+    ]
+  }
 }

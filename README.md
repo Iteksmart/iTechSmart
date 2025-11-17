@@ -4,7 +4,7 @@
 
 Complete suite of 40+ products for IT automation, monitoring, security, and management - now with integrated agent-based monitoring.
 
-![Version](https://img.shields.io/badge/version-1.4.0-blue)
+![Version](https://img.shields.io/badge/version-1.5.0-blue)
 ![Products](https://img.shields.io/badge/products-40+-green)
 ![License](https://img.shields.io/badge/license-Proprietary-orange)
 ![Status](https://img.shields.io/badge/status-Production%20Ready-success)

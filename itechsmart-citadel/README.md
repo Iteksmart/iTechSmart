@@ -262,6 +262,26 @@ Newark, DE 19711, USA
 **Tier**: 1  
 **Total Features**: 8
 
+
+
+## Coming in v1.5.0
+
+**Release Date:** Q1 2025
+
+### New Features
+
+- AI-powered threat hunting
+- Advanced behavioral analytics
+- Automated penetration testing
+- Enhanced SOAR capabilities with 50+ integrations
+
+### Enhancements
+
+- Performance improvements across all modules
+- Enhanced security features and compliance
+- Improved user experience and interface
+- Extended API capabilities and integrations
+
 ## License
 
 Copyright (c) 2025 iTechSmart Inc. All rights reserved.

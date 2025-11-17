@@ -353,6 +353,26 @@ Newark, DE 19711, USA
 **Tier**: 1  
 **Total Features**: 8
 
+
+
+## Coming in v1.5.0
+
+**Release Date:** Q1 2025
+
+### New Features
+
+- Enhanced AI-powered predictive maintenance
+- Advanced mobile app features with offline mode
+- Real-time collaboration on mobile devices
+- Integration with ServiceNow and Jira
+
+### Enhancements
+
+- Performance improvements across all modules
+- Enhanced security features and compliance
+- Improved user experience and interface
+- Extended API capabilities and integrations
+
 ## License
 
 Copyright (c) 2025 iTechSmart Inc. All rights reserved.

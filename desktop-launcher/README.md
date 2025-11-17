@@ -188,6 +188,26 @@ The launcher can be configured through:
 **Tier**: 1  
 **Total Features**: 8
 
+
+
+## Coming in v1.5.0
+
+**Release Date:** Q1 2025
+
+### New Features
+
+- Voice command integration
+- Advanced plugin marketplace
+- Enhanced offline capabilities
+- Cross-device synchronization
+
+### Enhancements
+
+- Performance improvements across all modules
+- Enhanced security features and compliance
+- Improved user experience and interface
+- Extended API capabilities and integrations
+
 ## License
 
 MIT License - see LICENSE file for details

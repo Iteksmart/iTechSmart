@@ -225,6 +225,26 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for deta
 **Tier**: 2  
 **Total Features**: 8
 
+
+
+## Coming in v1.5.0
+
+**Release Date:** Q1 2025
+
+### New Features
+
+- AI-powered data insights
+- Advanced ML model marketplace
+- Enhanced real-time streaming
+- Automated anomaly detection
+
+### Enhancements
+
+- Performance improvements across all modules
+- Enhanced security features and compliance
+- Improved user experience and interface
+- Extended API capabilities and integrations
+
 ## License
 
 Copyright © 2025 iTechSmart. All rights reserved.

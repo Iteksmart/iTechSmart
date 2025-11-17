@@ -1,6 +1,6 @@
 {
   "name": "itechsmart-suite-launcher",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "iTechSmart Suite Desktop Launcher - Manage all 35 products from one application",
   "main": "dist/main/index.js",
   "author": "iTechSmart Inc.",
@@ -49,7 +49,7 @@
   "build": {
     "appId": "com.itechsmart.suite",
     "productName": "iTechSmart Suite",
-    "copyright": "Copyright © 2025 iTechSmart Inc.",
+    "copyright": "Copyright \u00a9 2025 iTechSmart Inc.",
     "directories": {
       "output": "release",
       "buildResources": "assets"
@@ -62,7 +62,9 @@
       {
         "from": "resources",
         "to": "resources",
-        "filter": ["**/*"]
+        "filter": [
+          "**/*"
+        ]
       }
     ],
     "mac": {
@@ -71,7 +73,10 @@
       "target": [
         {
           "target": "dmg",
-          "arch": ["x64", "arm64"]
+          "arch": [
+            "x64",
+            "arm64"
+          ]
         }
       ],
       "hardenedRuntime": false,
@@ -98,7 +103,9 @@
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "icon": "assets/icons/icon.ico",

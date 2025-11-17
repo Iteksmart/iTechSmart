@@ -348,6 +348,26 @@ AI_ENABLE_GPU=false
 **Tier**: 3  
 **Total Features**: 8
 
+
+
+## Coming in v1.5.0
+
+**Release Date:** Q1 2025
+
+### New Features
+
+- Enhanced AutoML with neural architecture search
+- Advanced model marketplace with 1000+ models
+- Improved edge AI optimization
+- Integration with TensorFlow, PyTorch, JAX
+
+### Enhancements
+
+- Performance improvements across all modules
+- Enhanced security features and compliance
+- Improved user experience and interface
+- Extended API capabilities and integrations
+
 ## License
 
 Part of iTechSmart Suite - Enterprise License

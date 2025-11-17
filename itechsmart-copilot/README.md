@@ -706,3 +706,22 @@ The product will automatically connect to the License Server to access agent dat
 **Tier**: 2  
 **Total Features**: 8
 
+
+
+## Coming in v1.5.0
+
+**Release Date:** Q1 2025
+
+### New Features
+
+- Enhanced AI conversation capabilities
+- Support for 20+ languages
+- Advanced code generation
+- Integration with GitHub Copilot
+
+### Enhancements
+
+- Performance improvements across all modules
+- Enhanced security features and compliance
+- Improved user experience and interface
+- Extended API capabilities and integrations

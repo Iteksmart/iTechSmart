@@ -257,3 +257,22 @@ The product will automatically connect to the License Server to access agent dat
 **Tier**: 2  
 **Total Features**: 8
 
+
+
+## Coming in v1.5.0
+
+**Release Date:** Q1 2025
+
+### New Features
+
+- AI-powered pipeline optimization
+- Advanced GitOps workflows
+- Enhanced Kubernetes integration
+- Automated rollback capabilities
+
+### Enhancements
+
+- Performance improvements across all modules
+- Enhanced security features and compliance
+- Improved user experience and interface
+- Extended API capabilities and integrations

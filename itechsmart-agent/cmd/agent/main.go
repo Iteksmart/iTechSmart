@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	version   = "1.4.0"
+	version   = "1.5.0"
 	buildDate = "2025-11-17"
 	cfgFile   string
 )

@@ -1,6 +1,6 @@
 {
   "product": "itechsmart-supreme-plus",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "value": "$2.8M",
   "tier": 1,
   "total_features": 8,
@@ -70,5 +70,21 @@
       "priority": "medium"
     }
   ],
-  "last_updated": "2025-01-17"
+  "last_updated": "2025-01-17",
+  "coming_in_v1_5_0": {
+    "version": "1.5.0",
+    "release_date": "Q1 2025",
+    "features": [
+      "Enhanced AI-powered predictive maintenance",
+      "Advanced mobile app features with offline mode",
+      "Real-time collaboration on mobile devices",
+      "Integration with ServiceNow and Jira"
+    ],
+    "enhancements": [
+      "Performance improvements",
+      "Enhanced security features",
+      "Improved user experience",
+      "Extended API capabilities"
+    ]
+  }
 }

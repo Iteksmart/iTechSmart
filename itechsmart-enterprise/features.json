@@ -1,6 +1,6 @@
 {
   "product": "itechsmart-enterprise",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "value": "$3.0M",
   "tier": 1,
   "total_features": 8,
@@ -70,5 +70,21 @@
       "priority": "medium"
     }
   ],
-  "last_updated": "2025-01-17"
+  "last_updated": "2025-01-17",
+  "coming_in_v1_5_0": {
+    "version": "1.5.0",
+    "release_date": "Q1 2025",
+    "features": [
+      "AI-powered compliance automation",
+      "Advanced dashboard templates marketplace",
+      "Enhanced integration with 200+ connectors",
+      "Predictive incident prevention"
+    ],
+    "enhancements": [
+      "Performance improvements",
+      "Enhanced security features",
+      "Improved user experience",
+      "Extended API capabilities"
+    ]
+  }
 }
