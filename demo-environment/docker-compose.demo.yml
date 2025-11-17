@@ -1,0 +1,130 @@
+version: '3.8'
+
+services:
+  # License Server - Core component for all demos
+  license-server:
+    build: ../license-server
+    container_name: itechsmart-license-demo
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=demo
+      - DATABASE_URL=postgresql://demo:demo123@demo-db:5432/license_demo
+      - JWT_SECRET=demo-jwt-secret-change-in-production
+      - SECRET_KEY=demo-secret-key-change-in-production
+      - PORT=3000
+    depends_on:
+      - demo-db
+    networks:
+      - demo-network
+    restart: unless-stopped
+
+  # PostgreSQL Database for License Server
+  demo-db:
+    image: postgres:14-alpine
+    container_name: itechsmart-demo-db
+    environment:
+      - POSTGRES_USER=demo
+      - POSTGRES_PASSWORD=demo123
+      - POSTGRES_DB=license_demo
+    volumes:
+      - demo-db-data:/var/lib/postgresql/data
+    networks:
+      - demo-network
+    restart: unless-stopped
+
+  # iTechSmart Ninja - AI-powered IT automation
+  ninja-demo:
+    build: ../itechsmart-ninja
+    container_name: itechsmart-ninja-demo
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=demo
+      - LICENSE_SERVER_URL=http://license-server:3000
+      - API_KEY=demo-ninja-api-key
+      - PORT=3000
+    depends_on:
+      - license-server
+    networks:
+      - demo-network
+    restart: unless-stopped
+
+  # iTechSmart Supreme - Enterprise platform
+  supreme-demo:
+    build: ../itechsmart_supreme
+    container_name: itechsmart-supreme-demo
+    ports:
+      - "3002:3000"
+    environment:
+      - NODE_ENV=demo
+      - LICENSE_SERVER_URL=http://license-server:3000
+      - API_KEY=demo-supreme-api-key
+      - PORT=3000
+    depends_on:
+      - license-server
+    networks:
+      - demo-network
+    restart: unless-stopped
+
+  # iTechSmart Citadel - HL7 integration
+  citadel-demo:
+    build: ../itechsmart-citadel
+    container_name: itechsmart-citadel-demo
+    ports:
+      - "3003:3000"
+    environment:
+      - NODE_ENV=demo
+      - LICENSE_SERVER_URL=http://license-server:3000
+      - API_KEY=demo-citadel-api-key
+      - PORT=3000
+    depends_on:
+      - license-server
+    networks:
+      - demo-network
+    restart: unless-stopped
+
+  # iTechSmart Copilot - AI assistant
+  copilot-demo:
+    build: ../itechsmart-copilot
+    container_name: itechsmart-copilot-demo
+    ports:
+      - "3004:3000"
+    environment:
+      - NODE_ENV=demo
+      - LICENSE_SERVER_URL=http://license-server:3000
+      - API_KEY=demo-copilot-api-key
+      - PORT=3000
+    depends_on:
+      - license-server
+    networks:
+      - demo-network
+    restart: unless-stopped
+
+  # Nginx Reverse Proxy for demo access
+  demo-proxy:
+    image: nginx:alpine
+    container_name: itechsmart-demo-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./demo-landing:/usr/share/nginx/html:ro
+    depends_on:
+      - license-server
+      - ninja-demo
+      - supreme-demo
+      - citadel-demo
+      - copilot-demo
+    networks:
+      - demo-network
+    restart: unless-stopped
+
+networks:
+  demo-network:
+    driver: bridge
+
+volumes:
+  demo-db-data:
+    driver: local

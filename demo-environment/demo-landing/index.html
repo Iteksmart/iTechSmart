@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iTechSmart Suite - Demo Environment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+            padding: 40px 20px;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .demo-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .demo-card h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .demo-card p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .demo-card .status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .status.active {
+            background: #10b981;
+            color: white;
+        }
+
+        .status.inactive {
+            background: #ef4444;
+            color: white;
+        }
+
+        .demo-card .credentials {
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+
+        .demo-card .credentials strong {
+            color: #667eea;
+        }
+
+        .demo-card .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
+        }
+
+        .demo-card .btn:hover {
+            opacity: 0.9;
+        }
+
+        .demo-card .btn.secondary {
+            background: #6b7280;
+            margin-left: 10px;
+        }
+
+        .info-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .info-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .info-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-section li {
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e7eb;
+            color: #666;
+        }
+
+        .info-section li:last-child {
+            border-bottom: none;
+        }
+
+        .info-section li strong {
+            color: #667eea;
+            margin-right: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 iTechSmart Suite</h1>
+            <p>Demo Environment - Explore Our Enterprise Solutions</p>
+        </div>
+
+        <div class="info-section">
+            <h2>📋 Demo Information</h2>
+            <ul>
+                <li><strong>Environment:</strong> Demo/Testing</li>
+                <li><strong>Data:</strong> Sample data pre-loaded</li>
+                <li><strong>Reset:</strong> Data resets every 24 hours</li>
+                <li><strong>Support:</strong> support@itechsmart.com</li>
+                <li><strong>Documentation:</strong> <a href="https://github.com/Iteksmart/iTechSmart" target="_blank">GitHub Repository</a></li>
+            </ul>
+        </div>
+
+        <div class="demo-grid">
+            <!-- License Server -->
+            <div class="demo-card">
+                <span class="status active">● Active</span>
+                <h2>🔐 License Server</h2>
+                <p>Centralized licensing and authentication system for all iTechSmart products.</p>
+                <div class="credentials">
+                    <strong>Admin:</strong> admin@demo.com<br>
+                    <strong>Password:</strong> demo123<br>
+                    <strong>API Key:</strong> demo-api-key-12345
+                </div>
+                <a href="/license/" class="btn" target="_blank">Launch Demo</a>
+                <a href="/license/api/docs" class="btn secondary" target="_blank">API Docs</a>
+            </div>
+
+            <!-- iTechSmart Ninja -->
+            <div class="demo-card">
+                <span class="status active">● Active</span>
+                <h2>🥷 iTechSmart Ninja</h2>
+                <p>AI-powered IT automation and intelligent troubleshooting platform.</p>
+                <div class="credentials">
+                    <strong>Username:</strong> demo@ninja.com<br>
+                    <strong>Password:</strong> ninja123<br>
+                    <strong>Features:</strong> Full access
+                </div>
+                <a href="/ninja/" class="btn" target="_blank">Launch Demo</a>
+                <a href="https://github.com/Iteksmart/iTechSmart/tree/main/itechsmart-ninja" class="btn secondary" target="_blank">Docs</a>
+            </div>
+
+            <!-- iTechSmart Supreme -->
+            <div class="demo-card">
+                <span class="status active">● Active</span>
+                <h2>👑 iTechSmart Supreme</h2>
+                <p>Enterprise-grade platform with advanced features and integrations.</p>
+                <div class="credentials">
+                    <strong>Username:</strong> demo@supreme.com<br>
+                    <strong>Password:</strong> supreme123<br>
+                    <strong>Tier:</strong> Enterprise
+                </div>
+                <a href="/supreme/" class="btn" target="_blank">Launch Demo</a>
+                <a href="https://github.com/Iteksmart/iTechSmart/tree/main/itechsmart_supreme" class="btn secondary" target="_blank">Docs</a>
+            </div>
+
+            <!-- iTechSmart Citadel -->
+            <div class="demo-card">
+                <span class="status active">● Active</span>
+                <h2>🏰 iTechSmart Citadel</h2>
+                <p>Healthcare HL7 integration and data exchange platform.</p>
+                <div class="credentials">
+                    <strong>Username:</strong> demo@citadel.com<br>
+                    <strong>Password:</strong> citadel123<br>
+                    <strong>HL7 Version:</strong> 2.x & FHIR
+                </div>
+                <a href="/citadel/" class="btn" target="_blank">Launch Demo</a>
+                <a href="https://github.com/Iteksmart/iTechSmart/tree/main/itechsmart-citadel" class="btn secondary" target="_blank">Docs</a>
+            </div>
+
+            <!-- iTechSmart Copilot -->
+            <div class="demo-card">
+                <span class="status active">● Active</span>
+                <h2>🤖 iTechSmart Copilot</h2>
+                <p>AI-powered assistant for IT operations and development tasks.</p>
+                <div class="credentials">
+                    <strong>Username:</strong> demo@copilot.com<br>
+                    <strong>Password:</strong> copilot123<br>
+                    <strong>AI Model:</strong> GPT-4
+                </div>
+                <a href="/copilot/" class="btn" target="_blank">Launch Demo</a>
+                <a href="https://github.com/Iteksmart/iTechSmart/tree/main/itechsmart-copilot" class="btn secondary" target="_blank">Docs</a>
+            </div>
+
+            <!-- Desktop Launcher -->
+            <div class="demo-card">
+                <span class="status active">● Available</span>
+                <h2>💻 Desktop Launcher</h2>
+                <p>Cross-platform desktop application for managing all iTechSmart products.</p>
+                <div class="credentials">
+                    <strong>Platforms:</strong> Windows, macOS, Linux<br>
+                    <strong>Version:</strong> 1.0.0<br>
+                    <strong>Status:</strong> Production Ready
+                </div>
+                <a href="https://github.com/Iteksmart/iTechSmart/releases" class="btn" target="_blank">Download</a>
+                <a href="https://github.com/Iteksmart/iTechSmart/tree/main/desktop-launcher" class="btn secondary" target="_blank">Docs</a>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>🎯 Getting Started</h2>
+            <ul>
+                <li><strong>Step 1:</strong> Click "Launch Demo" on any product card above</li>
+                <li><strong>Step 2:</strong> Use the provided demo credentials to log in</li>
+                <li><strong>Step 3:</strong> Explore features with pre-loaded sample data</li>
+                <li><strong>Step 4:</strong> Check API documentation for integration examples</li>
+                <li><strong>Step 5:</strong> Contact us for production deployment assistance</li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>📚 Additional Resources</h2>
+            <ul>
+                <li><strong>GitHub Repository:</strong> <a href="https://github.com/Iteksmart/iTechSmart" target="_blank">https://github.com/Iteksmart/iTechSmart</a></li>
+                <li><strong>Documentation:</strong> Complete guides available in each product's /docs folder</li>
+                <li><strong>API Reference:</strong> OpenAPI/Swagger documentation available for all products</li>
+                <li><strong>Support:</strong> support@itechsmart.com</li>
+                <li><strong>Sales:</strong> sales@itechsmart.com</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2024 iTechSmart. All rights reserved.</p>
+            <p>Demo Environment - For evaluation purposes only</p>
+        </div>
+    </div>
+
+    <script>
+        // Check service health on page load
+        async function checkServices() {
+            const services = [
+                { name: 'License Server', url: '/license/health' },
+                { name: 'Ninja', url: '/ninja/health' },
+                { name: 'Supreme', url: '/supreme/health' },
+                { name: 'Citadel', url: '/citadel/health' },
+                { name: 'Copilot', url: '/copilot/health' }
+            ];
+
+            for (const service of services) {
+                try {
+                    const response = await fetch(service.url);
+                    console.log(`${service.name}: ${response.ok ? 'Active' : 'Inactive'}`);
+                } catch (error) {
+                    console.log(`${service.name}: Inactive`);
+                }
+            }
+        }
+
+        // Check services when page loads
+        window.addEventListener('load', checkServices);
+    </script>
+</body>
+</html>
