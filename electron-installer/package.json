@@ -1,6 +1,6 @@
 {
   "name": "itechsmart-suite-installer",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Professional web-based installer for iTechSmart Suite",
   "main": "src/main.js",
   "scripts": {
@@ -22,16 +22,23 @@
       "package.json"
     ],
     "win": {
-      "target": ["nsis"],
+      "target": [
+        "nsis"
+      ],
       "icon": "assets/icon.ico"
     },
     "mac": {
-      "target": ["dmg"],
+      "target": [
+        "dmg"
+      ],
       "icon": "assets/icon.icns",
       "category": "public.app-category.utilities"
     },
     "linux": {
-      "target": ["AppImage", "deb"],
+      "target": [
+        "AppImage",
+        "deb"
+      ],
       "icon": "assets/icon.png",
       "category": "Utility"
     },

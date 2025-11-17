@@ -1,6 +1,6 @@
 {
   "name": "itechsmart-pulse-frontend",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "iTechSmart Pulse - Analytics & Business Intelligence Platform Frontend",
   "private": true,
   "dependencies": {

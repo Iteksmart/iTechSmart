@@ -1,6 +1,6 @@
 {
   "name": "itechsmart-connect-frontend",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "iTechSmart Connect - API Management Platform Frontend",
   "type": "module",
   "scripts": {

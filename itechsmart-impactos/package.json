@@ -1,6 +1,6 @@
 {
   "name": "itechsmart-impactos",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "AI-Powered Community Impact Platform for Nonprofits",
   "main": "index.js",
   "scripts": {
