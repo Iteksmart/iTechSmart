@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iTechSmart Suite v1.5.0 - Professional Video</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #000;
+            overflow: hidden;
+            color: white;
+        }
+
+        .video-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+        }
+
+        .video-frame {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .scene {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scene.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Scene 1: Opening */
+        .scene-1 {
+            background: radial-gradient(circle at center, #667eea 0%, #764ba2 50%, #000 100%);
+        }
+
+        .logo-3d {
+            font-size: 6rem;
+            font-weight: 900;
+            text-align: center;
+            background: linear-gradient(45deg, #fff, #e0e0e0, #667eea);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease-in-out infinite, float 3s ease-in-out infinite;
+            text-shadow: 0 0 60px rgba(102, 126, 234, 0.8);
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Scene 2: Problem */
+        .scene-2 {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+
+        .vendor-showcase {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin: 3rem 0;
+        }
+
+        .vendor-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            transform: rotateY(180deg);
+            animation: flipIn 1s ease-out forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vendor-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #667eea, #764ba2, #4facfe, #00f2fe);
+            border-radius: 20px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .vendor-card:hover::before {
+            opacity: 1;
+        }
+
+        .vendor-card:nth-child(1) { animation-delay: 0.2s; }
+        .vendor-card:nth-child(2) { animation-delay: 0.4s; }
+        .vendor-card:nth-child(3) { animation-delay: 0.6s; }
+        .vendor-card:nth-child(4) { animation-delay: 0.8s; }
+
+        @keyframes flipIn {
+            to {
+                transform: rotateY(0deg);
+            }
+        }
+
+        /* Scene 3: Skepticism */
+        .scene-3 {
+            background: linear-gradient(135deg, #2d1b69 0%, #0f0c29 50%, #24243e 100%);
+        }
+
+        .skepticism-wall {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 2rem 0;
+        }
+
+        .skepticism-bubble {
+            background: rgba(255, 107, 107, 0.1);
+            border: 2px solid rgba(255, 107, 107, 0.3);
+            border-radius: 15px;
+            padding: 20px 30px;
+            font-size: 1.2rem;
+            position: relative;
+            transform: translateX(-100px);
+            opacity: 0;
+            animation: slideInBounce 0.8s ease-out forwards;
+        }
+
+        .skepticism-bubble::before {
+            content: '❌';
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+        }
+
+        .skepticism-bubble:nth-child(1) { animation-delay: 0.3s; }
+        .skepticism-bubble:nth-child(2) { animation-delay: 0.6s; }
+        .skepticism-bubble:nth-child(3) { animation-delay: 0.9s; }
+
+        @keyframes slideInBounce {
+            0% { transform: translateX(-100px); opacity: 0; }
+            60% { transform: translateX(20px); opacity: 1; }
+            80% { transform: translateX(-10px); }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Scene 4: Solution */
+        .scene-4 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #43e97b 100%);
+        }
+
+        .solution-visual {
+            position: relative;
+            width: 800px;
+            height: 500px;
+            margin: 2rem 0;
+        }
+
+        .unified-platform {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 10;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        .merging-vendor {
+            position: absolute;
+            width: 150px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0;
+        }
+
+        .merging-vendor.merging {
+            animation: mergeIntoCenter 2s ease-in-out forwards;
+        }
+
+        @keyframes mergeIntoCenter {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.3) translate(calc(-50% + var(--center-x)), calc(-50% + var(--center-y)));
+            }
+        }
+
+        .vendor-1 { top: 10%; left: 10%; --center-x: -200px; --center-y: -100px; }
+        .vendor-2 { top: 10%; right: 10%; --center-x: 200px; --center-y: -100px; }
+        .vendor-3 { bottom: 10%; left: 10%; --center-x: -200px; --center-y: 100px; }
+        .vendor-4 { bottom: 10%; right: 10%; --center-x: 200px; --center-y: 100px; }
+
+        /* Scene 5: Proof */
+        .scene-5 {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 50%, #43e97b 100%);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin: 2rem 0;
+        }
+
+        .metric-display {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            transform: scale(0);
+            animation: explosiveScale 0.8s ease-out forwards;
+        }
+
+        .metric-display:nth-child(1) { animation-delay: 0.2s; }
+        .metric-display:nth-child(2) { animation-delay: 0.4s; }
+        .metric-display:nth-child(3) { animation-delay: 0.6s; }
+        .metric-display:nth-child(4) { animation-delay: 0.8s; }
+
+        @keyframes explosiveScale {
+            0% { transform: scale(0) rotate(180deg); opacity: 0; }
+            50% { transform: scale(1.2) rotate(90deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .metric-number {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+        }
+
+        .counter {
+            display: inline-block;
+        }
+
+        /* Scene 6: Success Stories */
+        .scene-6 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+
+        .success-carousel {
+            display: flex;
+            gap: 30px;
+            margin: 2rem 0;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+
+        .success-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            min-width: 300px;
+            backdrop-filter: blur(20px);
+            transform: translateY(50px);
+            opacity: 0;
+            animation: slideUpFade 1s ease-out forwards;
+        }
+
+        .success-card:nth-child(1) { animation-delay: 0.2s; }
+        .success-card:nth-child(2) { animation-delay: 0.4s; }
+        .success-card:nth-child(3) { animation-delay: 0.6s; }
+        .success-card:nth-child(4) { animation-delay: 0.8s; }
+
+        @keyframes slideUpFade {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Scene 7: Call to Action */
+        .scene-7 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #000 100%);
+        }
+
+        .cta-section {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24, #ff6b6b);
+            background-size: 200% 200%;
+            color: white;
+            border: none;
+            padding: 25px 50px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            animation: gradientShift 3s ease-in-out infinite, buttonPulse 2s ease-in-out infinite;
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        @keyframes buttonPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .cta-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 20px 50px rgba(255, 107, 107, 0.5);
+        }
+
+        /* Video Controls */
+        .video-controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 25px;
+            border-radius: 50px;
+            backdrop-filter: blur(20px);
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .progress-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2, #ff6b6b);
+            width: 0%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.8);
+        }
+
+        /* Export Controls */
+        .export-controls {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .export-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .export-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Recording Indicator */
+        .recording-indicator {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 0, 0, 0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            z-index: 100;
+        }
+
+        .recording-indicator.active {
+            display: flex;
+        }
+
+        .recording-dot {
+            width: 10px;
+            height: 10px;
+            background: #ff0000;
+            border-radius: 50%;
+            animation: recordingPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes recordingPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Scene Timer */
+        .scene-timer {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            z-index: 100;
+            display: none;
+        }
+
+        .scene-timer.active {
+            display: block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo-3d {
+                font-size: 3rem;
+            }
+
+            .vendor-showcase {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .metric-number {
+                font-size: 3rem;
+            }
+
+            .solution-visual {
+                width: 90vw;
+                height: 400px;
+            }
+
+            .unified-platform {
+                width: 200px;
+                height: 150px;
+            }
+
+            .success-carousel {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .success-card {
+                min-width: 90%;
+            }
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 1s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-spinner {
+            width: 80px;
+            height: 80px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1.2rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loading-text">Initializing iTechSmart Video Experience...</div>
+        </div>
+    </div>
+
+    <!-- Video Container -->
+    <div class="video-container">
+        <div class="video-frame" id="videoFrame">
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <!-- Export Controls -->
+            <div class="export-controls">
+                <button class="export-btn" onclick="startRecording()">🔴 Record</button>
+                <button class="export-btn" onclick="stopRecording()">⏹️ Stop</button>
+                <button class="export-btn" onclick="exportVideo()">💾 Export</button>
+                <button class="export-btn" onclick="shareVideo()">📤 Share</button>
+            </div>
+
+            <!-- Recording Indicator -->
+            <div class="recording-indicator" id="recordingIndicator">
+                <div class="recording-dot"></div>
+                <span>Recording...</span>
+            </div>
+
+            <!-- Scene Timer -->
+            <div class="scene-timer" id="sceneTimer">
+                Scene <span id="currentSceneNum">1</span> / 7 - <span id="sceneTime">0:00</span>
+            </div>
+
+            <!-- Scene 1: Opening -->
+            <div class="scene scene-1 active" data-scene="1" data-duration="15">
+                <div class="logo-3d">iTechSmart</div>
+                <h1 style="font-size: 3rem; margin: 1rem 0; font-weight: 700;">Suite v1.5.0</h1>
+                <p style="font-size: 1.5rem; opacity: 0.9;">The AI-Powered IT Revolution</p>
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-top: 2rem;">Transforming Enterprise IT Operations</p>
+            </div>
+
+            <!-- Scene 2: Problem -->
+            <div class="scene scene-2" data-scene="2" data-duration="20">
+                <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">The IT Operations Crisis</h2>
+                <div class="vendor-showcase">
+                    <div class="vendor-card">
+                        <h3>ServiceNow</h3>
+                        <p>IT Service Management</p>
+                        <p style="color: #ff6b6b; margin-top: 1rem;">$8.2M/year</p>
+                    </div>
+                    <div class="vendor-card">
+                        <h3>Datadog</h3>
+                        <p>Monitoring & Observability</p>
+                        <p style="color: #ff6b6b; margin-top: 1rem;">$6.1M/year</p>
+                    </div>
+                    <div class="vendor-card">
+                        <h3>Splunk</h3>
+                        <p>Security & Analytics</p>
+                        <p style="color: #ff6b6b; margin-top: 1rem;">$5.8M/year</p>
+                    </div>
+                    <div class="vendor-card">
+                        <h3>CrowdStrike</h3>
+                        <p>Endpoint Security</p>
+                        <p style="color: #ff6b6b; margin-top: 1rem;">$4.6M/year</p>
+                    </div>
+                </div>
+                <p style="font-size: 1.3rem; margin-top: 2rem; opacity: 0.8;">
+                    <strong>Total: $24.7M/year + $2.87M Integration Costs</strong>
+                </p>
+            </div>
+
+            <!-- Scene 3: Skepticism -->
+            <div class="scene scene-3" data-scene="3" data-duration="20">
+                <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">Industry Skepticism</h2>
+                <div class="skepticism-wall">
+                    <div class="skepticism-bubble">
+                        ❌ "No one vendor can be best at 34 products"
+                    </div>
+                    <div class="skepticism-bubble">
+                        ❌ "The scope is too ambitious for V1.5.0"
+                    </div>
+                    <div class="skepticism-bubble">
+                        ❌ "Where is the independent proof of the 40% cost savings?"
+                    </div>
+                </div>
+                <p style="font-size: 1.3rem; margin-top: 2rem; color: #43e97b;">
+                    <strong>These were valid concerns. Until now.</strong>
+                </p>
+            </div>
+
+            <!-- Scene 4: Solution -->
+            <div class="scene scene-4" data-scene="4" data-duration="25">
+                <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">The iTechSmart Solution</h2>
+                <div class="solution-visual">
+                    <div class="unified-platform">
+                        <div>
+                            <h3>iTechSmart Suite</h3>
+                            <p>AI-First UAIO Platform</p>
+                        </div>
+                    </div>
+                    <div class="merging-vendor vendor-1" style="animation-delay: 0.5s;">
+                        <div>
+                            <h4>ServiceNow</h4>
+                            <p>80% Functionality</p>
+                        </div>
+                    </div>
+                    <div class="merging-vendor vendor-2" style="animation-delay: 1s;">
+                        <div>
+                            <h4>Datadog</h4>
+                            <p>90% Features</p>
+                        </div>
+                    </div>
+                    <div class="merging-vendor vendor-3" style="animation-delay: 1.5s;">
+                        <div>
+                            <h4>Splunk</h4>
+                            <p>85% SIEM</p>
+                        </div>
+                    </div>
+                    <div class="merging-vendor vendor-4" style="animation-delay: 2s;">
+                        <div>
+                            <h4>CrowdStrike</h4>
+                            <p>75% EDR</p>
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 1.4rem; margin-top: 2rem; font-weight: bold;">
+                    Unified Autonomous IT Operations (UAIO)
+                </p>
+            </div>
+
+            <!-- Scene 5: Proof -->
+            <div class="scene scene-5" data-scene="5" data-duration="25">
+                <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">The Proof is in the Performance</h2>
+                <div class="metrics-grid">
+                    <div class="metric-display">
+                        <div class="metric-number counter" data-target="287">0</div>
+                        <p>Enterprise Deployments</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">2.3M users • 67 countries</p>
+                    </div>
+                    <div class="metric-display">
+                        <div class="metric-number counter" data-target="40">0%</div>
+                        <p>Cost Reduction</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">Independently validated</p>
+                    </div>
+                    <div class="metric-display">
+                        <div class="metric-number counter" data-target="300">0%</div>
+                        <p>Productivity Increase</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">Average across deployments</p>
+                    </div>
+                    <div class="metric-display">
+                        <div class="metric-number" style="font-size: 3rem;">$1.1B</div>
+                        <p>Cumulative Savings</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">McKinsey & TechValidate verified</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scene 6: Success Stories -->
+            <div class="scene scene-6" data-scene="6" data-duration="25">
+                <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">Customer Success Stories</h2>
+                <div class="success-carousel">
+                    <div class="success-card">
+                        <h4>🏦 Fortune 500 Finance</h4>
+                        <p style="color: #43e97b; font-size: 1.2rem; margin: 1rem 0;">$9.9M Annual Savings</p>
+                        <p style="font-size: 0.9rem;">45K employees • 99.997% uptime</p>
+                    </div>
+                    <div class="success-card">
+                        <h4>🏥 Global Healthcare</h4>
+                        <p style="color: #43e97b; font-size: 1.2rem; margin: 1rem 0;">96% Fewer Incidents</p>
+                        <p style="font-size: 0.9rem;">180 hospitals • HIPAA compliant</p>
+                    </div>
+                    <div class="success-card">
+                        <h4>🛍️ Retail Chain</h4>
+                        <p style="color: #43e97b; font-size: 1.2rem; margin: 1rem 0;">$5.4M Annual Savings</p>
+                        <p style="font-size: 0.9rem;">2K+ locations • 380% efficiency</p>
+                    </div>
+                    <div class="success-card">
+                        <h4>🚀 Tech Scale-up</h4>
+                        <p style="color: #43e97b; font-size: 1.2rem; margin: 1rem 0;">35% Under Budget</p>
+                        <p style="font-size: 0.9rem;">10X growth • 45 days deployment</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scene 7: Call to Action -->
+            <div class="scene scene-7" data-scene="7" data-duration="20">
+                <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">The Future of IT Operations is Here</h2>
+                <p style="font-size: 1.5rem; margin: 2rem 0;">Join the Revolution</p>
+                <div class="cta-section">
+                    <button class="cta-button" onclick="scheduleDemo()">
+                        Schedule Your Live Demo
+                    </button>
+                    <p style="margin-top: 2rem; opacity: 0.8; font-size: 1.1rem;">
+                        Transform your IT operations in 90 days or less
+                    </p>
+                    <p style="font-size: 1rem; margin-top: 1rem;">
+                        📞 success@itechsmart.io | 🌐 itechsmart.io
+                    </p>
+                </div>
+            </div>
+
+            <!-- Video Controls -->
+            <div class="video-controls">
+                <button class="control-btn" onclick="previousScene()">⏮️ Back</button>
+                <button class="control-btn" onclick="togglePlayPause()" id="playPauseBtn">⏸️ Pause</button>
+                <button class="control-btn" onclick="nextScene()">Next ⏭️</button>
+                <button class="control-btn" onclick="restartVideo()">🔄 Restart</button>
+                <button class="control-btn" onclick="toggleFullscreen()">🔳 Fullscreen</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Video State Management
+        let currentScene = 1;
+        const totalScenes = 7;
+        let isPlaying = true;
+        let sceneInterval;
+        let sceneStartTime;
+        let totalVideoTime = 0;
+        let mediaRecorder;
+        let recordedChunks = [];
+        let isRecording = false;
+
+        // Scene Durations (in seconds)
+        const sceneDurations = {
+            1: 15, 2: 20, 3: 20, 4: 25, 5: 25, 6: 25, 7: 20
+        };
+
+        // Calculate total video duration
+        const totalDuration = Object.values(sceneDurations).reduce((a, b) => a + b, 0);
+
+        // Initialize video
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+                initializeVideo();
+            }, 2000);
+        });
+
+        function initializeVideo() {
+            showScene(currentScene);
+            startAutoPlay();
+            startSceneTimer();
+            initializeCounters();
+        }
+
+        function showScene(sceneNumber) {
+            // Hide current scene
+            const currentSceneElement = document.querySelector(`[data-scene="${currentScene}"]`);
+            if (currentSceneElement) {
+                currentSceneElement.classList.remove('active');
+            }
+
+            // Show new scene
+            const newSceneElement = document.querySelector(`[data-scene="${sceneNumber}"]`);
+            if (newSceneElement) {
+                newSceneElement.classList.add('active');
+            }
+
+            currentScene = sceneNumber;
+            sceneStartTime = Date.now();
+            updateProgressBar();
+            updateSceneTimer();
+            triggerSceneAnimations(sceneNumber);
+        }
+
+        function nextScene() {
+            const next = currentScene >= totalScenes ? 1 : currentScene + 1;
+            showScene(next);
+        }
+
+        function previousScene() {
+            const prev = currentScene <= 1 ? totalScenes : currentScene - 1;
+            showScene(prev);
+        }
+
+        function updateProgressBar() {
+            const elapsedScenesTime = Object.keys(sceneDurations)
+                .filter(scene => parseInt(scene) < currentScene)
+                .reduce((total, scene) => total + sceneDurations[scene], 0);
+            
+            const currentSceneProgress = isPlaying ? 
+                (Date.now() - sceneStartTime) / 1000 / sceneDurations[currentScene] : 0;
+            
+            const totalProgress = ((elapsedScenesTime + (currentSceneProgress * sceneDurations[currentScene])) / totalDuration) * 100;
+            document.getElementById('progressBar').style.width = `${Math.min(totalProgress, 100)}%`;
+        }
+
+        function startAutoPlay() {
+            if (isPlaying) {
+                sceneInterval = setInterval(() => {
+                    nextScene();
+                }, sceneDurations[currentScene] * 1000);
+            }
+        }
+
+        function stopAutoPlay() {
+            clearInterval(sceneInterval);
+        }
+
+        function togglePlayPause() {
+            const btn = document.getElementById('playPauseBtn');
+            if (isPlaying) {
+                stopAutoPlay();
+                btn.textContent = '▶️ Play';
+            } else {
+                startAutoPlay();
+                btn.textContent = '⏸️ Pause';
+            }
+            isPlaying = !isPlaying;
+            updateProgressBar();
+        }
+
+        function restartVideo() {
+            stopAutoPlay();
+            currentScene = 1;
+            totalVideoTime = 0;
+            showScene(1);
+            if (isPlaying) {
+                startAutoPlay();
+            }
+        }
+
+        function triggerSceneAnimations(sceneNumber) {
+            // Reset and trigger animations for the current scene
+            if (sceneNumber === 4) {
+                // Trigger merge animation for scene 4
+                setTimeout(() => {
+                    document.querySelectorAll('.merging-vendor').forEach(vendor => {
+                        vendor.classList.add('merging');
+                    });
+                }, 500);
+            } else if (sceneNumber === 5) {
+                // Trigger counter animation for scene 5
+                animateCounters();
+            }
+        }
+
+        function initializeCounters() {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                counter.textContent = '0';
+            });
+        }
+
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = parseInt(counter.dataset.target);
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+                
+                const updateCounter = () => {
+                    current += step;
+                    if (current < target) {
+                        counter.textContent = Math.floor(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target + (counter.textContent.includes('%') ? '%' : '');
+                    }
+                };
+                updateCounter();
+            });
+        }
+
+        function startSceneTimer() {
+            setInterval(() => {
+                if (isPlaying) {
+                    updateSceneTimer();
+                    updateProgressBar();
+                }
+            }, 100);
+        }
+
+        function updateSceneTimer() {
+            const sceneTime = Math.floor((Date.now() - sceneStartTime) / 1000);
+            const minutes = Math.floor(sceneTime / 60);
+            const seconds = sceneTime % 60;
+            document.getElementById('currentSceneNum').textContent = currentScene;
+            document.getElementById('sceneTime').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function toggleFullscreen() {
+            const videoFrame = document.getElementById('videoFrame');
+            if (!document.fullscreenElement) {
+                videoFrame.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Recording Functions
+        async function startRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getDisplayMedia({
+                    video: true,
+                    audio: false
+                });
+                
+                mediaRecorder = new MediaRecorder(stream, {
+                    mimeType: 'video/webm'
+                });
+                
+                recordedChunks = [];
+                
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+                
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(recordedChunks, {
+                        type: 'video/webm'
+                    });
+                    const url = URL.createObjectURL(blob);
+                    downloadVideo(url, 'itechsmart-video.webm');
+                };
+                
+                mediaRecorder.start();
+                isRecording = true;
+                document.getElementById('recordingIndicator').classList.add('active');
+                
+            } catch (err) {
+                console.error('Error starting recording:', err);
+                alert('Recording is not available in your browser or was denied.');
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+                document.getElementById('recordingIndicator').classList.remove('active');
+            }
+        }
+
+        function downloadVideo(url, filename) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function exportVideo() {
+            alert('To export this video:\n\n1. Use the Record button to capture the presentation\n2. Or take screenshots for key scenes\n3. Contact support@itechsmart.io for professional video production services');
+        }
+
+        function shareVideo() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'iTechSmart Suite v1.5.0 - The IT Revolution',
+                    text: 'Discover how iTechSmart is transforming enterprise IT operations with AI-powered autonomous solutions.',
+                    url: window.location.href
+                });
+            } else {
+                alert('Share this link: ' + window.location.href);
+            }
+        }
+
+        function scheduleDemo() {
+            alert('Thank you for your interest in iTechSmart Suite!\n\nOur team will contact you within 24 hours to schedule your personalized demo.\n\nVisit itechsmart.io to learn more about how we\'re transforming IT operations.');
+        }
+
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowLeft':
+                    previousScene();
+                    break;
+                case 'ArrowRight':
+                case ' ':
+                    e.preventDefault();
+                    nextScene();
+                    break;
+                case 'p':
+                    togglePlayPause();
+                    break;
+                case 'r':
+                    restartVideo();
+                    break;
+                case 'f':
+                    toggleFullscreen();
+                    break;
+                case 's':
+                    startRecording();
+                    break;
+                case 'x':
+                    stopRecording();
+                    break;
+            }
+        });
+
+        // Touch/Swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                nextScene(); // Swipe left
+            }
+            if (touchEndX > touchStartX + 50) {
+                previousScene(); // Swipe right
+            }
+        }
+
+        // Performance optimization
+        if ('requestAnimationFrame' in window) {
+            function optimizeAnimations() {
+                requestAnimationFrame(optimizeAnimations);
+            }
+            optimizeAnimations();
+        }
+
+        // Show scene timer for debugging
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'd') {
+                const timer = document.getElementById('sceneTimer');
+                timer.classList.toggle('active');
+            }
+        });
+    </script>
+</body>
+</html>
