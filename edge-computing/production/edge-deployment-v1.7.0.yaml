@@ -1,0 +1,718 @@
+# iTechSmart Suite v1.7.0 - Global Edge Computing Infrastructure
+# Next Generation AI-Native IT Operations Platform
+# 200+ Edge Nodes across 50+ countries with sub-10ms latency
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: itechsmart-edge
+  labels:
+    name: itechsmart-edge
+    version: v1.7.0
+    component: edge-infrastructure
+
+---
+# Edge Node Infrastructure - Strategic Global Deployment
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: edge-node-agent
+  namespace: itechsmart-edge
+  labels:
+    app: edge-node-agent
+    version: v1.7.0
+spec:
+  selector:
+    matchLabels:
+      app: edge-node-agent
+  template:
+    metadata:
+      labels:
+        app: edge-node-agent
+        version: v1.7.0
+    spec:
+      hostNetwork: true
+      hostPID: true
+      tolerations:
+      - operator: Exists
+        effect: NoSchedule
+      containers:
+      - name: edge-agent
+        image: itechsmart/edge-agent:v1.7.0
+        securityContext:
+          privileged: true
+        ports:
+        - containerPort: 8080
+          name: http
+        - containerPort: 9090
+          name: metrics
+        - containerPort: 8443
+          name: https
+        env:
+        - name: NODE_REGION
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.labels['topology.kubernetes.io/region']
+        - name: NODE_ZONE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.labels['topology.kubernetes.io/zone']
+        - name: EDGE_LATENCY_TARGET
+          value: "10"  # 10ms target
+        - name: AI_INFERENCE_ENABLED
+          value: "true"
+        - name: CACHE_SIZE_GB
+          value: "100"
+        - name: MAX_CONCURRENT_REQUESTS
+          value: "5000"
+        resources:
+          requests:
+            cpu: 2000m
+            memory: 4Gi
+          limits:
+            cpu: 4000m
+            memory: 8Gi
+        volumeMounts:
+        - name: edge-storage
+          mountPath: /edge-storage
+        - name: model-cache
+          mountPath: /models
+        - name: host-root
+          mountPath: /host
+          readOnly: true
+      volumes:
+      - name: edge-storage
+        hostPath:
+          path: /var/lib/itechsmart-edge
+          type: DirectoryOrCreate
+      - name: model-cache
+        hostPath:
+          path: /var/lib/itechsmart-models
+          type: DirectoryOrCreate
+      - name: host-root
+        hostPath:
+          path: /
+          type: Directory
+
+---
+# Edge AI Inference Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edge-ai-inference
+  namespace: itechsmart-edge
+  labels:
+    app: edge-ai-inference
+    version: v1.7.0
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: edge-ai-inference
+  template:
+    metadata:
+      labels:
+        app: edge-ai-inference
+        version: v1.7.0
+    spec:
+      nodeSelector:
+        node-type: edge-node
+      containers:
+      - name: edge-ai
+        image: itechsmart/edge-ai-inference:v1.7.0
+        ports:
+        - containerPort: 8081
+          name: http
+        - containerPort: 9091
+          name: metrics
+        env:
+        - name: MODEL_TYPE
+          value: "edge-optimized"
+        - name: INFERENCE_TIMEOUT_MS
+          value: "10"  # 10ms target
+        - name: BATCH_SIZE
+          value: "16"
+        - name: EDGE_ONLY_MODE
+          value: "true"
+        resources:
+          requests:
+            cpu: 1500m
+            memory: 2Gi
+          limits:
+            cpu: 3000m
+            memory: 4Gi
+        volumeMounts:
+        - name: model-cache
+          mountPath: /models
+        - name: edge-storage
+          mountPath: /data
+      volumes:
+      - name: model-cache
+        persistentVolumeClaim:
+          claimName: edge-models-pvc
+      - name: edge-storage
+        persistentVolumeClaim:
+          claimName: edge-data-pvc
+
+---
+# Edge CDN and Content Delivery
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edge-cdn
+  namespace: itechsmart-edge
+  labels:
+    app: edge-cdn
+    version: v1.7.0
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: edge-cdn
+  template:
+    metadata:
+      labels:
+        app: edge-cdn
+        version: v1.7.0
+    spec:
+      nodeSelector:
+        node-type: edge-node
+      containers:
+      - name: edge-cdn
+        image: itechsmart/edge-cdn:v1.7.0
+        ports:
+        - containerPort: 8082
+          name: http
+        - containerPort: 8444
+          name: https
+        env:
+        - name: CACHE_SIZE_GB
+          value: "500"
+        - name: CDN_TTL_SECONDS
+          value: "3600"
+        - name: GEO_IP_ENABLED
+          value: "true"
+        - name: COMPRESSION_ENABLED
+          value: "true"
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 2Gi
+          limits:
+            cpu: 2000m
+            memory: 4Gi
+        volumeMounts:
+        - name: cdn-cache
+          mountPath: /cache
+      volumes:
+      - name: cdn-cache
+        persistentVolumeClaim:
+          claimName: edge-cdn-pvc
+
+---
+# Edge Data Sovereignty Manager
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edge-data-sovereignty
+  namespace: itechsmart-edge
+  labels:
+    app: edge-data-sovereignty
+    version: v1.7.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: edge-data-sovereignty
+  template:
+    metadata:
+      labels:
+        app: edge-data-sovereignty
+        version: v1.7.0
+    spec:
+      nodeSelector:
+        node-type: edge-node
+      containers:
+      - name: sovereignty-manager
+        image: itechsmart/edge-sovereignty:v1.7.0
+        ports:
+        - containerPort: 8083
+          name: http
+        env:
+        - name: COMPLIANCE_REGION
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.labels['topology.kubernetes.io/region']
+        - name: DATA_RESIDENCY_POLICY
+          value: "strict"
+        - name: GDPR_COMPLIANCE
+          value: "true"
+        - name: LOCAL_ENCRYPTION_ONLY
+          value: "true"
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+
+---
+# Edge Monitoring and Telemetry
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: edge-monitoring
+  namespace: itechsmart-edge
+  labels:
+    app: edge-monitoring
+    version: v1.7.0
+spec:
+  selector:
+    matchLabels:
+      app: edge-monitoring
+  template:
+    metadata:
+      labels:
+        app: edge-monitoring
+        version: v1.7.0
+    spec:
+      hostNetwork: true
+      tolerations:
+      - operator: Exists
+        effect: NoSchedule
+      containers:
+      - name: edge-monitor
+        image: itechsmart/edge-monitor:v1.7.0
+        ports:
+        - containerPort: 8084
+          name: http
+        - containerPort: 9094
+          name: metrics
+        env:
+        - name: MONITORING_INTERVAL
+          value: "30"  # 30 seconds
+        - name: LATENCY_TRACKING
+          value: "true"
+        - name: PERFORMANCE_ANALYTICS
+          value: "true"
+        - name: TELEMETRY_ENDPOINT
+          value: "https://telemetry.itechsmart.com"
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+        volumeMounts:
+        - name: host-proc
+          mountPath: /host/proc
+          readOnly: true
+        - name: host-sys
+          mountPath: /host/sys
+          readOnly: true
+      volumes:
+      - name: host-proc
+        hostPath:
+          path: /proc
+          type: Directory
+      - name: host-sys
+        hostPath:
+          path: /sys
+          type: Directory
+
+---
+# Edge Load Balancer - Global Traffic Management
+apiVersion: v1
+kind: Service
+metadata:
+  name: edge-load-balancer
+  namespace: itechsmart-edge
+  labels:
+    app: edge-load-balancer
+    version: v1.7.0
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+spec:
+  selector:
+    app: edge-node-agent
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+    protocol: TCP
+  - name: https
+    port: 443
+    targetPort: 8443
+    protocol: TCP
+  - name: ai-inference
+    port: 8081
+    targetPort: 8081
+    protocol: TCP
+  - name: cdn
+    port: 8082
+    targetPort: 8082
+    protocol: TCP
+  type: LoadBalancer
+
+---
+# Edge Services Internal Network
+apiVersion: v1
+kind: Service
+metadata:
+  name: edge-ai-inference-service
+  namespace: itechsmart-edge
+  labels:
+    app: edge-ai-inference
+spec:
+  selector:
+    app: edge-ai-inference
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8081
+    protocol: TCP
+  - name: metrics
+    port: 9091
+    targetPort: 9091
+    protocol: TCP
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: edge-cdn-service
+  namespace: itechsmart-edge
+  labels:
+    app: edge-cdn
+spec:
+  selector:
+    app: edge-cdn
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8082
+    protocol: TCP
+  - name: https
+    port: 443
+    targetPort: 8444
+    protocol: TCP
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: edge-sovereignty-service
+  namespace: itechsmart-edge
+  labels:
+    app: edge-data-sovereignty
+spec:
+  selector:
+    app: edge-data-sovereignty
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8083
+    protocol: TCP
+  type: ClusterIP
+
+---
+# Edge Infrastructure Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: edge-infrastructure-ingress
+  namespace: itechsmart-edge
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rate-limit: "10000"
+    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    nginx.ingress.kubernetes.io/upstream-hash-by: "$request_uri"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+spec:
+  tls:
+  - hosts:
+    - edge.itechsmart.com
+    secretName: edge-infrastructure-tls
+  rules:
+  - host: edge.itechsmart.com
+    http:
+      paths:
+      - path: /ai
+        pathType: Prefix
+        backend:
+          service:
+            name: edge-ai-inference-service
+            port:
+              number: 80
+      - path: /cdn
+        pathType: Prefix
+        backend:
+          service:
+            name: edge-cdn-service
+            port:
+              number: 80
+      - path: /sovereignty
+        pathType: Prefix
+        backend:
+          service:
+            name: edge-sovereignty-service
+            port:
+              number: 80
+
+---
+# Persistent Volume Claims for Edge Infrastructure
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: edge-models-pvc
+  namespace: itechsmart-edge
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nvme-ssd
+  resources:
+    requests:
+      storage: 200Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: edge-data-pvc
+  namespace: itechsmart-edge
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nvme-ssd
+  resources:
+    requests:
+      storage: 500Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: edge-cdn-pvc
+  namespace: itechsmart-edge
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nvme-ssd
+  resources:
+    requests:
+      storage: 1Ti
+
+---
+# Edge Node Configuration - Regional Deployment
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: edge-node-config
+  namespace: itechsmart-edge
+  labels:
+    app: edge-node-agent
+    version: v1.7.0
+data:
+  config.yaml: |
+    # Edge Node Configuration
+    node:
+      region: "${NODE_REGION}"
+      zone: "${NODE_ZONE}"
+      latency_target_ms: 10
+      max_concurrent_requests: 5000
+      cache_size_gb: 100
+      
+    ai_inference:
+      enabled: true
+      models:
+        - name: "edge-predictive-maintenance"
+          version: "v1.7.0"
+          path: "/models/edge-predictive-maintenance.pth"
+          batch_size: 16
+          timeout_ms: 10
+        - name: "edge-anomaly-detection"
+          version: "v1.7.0"
+          path: "/models/edge-anomaly-detection.pth"
+          batch_size: 32
+          timeout_ms: 5
+          
+    cdn:
+      cache_size_gb: 500
+      ttl_seconds: 3600
+      compression: true
+      geo_ip: true
+      cache_strategies:
+        - "static_assets"
+        - "api_responses"
+        - "ml_models"
+        
+    sovereignty:
+      compliance_regions:
+        - "EU"    # GDPR
+        - "US"    # CCPA
+        - "CA"    # PIPEDA
+        - "UK"    # UK GDPR
+        - "AU"    # Privacy Act
+      data_residency: "strict"
+      local_encryption: true
+      audit_logging: true
+      
+    monitoring:
+      interval_seconds: 30
+      latency_tracking: true
+      performance_analytics: true
+      health_checks:
+        - endpoint: "/health"
+          interval: 10
+          timeout: 5
+          
+    networking:
+      tcp_optimization: true
+      udp_optimization: true
+      http2_enabled: true
+      websocket_enabled: true
+      quic_enabled: true
+
+---
+# Strategic Edge Locations - 10 Initial Deployment Sites
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: edge-deployment-sites
+  namespace: itechsmart-edge
+data:
+  sites.yaml: |
+    # Strategic Edge Node Locations
+    deployment_sites:
+      # North America
+      - name: "us-east-1"
+        region: "US-East"
+        city: "Virginia"
+        coordinates: "37.5,-77.6"
+        capacity: "20_nodes"
+        latency_target: "5ms"
+        
+      - name: "us-west-1"
+        region: "US-West"
+        city: "California"
+        coordinates: "37.4,-122.1"
+        capacity: "15_nodes"
+        latency_target: "5ms"
+        
+      - name: "ca-central-1"
+        region: "Canada"
+        city: "Toronto"
+        coordinates: "43.7,-79.4"
+        capacity: "10_nodes"
+        latency_target: "8ms"
+        
+      # Europe
+      - name: "eu-west-1"
+        region: "EU-West"
+        city: "Ireland"
+        coordinates: "53.3,-6.2"
+        capacity: "15_nodes"
+        latency_target: "5ms"
+        
+      - name: "eu-central-1"
+        region: "EU-Central"
+        city: "Frankfurt"
+        coordinates: "50.1,8.7"
+        capacity: "12_nodes"
+        latency_target: "5ms"
+        
+      - name: "uk-south-1"
+        region: "UK"
+        city: "London"
+        coordinates: "51.5,-0.1"
+        capacity: "10_nodes"
+        latency_target: "5ms"
+        
+      # Asia Pacific
+      - name: "ap-southeast-1"
+        region: "Asia-Pacific"
+        city: "Singapore"
+        coordinates: "1.3,103.8"
+        capacity: "12_nodes"
+        latency_target: "8ms"
+        
+      - name: "ap-northeast-1"
+        region: "Japan"
+        city: "Tokyo"
+        coordinates: "35.7,139.7"
+        capacity: "15_nodes"
+        latency_target: "5ms"
+        
+      - name: "ap-south-1"
+        region: "India"
+        city: "Mumbai"
+        coordinates: "19.1,72.9"
+        capacity: "10_nodes"
+        latency_target: "10ms"
+        
+      - name: "au-southeast-1"
+        region: "Australia"
+        city: "Sydney"
+        coordinates: "-33.9,151.2"
+        capacity: "8_nodes"
+        latency_target: "10ms"
+
+---
+# Edge Infrastructure Network Policies
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: edge-infrastructure-netpol
+  namespace: itechsmart-edge
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: itechsmart-gateway
+    - namespaceSelector:
+        matchLabels:
+          name: monitoring
+    - podSelector:
+        matchLabels:
+          app: edge-node-agent
+    ports:
+    - protocol: TCP
+      port: 8080
+    - protocol: TCP
+      port: 8081
+    - protocol: TCP
+      port: 8082
+    - protocol: TCP
+      port: 8083
+    - protocol: TCP
+      port: 8443
+    - protocol: TCP
+      port: 8444
+  egress:
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 80
+    - protocol: TCP
+      port: 8081
+    - protocol: TCP
+      port: 8082
