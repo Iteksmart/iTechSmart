@@ -1,0 +1,376 @@
+# iTechSmart Suite v1.7.0 - AI Services Configuration
+# Production-ready AI infrastructure configuration
+
+---
+# AI Inference Service Configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-inference-config
+  namespace: itechsmart-ai
+  labels:
+    app: ai-inference-service
+    version: v1.7.0
+data:
+  config.yaml: |
+    # AI Inference Service Configuration
+    server:
+      host: "0.0.0.0"
+      port: 8080
+      workers: 4
+      timeout: 50  # 50ms target
+      
+    model:
+      name: "predictive-maintenance-v1.7.0"
+      path: "/models/predictive-maintenance-v1.7.0"
+      version: "1.7.0"
+      batch_size: 32
+      max_sequence_length: 512
+      
+    performance:
+      gpu_enabled: true
+      tensor_parallel_size: 1
+      max_concurrent_requests: 1000
+      cache_size: 10000
+      cache_ttl: 300  # 5 minutes
+      
+    monitoring:
+      metrics_enabled: true
+      tracing_enabled: true
+      logging_level: "INFO"
+      performance_tracking: true
+      
+    endpoints:
+      - path: "/predict"
+        method: "POST"
+        description: "Real-time AI prediction"
+        timeout: 50
+      - path: "/batch_predict"
+        method: "POST"
+        description: "Batch AI predictions"
+        timeout: 5000
+      - path: "/health"
+        method: "GET"
+        description: "Health check"
+      - path: "/metrics"
+        method: "GET"
+        description: "Prometheus metrics"
+
+---
+# Predictive Maintenance Engine Configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: predictive-maintenance-config
+  namespace: itechsmart-ai
+  labels:
+    app: predictive-maintenance-engine
+    version: v1.7.0
+data:
+  config.yaml: |
+    # Predictive Maintenance Engine Configuration
+    server:
+      host: "0.0.0.0"
+      port: 8081
+      workers: 2
+      
+    prediction:
+      horizon_hours: 48  # 48-hour advance prediction
+      accuracy_threshold: 0.95  # 95% accuracy target
+      confidence_threshold: 0.9
+      update_frequency: "1h"  # Hourly predictions
+      
+    data:
+      retention_days: 90
+      aggregation_window: "5m"
+      feature_engineering:
+        - "moving_average"
+        - "exponential_smoothing"
+        - "seasonal_decomposition"
+        - "anomaly_detection"
+        
+    models:
+      primary: "lstm_attention_v2"
+      backup: "random_forest_ensemble"
+      ensemble_method: "weighted_voting"
+      model_weights:
+        lstm: 0.7
+        random_forest: 0.3
+        
+    alerts:
+      severity_levels:
+        critical: 0.9
+        high: 0.8
+        medium: 0.7
+        low: 0.6
+      notification_channels:
+        - "email"
+        - "slack"
+        - "pagerduty"
+        - "webhook"
+        
+    monitoring:
+      model_drift_detection: true
+      performance_degradation_threshold: 0.05
+      retraining_trigger: "accuracy_drop > 0.1"
+
+---
+# ML Pipeline Orchestrator Configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ml-pipeline-config
+  namespace: itechsmart-ai
+  labels:
+    app: ml-pipeline-orchestrator
+    version: v1.7.0
+data:
+  config.yaml: |
+    # ML Pipeline Orchestrator Configuration
+    server:
+      host: "0.0.0.0"
+      port: 8082
+      workers: 2
+      
+    kubeflow:
+      endpoint: "http://kubeflow.kubeflow.svc.cluster.local"
+      namespace: "kubeflow"
+      pipeline_timeout: 3600  # 1 hour
+      
+    experiment_tracking:
+      mlflow:
+        endpoint: "http://mlflow.kubeflow.svc.cluster.local"
+        tracking_uri: "http://mlflow.kubeflow.svc.cluster.local:5000"
+        experiment_name: "itechsmart-ai-v1.7.0"
+        
+    tensorboard:
+      endpoint: "http://tensorboard.kubeflow.svc.cluster.local"
+      log_dir: "/tensorboard/logs"
+      
+    pipelines:
+      training_pipeline:
+        name: "model-training-v1.7.0"
+        schedule: "0 2 * * *"  # Daily at 2 AM
+        timeout: 7200  # 2 hours
+        retries: 3
+        
+      validation_pipeline:
+        name: "model-validation-v1.7.0"
+        trigger: "after_training"
+        timeout: 1800  # 30 minutes
+        
+      deployment_pipeline:
+        name: "model-deployment-v1.7.0"
+        trigger: "after_validation"
+        timeout: 600  # 10 minutes
+        
+    resources:
+      default_cpu_request: "1000m"
+      default_memory_request: "4Gi"
+      default_gpu_request: "1"
+      max_cpu_limit: "8000m"
+      max_memory_limit: "32Gi"
+      max_gpu_limit: "4"
+
+---
+# AI Model Training Service Configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-training-config
+  namespace: itechsmart-ai
+  labels:
+    app: ai-model-training
+    version: v1.7.0
+data:
+  config.yaml: |
+    # AI Model Training Service Configuration
+    server:
+      host: "0.0.0.0"
+      port: 8083
+      workers: 2
+      
+    training:
+      schedule: "0 2 * * *"  # Daily at 2 AM
+      max_training_time: 7200  # 2 hours
+      validation_split: 0.2  # 20% for validation
+      test_split: 0.1  # 10% for testing
+      early_stopping_patience: 10
+      performance_threshold: 0.95  # 95% accuracy required
+      
+    hyperparameters:
+      learning_rate: [0.001, 0.01, 0.1]
+      batch_size: [32, 64, 128]
+      epochs: [50, 100, 200]
+      dropout_rate: [0.1, 0.2, 0.3]
+      hidden_layers: [2, 3, 4]
+      neurons_per_layer: [64, 128, 256]
+      
+    optimization:
+      optimizer: "adam"
+      loss_function: "binary_crossentropy"
+      metrics: ["accuracy", "precision", "recall", "f1"]
+      learning_rate_scheduler: "reduce_on_plateau"
+      gradient_clipping: 1.0
+      
+    data:
+      augmentation: true
+      normalization: true
+      feature_selection: true
+      dimensionality_reduction: "pca"
+      outlier_detection: true
+      
+    model_registry:
+      registry_type: "mlflow"
+      registry_uri: "http://mlflow.kubeflow.svc.cluster.local:5000"
+      model_name: "itechsmart-predictive-maintenance"
+      staging_environment: "staging"
+      production_environment: "production"
+
+---
+# AI Infrastructure Secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ai-infrastructure-secrets
+  namespace: itechsmart-ai
+type: Opaque
+data:
+  # Base64 encoded values
+  MLFLOW_TRACKING_USERNAME: bWxmbG93X3VzZXI=  # mlflow_user
+  MLFLOW_TRACKING_PASSWORD: bWxmbG93X3Bhc3M=  # mlflow_pass
+  KUBEFLOW_USERNAME: a3ViZWZsb3dfdXNlcg==  # kubeflow_user
+  KUBEFLOW_PASSWORD: a3ViZWZsb3dfcGFzcw==  # kubeflow_pass
+  OPENAI_API_KEY: <base64-encoded-openai-key>
+  AWS_ACCESS_KEY_ID: <base64-encoded-aws-key>
+  AWS_SECRET_ACCESS_KEY: <base64-encoded-aws-secret>
+  DATABASE_URL: <base64-encoded-db-url>
+
+---
+# AI Service Monitor - ServiceMonitor for Prometheus
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ai-inference-monitor
+  namespace: itechsmart-ai
+  labels:
+    app: ai-inference-service
+    version: v1.7.0
+spec:
+  selector:
+    matchLabels:
+      app: ai-inference-service
+  endpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics
+    honorLabels: true
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: predictive-maintenance-monitor
+  namespace: itechsmart-ai
+  labels:
+    app: predictive-maintenance-engine
+    version: v1.7.0
+spec:
+  selector:
+    matchLabels:
+      app: predictive-maintenance-engine
+  endpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics
+    honorLabels: true
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ml-pipeline-monitor
+  namespace: itechsmart-ai
+  labels:
+    app: ml-pipeline-orchestrator
+    version: v1.7.0
+spec:
+  selector:
+    matchLabels:
+      app: ml-pipeline-orchestrator
+  endpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics
+    honorLabels: true
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ai-training-monitor
+  namespace: itechsmart-ai
+  labels:
+    app: ai-model-training
+    version: v1.7.0
+spec:
+  selector:
+    matchLabels:
+      app: ai-model-training
+  endpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics
+    honorLabels: true
+
+---
+# Network Policies for AI Infrastructure
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ai-infrastructure-netpol
+  namespace: itechsmart-ai
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: itechsmart-gateway
+    - namespaceSelector:
+        matchLabels:
+          name: monitoring
+    ports:
+    - protocol: TCP
+      port: 8080
+    - protocol: TCP
+      port: 8081
+    - protocol: TCP
+      port: 8082
+    - protocol: TCP
+      port: 8083
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: kubeflow
+    ports:
+    - protocol: TCP
+      port: 8888
+    - protocol: TCP
+      port: 6006
+    - protocol: TCP
+      port: 5000
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 80
