@@ -1,0 +1,152 @@
+version: '3.8'
+
+services:
+  # iTechSmart Arbiter Backend
+  arbiter-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: itechsmart-arbiter-api
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_URL=mongodb://mongodb:27017/itechsmart_arbiter
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=${SECRET_KEY:-itechsmart-arbiter-secret-key}
+      - DEBUG=${DEBUG:-false}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - arbiter-network
+    restart: unless-stopped
+    volumes:
+      - ./logs:/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # iTechSmart Arbiter Frontend
+  arbiter-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: itechsmart-arbiter-ui
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8080
+      - REACT_APP_WS_URL=ws://localhost:8080
+    depends_on:
+      - arbiter-backend
+    networks:
+      - arbiter-network
+    restart: unless-stopped
+
+  # MongoDB Database
+  mongodb:
+    image: mongo:7.0
+    container_name: itechsmart-arbiter-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=itechsmart
+      - MONGO_INITDB_ROOT_PASSWORD=itechsmart_dev
+      - MONGO_INITDB_DATABASE=itechsmart_arbiter
+    volumes:
+      - mongodb_data:/data/db
+      - ./scripts/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    networks:
+      - arbiter-network
+    restart: unless-stopped
+    command: mongod --auth
+
+  # Redis Cache
+  redis:
+    image: redis:7.2-alpine
+    container_name: itechsmart-arbiter-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - arbiter-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+  # Nginx Reverse Proxy (Optional)
+  nginx:
+    image: nginx:alpine
+    container_name: itechsmart-arbiter-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - arbiter-backend
+      - arbiter-frontend
+    networks:
+      - arbiter-network
+    restart: unless-stopped
+
+  # Prometheus Monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: itechsmart-arbiter-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    networks:
+      - arbiter-network
+    restart: unless-stopped
+
+  # Grafana Dashboard
+  grafana:
+    image: grafana/grafana:latest
+    container_name: itechsmart-arbiter-grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=itechsmart
+      - GF_SECURITY_ADMIN_PASSWORD=itechsmart_dev
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    depends_on:
+      - prometheus
+    networks:
+      - arbiter-network
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:
+    driver: local
+  redis_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+
+networks:
+  arbiter-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
