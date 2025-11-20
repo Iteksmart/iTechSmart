@@ -1,0 +1,1010 @@
+# iTechSmart Suite v1.7.0 - Developer Marketplace Infrastructure
+# Next Generation AI-Native IT Operations Platform
+# Third-party SDK, Template Library, and Community Platform
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: itechsmart-marketplace
+  labels:
+    name: itechsmart-marketplace
+    version: v1.7.0
+    component: developer-marketplace
+
+---
+# Developer API Gateway
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: developer-api-gateway
+  namespace: itechsmart-marketplace
+  labels:
+    app: developer-api-gateway
+    version: v1.7.0
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: developer-api-gateway
+  template:
+    metadata:
+      labels:
+        app: developer-api-gateway
+        version: v1.7.0
+    spec:
+      containers:
+      - name: api-gateway
+        image: itechsmart/developer-api-gateway:v1.7.0
+        ports:
+        - containerPort: 8080
+          name: http
+        - containerPort: 8443
+          name: https
+        - containerPort: 9090
+          name: metrics
+        env:
+        - name: API_VERSION
+          value: "v1.7.0"
+        - name: RATE_LIMIT_REQUESTS_PER_MINUTE
+          value: "10000"
+        - name: AUTHENTICATION_REQUIRED
+          value: "true"
+        - name: API_KEY_VALIDATION
+          value: "true"
+        - name: CORS_ENABLED
+          value: "true"
+        - name: DOCUMENTATION_ENABLED
+          value: "true"
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 2Gi
+          limits:
+            cpu: 2000m
+            memory: 4Gi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        volumeMounts:
+        - name: api-config
+          mountPath: /config
+      volumes:
+      - name: api-config
+        configMap:
+          name: developer-gateway-config
+
+---
+# Template Library Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: template-library-service
+  namespace: itechsmart-marketplace
+  labels:
+    app: template-library-service
+    version: v1.7.0
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: template-library-service
+  template:
+    metadata:
+      labels:
+        app: template-library-service
+        version: v1.7.0
+    spec:
+      containers:
+      - name: template-library
+        image: itechsmart/template-library:v1.7.0
+        ports:
+        - containerPort: 8081
+          name: http
+        - containerPort: 9091
+          name: metrics
+        env:
+        - name: TEMPLATE_COUNT_TARGET
+          value: "1000"
+        - name: CATEGORIES
+          value: "automation,monitoring,security,deployment,backup,testing,compliance,ai_ml"
+        - name: SEARCH_ENABLED
+          value: "true"
+        - name: RATING_SYSTEM
+          value: "true"
+        - name: DOWNLOAD_TRACKING
+          value: "true"
+        resources:
+          requests:
+            cpu: 1500m
+            memory: 3Gi
+          limits:
+            cpu: 3000m
+            memory: 6Gi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8081
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        volumeMounts:
+        - name: template-storage
+          mountPath: /templates
+        - name: template-database
+          mountPath: /data
+      volumes:
+      - name: template-storage
+        persistentVolumeClaim:
+          claimName: template-storage-pvc
+      - name: template-database
+        persistentVolumeClaim:
+          claimName: template-database-pvc
+
+---
+# Developer Community Platform
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: community-platform
+  namespace: itechsmart-marketplace
+  labels:
+    app: community-platform
+    version: v1.7.0
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: community-platform
+  template:
+    metadata:
+      labels:
+        app: community-platform
+        version: v1.7.0
+    spec:
+      containers:
+      - name: community-platform
+        image: itechsmart/community-platform:v1.7.0
+        ports:
+        - containerPort: 8082
+          name: http
+        - containerPort: 9092
+          name: metrics
+        env:
+        - name: COMMUNITY_FEATURES
+          value: "forums,discussions,qna,showcase,events,webinars"
+        - name: USER_PROFILES
+          value: "true"
+        - name: RATING_REVIEW_SYSTEM
+          value: "true"
+        - name: BADGES_ACHIEVEMENTS
+          value: "true"
+        - name: NOTIFICATIONS
+          value: "true"
+        - name: CONTENT_MODERATION
+          value: "true"
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 2Gi
+          limits:
+            cpu: 2000m
+            memory: 4Gi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8082
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8082
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        volumeMounts:
+        - name: community-data
+          mountPath: /data
+      volumes:
+      - name: community-data
+        persistentVolumeClaim:
+          claimName: community-data-pvc
+
+---
+# SDK Documentation Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sdk-documentation
+  namespace: itechsmart-marketplace
+  labels:
+    app: sdk-documentation
+    version: v1.7.0
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sdk-documentation
+  template:
+    metadata:
+      labels:
+        app: sdk-documentation
+        version: v1.7.0
+    spec:
+      containers:
+      - name: sdk-docs
+        image: itechsmart/sdk-documentation:v1.7.0
+        ports:
+        - containerPort: 8083
+          name: http
+        - containerPort: 9093
+          name: metrics
+        env:
+        - name: DOCUMENTATION_FRAMEWORK
+          value: "openapi_3.0,swagger,redoc"
+        - name: INTERACTIVE_DOCS
+          value: "true"
+        - name: CODE_EXAMPLES
+          value: "python,javascript,java,go,c#,php,ruby"
+        - name: TUTORIALS
+          value: "true"
+        - name: API_CONSOLE
+          value: "true"
+        - name: SDK_DOWNLOADS
+          value: "true"
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8083
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8083
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        volumeMounts:
+        - name: docs-storage
+          mountPath: /docs
+      volumes:
+      - name: docs-storage
+        persistentVolumeClaim:
+          claimName: docs-storage-pvc
+
+---
+# Revenue Sharing System
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: revenue-sharing-system
+  namespace: itechsmart-marketplace
+  labels:
+    app: revenue-sharing-system
+    version: v1.7.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: revenue-sharing-system
+  template:
+    metadata:
+      labels:
+        app: revenue-sharing-system
+        version: v1.7.0
+    spec:
+      containers:
+      - name: revenue-sharing
+        image: itechsmart/revenue-sharing:v1.7.0
+        ports:
+        - containerPort: 8084
+          name: http
+        - containerPort: 9094
+          name: metrics
+        env:
+        - name: REVENUE_MODEL
+          value: "subscription,per_use,commission"
+        - name: PAYOUT_FREQUENCY
+          value: "monthly"
+        - name: PAYMENT_PROCESSORS
+          value: "stripe,paypal,wise"
+        - name: ANALYTICS_ENABLED
+          value: "true"
+        - name: REPORTING_ENABLED
+          value: "true"
+        - name: TAX_COMPLIANCE
+          value: "true"
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 2Gi
+          limits:
+            cpu: 2000m
+            memory: 4Gi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8084
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8084
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        volumeMounts:
+        - name: revenue-data
+          mountPath: /data
+      volumes:
+      - name: revenue-data
+        persistentVolumeClaim:
+          claimName: revenue-data-pvc
+
+---
+# Developer Analytics Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: developer-analytics
+  namespace: itechsmart-marketplace
+  labels:
+    app: developer-analytics
+    version: v1.7.0
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: developer-analytics
+  template:
+    metadata:
+      labels:
+        app: developer-analytics
+        version: v1.7.0
+    spec:
+      containers:
+      - name: analytics
+        image: itechsmart/developer-analytics:v1.7.0
+        ports:
+        - containerPort: 8085
+          name: http
+        - containerPort: 9095
+          name: metrics
+        env:
+        - name: ANALYTICS_TYPE
+          value: "usage,performance,revenue,engagement,retention"
+        - name: DASHBOARD_ENABLED
+          value: "true"
+        - name: REAL_TIME_ANALYTICS
+          value: "true"
+        - name: EXPORT_FORMATS
+          value: "csv,json,pdf,excel"
+        - name: DATA_RETENTION_DAYS
+          value: "365"
+        resources:
+          requests:
+            cpu: 1500m
+            memory: 3Gi
+          limits:
+            cpu: 3000m
+            memory: 6Gi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8085
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8085
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        volumeMounts:
+        - name: analytics-data
+          mountPath: /data
+      volumes:
+      - name: analytics-data
+        persistentVolumeClaim:
+          claimName: analytics-data-pvc
+
+---
+# Marketplace Services
+apiVersion: v1
+kind: Service
+metadata:
+  name: developer-api-gateway-service
+  namespace: itechsmart-marketplace
+  labels:
+    app: developer-api-gateway
+spec:
+  selector:
+    app: developer-api-gateway
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+    protocol: TCP
+  - name: https
+    port: 443
+    targetPort: 8443
+    protocol: TCP
+  - name: metrics
+    port: 9090
+    targetPort: 9090
+    protocol: TCP
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: template-library-service
+  namespace: itechsmart-marketplace
+  labels:
+    app: template-library-service
+spec:
+  selector:
+    app: template-library-service
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8081
+    protocol: TCP
+  - name: metrics
+    port: 9091
+    targetPort: 9091
+    protocol: TCP
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: community-platform-service
+  namespace: itechsmart-marketplace
+  labels:
+    app: community-platform
+spec:
+  selector:
+    app: community-platform
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8082
+    protocol: TCP
+  - name: metrics
+    port: 9092
+    targetPort: 9092
+    protocol: TCP
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sdk-documentation-service
+  namespace: itechsmart-marketplace
+  labels:
+    app: sdk-documentation
+spec:
+  selector:
+    app: sdk-documentation
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8083
+    protocol: TCP
+  - name: metrics
+    port: 9093
+    targetPort: 9093
+    protocol: TCP
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: revenue-sharing-service
+  namespace: itechsmart-marketplace
+  labels:
+    app: revenue-sharing-system
+spec:
+  selector:
+    app: revenue-sharing-system
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8084
+    protocol: TCP
+  - name: metrics
+    port: 9094
+    targetPort: 9094
+    protocol: TCP
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: developer-analytics-service
+  namespace: itechsmart-marketplace
+  labels:
+    app: developer-analytics
+spec:
+  selector:
+    app: developer-analytics
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8085
+    protocol: TCP
+  - name: metrics
+    port: 9095
+    targetPort: 9095
+    protocol: TCP
+  type: ClusterIP
+
+---
+# Developer Marketplace Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: developer-marketplace-ingress
+  namespace: itechsmart-marketplace
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rate-limit: "2000"
+    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+spec:
+  tls:
+  - hosts:
+    - developers.itechsmart.com
+    - api.itechsmart.com
+    - marketplace.itechsmart.com
+    secretName: developer-marketplace-tls
+  rules:
+  - host: developers.itechsmart.com
+    http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: developer-api-gateway-service
+            port:
+              number: 80
+      - path: /templates
+        pathType: Prefix
+        backend:
+          service:
+            name: template-library-service
+            port:
+              number: 80
+      - path: /community
+        pathType: Prefix
+        backend:
+          service:
+            name: community-platform-service
+            port:
+              number: 80
+      - path: /docs
+        pathType: Prefix
+        backend:
+          service:
+            name: sdk-documentation-service
+            port:
+              number: 80
+      - path: /revenue
+        pathType: Prefix
+        backend:
+          service:
+            name: revenue-sharing-service
+            port:
+              number: 80
+      - path: /analytics
+        pathType: Prefix
+        backend:
+          service:
+            name: developer-analytics-service
+            port:
+              number: 80
+  - host: api.itechsmart.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: developer-api-gateway-service
+            port:
+              number: 80
+  - host: marketplace.itechsmart.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: template-library-service
+            port:
+              number: 80
+
+---
+# Persistent Volume Claims for Marketplace
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: template-storage-pvc
+  namespace: itechsmart-marketplace
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: fast-ssd
+  resources:
+    requests:
+      storage: 500Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: template-database-pvc
+  namespace: itechsmart-marketplace
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ssd
+  resources:
+    requests:
+      storage: 200Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: community-data-pvc
+  namespace: itechsmart-marketplace
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ssd
+  resources:
+    requests:
+      storage: 300Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: docs-storage-pvc
+  namespace: itechsmart-marketplace
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: fast-ssd
+  resources:
+    requests:
+      storage: 100Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: revenue-data-pvc
+  namespace: itechsmart-marketplace
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ssd
+  resources:
+    requests:
+      storage: 100Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: analytics-data-pvc
+  namespace: itechsmart-marketplace
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ssd
+  resources:
+    requests:
+      storage: 400Gi
+
+---
+# Developer Gateway Configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: developer-gateway-config
+  namespace: itechsmart-marketplace
+  labels:
+    app: developer-api-gateway
+    version: v1.7.0
+data:
+  config.yaml: |
+    # Developer API Gateway Configuration
+    
+    api:
+      version: "v1.7.0"
+      base_path: "/api/v1"
+      documentation_path: "/docs"
+      openapi_spec: "/openapi.json"
+      
+    authentication:
+      required: true
+      methods: ["api_key", "oauth2", "jwt"]
+      api_key_header: "X-API-Key"
+      oauth2_providers: ["github", "google", "microsoft"]
+      
+    rate_limiting:
+      requests_per_minute: 10000
+      burst_size: 100
+      per_developer_limits: true
+      
+    cors:
+      enabled: true
+      allowed_origins: ["*"]
+      allowed_methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+      allowed_headers: ["*"]
+      
+    features:
+      request_validation: true
+      response_compression: true
+      request_logging: true
+      metrics_collection: true
+      health_checks: true
+      
+    endpoints:
+      # iTechSmart Core APIs
+      infrastructure:
+        base_path: "/infrastructure"
+        endpoints:
+          - path: "/servers"
+            methods: ["GET", "POST", "PUT", "DELETE"]
+            description: "Server management"
+          - path: "/networks"
+            methods: ["GET", "POST", "PUT", "DELETE"]
+            description: "Network configuration"
+          - path: "/storage"
+            methods: ["GET", "POST", "PUT", "DELETE"]
+            description: "Storage management"
+            
+      monitoring:
+        base_path: "/monitoring"
+        endpoints:
+          - path: "/metrics"
+            methods: ["GET"]
+            description: "System metrics"
+          - path: "/alerts"
+            methods: ["GET", "POST"]
+            description: "Alert management"
+          - path: "/dashboards"
+            methods: ["GET", "POST"]
+            description: "Dashboard configuration"
+            
+      automation:
+        base_path: "/automation"
+        endpoints:
+          - path: "/workflows"
+            methods: ["GET", "POST", "PUT", "DELETE"]
+            description: "Workflow management"
+          - path: "/scripts"
+            methods: ["GET", "POST", "PUT", "DELETE"]
+            description: "Script execution"
+          - path: "/schedules"
+            methods: ["GET", "POST", "PUT", "DELETE"]
+            description: "Scheduled tasks"
+            
+      ai_ml:
+        base_path: "/ai"
+        endpoints:
+          - path: "/predictions"
+            methods: ["POST"]
+            description: "AI predictions"
+          - path: "/models"
+            methods: ["GET", "POST"]
+            description: "Model management"
+          - path: "/training"
+            methods: ["POST"]
+            description: "Model training"
+            
+      security:
+        base_path: "/security"
+        endpoints:
+          - path: "/scan"
+            methods: ["POST"]
+            description: "Security scanning"
+          - path: "/compliance"
+            methods: ["GET", "POST"]
+            description: "Compliance checking"
+          - path: "/policies"
+            methods: ["GET", "POST", "PUT", "DELETE"]
+            description: "Policy management"
+
+---
+# SDK Distribution Configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sdk-distribution-config
+  namespace: itechsmart-marketplace
+  labels:
+    app: sdk-documentation
+    version: v1.7.0
+data:
+  sdks.yaml: |
+    # SDK Distribution Configuration
+    
+    python:
+      name: "itechsmart-python-sdk"
+      version: "1.7.0"
+      package_name: "itechsmart"
+      python_versions: ["3.8", "3.9", "3.10", "3.11"]
+      install_command: "pip install itechsmart"
+      repository: "https://pypi.org/project/itechsmart/"
+      
+    javascript:
+      name: "itechsmart-js-sdk"
+      version: "1.7.0"
+      package_name: "@itechsmart/sdk"
+      install_command: "npm install @itechsmart/sdk"
+      repository: "https://www.npmjs.com/package/@itechsmart/sdk"
+      
+    java:
+      name: "itechsmart-java-sdk"
+      version: "1.7.0"
+      maven_coordinates: "com.itechsmart:itechsmart-sdk:1.7.0"
+      gradle_dependency: "implementation 'com.itechsmart:itechsmart-sdk:1.7.0'"
+      repository: "https://search.maven.org/artifact/com.itechsmart/itechsmart-sdk"
+      
+    go:
+      name: "itechsmart-go-sdk"
+      version: "v1.7.0"
+      module_name: "github.com/itechsmart/go-sdk"
+      install_command: "go get github.com/itechsmart/go-sdk"
+      repository: "https://github.com/itechsmart/go-sdk"
+      
+    csharp:
+      name: "itechsharp-sdk"
+      version: "1.7.0"
+      nuget_package: "iTechSharp"
+      install_command: "dotnet add package iTechSharp"
+      repository: "https://www.nuget.org/packages/iTechSharp/"
+      
+    php:
+      name: "itechsmart-php-sdk"
+      version: "1.7.0"
+      composer_package: "itechsmart/sdk"
+      install_command: "composer require itechsmart/sdk"
+      repository: "https://packagist.org/packages/itechsmart/sdk"
+      
+    ruby:
+      name: "itechsmart-ruby-sdk"
+      version: "1.7.0"
+      gem_name: "itechsmart"
+      install_command: "gem install itechsmart"
+      repository: "https://rubygems.org/gems/itechsmart"
+
+---
+# Template Categories Configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: template-categories-config
+  namespace: itechsmart-marketplace
+  labels:
+    app: template-library-service
+    version: v1.7.0
+data:
+  categories.yaml: |
+    # Template Categories Configuration
+    
+    categories:
+      automation:
+        name: "Automation"
+        description: "Workflow and task automation templates"
+        templates_target: 200
+        subcategories:
+          - "workflow_automation"
+          - "task_scheduling"
+          - "event_driven"
+          - "batch_processing"
+          
+      monitoring:
+        name: "Monitoring"
+        description: "System monitoring and alerting templates"
+        templates_target: 150
+        subcategories:
+          - "metrics_collection"
+          - "alert_management"
+          - "log_analysis"
+          - "performance_monitoring"
+          
+      security:
+        name: "Security"
+        description: "Security scanning and compliance templates"
+        templates_target: 150
+        subcategories:
+          - "vulnerability_scanning"
+          - "compliance_checking"
+          - "access_control"
+          - "incident_response"
+          
+      deployment:
+        name: "Deployment"
+        description: "Application deployment and CI/CD templates"
+        templates_target: 150
+        subcategories:
+          - "continuous_integration"
+          - "continuous_deployment"
+          - "blue_green_deployment"
+          - "canary_deployment"
+          
+      backup:
+        name: "Backup"
+        description: "Data backup and recovery templates"
+        templates_target: 100
+        subcategories:
+          - "automated_backup"
+          - "disaster_recovery"
+          - "data_archival"
+          - "snapshot_management"
+          
+      testing:
+        name: "Testing"
+        description: "Automated testing and quality assurance templates"
+        templates_target: 100
+        subcategories:
+          - "unit_testing"
+          - "integration_testing"
+          - "performance_testing"
+          - "security_testing"
+          
+      compliance:
+        name: "Compliance"
+        description: "Regulatory compliance and audit templates"
+        templates_target: 75
+        subcategories:
+          - "gdpr_compliance"
+          - "hipaa_compliance"
+          - "sox_compliance"
+          - "pci_compliance"
+          
+      ai_ml:
+        name: "AI & ML"
+        description: "Machine learning and AI integration templates"
+        templates_target: 75
+        subcategories:
+          - "model_training"
+          - "inference_serving"
+          - "data_preprocessing"
+          - "model_monitoring"

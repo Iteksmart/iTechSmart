@@ -1,0 +1,785 @@
+# iTechSmart Suite v1.7.0 - Enterprise AI Governance Infrastructure
+# Next Generation AI-Native IT Operations Platform
+# Explainable AI, Bias Detection, and Compliance Framework
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: itechsmart-ai-governance
+  labels:
+    name: itechsmart-ai-governance
+    version: v1.7.0
+    component: ai-governance
+
+---
+# Explainable AI (XAI) Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: explainable-ai-service
+  namespace: itechsmart-ai-governance
+  labels:
+    app: explainable-ai-service
+    version: v1.7.0
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: explainable-ai-service
+  template:
+    metadata:
+      labels:
+        app: explainable-ai-service
+        version: v1.7.0
+    spec:
+      containers:
+      - name: xai-service
+        image: itechsmart/explainable-ai:v1.7.0
+        ports:
+        - containerPort: 8080
+          name: http
+        - containerPort: 9090
+          name: metrics
+        env:
+        - name: XAI_FRAMEWORK
+          value: "shap,lime,anchor"
+        - name: EXPLANATION_METHODS
+          value: "feature_importance,partial_dependence,counterfactual"
+        - name: MODEL_INTERPRETABILITY_LEVEL
+          value: "high"
+        - name: EXPLANATION_CACHE_TTL
+          value: "3600"
+        - name: VISUALIZATION_ENABLED
+          value: "true"
+        resources:
+          requests:
+            cpu: 2000m
+            memory: 4Gi
+          limits:
+            cpu: 4000m
+            memory: 8Gi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 45
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        volumeMounts:
+        - name: explanation-cache
+          mountPath: /cache
+      volumes:
+      - name: explanation-cache
+        persistentVolumeClaim:
+          claimName: xai-cache-pvc
+
+---
+# AI Bias Detection Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-bias-detection
+  namespace: itechsmart-ai-governance
+  labels:
+    app: ai-bias-detection
+    version: v1.7.0
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ai-bias-detection
+  template:
+    metadata:
+      labels:
+        app: ai-bias-detection
+        version: v1.7.0
+    spec:
+      containers:
+      - name: bias-detection
+        image: itechsmart/ai-bias-detection:v1.7.0
+        ports:
+        - containerPort: 8081
+          name: http
+        - containerPort: 9091
+          name: metrics
+        env:
+        - name: BIAS_DETECTION_FRAMEWORK
+          value: "aif360,google-what-if,ibm-ai-fairness"
+        - name: FAIRNESS_METRICS
+          value: "demographic_parity,equal_opportunity,disparate_impact"
+        - name: BIAS_THRESHOLD
+          value: "0.05"  # 5% bias threshold
+        - name: MITIGATION_STRATEGIES
+          value: "reweighing,optimized_preprocessing,adversarial_debiasing"
+        - name: CONTINUOUS_MONITORING
+          value: "true"
+        - name: AUDIT_FREQUENCY
+          value: "24h"
+        resources:
+          requests:
+            cpu: 3000m
+            memory: 6Gi
+          limits:
+            cpu: 6000m
+            memory: 12Gi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8081
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8081
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        volumeMounts:
+        - name: bias-data
+          mountPath: /data
+      volumes:
+      - name: bias-data
+        persistentVolumeClaim:
+          claimName: bias-detection-pvc
+
+---
+# AI Ethics Monitoring Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-ethics-monitoring
+  namespace: itechsmart-ai-governance
+  labels:
+    app: ai-ethics-monitoring
+    version: v1.7.0
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ai-ethics-monitoring
+  template:
+    metadata:
+      labels:
+        app: ai-ethics-monitoring
+        version: v1.7.0
+    spec:
+      containers:
+      - name: ethics-monitoring
+        image: itechsmart/ai-ethics-monitoring:v1.7.0
+        ports:
+        - containerPort: 8082
+          name: http
+        - containerPort: 9092
+          name: metrics
+        env:
+        - name: ETHICS_FRAMEWORK
+          value: "eu_ai_act,nist_ai_rmf,iso_42001"
+        - name: COMPLIANCE_STANDARDS
+          value: "gdpr,hipaa,ccpa,sox"
+        - name: ETHICAL_PRINCIPLES
+          value: "fairness,transparency,accountability,privacy,safety"
+        - name: RISK_ASSESSMENT_MODEL
+          value: "categorical_risk_prohibited,high,limited,minimal"
+        - name: HUMAN_OVERSIGHT_LEVEL
+          value: "high"
+        - name: DOCUMENTATION_REQUIREMENTS
+          value: "comprehensive"
+        resources:
+          requests:
+            cpu: 1500m
+            memory: 3Gi
+          limits:
+            cpu: 3000m
+            memory: 6Gi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8082
+          initialDelaySeconds: 45
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8082
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        volumeMounts:
+        - name: ethics-data
+          mountPath: /data
+      volumes:
+      - name: ethics-data
+        persistentVolumeClaim:
+          claimName: ethics-monitoring-pvc
+
+---
+# AI Compliance Auditor Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-compliance-auditor
+  namespace: itechsmart-ai-governance
+  labels:
+    app: ai-compliance-auditor
+    version: v1.7.0
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ai-compliance-auditor
+  template:
+    metadata:
+      labels:
+        app: ai-compliance-auditor
+        version: v1.7.0
+    spec:
+      containers:
+      - name: compliance-auditor
+        image: itechsmart/ai-compliance-auditor:v1.7.0
+        ports:
+        - containerPort: 8083
+          name: http
+        - containerPort: 9093
+          name: metrics
+        env:
+        - name: COMPLIANCE_FRAMEWORKS
+          value: "eu_ai_act,nist_ai_rmf,iso_42001,gdpr,hipaa"
+        - name: AUDIT_FREQUENCY
+          value: "weekly"
+        - name: AUTOMATED_REPORTING
+          value: "true"
+        - name: REGULATORY_UPDATES
+          value: "real-time"
+        - name: CERTIFICATION_READINESS
+          value: "true"
+        - name: DOCUMENT_GENERATION
+          value: "comprehensive"
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 2Gi
+          limits:
+            cpu: 2000m
+            memory: 4Gi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8083
+          initialDelaySeconds: 30
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8083
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        volumeMounts:
+        - name: compliance-data
+          mountPath: /data
+      volumes:
+      - name: compliance-data
+        persistentVolumeClaim:
+          claimName: compliance-auditor-pvc
+
+---
+# AI Governance Dashboard
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-governance-dashboard
+  namespace: itechsmart-ai-governance
+  labels:
+    app: ai-governance-dashboard
+    version: v1.7.0
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ai-governance-dashboard
+  template:
+    metadata:
+      labels:
+        app: ai-governance-dashboard
+        version: v1.7.0
+    spec:
+      containers:
+      - name: governance-dashboard
+        image: itechsmart/ai-governance-dashboard:v1.7.0
+        ports:
+        - containerPort: 8084
+          name: http
+        - containerPort: 9094
+          name: metrics
+        env:
+        - name: DASHBOARD_TYPE
+          value: "executive,technical,regulatory"
+        - name: VISUALIZATION_FRAMEWORK
+          value: "d3.js,plotly.js,chart.js"
+        - name: REAL_TIME_UPDATES
+          value: "true"
+        - name: DRILL_DOWN_CAPABILITY
+          value: "true"
+        - name: EXPORT_FORMATS
+          value: "pdf,excel,csv,json"
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 2Gi
+          limits:
+            cpu: 2000m
+            memory: 4Gi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8084
+          initialDelaySeconds: 30
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8084
+          initialDelaySeconds: 15
+          periodSeconds: 10
+
+---
+# AI Governance Services
+apiVersion: v1
+kind: Service
+metadata:
+  name: explainable-ai-service
+  namespace: itechsmart-ai-governance
+  labels:
+    app: explainable-ai-service
+spec:
+  selector:
+    app: explainable-ai-service
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+    protocol: TCP
+  - name: metrics
+    port: 9090
+    targetPort: 9090
+    protocol: TCP
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-bias-detection-service
+  namespace: itechsmart-ai-governance
+  labels:
+    app: ai-bias-detection
+spec:
+  selector:
+    app: ai-bias-detection
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8081
+    protocol: TCP
+  - name: metrics
+    port: 9091
+    targetPort: 9091
+    protocol: TCP
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-ethics-monitoring-service
+  namespace: itechsmart-ai-governance
+  labels:
+    app: ai-ethics-monitoring
+spec:
+  selector:
+    app: ai-ethics-monitoring
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8082
+    protocol: TCP
+  - name: metrics
+    port: 9092
+    targetPort: 9092
+    protocol: TCP
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-compliance-auditor-service
+  namespace: itechsmart-ai-governance
+  labels:
+    app: ai-compliance-auditor
+spec:
+  selector:
+    app: ai-compliance-auditor
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8083
+    protocol: TCP
+  - name: metrics
+    port: 9093
+    targetPort: 9093
+    protocol: TCP
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-governance-dashboard-service
+  namespace: itechsmart-ai-governance
+  labels:
+    app: ai-governance-dashboard
+spec:
+  selector:
+    app: ai-governance-dashboard
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8084
+    protocol: TCP
+  - name: metrics
+    port: 9094
+    targetPort: 9094
+    protocol: TCP
+  type: ClusterIP
+
+---
+# AI Governance Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ai-governance-ingress
+  namespace: itechsmart-ai-governance
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rate-limit: "500"
+    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+spec:
+  tls:
+  - hosts:
+    - ai-governance.itechsmart.com
+    secretName: ai-governance-tls
+  rules:
+  - host: ai-governance.itechsmart.com
+    http:
+      paths:
+      - path: /xai
+        pathType: Prefix
+        backend:
+          service:
+            name: explainable-ai-service
+            port:
+              number: 80
+      - path: /bias
+        pathType: Prefix
+        backend:
+          service:
+            name: ai-bias-detection-service
+            port:
+              number: 80
+      - path: /ethics
+        pathType: Prefix
+        backend:
+          service:
+            name: ai-ethics-monitoring-service
+            port:
+              number: 80
+      - path: /compliance
+        pathType: Prefix
+        backend:
+          service:
+            name: ai-compliance-auditor-service
+            port:
+              number: 80
+      - path: /dashboard
+        pathType: Prefix
+        backend:
+          service:
+            name: ai-governance-dashboard-service
+            port:
+              number: 80
+
+---
+# Persistent Volume Claims for AI Governance
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: xai-cache-pvc
+  namespace: itechsmart-ai-governance
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: fast-ssd
+  resources:
+    requests:
+      storage: 200Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bias-detection-pvc
+  namespace: itechsmart-ai-governance
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ssd
+  resources:
+    requests:
+      storage: 500Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ethics-monitoring-pvc
+  namespace: itechsmart-ai-governance
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ssd
+  resources:
+    requests:
+      storage: 300Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: compliance-auditor-pvc
+  namespace: itechsmart-ai-governance
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ssd
+  resources:
+    requests:
+      storage: 200Gi
+
+---
+# AI Governance Configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-governance-config
+  namespace: itechsmart-ai-governance
+  labels:
+    app: ai-governance
+    version: v1.7.0
+data:
+  governance.yaml: |
+    # AI Governance Framework Configuration
+    
+    explainable_ai:
+      frameworks:
+        - name: "SHAP"
+          version: "0.42.1"
+          methods: ["kernel_shap", "tree_shap", "deep_shap"]
+          visualization: true
+          cache_ttl: 3600
+        - name: "LIME"
+          version: "0.2.0.1"
+          methods: ["lime_tabular", "lime_text", "lime_image"]
+          visualization: true
+          cache_ttl: 1800
+        - name: "Anchors"
+          version: "1.0.0"
+          methods: ["anchor_tabular", "anchor_text"]
+          visualization: true
+          cache_ttl: 3600
+          
+      explanation_methods:
+        - "feature_importance"
+        - "partial_dependence"
+        - "counterfactual"
+        - "decision_boundary"
+        - "attention_weights"
+        
+    bias_detection:
+      frameworks:
+        - name: "AIF360"
+          version: "0.5.0"
+          metrics: ["demographic_parity", "equal_opportunity", "disparate_impact"]
+          mitigation: ["reweighing", "optimized_preprocessing", "adversarial_debiasing"]
+        - name: "Google What-If"
+          version: "latest"
+          metrics: ["fairness_aware", "counterfactual_fairness"]
+          visualization: true
+        - name: "IBM AI Fairness"
+          version: "0.3.0"
+          metrics: ["statistical_parity", "equalized_odds"]
+          
+      fairness_thresholds:
+        demographic_parity_difference: 0.05
+        equal_opportunity_difference: 0.05
+        disparate_impact_ratio: 0.8
+        
+    ethics_monitoring:
+      frameworks:
+        - name: "EU AI Act"
+          risk_levels: ["prohibited", "high", "limited", "minimal"]
+          requirements: ["transparency", "human_oversight", "robustness", "accuracy"]
+        - name: "NIST AI RMF"
+          functions: ["govern", "map", "measure", "manage"]
+          categories: ["risk_management", "trustworthy_ai"]
+        - name: "ISO 42001"
+          clauses: ["organizational_context", "risk_treatment", "resource_management"]
+          
+      ethical_principles:
+        - name: "fairness"
+          definition: "AI systems should treat all individuals fairly and without bias"
+          metrics: ["bias_detection", "fairness_evaluation"]
+        - name: "transparency"
+          definition: "AI decisions should be explainable and understandable"
+          metrics: ["explainability", "interpretability"]
+        - name: "accountability"
+          definition: "Clear responsibility for AI system outcomes"
+          metrics: ["audit_trails", "documentation"]
+        - name: "privacy"
+          definition: "Respect for individual privacy and data protection"
+          metrics: ["data_minimization", "encryption", "consent"]
+        - name: "safety"
+          definition: "AI systems should be safe and reliable"
+          metrics: ["robustness", "fail_safe", "testing"]
+          
+    compliance_auditing:
+      frameworks:
+        - name: "GDPR"
+          requirements: ["data_protection", "consent", "right_to_explanation"]
+          audit_frequency: "quarterly"
+        - name: "HIPAA"
+          requirements: ["phi_protection", "access_controls", "audit_logs"]
+          audit_frequency: "monthly"
+        - name: "CCPA"
+          requirements: ["consumer_rights", "data_transparency", "opt_out"]
+          audit_frequency: "quarterly"
+        - name: "SOX"
+          requirements: ["financial_controls", "audit_trails", "documentation"]
+          audit_frequency: "annual"
+          
+      reporting:
+        formats: ["pdf", "excel", "csv", "json"]
+        stakeholders: ["executives", "regulators", "auditors", "technical_teams"]
+        frequency: ["real_time", "daily", "weekly", "monthly", "quarterly"]
+        
+    dashboard_configuration:
+      executive_view:
+        metrics: ["risk_score", "compliance_status", "bias_level", "accuracy"]
+        visualizations: ["gauges", "trend_charts", "heatmaps"]
+        refresh_interval: 300  # 5 minutes
+        
+      technical_view:
+        metrics: ["model_performance", "explanation_quality", "drift_detection"]
+        visualizations: ["scatter_plots", "correlation_matrices", "feature_importance"]
+        refresh_interval: 60   # 1 minute
+        
+      regulatory_view:
+        metrics: ["compliance_score", "audit_results", "risk_assessment"]
+        visualizations: ["compliance_matrices", "risk_registers", "audit_timelines"]
+        refresh_interval: 3600  # 1 hour
+
+---
+# AI Governance Service Monitors
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: explainable-ai-monitor
+  namespace: itechsmart-ai-governance
+  labels:
+    app: explainable-ai-service
+    version: v1.7.0
+spec:
+  selector:
+    matchLabels:
+      app: explainable-ai-service
+  endpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ai-bias-detection-monitor
+  namespace: itechsmart-ai-governance
+  labels:
+    app: ai-bias-detection
+    version: v1.7.0
+spec:
+  selector:
+    matchLabels:
+      app: ai-bias-detection
+  endpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ai-ethics-monitoring-monitor
+  namespace: itechsmart-ai-governance
+  labels:
+    app: ai-ethics-monitoring
+    version: v1.7.0
+spec:
+  selector:
+    matchLabels:
+      app: ai-ethics-monitoring
+  endpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ai-compliance-auditor-monitor
+  namespace: itechsmart-ai-governance
+  labels:
+    app: ai-compliance-auditor
+    version: v1.7.0
+spec:
+  selector:
+    matchLabels:
+      app: ai-compliance-auditor
+  endpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ai-governance-dashboard-monitor
+  namespace: itechsmart-ai-governance
+  labels:
+    app: ai-governance-dashboard
+    version: v1.7.0
+spec:
+  selector:
+    matchLabels:
+      app: ai-governance-dashboard
+  endpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics
