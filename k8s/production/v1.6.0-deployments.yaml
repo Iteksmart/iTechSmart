@@ -1,0 +1,1083 @@
+# iTechSmart Suite v1.6.0 - Production Kubernetes Deployment
+# All 45 Products Production Configuration
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: itechsmart-v160
+  labels:
+    name: itechsmart-v160
+    environment: production
+    version: v1.6.0
+
+---
+# Production Secrets with Enhanced Security
+apiVersion: v1
+kind: Secret
+metadata:
+  name: itechsmart-v160-secrets
+  namespace: itechsmart-v160
+type: Opaque
+stringData:
+  database-url: "postgresql://itechsmart_prod:$(DB_PASSWORD)@postgres-cluster.internal:5432/itechsmart_prod"
+  redis-url: "redis://:$(REDIS_PASSWORD)@redis-cluster.internal:6379"
+  secret-key: "$(SECRET_KEY)"
+  kafka-brokers: "kafka-cluster.internal:9092"
+  elasticsearch-url: "https://elasticsearch-cluster.internal:9200"
+  neo4j-url: "bolt://neo4j-cluster.internal:7687"
+  openai-api-key: "$(OPENAI_API_KEY)"
+  jwt-secret: "$(JWT_SECRET)"
+  encryption-key: "$(ENCRYPTION_KEY)"
+
+---
+# Production ConfigMap with Optimized Settings
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: itechsmart-v160-config
+  namespace: itechsmart-v160
+data:
+  environment: "production"
+  log-level: "info"
+  metrics-enabled: "true"
+  tracing-enabled: "true"
+  cache-ttl: "3600"
+  max-connections: "100"
+  rate-limit-requests: "1000"
+  rate-limit-window: "60"
+
+---
+# iTechSmart Arbiter - AI Governance & Safety
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arbiter
+  namespace: itechsmart-v160
+  labels:
+    app: arbiter
+    version: v1.6.0
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: arbiter
+  template:
+    metadata:
+      labels:
+        app: arbiter
+        version: v1.6.0
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
+      containers:
+      - name: arbiter
+        image: ghcr.io/itechsmart/arbiter:v1.6.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: itechsmart-v160-secrets
+              key: database-url
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: itechsmart-v160-secrets
+              key: redis-url
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: itechsmart-v160-secrets
+              key: openai-api-key
+        - name: ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: itechsmart-v160-config
+              key: environment
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: itechsmart-v160-config
+              key: log-level
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: arbiter-service
+  namespace: itechsmart-v160
+  labels:
+    app: arbiter
+spec:
+  type: ClusterIP
+  selector:
+    app: arbiter
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+    name: http
+
+---
+# iTechSmart Digital Twin - Predictive Simulation
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: digital-twin
+  namespace: itechsmart-v160
+  labels:
+    app: digital-twin
+    version: v1.6.0
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: digital-twin
+  template:
+    metadata:
+      labels:
+        app: digital-twin
+        version: v1.6.0
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8081"
+        prometheus.io/path: "/metrics"
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
+      containers:
+      - name: digital-twin
+        image: ghcr.io/itechsmart/digital-twin:v1.6.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8081
+          name: http
+          protocol: TCP
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: itechsmart-v160-secrets
+              key: database-url
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: itechsmart-v160-secrets
+              key: redis-url
+        - name: ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: itechsmart-v160-config
+              key: environment
+        resources:
+          requests:
+            memory: "4Gi"
+            cpu: "2000m"
+          limits:
+            memory: "8Gi"
+            cpu: "4000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8081
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8081
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: digital-twin-service
+  namespace: itechsmart-v160
+  labels:
+    app: digital-twin
+spec:
+  type: ClusterIP
+  selector:
+    app: digital-twin
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8081
+    name: http
+
+---
+# iTechSmart Generative Workflow - Text-to-Workflow
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: generative-workflow
+  namespace: itechsmart-v160
+  labels:
+    app: generative-workflow
+    version: v1.6.0
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: generative-workflow
+  template:
+    metadata:
+      labels:
+        app: generative-workflow
+        version: v1.6.0
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8082"
+        prometheus.io/path: "/metrics"
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
+      containers:
+      - name: generative-workflow
+        image: ghcr.io/itechsmart/generative-workflow:v1.6.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8082
+          name: http
+          protocol: TCP
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: itechsmart-v160-secrets
+              key: database-url
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: itechsmart-v160-secrets
+              key: redis-url
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: itechsmart-v160-secrets
+              key: openai-api-key
+        - name: KAFKA_BROKERS
+          valueFrom:
+            secretKeyRef:
+              name: itechsmart-v160-secrets
+              key: kafka-brokers
+        - name: ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: itechsmart-v160-config
+              key: environment
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8082
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8082
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: generative-workflow-service
+  namespace: itechsmart-v160
+  labels:
+    app: generative-workflow
+spec:
+  type: ClusterIP
+  selector:
+    app: generative-workflow
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8082
+    name: http
+
+---
+# iTechSmart Business Value Dashboard - FinOps
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: business-value-dashboard
+  namespace: itechsmart-v160
+  labels:
+    app: business-value-dashboard
+    version: v1.6.0
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: business-value-dashboard
+  template:
+    metadata:
+      labels:
+        app: business-value-dashboard
+        version: v1.6.0
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8083"
+        prometheus.io/path: "/metrics"
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
+      containers:
+      - name: business-value-dashboard
+        image: ghcr.io/itechsmart/business-value-dashboard:v1.6.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8083
+          name: http
+          protocol: TCP
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: itechsmart-v160-secrets
+              key: database-url
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: itechsmart-v160-secrets
+              key: redis-url
+        - name: ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: itechsmart-v160-config
+              key: environment
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8083
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8083
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: business-value-dashboard-service
+  namespace: itechsmart-v160
+  labels:
+    app: business-value-dashboard
+spec:
+  type: ClusterIP
+  selector:
+    app: business-value-dashboard
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8083
+    name: http
+
+---
+# iTechSmart UAIO Architect Certification - Education Platform
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uaio-certification
+  namespace: itechsmart-v160
+  labels:
+    app: uaio-certification
+    version: v1.6.0
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: uaio-certification
+  template:
+    metadata:
+      labels:
+        app: uaio-certification
+        version: v1.6.0
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8084"
+        prometheus.io/path: "/metrics"
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
+      containers:
+      - name: uaio-certification
+        image: ghcr.io/itechsmart/uaio-certification:v1.6.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8084
+          name: http
+          protocol: TCP
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: itechsmart-v160-secrets
+              key: database-url
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: itechsmart-v160-secrets
+              key: redis-url
+        - name: ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: itechsmart-v160-config
+              key: environment
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8084
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8084
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: uaio-certification-service
+  namespace: itechsmart-v160
+  labels:
+    app: uaio-certification
+spec:
+  type: ClusterIP
+  selector:
+    app: uaio-certification
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8084
+    name: http
+
+---
+# iTechSmart Knowledge Graph - Semantic Data
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: knowledge-graph
+  namespace: itechsmart-v160
+  labels:
+    app: knowledge-graph
+    version: v1.6.0
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: knowledge-graph
+  template:
+    metadata:
+      labels:
+        app: knowledge-graph
+        version: v1.6.0
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8085"
+        prometheus.io/path: "/metrics"
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
+      containers:
+      - name: knowledge-graph
+        image: ghcr.io/itechsmart/knowledge-graph:v1.6.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8085
+          name: http
+          protocol: TCP
+        env:
+        - name: NEO4J_URL
+          valueFrom:
+            secretKeyRef:
+              name: itechsmart-v160-secrets
+              key: neo4j-url
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: itechsmart-v160-secrets
+              key: redis-url
+        - name: ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: itechsmart-v160-config
+              key: environment
+        resources:
+          requests:
+            memory: "3Gi"
+            cpu: "1500m"
+          limits:
+            memory: "6Gi"
+            cpu: "3000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8085
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8085
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: knowledge-graph-service
+  namespace: itechsmart-v160
+  labels:
+    app: knowledge-graph
+spec:
+  type: ClusterIP
+  selector:
+    app: knowledge-graph
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8085
+    name: http
+
+---
+# iTechSmart Gateway - Unified API Gateway
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+  namespace: itechsmart-v160
+  labels:
+    app: gateway
+    version: v1.6.0
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+        version: v1.6.0
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8086"
+        prometheus.io/path: "/metrics"
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
+      containers:
+      - name: gateway
+        image: ghcr.io/itechsmart/gateway:v1.6.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8086
+          name: http
+          protocol: TCP
+        env:
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: itechsmart-v160-secrets
+              key: redis-url
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: itechsmart-v160-secrets
+              key: jwt-secret
+        - name: ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: itechsmart-v160-config
+              key: environment
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8086
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8086
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-service
+  namespace: itechsmart-v160
+  labels:
+    app: gateway
+spec:
+  type: LoadBalancer
+  selector:
+    app: gateway
+  ports:
+  - protocol: TCP
+    port: 443
+    targetPort: 8086
+    name: https
+
+---
+# Horizontal Pod Autoscalers for All Services
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: arbiter-hpa
+  namespace: itechsmart-v160
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: arbiter
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: digital-twin-hpa
+  namespace: itechsmart-v160
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: digital-twin
+  minReplicas: 2
+  maxReplicas: 6
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: generative-workflow-hpa
+  namespace: itechsmart-v160
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: generative-workflow
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: business-value-dashboard-hpa
+  namespace: itechsmart-v160
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: business-value-dashboard
+  minReplicas: 2
+  maxReplicas: 6
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: uaio-certification-hpa
+  namespace: itechsmart-v160
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: uaio-certification
+  minReplicas: 2
+  maxReplicas: 6
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: knowledge-graph-hpa
+  namespace: itechsmart-v160
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: knowledge-graph
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: gateway-hpa
+  namespace: itechsmart-v160
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: gateway
+  minReplicas: 3
+  maxReplicas: 15
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 60
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 70
+
+---
+# Network Policies for Security
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: itechsmart-v160-network-policy
+  namespace: itechsmart-v160
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: itechsmart-v160
+    - namespaceSelector:
+        matchLabels:
+          name: istio-system
+    ports:
+    - protocol: TCP
+      port: 8080
+    - protocol: TCP
+      port: 8081
+    - protocol: TCP
+      port: 8082
+    - protocol: TCP
+      port: 8083
+    - protocol: TCP
+      port: 8084
+    - protocol: TCP
+      port: 8085
+    - protocol: TCP
+      port: 8086
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: itechsmart-v160
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+    - namespaceSelector:
+        matchLabels:
+          name: istio-system
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 80
+
+---
+# Pod Disruption Budgets for High Availability
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: arbiter-pdb
+  namespace: itechsmart-v160
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: arbiter
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: gateway-pdb
+  namespace: itechsmart-v160
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: gateway
+
+---
+# Resource Quotas for the Namespace
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: itechsmart-v160-quota
+  namespace: itechsmart-v160
+spec:
+  hard:
+    requests.cpu: "20"
+    requests.memory: 40Gi
+    limits.cpu: "40"
+    limits.memory: 80Gi
+    persistentvolumeclaims: "10"
+    pods: "50"
+    services: "20"
+    count/secrets: "20"
+    count/configmaps: "20"
+
+---
+# Limit Ranges for Default Resource Requests
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: itechsmart-v160-limits
+  namespace: itechsmart-v160
+spec:
+  limits:
+  - default:
+      cpu: "1000m"
+      memory: "2Gi"
+    defaultRequest:
+      cpu: "500m"
+      memory: "1Gi"
+    type: Container
+  - max:
+      cpu: "4000m"
+      memory: "8Gi"
+    min:
+      cpu: "100m"
+      memory: "128Mi"
+    type: Container

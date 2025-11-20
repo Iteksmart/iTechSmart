@@ -1,0 +1,711 @@
+# iTechSmart Suite v1.6.0 - Production Security & Compliance Framework
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: security
+  labels:
+    name: security
+    environment: production
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/warn: restricted
+
+---
+# Pod Security Policies
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: itechsmart-restricted
+  namespace: security
+spec:
+  privileged: false
+  allowPrivilegeEscalation: false
+  requiredDropCapabilities:
+    - ALL
+  volumes:
+    - 'configMap'
+    - 'emptyDir'
+    - 'projected'
+    - 'secret'
+    - 'downwardAPI'
+    - 'persistentVolumeClaim'
+  runAsUser:
+    rule: 'MustRunAsNonRoot'
+  seLinux:
+    rule: 'RunAsAny'
+  fsGroup:
+    rule: 'RunAsAny'
+  readOnlyRootFilesystem: true
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    fsGroup: 2000
+
+---
+# Network Policies for Zero Trust Architecture
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: itechsmart-deny-all
+  namespace: itechsmart-v160
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: itechsmart-allow-internal
+  namespace: itechsmart-v160
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: itechsmart-v160
+    - namespaceSelector:
+        matchLabels:
+          name: monitoring
+    - namespaceSelector:
+        matchLabels:
+          name: security
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: itechsmart-v160
+    - namespaceSelector:
+        matchLabels:
+          name: monitoring
+    - namespaceSelector:
+        matchLabels:
+          name: security
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 80
+
+---
+# OPA Gatekeeper Policies for Compliance
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8srequiredlabels
+  namespace: security
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sRequiredLabels
+      validation:
+        openAPIV3Schema:
+          type: object
+          properties:
+            labels:
+              type: array
+              items:
+                type: string
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8srequiredlabels
+        
+        violation[{"msg": msg, "details": {"missing_labels": missing}}] {
+          provided := {label | input.review.object.metadata.labels[label]}
+          required := {label | label := input.parameters.labels[_]}
+          missing := required - provided
+          count(missing) > 0
+          msg := sprintf("missing required labels: %v", [missing])
+        }
+
+---
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sRequiredLabels
+metadata:
+  name: itechsmart-must-have-labels
+  namespace: security
+spec:
+  enforcementAction: deny
+  match:
+    kinds:
+    - apiGroups: [""]
+      kinds: ["Pod"]
+    - apiGroups: ["apps"]
+      kinds: ["Deployment", "StatefulSet", "DaemonSet"]
+  parameters:
+    labels: ["app", "version", "environment"]
+
+---
+# Falco Runtime Security Monitoring
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: falco
+  namespace: security
+  labels:
+    app: falco
+spec:
+  selector:
+    matchLabels:
+      app: falco
+  template:
+    metadata:
+      labels:
+        app: falco
+    spec:
+      serviceAccountName: falco
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      containers:
+      - name: falco
+        image: falcosecurity/falco:0.34.1
+        args:
+        - /usr/bin/falco
+        - --crio
+        - /var/run/containerd/containerd.sock
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: var-run
+          mountPath: /var/run
+        - name: etc
+          mountPath: /etc
+        - name: usr-lib
+          mountPath: /usr/lib
+        - name: lib
+          mountPath: /lib
+        - name: mnt
+          mountPath: /host/mnt
+          readOnly: true
+        - name: proc
+          mountPath: /host/proc
+          readOnly: true
+        - name: boot
+          mountPath: /host/boot
+          readOnly: true
+        - name: dev
+          mountPath: /host/dev
+          readOnly: true
+        - name: modules
+          mountPath: /host/lib/modules
+          readOnly: true
+        - name: etc-falco
+          mountPath: /etc/falco
+          readOnly: true
+        - name: var-lib-falco
+          mountPath: /var/lib/falco
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "100m"
+          limits:
+            memory: "500Mi"
+            cpu: "500m"
+      volumes:
+      - name: var-run
+        hostPath:
+          path: /var/run
+      - name: etc
+        hostPath:
+          path: /etc
+      - name: usr-lib
+        hostPath:
+          path: /usr/lib
+      - name: lib
+        hostPath:
+          path: /lib
+      - name: mnt
+        hostPath:
+          path: /mnt
+      - name: proc
+        hostPath:
+          path: /proc
+      - name: boot
+        hostPath:
+          path: /boot
+      - name: dev
+        hostPath:
+          path: /dev
+      - name: modules
+        hostPath:
+          path: /lib/modules
+      - name: etc-falco
+        configMap:
+          name: falco-config
+      - name: var-lib-falco
+        hostPath:
+          path: /var/lib/falco
+
+---
+# Falco Configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: falco-config
+  namespace: security
+data:
+  falco_rules.yaml: |
+    - rule: iTechSmart Unauthorized Shell Access
+      desc: Detect unauthorized shell access in iTechSmart containers
+      condition: >
+        spawned_process and
+        container and
+        proc.name in (bash, sh, zsh, fish, ksh, csh, tcsh) and
+        not user.name in (root, itechsmart-service)
+      output: >
+        Unauthorized shell access detected (user=%user.name container=%container.name
+        shell=%proc.name parent=%proc.pname cmdline=%proc.cmdline image=%container.image)
+      priority: HIGH
+      tags: [shell, container, itechsmart-security]
+    
+    - rule: iTechSmart Sensitive File Access
+      desc: Detect access to sensitive files in iTechSmart containers
+      condition: >
+        open_read and
+        container and
+        fd.name contains (/etc/passwd, /etc/shadow, /etc/hosts, /etc/resolve.conf,
+                       /root/.ssh/, /home/.ssh/, /var/log/auth.log, /var/log/secure) and
+        not proc.name in (sshd, systemd, login)
+      output: >
+        Sensitive file access detected (user=%user.name container=%container.name
+        file=%fd.name process=%proc.name image=%container.image)
+      priority: MEDIUM
+      tags: [file_access, container, itechsmart-security]
+    
+    - rule: iTechSmart Network Connection
+      desc: Detect suspicious network connections from iTechSmart containers
+      condition: >
+        connect and
+        container and
+        not fd.sip.ip in (127.0.0.1, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) and
+        not fd.dport.name in (80, 443, 53, 3306, 5432, 6379, 9092, 9200, 7687)
+      output: >
+        Suspicious network connection (user=%user.name container=%container.name
+        src=%fd.sip dst=%fd.dip process=%proc.name image=%container.image)
+      priority: MEDIUM
+      tags: [network, container, itechsmart-security]
+    
+    - rule: iTechSmart Privilege Escalation
+      desc: Detect privilege escalation attempts in iTechSmart containers
+      condition: >
+        spawned_process and
+        container and
+        proc.name in (sudo, su, doas, pkexec) and
+        not user.name in (root)
+      output: >
+        Privilege escalation attempt detected (user=%user.name container=%container.name
+        process=%proc.name cmdline=%proc.cmdline image=%container.image)
+      priority: HIGH
+      tags: [privilege_escalation, container, itechsmart-security]
+
+---
+# Falco Service Account
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: falco
+  namespace: security
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: falco
+rules:
+- apiGroups: [""]
+  resources:
+  - pods
+  - nodes
+  - services
+  - endpoints
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["extensions"]
+  resources:
+  - ingresses
+  verbs: ["get", "list", "watch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: falco
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: falco
+subjects:
+- kind: ServiceAccount
+  name: falco
+  namespace: security
+
+---
+# External Secrets Management
+apiVersion: v1
+kind: Secret
+metadata:
+  name: itechsmart-secrets-manager
+  namespace: security
+type: Opaque
+stringData:
+  vault-token: "$(VAULT_TOKEN)"
+  vault-address: "$(VAULT_ADDRESS)"
+  aws-access-key-id: "$(AWS_ACCESS_KEY_ID)"
+  aws-secret-access-key: "$(AWS_SECRET_ACCESS_KEY)"
+  kms-key-id: "$(KMS_KEY_ID)"
+
+---
+# External Secrets Operator Configuration
+apiVersion: external-secrets.io/v1beta1
+kind: SecretStore
+metadata:
+  name: itechsmart-secret-store
+  namespace: security
+spec:
+  provider:
+    aws:
+      service: SecretsManager
+      region: us-east-1
+      auth:
+        jwt:
+          serviceAccountRef:
+            name: itechsmart-secrets-sa
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: itechsmart-secrets-sa
+  namespace: security
+  annotations:
+    eks.amazonaws.com/role-arn: "$(AWS_IAM_ROLE_ARN)"
+
+---
+# iTechSmart Application Secrets
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: itechsmart-database-secret
+  namespace: security
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: itechsmart-secret-store
+    kind: SecretStore
+  target:
+    name: itechsmart-database-secret
+    creationPolicy: Owner
+  data:
+  - secretKey: database-url
+    remoteRef:
+      key: itechsmart/production/database
+      property: url
+  - secretKey: database-username
+    remoteRef:
+      key: itechsmart/production/database
+      property: username
+  - secretKey: database-password
+    remoteRef:
+      key: itechsmart/production/database
+      property: password
+
+---
+# Compliance Monitoring - SOC2 Type II
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: soc2-compliance-config
+  namespace: security
+data:
+  compliance-rules.yaml: |
+    soc2_controls:
+      security:
+        - id: CC1.1
+          name: "Control Environment"
+          description: "Management establishes structures, reporting lines, and authorities to achieve objectives"
+          checks:
+            - name: rbac_enabled
+              description: "Role-based access control is properly configured"
+            - name: network_policies_enforced
+              description: "Network policies are enforced across all namespaces"
+        
+        - id: CC2.1
+          name: "Communications"
+          description: "Information systems are designed, developed, implemented, and operated to achieve objectives"
+          checks:
+            - name: encryption_at_rest
+              description: "Data encryption at rest is enabled"
+            - name: encryption_in_transit
+              description: "Data encryption in transit is enabled"
+      
+      availability:
+        - id: A1.1
+          name: "Availability Objectives"
+          description: "System availability is designed to achieve objectives"
+          checks:
+            - name: ha_deployment
+              description: "High availability deployment is configured"
+            - name: backup_regular
+              description: "Regular backups are performed"
+      
+      processing_integrity:
+        - id: PI1.1
+          name: "Processing Integrity Objectives"
+          description: "System processing is complete, valid, accurate, timely, and authorized"
+          checks:
+            - name: audit_logging
+              description: "Comprehensive audit logging is enabled"
+            - name: transaction_validation
+              description: "Transaction validation is implemented"
+
+---
+# Audit Logging Configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: audit-logging-config
+  namespace: security
+data:
+  audit-policy.yaml: |
+    apiVersion: audit.k8s.io/v1
+    kind: Policy
+    rules:
+      # Log all requests at the Metadata level
+      - level: Metadata
+        namespaces: ["itechsmart-v160"]
+        resources:
+        - group: ""
+          resources: ["secrets", "configmaps"]
+        - group: "apps"
+          resources: ["deployments", "replicasets"]
+      
+      # Log request and response bodies for sensitive operations
+      - level: Request
+        namespaces: ["itechsmart-v160"]
+        resources:
+        - group: ""
+          resources: ["pods"]
+        verbs: ["create", "delete", "update"]
+      
+      # Don't log read-only requests
+      - level: None
+        resources:
+        - group: ""
+          resources: ["events"]
+
+---
+# Security Metrics Exporter
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: security-metrics-exporter
+  namespace: security
+  labels:
+    app: security-metrics-exporter
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: security-metrics-exporter
+  template:
+    metadata:
+      labels:
+        app: security-metrics-exporter
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: security-metrics-exporter
+      containers:
+      - name: metrics-exporter
+        image: itechsmart/security-metrics-exporter:v1.6.0
+        ports:
+        - containerPort: 9090
+          name: metrics
+        env:
+        - name: PROMETHEUS_ENABLED
+          value: "true"
+        - name: SECURITY_CHECK_INTERVAL
+          value: "60"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: security-metrics-exporter-service
+  namespace: security
+  labels:
+    app: security-metrics-exporter
+spec:
+  selector:
+    app: security-metrics-exporter
+  ports:
+  - protocol: TCP
+    port: 9090
+    targetPort: 9090
+    name: metrics
+
+---
+# Security Metrics Service Account
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: security-metrics-exporter
+  namespace: security
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: security-metrics-exporter
+rules:
+- apiGroups: [""]
+  resources:
+  - pods
+  - services
+  - endpoints
+  - secrets
+  - configmaps
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["apps"]
+  resources:
+  - deployments
+  - replicasets
+  - daemonsets
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["networking.k8s.io"]
+  resources:
+  - networkpolicies
+  verbs: ["get", "list", "watch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: security-metrics-exporter
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: security-metrics-exporter
+subjects:
+- kind: ServiceAccount
+  name: security-metrics-exporter
+  namespace: security
+
+---
+# HIPAA Compliance Configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hipaa-compliance-config
+  namespace: security
+data:
+  hipaa-rules.yaml: |
+    hipaa_requirements:
+      privacy_rule:
+        - "Administrative safeguards"
+        - "Physical safeguards" 
+        - "Technical safeguards"
+      
+      security_rule:
+        - "Access controls"
+        - "Audit controls"
+        - "Integrity controls"
+        - "Transmission security"
+      
+      breach_notification:
+        - "Individual notification"
+        - "Media notification"
+        - "Notification to the Secretary"
+    
+    technical_safeguards:
+      access_control:
+        - unique_user_identification: true
+        - emergency_access_procedure: true
+        - automatic_logoff: true
+        - encryption_and_decryption: true
+      
+      audit_controls:
+        - mechanism_to_record: true
+        - activity_logs: true
+        - authentication_logs: true
+      
+      integrity_controls:
+        - electronic_authentication: true
+        - data_corruption_prevention: true
+        - audit_trail_maintenance: true
+      
+      transmission_security:
+        - encryption_end_to_end: true
+        - integrity_controls: true
+
+---
+# GDPR Compliance Configuration  
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gdpr-compliance-config
+  namespace: security
+data:
+  gdpr-rules.yaml: |
+    gdpr_principles:
+      lawfulness_fairness_transparency:
+        - "Lawful basis for processing"
+        - "Transparent data collection"
+      
+      purpose_limitation:
+        - "Specify purpose at collection"
+        - "No further processing incompatible with original purpose"
+      
+      data_minimization:
+        - "Collect only necessary data"
+        - "Retain only as long as necessary"
+      
+      accuracy:
+        - "Ensure data is accurate"
+        - "Maintain up-to-date records"
+      
+      storage_limitation:
+        - "Define retention periods"
+        - "Implement data deletion"
+      
+      integrity_confidentiality:
+        - "Appropriate security measures"
+        - "Encryption and access controls"
+      
+      accountability:
+        - "Demonstrate compliance"
+        - "Maintain records of processing"
+    
+    data_subject_rights:
+      - right_to_be_informed
+      - right_of_access
+      - right_to_rectification
+      - right_to_erasure
+      - right_to_restrict_processing
+      - right_to_data_portability
+      - right_to_object
+      - rights_related_to_automated_decision_making_profiling

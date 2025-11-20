@@ -1,0 +1,358 @@
+name: iTechSmart Suite v1.6.0 - Production Deployment
+
+on:
+  push:
+    branches: [main]
+    tags: ['v1.6.0*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - production
+        - staging
+      service:
+        description: 'Specific service to deploy (optional)'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+        - all
+        - arbiter
+        - digital-twin
+        - generative-workflow
+        - business-value-dashboard
+        - uaio-certification
+        - knowledge-graph
+        - gateway
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: itechsmart
+
+jobs:
+  # Security and Quality Checks
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    outputs:
+      scan-passed: ${{ steps.scan.outcome == 'success' }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+
+    - name: Upload Trivy scan results
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+    - name: Run Gitleaks
+      uses: gitleaks/gitleaks-action@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Code Quality and Testing
+  quality-check:
+    name: Code Quality & Testing
+    runs-on: ubuntu-latest
+    outputs:
+      tests-passed: ${{ steps.test.outcome == 'success' }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        npm ci
+
+    - name: Run Python tests
+      run: |
+        pytest tests/ --cov=. --cov-report=xml --junit-xml=test-results.xml
+
+    - name: Run JavaScript tests
+      run: |
+        npm run test:coverage
+
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./coverage.xml,./test-results.xml
+
+  # Build and Push Docker Images
+  build-images:
+    name: Build Docker Images
+    runs-on: ubuntu-latest
+    needs: [security-scan, quality-check]
+    if: needs.security-scan.outputs.scan-passed == 'true' && needs.quality-check.outputs.tests-passed == 'true'
+    strategy:
+      matrix:
+        service:
+        - arbiter
+        - digital-twin
+        - generative-workflow
+        - business-value-dashboard
+        - uaio-certification
+        - knowledge-graph
+        - gateway
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Log in to Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/${{ matrix.service }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+          type=semver,pattern={{major}}.{{minor}}.{{patch}}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: ./products/${{ matrix.service }}
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+  # Deploy to Staging
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [build-images]
+    if: github.event_name == 'pull_request' || github.event.inputs.environment == 'staging'
+    environment: staging
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure kubectl
+      uses: azure/k8s-set-context@v3
+      with:
+        method: kubeconfig
+        kubeconfig: ${{ secrets.KUBE_CONFIG_STAGING }}
+
+    - name: Deploy to staging
+      run: |
+        kubectl apply -f k8s/production/v1.6.0-deployments.yaml
+        kubectl rollout status deployment/${{ github.event.inputs.service || 'all' }} -n itechsmart-v160
+
+    - name: Run smoke tests
+      run: |
+        ./scripts/smoke-tests.sh staging
+
+  # Deploy to Production
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [build-images]
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v1.6.0') || github.event.inputs.environment == 'production'
+    environment: production
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure kubectl
+      uses: azure/k8s-set-context@v3
+      with:
+        method: kubeconfig
+        kubeconfig: ${{ secrets.KUBE_CONFIG_PROD }}
+
+    - name: Create backup before deployment
+      run: |
+        ./scripts/backup-production.sh pre-deploy-$(date +%Y%m%d-%H%M%S)
+
+    - name: Deploy to production
+      run: |
+        # Update image tags in deployment
+        sed -i "s|:v1.6.0|:${{ github.sha }}|g" k8s/production/v1.6.0-deployments.yaml
+        
+        # Apply deployment
+        kubectl apply -f k8s/production/v1.6.0-deployments.yaml
+        
+        # Wait for rollout
+        kubectl rollout status deployment/${{ github.event.inputs.service || 'all' }} -n itechsmart-v160 --timeout=600s
+
+    - name: Verify deployment health
+      run: |
+        ./scripts/health-check.sh production
+
+    - name: Run integration tests
+      run: |
+        ./scripts/integration-tests.sh production
+
+    - name: Create post-deployment backup
+      run: |
+        ./scripts/backup-production.sh post-deploy-$(date +%Y%m%d-%H%M%S)
+
+    - name: Notify Slack
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        channel: '#deployments'
+        text: |
+          🚀 iTechSmart v1.6.0 Production Deployment Complete!
+          Service: ${{ github.event.inputs.service || 'All Services' }}
+          Commit: ${{ github.sha }}
+          Deployed by: ${{ github.actor }}
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      if: always()
+
+  # Rollback (Manual Trigger)
+  rollback:
+    name: Rollback Production
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.rollback == 'true'
+    environment: production
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure kubectl
+      uses: azure/k8s-set-context@v3
+      with:
+        method: kubeconfig
+        kubeconfig: ${{ secrets.KUBE_CONFIG_PROD }}
+
+    - name: Rollback deployment
+      run: |
+        kubectl rollout undo deployment/${{ github.event.inputs.service }} -n itechsmart-v160
+        kubectl rollout status deployment/${{ github.event.inputs.service }} -n itechsmart-v160
+
+    - name: Verify rollback health
+      run: |
+        ./scripts/health-check.sh production
+
+    - name: Notify Slack
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        channel: '#deployments'
+        text: |
+          🔄 iTechSmart v1.6.0 Production Rollback Complete!
+          Service: ${{ github.event.inputs.service }}
+          Rollback by: ${{ github.actor }}
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  # Performance Monitoring
+  performance-monitor:
+    name: Post-Deployment Performance Check
+    runs-on: ubuntu-latest
+    needs: [deploy-production]
+    if: needs.deploy-production.result == 'success'
+    steps:
+    - name: Wait for stabilization
+      run: sleep 300
+
+    - name: Check performance metrics
+      run: |
+        ./scripts/performance-check.sh production
+
+    - name: Generate performance report
+      run: |
+        ./scripts/performance-report.sh production > performance-report-$(date +%Y%m%d-%H%M%S).json
+
+    - name: Upload performance report
+      uses: actions/upload-artifact@v3
+      with:
+        name: performance-report
+        path: performance-report-*.json
+
+  # Security Scan in Production
+  security-scan-production:
+    name: Production Security Scan
+    runs-on: ubuntu-latest
+    needs: [deploy-production]
+    if: needs.deploy-production.result == 'success'
+    steps:
+    - name: Configure kubectl
+      uses: azure/k8s-set-context@v3
+      with:
+        method: kubeconfig
+        kubeconfig: ${{ secrets.KUBE_CONFIG_PROD }}
+
+    - name: Run production security scan
+      run: |
+        ./scripts/security-scan.sh production
+
+    - name: Check for vulnerabilities
+      run: |
+        ./scripts/vulnerability-check.sh production
+
+# Cleanup old artifacts
+cleanup:
+  name: Cleanup Old Artifacts
+  runs-on: ubuntu-latest
+  if: always()
+  steps:
+    - name: Delete old workflow runs
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const runs = await github.rest.actions.listWorkflowRuns({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            workflow_id: context.workflow,
+            per_page: 100
+          });
+          
+          const oldRuns = runs.data.workflow_runs.filter(run => {
+            const runDate = new Date(run.created_at);
+            const cutoffDate = new Date();
+            cutoffDate.setDate(cutoffDate.getDate() - 30);
+            return runDate < cutoffDate;
+          });
+          
+          for (const run of oldRuns) {
+            await github.rest.actions.deleteWorkflowRun({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: run.id
+            });
+          }
