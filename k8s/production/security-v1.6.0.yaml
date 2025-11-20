@@ -1,0 +1,555 @@
+# iTechSmart v1.6.0 Production Security Configuration
+# SOC2, HIPAA, GDPR Compliance Settings
+
+---
+# Pod Security Policies
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: itechsmart-restricted-psp
+  namespace: itechsmart-production
+spec:
+  privileged: false
+  allowPrivilegeEscalation: false
+  requiredDropCapabilities:
+    - ALL
+  volumes:
+    - 'configMap'
+    - 'emptyDir'
+    - 'projected'
+    - 'secret'
+    - 'downwardAPI'
+    - 'persistentVolumeClaim'
+  runAsUser:
+    rule: 'MustRunAsNonRoot'
+  seLinux:
+    rule: 'RunAsAny'
+  fsGroup:
+    rule: 'RunAsAny'
+  readOnlyRootFilesystem: true
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    fsGroup: 1000
+
+---
+# Network Policies for Enhanced Security
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: itechsmart-deny-all-egress
+  namespace: itechsmart-production
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  egress: []
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: itechsmart-allow-dns-egress
+  namespace: itechsmart-production
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  egress:
+  - to: []
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: itechsmart-allow-kube-api-egress
+  namespace: itechsmart-production
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - protocol: TCP
+      port: 443
+
+---
+# Security Context Constraints
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: itechsmart-sa
+  namespace: itechsmart-production
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: itechsmart-role
+  namespace: itechsmart-production
+rules:
+- apiGroups: [""]
+  resources: ["pods", "services", "configmaps", "secrets"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["apps"]
+  resources: ["deployments", "replicasets"]
+  verbs: ["get", "list", "watch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: itechsmart-rolebinding
+  namespace: itechsmart-production
+subjects:
+- kind: ServiceAccount
+  name: itechsmart-sa
+  namespace: itechsmart-production
+roleRef:
+  kind: Role
+  name: itechsmart-role
+  apiGroup: rbac.authorization.k8s.io
+
+---
+# Resource Quotas for Production
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: itechsmart-quota
+  namespace: itechsmart-production
+spec:
+  hard:
+    requests.cpu: "20"
+    requests.memory: 40Gi
+    limits.cpu: "40"
+    limits.memory: 80Gi
+    persistentvolumeclaims: "20"
+    pods: "50"
+    services: "30"
+    secrets: "30"
+    configmaps: "30"
+    count/deployments.apps: "30"
+
+---
+# Limit Ranges
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: itechsmart-limits
+  namespace: itechsmart-production
+spec:
+  limits:
+  - default:
+      cpu: "500m"
+      memory: "512Mi"
+    defaultRequest:
+      cpu: "100m"
+      memory: "128Mi"
+    type: Container
+  - max:
+      cpu: "4"
+      memory: "8Gi"
+    min:
+      cpu: "50m"
+      memory: "64Mi"
+    type: Container
+
+---
+# Secrets Management with External Secrets Operator
+apiVersion: external-secrets.io/v1beta1
+kind: SecretStore
+metadata:
+  name: itechsmart-secret-store
+  namespace: itechsmart-production
+spec:
+  provider:
+    aws:
+      service: SecretsManager
+      region: us-east-1
+      auth:
+        jwt:
+          serviceAccountRef:
+            name: itechsmart-sa
+
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: itechsmart-database-credentials
+  namespace: itechsmart-production
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: itechsmart-secret-store
+    kind: SecretStore
+  target:
+    name: database-credentials
+    creationPolicy: Owner
+  data:
+  - secretKey: database-url
+    remoteRef:
+      key: itechsmart/production/database-url
+  - secretKey: database-username
+    remoteRef:
+      key: itechsmart/production/database-username
+  - secretKey: database-password
+    remoteRef:
+      key: itechsmart/production/database-password
+
+---
+# OPA Gatekeeper Policies for Compliance
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sRequiredLabels
+metadata:
+  name: itechsmart-mandatory-labels
+  namespace: itechsmart-production
+spec:
+  enforcementAction: deny
+  match:
+    kinds:
+    - apiGroups: [""]
+      kinds: ["Pod"]
+    - apiGroups: ["apps"]
+      kinds: ["Deployment", "StatefulSet", "DaemonSet"]
+  parameters:
+    labels:
+      - key: "security-level"
+        allowedRegex: "^(standard|high|critical)$"
+      - key: "compliance"
+        allowedRegex: "^(soc2|hipaa|gdpr)$"
+
+---
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sDisallowHostNetwork
+metadata:
+  name: itechsmart-no-host-network
+  namespace: itechsmart-production
+spec:
+  enforcementAction: deny
+  match:
+    kinds:
+    - apiGroups: [""]
+      kinds: ["Pod"]
+
+---
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sRestrictNamespaces
+metadata:
+  name: itechsmart-restrict-namespaces
+  namespace: itechsmart-production
+spec:
+  enforcementAction: deny
+  match:
+    kinds:
+    - apiGroups: [""]
+      kinds: ["Namespace"]
+  parameters:
+    allowed: ["default", "kube-system", "kube-public", "kube-node-lease", "itechsmart-production"]
+
+---
+# Falco Runtime Security
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: falco-config
+  namespace: itechsmart-production
+data:
+  falco_rules.yaml: |
+    - rule: Detect shell in container
+      desc: Detect shell spawned within container
+      condition: >
+        spawned_process and
+        container and
+        proc.name in (shell_binaries)
+      output: >
+        Shell spawned in container (user=%user.name container=%container.name shell=%proc.name parent=%proc.pname cmdline=%proc.cmdline)
+      priority: WARNING
+      tags: [container, shell]
+
+    - rule: Detect sudo usage in container
+      desc: Detect sudo usage within container
+      condition: >
+        spawned_process and
+        container and
+        proc.name = "sudo"
+      output: >
+        Sudo used in container (user=%user.name container=%container.name command=%proc.cmdline)
+      priority: HIGH
+      tags: [container, sudo]
+
+    - rule: Detect sensitive file access
+      desc: Detect access to sensitive files
+      condition: >
+        open_read and
+        container and
+        fd.name in (/etc/shadow, /etc/passwd, /etc/sudoers)
+      output: >
+        Sensitive file accessed (user=%user.name container=%container.name file=%fd.name)
+      priority: HIGH
+      tags: [container, file_access]
+
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: falco
+  namespace: itechsmart-production
+  labels:
+    app: falco
+spec:
+  selector:
+    matchLabels:
+      app: falco
+  template:
+    metadata:
+      labels:
+        app: falco
+    spec:
+      serviceAccount: falco-sa
+      hostPID: true
+      hostIPC: true
+      hostNetwork: true
+      containers:
+      - name: falco
+        image: falcosecurity/falco:0.34.1
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: rootfs
+          mountPath: /host
+          readOnly: true
+        - name: dev
+          mountPath: /host/dev
+        - name: proc
+          mountPath: /host/proc
+        - name: boot
+          mountPath: /host/boot
+          readOnly: true
+        - name: lib-modules
+          mountPath: /host/lib/modules
+          readOnly: true
+        - name: usr
+          mountPath: /host/usr
+          readOnly: true
+        - name: etc
+          mountPath: /host/etc
+          readOnly: true
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "100m"
+          limits:
+            memory: "500Mi"
+            cpu: "500m"
+      volumes:
+      - name: rootfs
+        hostPath:
+          path: /
+      - name: dev
+        hostPath:
+          path: /dev
+      - name: proc
+        hostPath:
+          path: /proc
+      - name: boot
+        hostPath:
+          path: /boot
+      - name: lib-modules
+        hostPath:
+          path: /lib/modules
+      - name: usr
+        hostPath:
+          path: /usr
+      - name: etc
+        hostPath:
+          path: /etc
+
+---
+# Service Account for Falco
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: falco-sa
+  namespace: itechsmart-production
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: falco-clusterrole
+rules:
+- apiGroups: [""]
+  resources: ["nodes", "pods", "services", "endpoints", "replicationcontrollers"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["apps"]
+  resources: ["replicasets", "deployments", "daemonsets", "statefulsets"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["batch"]
+  resources: ["jobs", "cronjobs"]
+  verbs: ["get", "list", "watch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: falco-clusterrolebinding
+subjects:
+- kind: ServiceAccount
+  name: falco-sa
+  namespace: itechsmart-production
+roleRef:
+  kind: ClusterRole
+  name: falco-clusterrole
+  apiGroup: rbac.authorization.k8s.io
+
+---
+# Audit Logging Configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: audit-policy
+  namespace: itechsmart-production
+data:
+  policy.yaml: |
+    apiVersion: audit.k8s.io/v1
+    kind: Policy
+    rules:
+    - level: Metadata
+      namespaces: ["itechsmart-production"]
+      resources:
+      - group: ""
+        resources: ["secrets", "configmaps", "pods"]
+      - group: "apps"
+        resources: ["deployments", "replicasets"]
+    - level: Request
+      namespaces: ["itechsmart-production"]
+      resources:
+      - group: ""
+        resources: ["secrets"]
+      verbs: ["create", "update", "patch", "delete"]
+    - level: RequestResponse
+      namespaces: ["itechsmart-production"]
+      resources:
+      - group: ""
+        resources: ["secrets"]
+      verbs: ["get", "list", "watch"]
+
+---
+# Compliance Scanner (Trivy Operator)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: trivy-operator-config
+  namespace: itechsmart-production
+data:
+  trivy.yaml: |
+    scanJobTolerations:
+    - key: "node-role.kubernetes.io/master"
+      operator: "Exists"
+      effect: "NoSchedule"
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Exists"
+      effect: "NoSchedule"
+    
+    scanSecurityChecks:
+      - config
+      - rbac
+      - workload
+      - infra
+      - image
+    
+    reportRecordFailedChecksOnly: true
+    severityLevels:
+      - CRITICAL
+      - HIGH
+      - MEDIUM
+
+---
+# Backup Configuration (Velero)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: velero-config
+  namespace: itechsmart-production
+data:
+  backup.json: |
+    {
+      "schedule": "0 2 * * *",
+      "retention": "30d",
+      "includeNamespaces": ["itechsmart-production"],
+      "excludeResources": ["events", "events.events.k8s.io"],
+      "storageLocation": "default",
+      "snapshotVolumes": true,
+      "defaultVolumesToRestic": false,
+      "itemOperationTimeout": "4h",
+      "hooks": {
+        "resources": [
+          {
+            "name": "pre-backup-hooks",
+            "includedNamespaces": ["itechsmart-production"],
+            "labelSelector": {
+              "matchLabels": {
+                "backup-hook": "pre-backup"
+              }
+            },
+            "hooks": [
+              {
+                "exec": {
+                  "command": ["/bin/sh", "-c", "./pre-backup.sh"],
+                  "container": "app",
+                  "onError": "Fail"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+
+---
+# Webhook Configuration for Security
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: itechsmart-security-webhook
+webhooks:
+- name: security.validation.itechsmart.com
+  rules:
+  - apiGroups: [""]
+    apiVersions: ["v1"]
+    operations: ["CREATE", "UPDATE"]
+    resources: ["pods"]
+  clientConfig:
+    service:
+      name: itechsmart-security-service
+      namespace: itechsmart-production
+      path: "/validate"
+  admissionReviewVersions: ["v1", "v1beta1"]
+  sideEffects: None
+  failurePolicy: Fail
+  timeoutSeconds: 5
+
+---
+# Security Metrics
+apiVersion: v1
+kind: ServiceMonitor
+metadata:
+  name: itechsmart-security-metrics
+  namespace: itechsmart-production
+  labels:
+    app: itechsmart-security
+spec:
+  selector:
+    matchLabels:
+      app: itechsmart-security
+  endpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics

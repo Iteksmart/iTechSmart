@@ -1,0 +1,573 @@
+# iTechSmart v1.6.0 Production Backup and Disaster Recovery
+# Velero, AWS S3, Cross-Region Replication Configuration
+
+---
+# Velero Installation
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: velero
+  labels:
+    name: velero
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: velero-server
+subjects:
+- kind: ServiceAccount
+  name: velero
+  namespace: velero
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: velero
+  namespace: velero
+
+---
+# Velero Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: velero
+  namespace: velero
+  labels:
+    app: velero
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: velero
+  template:
+    metadata:
+      labels:
+        app: velero
+    spec:
+      serviceAccountName: velero
+      containers:
+      - name: velero
+        image: velero/velero:v1.10.0
+        command:
+        - /velero
+        args:
+        - server
+        - --features=EnableCSI
+        env:
+        - name: VELERO_SCRATCH_DIR
+          value: /scratch
+        - name: AWS_SHARED_CREDENTIALS_FILE
+          value: /credentials/cloud
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: scratch
+          mountPath: /scratch
+        - name: cloud-credentials
+          mountPath: /credentials
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      volumes:
+      - name: scratch
+        emptyDir: {}
+      - name: cloud-credentials
+        secret:
+          secretName: velero-credentials
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: velero
+  namespace: velero
+  labels:
+    app: velero
+spec:
+  type: ClusterIP
+  selector:
+    app: velero
+  ports:
+  - port: 8080
+    targetPort: 8080
+    name: http
+
+---
+# Velero Credentials Secret
+apiVersion: v1
+kind: Secret
+metadata:
+  name: velero-credentials
+  namespace: velero
+type: Opaque
+stringData:
+  cloud: |
+    [default]
+    aws_access_key_id = ${AWS_ACCESS_KEY_ID}
+    aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}
+
+---
+# Backup Storage Location (Primary Region)
+apiVersion: velero.io/v1
+kind: BackupStorageLocation
+metadata:
+  name: default
+  namespace: velero
+spec:
+  provider: aws
+  objectStorage:
+    bucket: itechsmart-backups-primary
+    prefix: v1.6.0
+  config:
+    region: us-east-1
+    s3ForcePathStyle: "false"
+    s3Url: https://s3.amazonaws.com
+  accessMode: ReadWrite
+
+---
+# Backup Storage Location (Secondary Region - DR)
+apiVersion: velero.io/v1
+kind: BackupStorageLocation
+metadata:
+  name: dr-backup-location
+  namespace: velero
+spec:
+  provider: aws
+  objectStorage:
+    bucket: itechsmart-backups-dr
+    prefix: v1.6.0-dr
+  config:
+    region: us-west-2
+    s3ForcePathStyle: "false"
+    s3Url: https://s3.us-west-2.amazonaws.com
+  accessMode: ReadOnly
+
+---
+# Volume Snapshot Location
+apiVersion: velero.io/v1
+kind: VolumeSnapshotLocation
+metadata:
+  name: default
+  namespace: velero
+spec:
+  provider: aws
+  config:
+    region: us-east-1
+    profile: default
+
+---
+# Scheduled Backups - Daily
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: daily-backup
+  namespace: velero
+spec:
+  schedule: "0 2 * * *"  # Daily at 2 AM UTC
+  template:
+    includedNamespaces:
+    - itechsmart-production
+    excludedNamespaces:
+    - velero
+    storageLocation: default
+    volumeSnapshotLocations:
+    - default
+    snapshotVolumes: true
+    defaultVolumesToRestic: false
+    ttl: "720h0m0s"  # 30 days
+    hooks:
+      resources:
+      - name: pre-backup-hooks
+        includedNamespaces:
+        - itechsmart-production
+        labelSelector:
+          matchLabels:
+            backup-hook: pre-backup
+        hooks:
+        - exec:
+            container: app
+            command:
+            - /bin/sh
+            - -c
+            - ./pre-backup.sh
+            onError: Fail
+            timeout: 5m
+      - name: post-backup-hooks
+        includedNamespaces:
+        - itechsmart-production
+        labelSelector:
+          matchLabels:
+            backup-hook: post-backup
+        hooks:
+        - exec:
+            container: app
+            command:
+            - /bin/sh
+            - -c
+            - ./post-backup.sh
+            onError: Continue
+            timeout: 5m
+
+---
+# Scheduled Backups - Weekly Full
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: weekly-full-backup
+  namespace: velero
+spec:
+  schedule: "0 3 * * 0"  # Weekly on Sunday at 3 AM UTC
+  template:
+    includedNamespaces:
+    - itechsmart-production
+    storageLocation: default
+    volumeSnapshotLocations:
+    - default
+    snapshotVolumes: true
+    defaultVolumesToRestic: false
+    ttl: "2160h0m0s"  # 90 days
+    hooks:
+      resources:
+      - name: pre-full-backup-hooks
+        includedNamespaces:
+        - itechsmart-production
+        labelSelector:
+          matchLabels:
+            backup-hook: pre-full-backup
+        hooks:
+        - exec:
+            container: app
+            command:
+            - /bin/sh
+            - -c
+            - ./pre-full-backup.sh
+            onError: Fail
+            timeout: 10m
+
+---
+# Cross-Region Replication Schedule
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: cross-region-replication
+  namespace: velero
+spec:
+  schedule: "0 4 * * *"  # Daily at 4 AM UTC
+  template:
+    includedNamespaces:
+    - itechsmart-production
+    storageLocation: dr-backup-location
+    volumeSnapshotLocations:
+    - default
+    snapshotVolumes: false
+    defaultVolumesToRestic: true
+    ttl: "4320h0m0s"  # 180 days
+
+---
+# Restore Hooks for Disaster Recovery
+apiVersion: velero.io/v1
+kind: RestoreHook
+metadata:
+  name: restore-hooks
+  namespace: velero
+spec:
+  hooks:
+  - name: post-restore-hooks
+    includedNamespaces:
+    - itechsmart-production
+    labelSelector:
+      matchLabels:
+        restore-hook: post-restore
+    hooks:
+    - exec:
+        container: app
+        command:
+        - /bin/sh
+        - -c
+        - ./post-restore.sh
+        onError: Continue
+        timeout: 10m
+    - init:
+        initContainers:
+        - name: init-restore
+          image: busybox:1.35
+          command:
+          - /bin/sh
+          - -c
+          - echo "Initializing restore..."
+
+---
+# Disaster Recovery Plan Configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dr-plan
+  namespace: velero
+data:
+  dr-procedure.yaml: |
+    # iTechSmart v1.6.0 Disaster Recovery Procedure
+    
+    phases:
+      - name: "Assessment"
+        description: "Assess disaster impact and scope"
+        steps:
+          - "Identify affected systems and services"
+          - "Determine recovery time objectives (RTO)"
+          - "Assess data integrity and consistency"
+          - "Communicate with stakeholders"
+    
+      - name: "Preparation"
+        description: "Prepare environment for restore"
+        steps:
+          - "Verify backup integrity"
+          - "Prepare target cluster infrastructure"
+          - "Update DNS records if needed"
+          - "Prepare monitoring and logging"
+    
+      - name: "Restore"
+        description: "Execute restore operations"
+        steps:
+          - "Restore Kubernetes manifests"
+          - "Restore persistent volumes"
+          - "Restore databases"
+          - "Verify service connectivity"
+    
+      - name: "Validation"
+        description: "Validate restored environment"
+        steps:
+          - "Run health checks on all services"
+          - "Perform smoke tests"
+          - "Verify data consistency"
+          - "Test user access and functionality"
+    
+      - name: "Cut-over"
+        description: "Switch to restored environment"
+        steps:
+          - "Update load balancer configuration"
+          - "Switch DNS to restored environment"
+          - "Monitor performance metrics"
+          - "Rollback if issues detected"
+    
+    rto_targets:
+      critical: "4 hours"
+      high: "8 hours"
+      medium: "24 hours"
+      low: "72 hours"
+    
+    rpo_targets:
+      databases: "1 hour"
+      configurations: "15 minutes"
+      user_data: "4 hours"
+      logs: "24 hours"
+
+---
+# Backup Verification Script
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backup-verification
+  namespace: velero
+data:
+  verify-backup.sh: |
+    #!/bin/bash
+    
+    # iTechSmart Backup Verification Script
+    # Verifies backup integrity and functionality
+    
+    set -euo pipefail
+    
+    BACKUP_NAME=$1
+    NAMESPACE="itechsmart-production"
+    
+    echo "Verifying backup: $BACKUP_NAME"
+    
+    # Check backup status
+    velero backup describe $BACKUP_NAME --details
+    
+    # Verify backup completion
+    if ! velero backup get $BACKUP_NAME -o jsonpath='{.status.phase}' | grep -q "Completed"; then
+        echo "ERROR: Backup $BACKUP_NAME is not completed"
+        exit 1
+    fi
+    
+    # Check for errors
+    ERROR_COUNT=$(velero backup get $BACKUP_NAME -o jsonpath='{.status.errors}' || echo "0")
+    if [ "$ERROR_COUNT" -gt 0 ]; then
+        echo "WARNING: Backup $BACKUP_NAME has $ERROR_COUNT errors"
+    fi
+    
+    # Verify namespace backup
+    NAMESPACE_BACKUP=$(velero backup get $BACKUP_NAME -o jsonpath="{.status.backupItemOperationsAttempted}" | grep "$NAMESPACE" || echo "")
+    if [ -z "$NAMESPACE_BACKUP" ]; then
+        echo "ERROR: Namespace $NAMESPACE not found in backup"
+        exit 1
+    fi
+    
+    echo "Backup verification completed successfully for $BACKUP_NAME"
+
+  test-restore.sh: |
+    #!/bin/bash
+    
+    # iTechSmart Test Restore Script
+    # Performs test restore to isolated namespace
+    
+    set -euo pipefail
+    
+    BACKUP_NAME=$1
+    TEST_NAMESPACE="itechsmart-test-restore-$(date +%s)"
+    
+    echo "Starting test restore for backup: $BACKUP_NAME to namespace: $TEST_NAMESPACE"
+    
+    # Create test namespace
+    kubectl create namespace $TEST_NAMESPACE
+    
+    # Perform test restore
+    velero restore create \
+        --from-backup $BACKUP_NAME \
+        --namespace-mappings itechsmart-production:$TEST_NAMESPACE \
+        --wait \
+        --item-operation-timeout=10m
+    
+    # Verify restore
+    RESTORE_NAME=$(velero restore get -o jsonpath="{.items[-1].metadata.name}")
+    RESTORE_STATUS=$(velero restore get $RESTORE_NAME -o jsonpath='{.status.phase}')
+    
+    if [ "$RESTORE_STATUS" != "Completed" ]; then
+        echo "ERROR: Test restore failed with status: $RESTORE_STATUS"
+        velero restore describe $RESTORE_NAME --details
+        kubectl delete namespace $TEST_NAMESPACE
+        exit 1
+    fi
+    
+    # Verify pod deployment
+    POD_COUNT=$(kubectl get pods -n $TEST_NAMESPACE --no-headers | wc -l)
+    if [ "$POD_COUNT" -eq 0 ]; then
+        echo "WARNING: No pods found in test restore"
+    fi
+    
+    echo "Test restore completed successfully"
+    echo "Cleaning up test namespace: $TEST_NAMESPACE"
+    kubectl delete namespace $TEST_NAMESPACE
+
+---
+# Monitoring for Backup Operations
+apiVersion: v1
+kind: ServiceMonitor
+metadata:
+  name: velero-metrics
+  namespace: velero
+  labels:
+    app: velero
+spec:
+  selector:
+    matchLabels:
+      app: velero
+  endpoints:
+  - port: http
+    interval: 30s
+    path: /metrics
+
+---
+# Alerting Rules for Backup Operations
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: velero-alert-rules
+  namespace: velero
+data:
+  backup-alerts.yml: |
+    groups:
+    - name: velero-backup-alerts
+      rules:
+      - alert: VeleroBackupFailed
+        expr: velero_backup_failure_total > 0
+        for: 5m
+        labels:
+          severity: critical
+          service: velero
+        annotations:
+          summary: "Velero backup failed"
+          description: "Velero backup {{ $labels.schedule }} has failed"
+      
+      - alert: VeleroBackupStale
+        expr: time() - velero_backup_last_success_timestamp_seconds > 86400
+        for: 10m
+        labels:
+          severity: warning
+          service: velero
+        annotations:
+          summary: "Velero backup is stale"
+          description: "Last successful backup was more than 24 hours ago"
+      
+      - alert: VeleroRestoreFailed
+        expr: velero_restore_failure_total > 0
+        for: 5m
+        labels:
+          severity: critical
+          service: velero
+        annotations:
+          summary: "Velero restore failed"
+          description: "Velero restore {{ $labels.restore }} has failed"
+      
+      - alert: VeleroVolumeSnapshotFailed
+        expr: velero_volume_snapshot_operation_failure_total > 0
+        for: 10m
+        labels:
+          severity: warning
+          service: velero
+        annotations:
+          summary: "Volume snapshot failed"
+          description: "Volume snapshot operation failed"
+
+---
+# Backup CronJob for Custom Backups
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: custom-backup-verification
+  namespace: velero
+spec:
+  schedule: "0 6 * * *"  # Daily at 6 AM UTC
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup-verification
+            image: velero/velero:v1.10.0
+            command:
+            - /bin/sh
+            - -c
+            - |
+              /scripts/verify-backup.sh $(velero backup get -o jsonpath="{.items[-1].metadata.name}")
+              /scripts/test-restore.sh $(velero backup get -o jsonpath="{.items[-1].metadata.name}")
+            volumeMounts:
+            - name: scripts
+              mountPath: /scripts
+            env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: velero-credentials
+                  key: aws_access_key_id
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: velero-credentials
+                  key: aws_secret_access_key
+          volumes:
+          - name: scripts
+            configMap:
+              name: backup-verification
+              defaultMode: 0755
+          restartPolicy: OnFailure
