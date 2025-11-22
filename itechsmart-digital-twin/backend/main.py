@@ -18,7 +18,7 @@ from app.models.schemas import (
     SimulationRequest,
     SimulationResponse,
     PredictionRequest,
-    EnvironmentSync
+    EnvironmentSync,
 )
 
 # Setup logging
@@ -30,25 +30,26 @@ simulation_engine = None
 environment_manager = None
 prediction_service = None
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Manage application lifecycle"""
     # Startup
     logger.info("🎮 iTechSmart Digital Twin starting up...")
     global simulation_engine, environment_manager, prediction_service
-    
+
     try:
         simulation_engine = SimulationEngine()
         environment_manager = EnvironmentManager()
         prediction_service = PredictionService()
-        
+
         await simulation_engine.initialize()
         await environment_manager.initialize()
         await prediction_service.initialize()
-        
+
         logger.info("✅ iTechSmart Digital Twin ready for simulation operations")
         yield
-        
+
     except Exception as e:
         logger.error(f"❌ Failed to initialize Digital Twin: {str(e)}")
         raise
@@ -63,6 +64,7 @@ async def lifespan(app: FastAPI):
             await prediction_service.cleanup()
         logger.info("👋 iTechSmart Digital Twin shutdown complete")
 
+
 # Initialize FastAPI app
 app = FastAPI(
     title="iTechSmart Digital Twin",
@@ -70,7 +72,7 @@ app = FastAPI(
     version="1.6.0",
     docs_url="/docs",
     redoc_url="/redoc",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # CORS middleware
@@ -81,6 +83,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 # WebSocket connection manager
 class ConnectionManager:
@@ -101,7 +104,9 @@ class ConnectionManager:
         for connection in self.active_connections:
             await connection.send_text(message)
 
+
 manager = ConnectionManager()
+
 
 @app.get("/")
 async def root():
@@ -111,8 +116,9 @@ async def root():
         "version": "1.6.0",
         "status": "active",
         "timestamp": datetime.utcnow().isoformat(),
-        "description": "Predictive Simulation Engine"
+        "description": "Predictive Simulation Engine",
     }
+
 
 @app.get("/api/v1/status")
 async def get_status():
@@ -123,8 +129,9 @@ async def get_status():
         "environment_manager": await environment_manager.health_check(),
         "prediction_service": await prediction_service.health_check(),
         "active_simulations": len(await simulation_engine.get_active_simulations()),
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.utcnow().isoformat(),
     }
+
 
 @app.post("/api/v1/simulation/create", response_model=SimulationResponse)
 async def create_simulation(request: SimulationRequest):
@@ -133,21 +140,24 @@ async def create_simulation(request: SimulationRequest):
     """
     try:
         logger.info(f"🎮 Creating simulation for: {request.target_system}")
-        
+
         simulation = await simulation_engine.create_simulation(
             change_type=request.change_type,
             target_system=request.target_system,
             changes=request.changes,
             duration_hours=request.duration_hours,
-            context=request.context or {}
+            context=request.context or {},
         )
-        
+
         logger.info(f"✅ Simulation created: {simulation['id']}")
         return SimulationResponse(**simulation)
-        
+
     except Exception as e:
         logger.error(f"❌ Error creating simulation: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Simulation creation failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Simulation creation failed: {str(e)}"
+        )
+
 
 @app.post("/api/v1/simulation/run")
 async def run_simulation(simulation_id: str):
@@ -156,53 +166,73 @@ async def run_simulation(simulation_id: str):
     """
     try:
         logger.info(f"🚀 Running simulation: {simulation_id}")
-        
+
         # Start simulation in background
         asyncio.create_task(run_simulation_background(simulation_id))
-        
+
         return {
             "status": "started",
             "simulation_id": simulation_id,
-            "message": "Simulation started successfully"
+            "message": "Simulation started successfully",
         }
-        
+
     except Exception as e:
         logger.error(f"❌ Error starting simulation: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Failed to start simulation: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Failed to start simulation: {str(e)}"
+        )
+
 
 async def run_simulation_background(simulation_id: str):
     """Run simulation in background and broadcast updates"""
     try:
         # Send initial update
-        await manager.broadcast(json.dumps({
-            "type": "simulation_update",
-            "simulation_id": simulation_id,
-            "status": "running",
-            "progress": 0
-        }))
-        
+        await manager.broadcast(
+            json.dumps(
+                {
+                    "type": "simulation_update",
+                    "simulation_id": simulation_id,
+                    "status": "running",
+                    "progress": 0,
+                }
+            )
+        )
+
         # Run simulation with progress updates
         async for update in simulation_engine.run_simulation(simulation_id):
-            await manager.broadcast(json.dumps({
-                "type": "simulation_update",
-                "simulation_id": simulation_id,
-                **update
-            }))
-        
+            await manager.broadcast(
+                json.dumps(
+                    {
+                        "type": "simulation_update",
+                        "simulation_id": simulation_id,
+                        **update,
+                    }
+                )
+            )
+
         # Send completion
         result = await simulation_engine.get_simulation_result(simulation_id)
-        await manager.broadcast(json.dumps({
-            "type": "simulation_complete",
-            "simulation_id": simulation_id,
-            "result": result
-        }))
-        
+        await manager.broadcast(
+            json.dumps(
+                {
+                    "type": "simulation_complete",
+                    "simulation_id": simulation_id,
+                    "result": result,
+                }
+            )
+        )
+
     except Exception as e:
-        await manager.broadcast(json.dumps({
-            "type": "simulation_error",
-            "simulation_id": simulation_id,
-            "error": str(e)
-        }))
+        await manager.broadcast(
+            json.dumps(
+                {
+                    "type": "simulation_error",
+                    "simulation_id": simulation_id,
+                    "error": str(e),
+                }
+            )
+        )
+
 
 @app.get("/api/v1/simulation/{simulation_id}")
 async def get_simulation(simulation_id: str):
@@ -211,32 +241,38 @@ async def get_simulation(simulation_id: str):
         simulation = await simulation_engine.get_simulation(simulation_id)
         if not simulation:
             raise HTTPException(status_code=404, detail="Simulation not found")
-        
+
         return simulation
-        
+
     except HTTPException:
         raise
     except Exception as e:
         logger.error(f"❌ Error getting simulation: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Failed to retrieve simulation: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Failed to retrieve simulation: {str(e)}"
+        )
+
 
 @app.delete("/api/v1/simulation/{simulation_id}")
 async def delete_simulation(simulation_id: str):
     """Clean up simulation environment"""
     try:
         logger.info(f"🧹 Cleaning up simulation: {simulation_id}")
-        
+
         await simulation_engine.cleanup_simulation(simulation_id)
-        
+
         return {
             "status": "deleted",
             "simulation_id": simulation_id,
-            "message": "Simulation cleaned up successfully"
+            "message": "Simulation cleaned up successfully",
         }
-        
+
     except Exception as e:
         logger.error(f"❌ Error cleaning up simulation: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Failed to cleanup simulation: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Failed to cleanup simulation: {str(e)}"
+        )
+
 
 @app.get("/api/v1/environments")
 async def get_environments():
@@ -247,23 +283,27 @@ async def get_environments():
         logger.error(f"❌ Error getting environments: {str(e)}")
         raise HTTPException(status_code=500, detail="Failed to retrieve environments")
 
+
 @app.post("/api/v1/environments/sync")
 async def sync_environment(sync_request: EnvironmentSync):
     """Sync virtual environment with real system"""
     try:
         logger.info(f"🔄 Syncing environment: {sync_request.environment_id}")
-        
+
         result = await environment_manager.sync_environment(
             environment_id=sync_request.environment_id,
-            force=sync_request.force or False
+            force=sync_request.force or False,
         )
-        
+
         logger.info("✅ Environment sync complete")
         return result
-        
+
     except Exception as e:
         logger.error(f"❌ Error syncing environment: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Environment sync failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Environment sync failed: {str(e)}"
+        )
+
 
 @app.post("/api/v1/predict/impact")
 async def predict_impact(request: PredictionRequest):
@@ -272,19 +312,22 @@ async def predict_impact(request: PredictionRequest):
     """
     try:
         logger.info(f"🔮 Predicting impact for: {request.target_system}")
-        
+
         prediction = await prediction_service.predict_impact(
             target_system=request.target_system,
             changes=request.changes,
-            context=request.context or {}
+            context=request.context or {},
         )
-        
+
         logger.info("✅ Impact prediction complete")
         return prediction
-        
+
     except Exception as e:
         logger.error(f"❌ Error predicting impact: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Impact prediction failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Impact prediction failed: {str(e)}"
+        )
+
 
 @app.post("/api/v1/predict/performance")
 async def predict_performance(request: PredictionRequest):
@@ -293,19 +336,22 @@ async def predict_performance(request: PredictionRequest):
     """
     try:
         logger.info(f"📊 Predicting performance for: {request.target_system}")
-        
+
         prediction = await prediction_service.predict_performance(
             target_system=request.target_system,
             changes=request.changes,
-            context=request.context or {}
+            context=request.context or {},
         )
-        
+
         logger.info("✅ Performance prediction complete")
         return prediction
-        
+
     except Exception as e:
         logger.error(f"❌ Error predicting performance: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Performance prediction failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Performance prediction failed: {str(e)}"
+        )
+
 
 @app.get("/api/v1/predict/failures")
 async def predict_failures(target_system: str):
@@ -314,15 +360,18 @@ async def predict_failures(target_system: str):
     """
     try:
         logger.info(f"⚠️ Predicting failures for: {target_system}")
-        
+
         failures = await prediction_service.predict_failures(target_system)
-        
+
         logger.info("✅ Failure prediction complete")
         return failures
-        
+
     except Exception as e:
         logger.error(f"❌ Error predicting failures: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Failure prediction failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Failure prediction failed: {str(e)}"
+        )
+
 
 @app.websocket("/ws/simulation")
 async def websocket_endpoint(websocket: WebSocket):
@@ -336,14 +385,11 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         manager.disconnect(websocket)
 
+
 # Include API router
 app.include_router(api_router, prefix="/api/v1")
 
 if __name__ == "__main__":
     uvicorn.run(
-        "main:app",
-        host="0.0.0.0",
-        port=8090,
-        reload=settings.DEBUG,
-        log_level="info"
+        "main:app", host="0.0.0.0", port=8090, reload=settings.DEBUG, log_level="info"
     )

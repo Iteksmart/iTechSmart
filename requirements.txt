@@ -8,7 +8,7 @@ python-socketio==5.10.0
 
 # Async Support
 asyncio==3.4.3
-aiohttp==3.9.1
+naiohttp==3.9.1
 
 # Monitoring & Metrics
 prometheus-client==0.19.0
@@ -56,6 +56,19 @@ redis==5.0.1
 pytest==7.4.3
 pytest-asyncio==0.21.1
 pytest-cov==4.1.0
+pytest-mock==3.12.0
+pytest-xdist==3.5.0
+coverage==7.3.2
+httpx==0.25.2
+
+# Code Quality & Security
+black==25.11.0
+flake8==7.1.0
+mypy==1.8.0
+bandit==1.7.5
+safety==3.0.1
+isort==5.13.2
+pre-commit==3.6.0
 
 # Documentation
 sphinx==7.2.6
@@ -115,3 +128,13 @@ python-telegram-bot==20.7
 jira==3.6.0
 # python-servicenow==2.0.0  # Package not available on PyPI - using pysnow instead
 pysnow==0.7.17
+
+# Additional ML & Data Science
+scikit-learn==1.4.0
+matplotlib==3.8.2
+seaborn==0.13.1
+jupyter==1.0.0
+
+# Performance Monitoring
+memory-profiler==0.61.0
+line-profiler==4.1.1
