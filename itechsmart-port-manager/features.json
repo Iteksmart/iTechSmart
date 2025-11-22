@@ -1,74 +1,165 @@
 {
-  "product": "itechsmart-port-manager",
-  "version": "1.4.0",
-  "value": "$1.2M",
-  "tier": 3,
-  "total_features": 8,
+  "product": "itechsmart-iot-fleet-management",
+  "name": "iTechSmart IoT Fleet Management Platform",
+  "version": "2.0.0",
+  "value": "$5.8M",
+  "tier": 2,
+  "description": "Comprehensive Industrial IoT platform for real-time fleet management, geospatial tracking, and sensor data analytics",
+  "total_features": 16,
   "features": [
     {
-      "id": "feature_1",
-      "name": "Automated scanning",
+      "id": "iot_1",
+      "name": "Real-time Geospatial Fleet Tracking",
       "status": "planned",
-      "version": "1.4.0",
-      "category": "enhancement",
-      "priority": "high"
+      "version": "2.0.0",
+      "category": "core",
+      "priority": "high",
+      "description": "Live GPS tracking with sub-meter accuracy for thousands of assets across global regions"
     },
     {
-      "id": "feature_2",
-      "name": "Service discovery",
+      "id": "iot_2",
+      "name": "Industrial IoT Sensor Integration",
       "status": "planned",
-      "version": "1.4.0",
-      "category": "enhancement",
-      "priority": "high"
+      "version": "2.0.0",
+      "category": "core",
+      "priority": "high",
+      "description": "Multi-protocol sensor data ingestion (MQTT, LoRaWAN, Zigbee, CAN bus) for IIoT devices"
     },
     {
-      "id": "feature_3",
-      "name": "Security auditing",
+      "id": "iot_3",
+      "name": "Predictive Maintenance Analytics",
       "status": "planned",
-      "version": "1.4.0",
-      "category": "enhancement",
-      "priority": "high"
+      "version": "2.0.0",
+      "category": "intelligence",
+      "priority": "high",
+      "description": "AI-powered failure prediction with 95%+ accuracy using vibration, temperature, and performance data"
     },
     {
-      "id": "feature_4",
-      "name": "Usage analytics",
+      "id": "iot_4",
+      "name": "Advanced Route Optimization",
       "status": "planned",
-      "version": "1.4.0",
-      "category": "enhancement",
-      "priority": "medium"
+      "version": "2.0.0",
+      "category": "optimization",
+      "priority": "high",
+      "description": "Multi-objective routing with traffic, weather, fuel consumption, and delivery windows optimization"
     },
     {
-      "id": "feature_5",
-      "name": "Conflict detection",
+      "id": "iot_5",
+      "name": "Geospatial Heat Mapping & Analytics",
       "status": "planned",
-      "version": "1.4.0",
-      "category": "enhancement",
-      "priority": "medium"
+      "version": "2.0.0",
+      "category": "analytics",
+      "priority": "high",
+      "description": "Real-time density mapping, route analysis, and geographic performance visualization"
     },
     {
-      "id": "feature_6",
-      "name": "Network integration",
+      "id": "iot_6",
+      "name": "Fleet Performance Dashboard",
       "status": "planned",
-      "version": "1.4.0",
-      "category": "enhancement",
-      "priority": "medium"
+      "version": "2.0.0",
+      "category": "analytics",
+      "priority": "high",
+      "description": "Comprehensive KPI dashboard with utilization, efficiency, and cost metrics"
     },
     {
-      "id": "feature_7",
-      "name": "Historical tracking",
+      "id": "iot_7",
+      "name": "Multi-Protocol Edge Gateway",
       "status": "planned",
-      "version": "1.4.0",
-      "category": "enhancement",
-      "priority": "medium"
+      "version": "2.0.0",
+      "category": "infrastructure",
+      "priority": "high",
+      "description": "Industrial-grade edge computing with local data processing and offline capabilities"
     },
     {
-      "id": "feature_8",
-      "name": "Auto documentation",
+      "id": "iot_8",
+      "name": "Asset Health Monitoring",
       "status": "planned",
-      "version": "1.4.0",
-      "category": "enhancement",
-      "priority": "medium"
+      "version": "2.0.0",
+      "category": "monitoring",
+      "priority": "medium",
+      "description": "Real-time asset health scoring with vibration analysis, temperature monitoring, and performance metrics"
+    },
+    {
+      "id": "iot_9",
+      "name": "Telemetry Data Lake",
+      "status": "planned",
+      "version": "2.0.0",
+      "category": "infrastructure",
+      "priority": "medium",
+      "description": "Time-series database for billions of sensor readings with real-time analytics capabilities"
+    },
+    {
+      "id": "iot_10",
+      "name": "Automated Alert System",
+      "status": "planned",
+      "version": "2.0.0",
+      "category": "monitoring",
+      "priority": "medium",
+      "description": "Intelligent alerting with anomaly detection, threshold monitoring, and escalation workflows"
+    },
+    {
+      "id": "iot_11",
+      "name": "Fuel & Energy Management",
+      "status": "planned",
+      "version": "2.0.0",
+      "category": "optimization",
+      "priority": "medium",
+      "description": "Real-time fuel consumption monitoring, energy efficiency analysis, and cost optimization"
+    },
+    {
+      "id": "iot_12",
+      "name": "Compliance & Regulation Tracking",
+      "status": "planned",
+      "version": "2.0.0",
+      "category": "compliance",
+      "priority": "medium",
+      "description": "HOS, ELD, FMCSA, and international compliance monitoring with automated reporting"
+    },
+    {
+      "id": "iot_13",
+      "name": "Driver Behavior Analytics",
+      "status": "planned",
+      "version": "2.0.0",
+      "category": "analytics",
+      "priority": "medium",
+      "description": "AI-powered driving pattern analysis with safety scoring and coaching recommendations"
+    },
+    {
+      "id": "iot_14",
+      "name": "Warehouse Integration",
+      "status": "planned",
+      "version": "2.0.0",
+      "category": "integration",
+      "priority": "medium",
+      "description": "Seamless integration with WMS, inventory systems, and loading dock management"
+    },
+    {
+      "id": "iot_15",
+      "name": "Mobile Field Operations",
+      "status": "planned",
+      "version": "2.0.0",
+      "category": "mobile",
+      "priority": "low",
+      "description": "Native mobile apps for drivers, technicians, and field managers with offline capabilities"
+    },
+    {
+      "id": "iot_16",
+      "name": "Digital Twin Simulation",
+      "status": "planned",
+      "version": "2.0.0",
+      "category": "intelligence",
+      "priority": "low",
+      "description": "Fleet digital twin for what-if scenarios, capacity planning, and operational optimization"
     }
   ],
-  "last_updated": "2025-01-17"
+  "sensor_types": [
+    "GPS", "Accelerometer", "Gyroscope", "Temperature", "Humidity", 
+    "Pressure", "Vibration", "Fuel Level", "Engine Diagnostics", "OBD-II",
+    "CAN Bus", "RFID", "Bluetooth LE", "LoRaWAN", "Weight Sensors"
+  ],
+  "integrations": [
+    "SAP", "Oracle", "Salesforce Field Service", "ServiceMax", "TomTom",
+    "HERE Maps", "Google Maps", "Waze", "Teltonika", "Sierra Wireless"
+  ],
+  "last_updated": "2025-11-20"
 }

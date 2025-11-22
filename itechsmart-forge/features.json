@@ -1,74 +1,177 @@
 {
-  "product": "itechsmart-forge",
-  "version": "1.4.0",
-  "value": "$1.9M",
-  "tier": 3,
-  "total_features": 8,
+  "product": "itechsmart-portal-builder",
+  "name": "iTechSmart Portal Builder - Headless CMS & External Portal Platform",
+  "version": "2.0.0",
+  "value": "$6.5M",
+  "tier": 2,
+  "description": "No-code/Low-code platform for building, deploying, and managing enterprise-grade external-facing portals and websites",
+  "total_features": 17,
   "features": [
     {
-      "id": "feature_1",
-      "name": "Cloud-based IDE",
+      "id": "portal_1",
+      "name": "Visual Drag-and-Drop Portal Builder",
       "status": "planned",
-      "version": "1.4.0",
-      "category": "enhancement",
-      "priority": "high"
+      "version": "2.0.0",
+      "category": "core",
+      "priority": "high",
+      "description": "Intuitive visual editor with real-time preview for building complex external portals without coding"
     },
     {
-      "id": "feature_2",
-      "name": "Collaborative coding",
+      "id": "portal_2",
+      "name": "Headless CMS Architecture",
       "status": "planned",
-      "version": "1.4.0",
-      "category": "enhancement",
-      "priority": "high"
+      "version": "2.0.0",
+      "category": "core",
+      "priority": "high",
+      "description": "API-first content management with GraphQL/REST endpoints for multi-channel content delivery"
     },
     {
-      "id": "feature_3",
-      "name": "Code review tools",
+      "id": "portal_3",
+      "name": "Enterprise Template Library",
       "status": "planned",
-      "version": "1.4.0",
-      "category": "enhancement",
-      "priority": "high"
+      "version": "2.0.0",
+      "category": "content",
+      "priority": "high",
+      "description": "500+ industry-specific templates for corporate websites, customer portals, partner ecosystems, and microsites"
     },
     {
-      "id": "feature_4",
-      "name": "Integrated debugging",
+      "id": "portal_4",
+      "name": "Advanced SEO Optimization Engine",
       "status": "planned",
-      "version": "1.4.0",
-      "category": "enhancement",
-      "priority": "medium"
+      "version": "2.0.0",
+      "category": "optimization",
+      "priority": "high",
+      "description": "Automated SEO management with schema markup, sitemap generation, and Core Web Vitals optimization"
     },
     {
-      "id": "feature_5",
-      "name": "Version control",
+      "id": "portal_5",
+      "name": "Multi-Tenant Portal Hosting",
       "status": "planned",
-      "version": "1.4.0",
-      "category": "enhancement",
-      "priority": "medium"
+      "version": "2.0.0",
+      "category": "infrastructure",
+      "priority": "high",
+      "description": "Scalable multi-tenant hosting with custom domains, SSL certificates, and CDN integration"
     },
     {
-      "id": "feature_6",
-      "name": "Code templates",
+      "id": "portal_6",
+      "name": "Component Marketplace",
       "status": "planned",
-      "version": "1.4.0",
-      "category": "enhancement",
-      "priority": "medium"
+      "version": "2.0.0",
+      "category": "ecosystem",
+      "priority": "high",
+      "description": "Marketplace with 1000+ pre-built components, widgets, and integrations for rapid portal development"
     },
     {
-      "id": "feature_7",
-      "name": "AI suggestions",
+      "id": "portal_7",
+      "name": "Real-time Collaboration",
       "status": "planned",
-      "version": "1.4.0",
-      "category": "enhancement",
-      "priority": "medium"
+      "version": "2.0.0",
+      "category": "collaboration",
+      "priority": "medium",
+      "description": "Multi-user editing with live cursors, comments, version control, and approval workflows"
     },
     {
-      "id": "feature_8",
-      "name": "Multi-language support",
+      "id": "portal_8",
+      "name": "Personalization Engine",
       "status": "planned",
-      "version": "1.4.0",
-      "category": "enhancement",
-      "priority": "medium"
+      "version": "2.0.0",
+      "category": "intelligence",
+      "priority": "medium",
+      "description": "AI-powered content personalization based on user behavior, demographics, and journey data"
+    },
+    {
+      "id": "portal_9",
+      "name": "Progressive Web App (PWA) Support",
+      "status": "planned",
+      "version": "2.0.0",
+      "category": "performance",
+      "priority": "medium",
+      "description": "Automatic PWA generation with offline capabilities, push notifications, and app-like experience"
+    },
+    {
+      "id": "portal_10",
+      "name": "Advanced Analytics & Insights",
+      "status": "planned",
+      "version": "2.0.0",
+      "category": "analytics",
+      "priority": "medium",
+      "description": "Built-in analytics with heatmaps, conversion tracking, user journeys, and A/B testing"
+    },
+    {
+      "id": "portal_11",
+      "name": "Form Builder & Lead Management",
+      "status": "planned",
+      "version": "2.0.0",
+      "category": "content",
+      "priority": "medium",
+      "description": "Drag-and-drop form builder with conditional logic, validation, and CRM integration"
+    },
+    {
+      "id": "portal_12",
+      "name": "Media Asset Management",
+      "status": "planned",
+      "version": "2.0.0",
+      "category": "content",
+      "priority": "medium",
+      "description": "Enterprise DAM with image optimization, CDN delivery, and automated responsive images"
+    },
+    {
+      "id": "portal_13",
+      "name": "API Integration Hub",
+      "status": "planned",
+      "version": "2.0.0",
+      "category": "integration",
+      "priority": "medium",
+      "description": "Visual API builder with 200+ pre-built integrations for CRM, ERP, marketing automation, and third-party services"
+    },
+    {
+      "id": "portal_14",
+      "name": "Security & Compliance Framework",
+      "status": "planned",
+      "version": "2.0.0",
+      "category": "security",
+      "priority": "high",
+      "description": "Enterprise security with GDPR, CCPA compliance, WAF, DDoS protection, and automated security scanning"
+    },
+    {
+      "id": "portal_15",
+      "name": "Performance Optimization",
+      "status": "planned",
+      "version": "2.0.0",
+      "category": "performance",
+      "priority": "medium",
+      "description": "Automatic code splitting, lazy loading, image optimization, and Core Web Vitals monitoring"
+    },
+    {
+      "id": "portal_16",
+      "name": "Multi-Language & Localization",
+      "status": "planned",
+      "version": "2.0.0",
+      "category": "globalization",
+      "priority": "low",
+      "description": "Advanced i18n support with 50+ languages, RTL support, and regional content adaptation"
+    },
+    {
+      "id": "portal_17",
+      "name": "White-Label Portal Solution",
+      "status": "planned",
+      "version": "2.0.0",
+      "category": "business",
+      "priority": "low",
+      "description": "Complete white-label solution for agencies and enterprises to build client portals"
     }
   ],
-  "last_updated": "2025-01-17"
+  "template_categories": [
+    "Corporate Websites", "Customer Portals", "Partner Extranets", "E-commerce",
+    "SaaS Products", "Educational Platforms", "Healthcare Portals", "Government Sites",
+    "Non-profit Organizations", "Real Estate", "Financial Services", "Technology Companies"
+  ],
+  "integrations": [
+    "Salesforce", "HubSpot", "Marketo", "Mailchimp", "Google Analytics", "Segment",
+    "Stripe", "PayPal", "Shopify", "WordPress", "Drupal", "Contentful", "Sanity"
+  ],
+  "deployment_options": [
+    "iTechSmart Cloud", "AWS", "Azure", "Google Cloud", "On-Premise", "Private Cloud"
+  ],
+  "last_updated": "2025-11-20"
 }
