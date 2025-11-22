@@ -18,6 +18,9 @@ from neo4j import GraphDatabase
 import redis
 import pandas as pd
 import numpy as np
+
+from app.crm_integrations.manager import CRMIntegrationManager
+from app.crm_integrations.base_crm import CRMContact
 from sklearn.cluster import DBSCAN
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
@@ -72,6 +75,7 @@ class CDPEngine:
         self.neo4j_driver = None
         self.kafka_producer = None
         self.kafka_consumer = None
+        self.crm_manager = None
         
     async def initialize(self):
         """Initialize all connections and services"""
@@ -562,6 +566,97 @@ class CDPEngine:
         if self.kafka_consumer:
             self.kafka_consumer.close()
 
+# CRM Integration Methods
+    async def initialize_crm_integrations(self, crm_configs: Dict[str, Dict[str, Any]]):
+        """Initialize CRM integrations"""
+        try:
+            self.crm_manager = CRMIntegrationManager(crm_configs)
+            await self.crm_manager.initialize_connectors()
+            logger.info("CRM integrations initialized successfully")
+            
+            # Perform initial sync
+            sync_report = await self.crm_manager.sync_all_crms(incremental=False)
+            logger.info(f"Initial CRM sync completed: {sync_report}")
+            
+        except Exception as e:
+            logger.error(f"Failed to initialize CRM integrations: {str(e)}")
+            raise
+
+    async def sync_crm_data(self, incremental: bool = True) -> Dict[str, Any]:
+        """Sync data from all configured CRM systems"""
+        if not self.crm_manager:
+            raise ValueError("CRM integrations not initialized")
+            
+        sync_report = await self.crm_manager.sync_all_crms(incremental=incremental)
+        
+        # Process synced data into unified profiles
+        await self._process_crm_sync_data(sync_report)
+        
+        return sync_report
+
+    async def _process_crm_sync_data(self, sync_report: Dict[str, Any]):
+        """Process CRM sync data and update unified customer profiles"""
+        for crm_name, crm_result in sync_report.get('crm_results', {}).items():
+            if crm_result.get('status') == 'success':
+                # Get unified contacts from this CRM
+                contacts = await self.crm_manager.get_unified_contacts()
+                
+                for contact_data in contacts:
+                    # Convert to CustomerProfile and merge
+                    profile = await self._convert_crm_contact_to_profile(contact_data)
+                    await self.unify_profile(profile)
+
+    async def _convert_crm_contact_to_profile(self, contact_data: Dict[str, Any]) -> CustomerProfile:
+        """Convert CRM contact data to CustomerProfile"""
+        return CustomerProfile(
+            customer_id=contact_data.get('id', ''),
+            unified_id=f"crm_{contact_data.get('source_system', '')}_{contact_data.get('id', '')}",
+            email=contact_data.get('email'),
+            phone=contact_data.get('phone'),
+            first_name=contact_data.get('first_name'),
+            last_name=contact_data.get('last_name'),
+            company=contact_data.get('company'),
+            lead_score=contact_data.get('lead_score'),
+            source_system=contact_data.get('source_system'),
+            created_date=contact_data.get('created_date'),
+            last_updated=contact_data.get('last_updated')
+        )
+
+    async def get_crm_contacts(self, filters: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
+        """Get unified contacts from all CRM systems"""
+        if not self.crm_manager:
+            raise ValueError("CRM integrations not initialized")
+            
+        return await self.crm_manager.get_unified_contacts(filters)
+
+    async def create_crm_contact(self, contact: CRMContact) -> Dict[str, Optional[str]]:
+        """Create contact in all configured CRM systems"""
+        if not self.crm_manager:
+            raise ValueError("CRM integrations not initialized")
+            
+        return await self.crm_manager.create_contact_in_all_crms(contact)
+
+    async def update_crm_contact(self, contact_id: str, data: Dict[str, Any]) -> Dict[str, bool]:
+        """Update contact in all CRM systems"""
+        if not self.crm_manager:
+            raise ValueError("CRM integrations not initialized")
+            
+        return await self.crm_manager.update_contact_in_all_crms(contact_id, data)
+
+    async def get_crm_sync_status(self) -> Dict[str, Any]:
+        """Get current CRM sync status"""
+        if not self.crm_manager:
+            return {'status': 'not_initialized'}
+            
+        return await self.crm_manager.get_sync_status()
+
+    async def test_crm_connections(self) -> Dict[str, bool]:
+        """Test connections to all CRM systems"""
+        if not self.crm_manager:
+            raise ValueError("CRM integrations not initialized")
+            
+        return await self.crm_manager.test_all_connections()
+
 # Configuration and initialization
 async def main():
     config = {
@@ -571,11 +666,30 @@ async def main():
         'neo4j_uri': 'bolt://localhost:7687',
         'neo4j_user': 'neo4j',
         'neo4j_password': 'password',
-        'kafka_servers': ['localhost:9092']
+        'kafka_servers': ['localhost:9092'],
+        'crm_integrations': {
+            'salesforce': {
+                'client_id': 'your_salesforce_client_id',
+                'client_secret': 'your_salesforce_client_secret',
+                'username': 'your_salesforce_username',
+                'password': 'your_salesforce_password'
+            },
+            'hubspot': {
+                'access_token': 'your_hubspot_access_token'
+            },
+            'marketo': {
+                'endpoint': 'your_marketo_endpoint',
+                'client_id': 'your_marketo_client_id',
+                'client_secret': 'your_marketo_client_secret'
+            }
+        }
     }
     
     cdp_engine = CDPEngine(config)
     await cdp_engine.initialize()
+    
+    # Initialize CRM integrations
+    await cdp_engine.initialize_crm_integrations(config.get('crm_integrations', {}))
     
     # Start event consumer in background
     consumer_task = asyncio.create_task(cdp_engine.start_event_consumer())
