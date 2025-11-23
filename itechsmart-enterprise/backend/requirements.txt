@@ -42,7 +42,7 @@ jinja2==3.1.2
 
 # Integration SDKs
 # ServiceNow
-pysnow==0.7.17
+# pysnow==0.7.17  # Disabled due to pytz dependency conflicts - version requires pytz<2020.0
 
 # Zendesk
 zenpy==2.0.45

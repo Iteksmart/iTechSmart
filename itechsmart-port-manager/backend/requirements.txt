@@ -14,7 +14,7 @@ hiredis==2.2.3
 
 # Time Series Database
 influxdb-client==1.38.0
-timescaledb==0.1.0
+# timescaledb==0.1.0  # Disabled due to package version conflict - version 0.1.0 not available
 prometheus-client==0.19.0
 
 # IoT & Messaging
