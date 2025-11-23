@@ -12,6 +12,7 @@ from enum import Enum
 
 class NodeStatus(Enum):
     """Node status values."""
+
     ACTIVE = "active"
     INACTIVE = "inactive"
     MAINTENANCE = "maintenance"
@@ -21,6 +22,7 @@ class NodeStatus(Enum):
 
 class OptimizationPolicy(Enum):
     """Resource optimization policies."""
+
     LOAD_BALANCING = "load_balancing"
     LATENCY_OPTIMIZATION = "latency_optimization"
     THROUGHPUT_MAXIMIZATION = "throughput_maximization"
@@ -31,6 +33,7 @@ class OptimizationPolicy(Enum):
 @dataclass
 class EdgeNodeConfig:
     """Configuration for an edge computing node."""
+
     node_id: str
     name: str
     node_type: str
@@ -51,7 +54,7 @@ class EdgeNodeConfig:
     auto_scale_max_nodes: int = 5
     auto_scale_cpu_threshold: float = 80.0
     auto_scale_memory_threshold: float = 80.0
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary."""
         return {
@@ -74,13 +77,14 @@ class EdgeNodeConfig:
             "auto_scale_min_nodes": self.auto_scale_min_nodes,
             "auto_scale_max_nodes": self.auto_scale_max_nodes,
             "auto_scale_cpu_threshold": self.auto_scale_cpu_threshold,
-            "auto_scale_memory_threshold": self.auto_scale_memory_threshold
+            "auto_scale_memory_threshold": self.auto_scale_memory_threshold,
         }
 
 
 @dataclass
 class TaskSchedulingConfig:
     """Configuration for task scheduling."""
+
     default_timeout_minutes: int = 60
     max_retry_attempts: int = 3
     retry_delay_seconds: int = 30
@@ -90,7 +94,7 @@ class TaskSchedulingConfig:
     enable_task_prioritization: bool = True
     enable_dependency_resolution: bool = True
     enable_task_affinity: bool = True
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary."""
         return {
@@ -102,13 +106,14 @@ class TaskSchedulingConfig:
             "load_balancing_algorithm": self.load_balancing_algorithm,
             "enable_task_prioritization": self.enable_task_prioritization,
             "enable_dependency_resolution": self.enable_dependency_resolution,
-            "enable_task_affinity": self.enable_task_affinity
+            "enable_task_affinity": self.enable_task_affinity,
         }
 
 
 @dataclass
 class ResourceMonitoringConfig:
     """Configuration for resource monitoring."""
+
     metrics_retention_hours: int = 24
     metrics_aggregation_interval_seconds: int = 60
     alert_cpu_threshold: float = 90.0
@@ -118,7 +123,7 @@ class ResourceMonitoringConfig:
     enable_predictive_alerts: bool = True
     predictive_alert_window_minutes: int = 15
     performance_history_days: int = 7
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary."""
         return {
@@ -130,13 +135,14 @@ class ResourceMonitoringConfig:
             "alert_temperature_threshold": self.alert_temperature_threshold,
             "enable_predictive_alerts": self.enable_predictive_alerts,
             "predictive_alert_window_minutes": self.predictive_alert_window_minutes,
-            "performance_history_days": self.performance_history_days
+            "performance_history_days": self.performance_history_days,
         }
 
 
 @dataclass
 class SecurityConfig:
     """Configuration for edge computing security."""
+
     enable_encryption: bool = True
     encryption_algorithm: str = "AES-256-GCM"
     enable_authentication: bool = True
@@ -148,7 +154,7 @@ class SecurityConfig:
     audit_log_retention_days: int = 30
     enable_intrusion_detection: bool = True
     firewall_rules: List[Dict[str, Any]] = field(default_factory=list)
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary."""
         return {
@@ -162,16 +168,19 @@ class SecurityConfig:
             "audit_logging_enabled": self.audit_logging_enabled,
             "audit_log_retention_days": self.audit_log_retention_days,
             "enable_intrusion_detection": self.enable_intrusion_detection,
-            "firewall_rules": self.firewall_rules
+            "firewall_rules": self.firewall_rules,
         }
 
 
 @dataclass
 class NetworkConfig:
     """Configuration for edge network management."""
+
     enable_service_discovery: bool = True
     service_discovery_protocol: str = "mdns"
-    network_partition_handling: str = "graceful_degradation"  # graceful_degradation, fail_fast
+    network_partition_handling: str = (
+        "graceful_degradation"  # graceful_degradation, fail_fast
+    )
     enable_network_mesh: bool = False
     mesh_protocol: str = "wireguard"
     load_balancing_enabled: bool = True
@@ -180,7 +189,7 @@ class NetworkConfig:
     keep_alive_interval_seconds: int = 60
     enable_bandwidth_optimization: bool = True
     compression_enabled: bool = True
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary."""
         return {
@@ -194,29 +203,31 @@ class NetworkConfig:
             "connection_timeout_seconds": self.connection_timeout_seconds,
             "keep_alive_interval_seconds": self.keep_alive_interval_seconds,
             "enable_bandwidth_optimization": self.enable_bandwidth_optimization,
-            "compression_enabled": self.compression_enabled
+            "compression_enabled": self.compression_enabled,
         }
 
 
 @dataclass
 class EdgeConfig:
     """Main edge computing configuration."""
-    
+
     # Service settings
     service_name: str = "iTechSmart Edge Computing"
     version: str = "1.0.0"
     debug: bool = False
     log_level: str = "INFO"
-    
+
     # Node configurations
     nodes: Dict[str, EdgeNodeConfig] = field(default_factory=dict)
-    
+
     # Component configurations
     task_scheduling: TaskSchedulingConfig = field(default_factory=TaskSchedulingConfig)
-    resource_monitoring: ResourceMonitoringConfig = field(default_factory=ResourceMonitoringConfig)
+    resource_monitoring: ResourceMonitoringConfig = field(
+        default_factory=ResourceMonitoringConfig
+    )
     security: SecurityConfig = field(default_factory=SecurityConfig)
     network: NetworkConfig = field(default_factory=NetworkConfig)
-    
+
     # Cluster settings
     cluster_name: str = "default"
     cluster_region: str = "us-west-1"
@@ -224,47 +235,47 @@ class EdgeConfig:
     enable_auto_scaling: bool = True
     max_cluster_nodes: int = 100
     min_cluster_nodes: int = 3
-    
+
     # Performance settings
     default_task_timeout_minutes: int = 60
     max_concurrent_workloads: int = 50
     workload_queue_size: int = 1000
     metrics_retention_days: int = 30
-    
+
     # Optimization settings
     optimization_policy: OptimizationPolicy = OptimizationPolicy.LOAD_BALANCING
     enable_predictive_scaling: bool = True
     predictive_scaling_window_minutes: int = 15
     enable_workload_balancing: bool = True
     enable_resource_optimization: bool = True
-    
+
     # Integration settings
     enable_cloud_sync: bool = True
     cloud_sync_interval_minutes: int = 5
     cloud_backup_enabled: bool = True
     cloud_backup_interval_hours: int = 24
-    
+
     # Monitoring and alerting
     enable_monitoring: bool = True
     enable_alerting: bool = True
     alert_webhook_urls: List[str] = field(default_factory=list)
     email_alerts_enabled: bool = False
     sms_alerts_enabled: bool = False
-    
+
     # Development settings
     enable_debug_endpoints: bool = False
     enable_simulation_mode: bool = False
     mock_nodes_count: int = 3
-    
+
     def __post_init__(self):
         """Post-initialization setup."""
         # Load environment-specific configurations
         self._load_from_environment()
-        
+
         # Initialize default nodes if none provided
         if not self.nodes:
             self.nodes = self._get_default_nodes()
-    
+
     def _load_from_environment(self):
         """Load configuration from environment variables."""
         self.debug = os.getenv("EDGE_DEBUG", "false").lower() == "true"
@@ -272,27 +283,41 @@ class EdgeConfig:
         self.cluster_name = os.getenv("EDGE_CLUSTER_NAME", self.cluster_name)
         self.cluster_region = os.getenv("EDGE_CLUSTER_REGION", self.cluster_region)
         self.cluster_zone = os.getenv("EDGE_CLUSTER_ZONE", self.cluster_zone)
-        
+
         # Load task scheduling config
         self.task_scheduling.default_timeout_minutes = int(
-            os.getenv("EDGE_TASK_TIMEOUT_MINUTES", self.task_scheduling.default_timeout_minutes)
+            os.getenv(
+                "EDGE_TASK_TIMEOUT_MINUTES",
+                self.task_scheduling.default_timeout_minutes,
+            )
         )
         self.task_scheduling.max_retry_attempts = int(
-            os.getenv("EDGE_MAX_RETRY_ATTEMPTS", self.task_scheduling.max_retry_attempts)
+            os.getenv(
+                "EDGE_MAX_RETRY_ATTEMPTS", self.task_scheduling.max_retry_attempts
+            )
         )
-        
+
         # Load monitoring config
         self.resource_monitoring.alert_cpu_threshold = float(
-            os.getenv("EDGE_ALERT_CPU_THRESHOLD", self.resource_monitoring.alert_cpu_threshold)
+            os.getenv(
+                "EDGE_ALERT_CPU_THRESHOLD", self.resource_monitoring.alert_cpu_threshold
+            )
         )
         self.resource_monitoring.alert_memory_threshold = float(
-            os.getenv("EDGE_ALERT_MEMORY_THRESHOLD", self.resource_monitoring.alert_memory_threshold)
+            os.getenv(
+                "EDGE_ALERT_MEMORY_THRESHOLD",
+                self.resource_monitoring.alert_memory_threshold,
+            )
         )
-        
+
         # Load security config
-        self.security.enable_encryption = os.getenv("EDGE_ENABLE_ENCRYPTION", "true").lower() == "true"
-        self.security.enable_authentication = os.getenv("EDGE_ENABLE_AUTH", "true").lower() == "true"
-    
+        self.security.enable_encryption = (
+            os.getenv("EDGE_ENABLE_ENCRYPTION", "true").lower() == "true"
+        )
+        self.security.enable_authentication = (
+            os.getenv("EDGE_ENABLE_AUTH", "true").lower() == "true"
+        )
+
     def _get_default_nodes(self) -> Dict[str, EdgeNodeConfig]:
         """Get default edge node configurations."""
         return {
@@ -305,7 +330,7 @@ class EdgeConfig:
                 cpu_cores=4,
                 memory_gb=8,
                 storage_gb=128,
-                capabilities=["compute", "storage", "networking", "gateway"]
+                capabilities=["compute", "storage", "networking", "gateway"],
             ),
             "compute-1": EdgeNodeConfig(
                 node_id="compute-1",
@@ -318,7 +343,7 @@ class EdgeConfig:
                 storage_gb=256,
                 capabilities=["compute", "gpu_acceleration"],
                 gpu_accelerated=True,
-                gpu_memory_gb=8
+                gpu_memory_gb=8,
             ),
             "storage-1": EdgeNodeConfig(
                 node_id="storage-1",
@@ -329,10 +354,10 @@ class EdgeConfig:
                 cpu_cores=2,
                 memory_gb=4,
                 storage_gb=1024,
-                capabilities=["storage", "data_replication", "backup"]
-            )
+                capabilities=["storage", "data_replication", "backup"],
+            ),
         }
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary representation."""
         return {
@@ -371,5 +396,5 @@ class EdgeConfig:
             "sms_alerts_enabled": self.sms_alerts_enabled,
             "enable_debug_endpoints": self.enable_debug_endpoints,
             "enable_simulation_mode": self.enable_simulation_mode,
-            "mock_nodes_count": self.mock_nodes_count
+            "mock_nodes_count": self.mock_nodes_count,
         }

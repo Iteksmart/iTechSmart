@@ -12,6 +12,7 @@ from enum import Enum
 
 class QuantumAlgorithmType(Enum):
     """Types of quantum algorithms."""
+
     GROVER_SEARCH = "grover_search"
     SHOR_FACTORING = "shor_factoring"
     QAOA_OPTIMIZATION = "qaoa_optimization"
@@ -23,6 +24,7 @@ class QuantumAlgorithmType(Enum):
 
 class OptimizationType(Enum):
     """Types of optimization problems."""
+
     LINEAR_PROGRAMMING = "linear_programming"
     QUADRATIC_PROGRAMMING = "quadratic_programming"
     COMBINATORIAL_OPTIMIZATION = "combinatorial_optimization"
@@ -33,6 +35,7 @@ class OptimizationType(Enum):
 @dataclass
 class QuantumCircuit:
     """Represents a quantum circuit."""
+
     id: str
     name: str
     circuit: Any  # Qiskit QuantumCircuit or None for classical
@@ -43,7 +46,7 @@ class QuantumCircuit:
     created_at: datetime = field(default_factory=datetime.now)
     is_classical: bool = False
     description: Optional[str] = None
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary representation."""
         return {
@@ -55,13 +58,14 @@ class QuantumCircuit:
             "parameters": self.parameters,
             "created_at": self.created_at.isoformat(),
             "is_classical": self.is_classical,
-            "description": self.description
+            "description": self.description,
         }
 
 
 @dataclass
 class OptimizationProblem:
     """Represents a quantum optimization problem."""
+
     id: str
     objective_function: str
     variables: List[str]
@@ -71,7 +75,7 @@ class OptimizationProblem:
     created_at: datetime = field(default_factory=datetime.now)
     is_classical: bool = False
     metadata: Dict[str, Any] = field(default_factory=dict)
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary representation."""
         return {
@@ -82,13 +86,14 @@ class OptimizationProblem:
             "optimization_type": self.optimization_type.value,
             "created_at": self.created_at.isoformat(),
             "is_classical": self.is_classical,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
 @dataclass
 class QuantumResult:
     """Represents the result of a quantum computation."""
+
     job_id: str
     algorithm: str
     backend: str
@@ -101,7 +106,7 @@ class QuantumResult:
     error: Optional[str] = None
     metadata: Dict[str, Any] = field(default_factory=dict)
     created_at: datetime = field(default_factory=datetime.now)
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary representation."""
         return {
@@ -116,9 +121,9 @@ class QuantumResult:
             "execution_time": self.execution_time,
             "error": self.error,
             "metadata": self.metadata,
-            "created_at": self.created_at.isoformat()
+            "created_at": self.created_at.isoformat(),
         }
-    
+
     def is_successful(self) -> bool:
         """Check if the quantum computation was successful."""
         return self.status == "completed" and self.error is None
@@ -127,6 +132,7 @@ class QuantumResult:
 @dataclass
 class QuantumJob:
     """Represents a quantum computing job."""
+
     job_id: str
     algorithm: QuantumAlgorithmType
     backend: str
@@ -137,7 +143,7 @@ class QuantumJob:
     result: Optional[QuantumResult] = None
     priority: int = 0
     max_execution_time: Optional[float] = None
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary representation."""
         return {
@@ -147,16 +153,18 @@ class QuantumJob:
             "parameters": self.parameters,
             "status": self.status,
             "created_at": self.created_at.isoformat(),
-            "completed_at": self.completed_at.isoformat() if self.completed_at else None,
+            "completed_at": (
+                self.completed_at.isoformat() if self.completed_at else None
+            ),
             "priority": self.priority,
             "max_execution_time": self.max_execution_time,
-            "result": self.result.to_dict() if self.result else None
+            "result": self.result.to_dict() if self.result else None,
         }
-    
+
     def is_finished(self) -> bool:
         """Check if the job is finished."""
         return self.status in ["completed", "failed", "cancelled"]
-    
+
     def is_running(self) -> bool:
         """Check if the job is currently running."""
         return self.status in ["queued", "running"]
@@ -165,6 +173,7 @@ class QuantumJob:
 @dataclass
 class QuantumBackend:
     """Represents a quantum computing backend."""
+
     name: str
     type: str
     n_qubits: int
@@ -176,7 +185,7 @@ class QuantumBackend:
     queue_time: Optional[float] = None  # in seconds
     cost_per_execution: Optional[float] = None
     description: Optional[str] = None
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary representation."""
         return {
@@ -190,9 +199,9 @@ class QuantumBackend:
             "availability": self.availability,
             "queue_time": self.queue_time,
             "cost_per_execution": self.cost_per_execution,
-            "description": self.description
+            "description": self.description,
         }
-    
+
     def is_available(self) -> bool:
         """Check if backend is available for use."""
         return self.availability and (self.queue_time is not None)
@@ -201,6 +210,7 @@ class QuantumBackend:
 @dataclass
 class QuantumBenchmark:
     """Represents quantum algorithm benchmark results."""
+
     algorithm: str
     backend: str
     problem_size: int
@@ -209,7 +219,7 @@ class QuantumBenchmark:
     accuracy: float
     resource_usage: Dict[str, Any]
     benchmark_date: datetime = field(default_factory=datetime.now)
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary representation."""
         return {
@@ -220,13 +230,14 @@ class QuantumBenchmark:
             "success_rate": self.success_rate,
             "accuracy": self.accuracy,
             "resource_usage": self.resource_usage,
-            "benchmark_date": self.benchmark_date.isoformat()
+            "benchmark_date": self.benchmark_date.isoformat(),
         }
 
 
 @dataclass
 class QuantumResource:
     """Represents quantum computing resources."""
+
     name: str
     type: str
     capacity: int
@@ -234,7 +245,7 @@ class QuantumResource:
     availability: float  # percentage
     cost_per_hour: Optional[float] = None
     specifications: Dict[str, Any] = field(default_factory=dict)
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary representation."""
         return {
@@ -244,15 +255,15 @@ class QuantumResource:
             "current_usage": self.current_usage,
             "availability": self.availability,
             "cost_per_hour": self.cost_per_hour,
-            "specifications": self.specifications
+            "specifications": self.specifications,
         }
-    
+
     def utilization_rate(self) -> float:
         """Calculate current utilization rate."""
         if self.capacity == 0:
             return 0.0
         return (self.current_usage / self.capacity) * 100
-    
+
     def is_available(self, required_capacity: int = 1) -> bool:
         """Check if resource is available for required capacity."""
         return (self.capacity - self.current_usage) >= required_capacity
@@ -261,6 +272,7 @@ class QuantumResource:
 @dataclass
 class QuantumApplication:
     """Represents a quantum application use case."""
+
     name: str
     description: str
     domain: str  # 'finance', 'healthcare', 'logistics', etc.
@@ -269,7 +281,7 @@ class QuantumApplication:
     complexity: str  # 'low', 'medium', 'high'
     requirements: Dict[str, Any]
     created_at: datetime = field(default_factory=datetime.now)
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary representation."""
         return {
@@ -280,31 +292,36 @@ class QuantumApplication:
             "expected_speedup": self.expected_speedup,
             "complexity": self.complexity,
             "requirements": self.requirements,
-            "created_at": self.created_at.isoformat()
+            "created_at": self.created_at.isoformat(),
         }
 
 
 # Quantum-specific error types
 class QuantumError(Exception):
     """Base class for quantum computing errors."""
+
     pass
 
 
 class QuantumCircuitError(QuantumError):
     """Error in quantum circuit creation or execution."""
+
     pass
 
 
 class QuantumBackendError(QuantumError):
     """Error related to quantum backend operations."""
+
     pass
 
 
 class QuantumOptimizationError(QuantumError):
     """Error in quantum optimization."""
+
     pass
 
 
 class QuantumResourceError(QuantumError):
     """Error related to quantum resource allocation."""
+
     pass

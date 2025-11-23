@@ -1,0 +1,2469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iTechSmart Suite - Complete Enterprise Platform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f9fafb;
+            --bg-white: #ffffff;
+            --border-color: #e5e7eb;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --gradient-start: #3b82f6;
+            --gradient-end: #1e40af;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            padding: 60px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.03"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header .tagline {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+
+        .header-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            opacity: 0.8;
+        }
+
+        /* Navigation */
+        .nav-section {
+            background: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-light);
+            color: var(--primary-color);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--text-dark);
+        }
+
+        /* Architecture Section */
+        .architecture-section {
+            background: white;
+        }
+
+        .architecture-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+        }
+
+        .architecture-diagram {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            border-radius: 20px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .architecture-diagram::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(20px, 20px); }
+        }
+
+        .architecture-layers {
+            position: relative;
+            z-index: 1;
+        }
+
+        .layer {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .layer-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .layer-components {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .component-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .architecture-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .arch-card {
+            background: var(--bg-light);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .arch-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        /* Products Grid */
+        .products-section {
+            background: var(--bg-light);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .product-header {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 2px, transparent 2px);
+            background-size: 15px 15px;
+        }
+
+        .product-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-subtitle {
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-body {
+            padding: 30px;
+        }
+
+        .product-description {
+            color: var(--text-light);
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+
+        .features-list {
+            list-style: none;
+        }
+
+        .feature-item {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            color: var(--success-color);
+            font-size: 1.2rem;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .feature-content {
+            flex: 1;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+
+        .feature-description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Next-Gen Architecture */
+        .nextgen-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nextgen-section .section-title {
+            color: white;
+        }
+
+        .nextgen-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .nextgen-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .nextgen-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .nextgen-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .nextgen-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .nextgen-features {
+            list-style: none;
+        }
+
+        .nextgen-feature {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nextgen-feature i {
+            color: #10b981;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            padding: 5px 0;
+        }
+
+        .footer-section a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #374151;
+            color: #9ca3af;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header .tagline {
+                font-size: 1.2rem;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nextgen-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Scroll animations */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1>iTechSmart Suite</h1>
+                <p class="tagline">The Complete Enterprise AI-Driven Infrastructure Platform</p>
+                
+                <div class="header-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">32+</div>
+                        <div class="stat-label">Integrated Products</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Next-Gen Architectures</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">AI-First</div>
+                        <div class="stat-label">Autonomous Operations</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Production Ready</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav-section">
+        <div class="container">
+            <div class="nav-menu">
+                <a href="#architecture" class="nav-item">Architecture</a>
+                <a href="#products" class="nav-item">Products</a>
+                <a href="#nextgen" class="nav-item">Next-Gen</a>
+                <a href="#contact" class="nav-item">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="section architecture-section">
+        <div class="container">
+            <h2 class="section-title">Enterprise Architecture</h2>
+            <div class="architecture-container">
+                <div class="architecture-diagram">
+                    <h3 style="text-align: center; margin-bottom: 30px; font-size: 2rem;">iTechSmart Suite Architecture</h3>
+                    <div class="architecture-layers">
+                        <div class="layer">
+                            <div class="layer-title">
+                                <i class="fas fa-cloud"></i>
+                                Presentation Layer - User Interfaces &amp; APIs
+                            </div>
+                            <div class="layer-components">
+                                <span class="component-badge">Web Dashboard</span>
+                                <span class="component-badge">Mobile Apps</span>
+                                <span class="component-badge">REST APIs</span>
+                                <span class="component-badge">GraphQL</span>
+                                <span class="component-badge">WebSocket</span>
+                                <span class="component-badge">CLI Tools</span>
+                            </div>
+                        </div>
+                        
+                        <div class="layer">
+                            <div class="layer-title">
+                                <i class="fas fa-brain"></i>
+                                AI &amp; Intelligence Layer - Next-Gen Architecture
+                            </div>
+                            <div class="layer-components">
+                                <span class="component-badge">AI Governance &amp; Trust Layer</span>
+                                <span class="component-badge">Digital Twin Engine</span>
+                                <span class="component-badge">Generative Workflow</span>
+                                <span class="component-badge">Quantum Computing</span>
+                                <span class="component-badge">Edge Computing</span>
+                                <span class="component-badge">ML Pipeline</span>
+                            </div>
+                        </div>
+                        
+                        <div class="layer">
+                            <div class="layer-title">
+                                <i class="fas fa-cogs"></i>
+                                Business Logic Layer - Core Services
+                            </div>
+                            <div class="layer-components">
+                                <span class="component-badge">Orchestration Engine</span>
+                                <span class="component-badge">Security Services</span>
+                                <span class="component-badge">Compliance Engine</span>
+                                <span class="component-badge">Workflow Engine</span>
+                                <span class="component-badge">Analytics Engine</span>
+                                <span class="component-badge">Notification Hub</span>
+                            </div>
+                        </div>
+                        
+                        <div class="layer">
+                            <div class="layer-title">
+                                <i class="fas fa-database"></i>
+                                Data Layer - Storage &amp; Processing
+                            </div>
+                            <div class="layer-components">
+                                <span class="component-badge">Time Series DB</span>
+                                <span class="component-badge">Graph Database</span>
+                                <span class="component-badge">Data Lake</span>
+                                <span class="component-badge">Cache Layer</span>
+                                <span class="component-badge">Message Queue</span>
+                                <span class="component-badge">Search Engine</span>
+                            </div>
+                        </div>
+                        
+                        <div class="layer">
+                            <div class="layer-title">
+                                <i class="fas fa-server"></i>
+                                Infrastructure Layer - Hybrid Cloud &amp; Edge
+                            </div>
+                            <div class="layer-components">
+                                <span class="component-badge">Kubernetes</span>
+                                <span class="component-badge">Docker</span>
+                                <span class="component-badge">Cloud Providers</span>
+                                <span class="component-badge">Edge Nodes</span>
+                                <span class="component-badge">On-Premises</span>
+                                <span class="component-badge">IoT Devices</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="architecture-details">
+                    <div class="arch-card">
+                        <h3><i class="fas fa-shield-alt"></i> Security &amp; Trust</h3>
+                        <ul>
+                            <li>Zero-trust architecture with end-to-end encryption</li>
+                            <li>Advanced threat detection and autonomous response</li>
+                            <li>Compliance automation (GDPR, HIPAA, SOC2)</li>
+                            <li>AI governance with explainable decisions</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="arch-card">
+                        <h3><i class="fas fa-tachometer-alt"></i> Performance &amp; Scale</h3>
+                        <ul>
+                            <li>Horizontal scaling with Kubernetes orchestration</li>
+                            <li>Distributed caching and CDN optimization</li>
+                            <li>Real-time data processing pipelines</li>
+                            <li>Auto-scaling based on AI-predicted demand</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="arch-card">
+                        <h3><i class="fas fa-plug"></i> Integration &amp; APIs</h3>
+                        <ul>
+                            <li>RESTful APIs with OpenAPI documentation</li>
+                            <li>GraphQL for flexible data queries</li>
+                            <li>Webhook infrastructure for event-driven architecture</li>
+                            <li>Extensive third-party integrations</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="arch-card">
+                        <h3><i class="fas fa-chart-line"></i> Analytics &amp; Intelligence</h3>
+                        <ul>
+                            <li>Real-time business intelligence dashboards</li>
+                            <li>Predictive analytics with machine learning</li>
+                            <li>AIOps for proactive issue resolution</li>
+                            <li>Custom report generation and scheduling</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="section products-section">
+        <div class="container">
+            <h2 class="section-title">Complete Product Suite - All 32+ Products</h2>
+            <div class="products-grid">
+                <!-- iTechSmart AI -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-brain"></i></div>
+                        <h3 class="product-title">iTechSmart AI</h3>
+                        <p class="product-subtitle">Autonomous Intelligence Engine</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Advanced AI-powered automation and decision-making engine that enables truly autonomous infrastructure operations with human-like reasoning capabilities.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Intelligent Automation</div>
+                                    <div class="feature-description">AI-driven incident detection, diagnosis, and automated remediation with zero human intervention</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Predictive Analytics</div>
+                                    <div class="feature-description">Machine learning models predict system failures before they occur with 95% accuracy</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Natural Language Processing</div>
+                                    <div class="feature-description">Conversational interface for infrastructure management using natural language commands</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Reinforcement Learning</div>
+                                    <div class="feature-description">Self-improving algorithms that learn from operational data and optimize performance</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Analytics -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-chart-line"></i></div>
+                        <h3 class="product-title">iTechSmart Analytics</h3>
+                        <p class="product-subtitle">Business Intelligence &amp; Insights</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Comprehensive analytics platform that transforms raw infrastructure data into actionable business insights with real-time dashboards and predictive modeling.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Real-time Dashboards</div>
+                                    <div class="feature-description">Interactive dashboards with customizable KPIs, drill-down capabilities, and live data streaming</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">AI-Powered Insights</div>
+                                    <div class="feature-description">Automated anomaly detection and actionable insights powered by machine learning algorithms</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Business Value Reporting</div>
+                                    <div class="feature-description">ROI calculations, cost optimization recommendations, and business impact assessments</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Advanced Analytics</div>
+                                    <div class="feature-description">Statistical analysis, trend forecasting, and predictive modeling for strategic planning</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Citadel -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3 class="product-title">iTechSmart Citadel</h3>
+                        <p class="product-subtitle">Advanced Security &amp; Compliance</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Enterprise-grade security platform providing comprehensive threat protection, compliance automation, and zero-trust architecture implementation.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Threat Intelligence</div>
+                                    <div class="feature-description">Real-time threat detection with AI-powered analysis and automated incident response</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Compliance Automation</div>
+                                    <div class="feature-description">Automated compliance checks for GDPR, HIPAA, SOC2, PCI-DSS with real-time reporting</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Zero Trust Architecture</div>
+                                    <div class="feature-description">Identity-based security with continuous authentication and micro-segmentation</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Advanced Threat Protection</div>
+                                    <div class="feature-description">Multi-layered security with endpoint protection, network security, and data encryption</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Cloud -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-cloud"></i></div>
+                        <h3 class="product-title">iTechSmart Cloud</h3>
+                        <p class="product-subtitle">Multi-Cloud Orchestration</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Unified multi-cloud management platform that orchestrates resources across AWS, Azure, GCP, and private clouds with intelligent cost optimization.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Multi-Cloud Management</div>
+                                    <div class="feature-description">Single pane of glass for managing resources across all major cloud providers</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Cost Optimization</div>
+                                    <div class="feature-description">AI-driven cost analysis with recommendations for savings and budget optimization</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Cloud Migration</div>
+                                    <div class="feature-description">Automated migration planning and execution with risk assessment and rollback capabilities</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Hybrid Cloud Architecture</div>
+                                    <div class="feature-description">Seamless integration between public clouds, private clouds, and on-premises infrastructure</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Connect -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-network-wired"></i></div>
+                        <h3 class="product-title">iTechSmart Connect</h3>
+                        <p class="product-subtitle">Integration &amp; API Management</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Enterprise integration platform providing seamless connectivity between systems, APIs, and services with comprehensive monitoring and management.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">API Gateway</div>
+                                    <div class="feature-description">Centralized API management with authentication, rate limiting, and analytics</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Data Integration</div>
+                                    <div class="feature-description">ETL pipelines for real-time data synchronization between disparate systems</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Workflow Automation</div>
+                                    <div class="feature-description">Low-code workflow builder for automating business processes and data flows</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Enterprise Connectors</div>
+                                    <div class="feature-description">500+ pre-built connectors for popular enterprise systems and SaaS applications</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Copilot -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-user-astronaut"></i></div>
+                        <h3 class="product-title">iTechSmart Copilot</h3>
+                        <p class="product-subtitle">AI-Powered Assistant</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Intelligent AI assistant that provides contextual help, automates routine tasks, and offers proactive suggestions for infrastructure optimization.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Contextual Assistance</div>
+                                    <div class="feature-description">AI-powered help that understands your context and provides relevant guidance</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Task Automation</div>
+                                    <div class="feature-description">Automates repetitive tasks and workflows with intelligent execution</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Proactive Suggestions</div>
+                                    <div class="feature-description">AI-driven recommendations for optimization and performance improvements</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Natural Language Interface</div>
+                                    <div class="feature-description">Conversational AI interface for easy interaction and command execution</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Customer Success -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-users"></i></div>
+                        <h3 class="product-title">iTechSmart Customer Success</h3>
+                        <p class="product-subtitle">Customer Experience Platform</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Comprehensive customer success platform that proactively manages customer relationships, tracks satisfaction, and drives retention through intelligent insights.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Health Scoring</div>
+                                    <div class="feature-description">AI-powered customer health scoring with predictive churn risk analysis</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Journey Mapping</div>
+                                    <div class="feature-description">Visual customer journey mapping with touchpoint analysis and optimization opportunities</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Success Automation</div>
+                                    <div class="feature-description">Automated onboarding, check-ins, and success plan execution with personalized content</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Customer Analytics</div>
+                                    <div class="feature-description">Advanced analytics for customer behavior, engagement patterns, and success metrics</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Data Platform -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-database"></i></div>
+                        <h3 class="product-title">iTechSmart Data Platform</h3>
+                        <p class="product-subtitle">Enterprise Data Management</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Unified data management platform that provides data governance, quality management, and analytics capabilities across the enterprise data ecosystem.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Data Governance</div>
+                                    <div class="feature-description">Comprehensive data governance with policies, standards, and compliance enforcement</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Data Quality Management</div>
+                                    <div class="feature-description">Automated data quality monitoring, profiling, and cleansing with intelligent rules</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Master Data Management</div>
+                                    <div class="feature-description">Centralized master data management with golden records and synchronization</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Data Catalog</div>
+                                    <div class="feature-description">Enterprise data catalog with metadata management and data lineage tracking</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Dataflow -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-stream"></i></div>
+                        <h3 class="product-title">iTechSmart Dataflow</h3>
+                        <p class="product-subtitle">Real-time Data Pipeline</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Enterprise data pipeline platform that enables real-time data processing, transformation, and streaming with unlimited scalability and fault tolerance.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Stream Processing</div>
+                                    <div class="feature-description">Real-time data streaming with sub-millisecond latency and backpressure handling</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Data Transformation</div>
+                                    <div class="feature-description">Visual ETL builder with 500+ pre-built transformations and custom function support</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Quality Management</div>
+                                    <div class="feature-description">Automated data quality checks with anomaly detection and data lineage tracking</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Event-Driven Architecture</div>
+                                    <div class="feature-description">Event sourcing and CQRS patterns with distributed event processing</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart DevOps -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-infinity"></i></div>
+                        <h3 class="product-title">iTechSmart DevOps</h3>
+                        <p class="product-subtitle">CI/CD &amp; DevOps Automation</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Complete DevOps automation platform that streamlines development pipelines, enables continuous delivery, and optimizes software development lifecycle.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Pipeline Automation</div>
+                                    <div class="feature-description">Visual pipeline builder with drag-and-drop stages and parallel execution support</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">GitOps Integration</div>
+                                    <div class="feature-description">Git-based deployment with automated rollbacks and environment synchronization</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Testing Automation</div>
+                                    <div class="feature-description">Automated testing with AI-powered test case generation and coverage optimization</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">DevSecOps</div>
+                                    <div class="feature-description">Integrated security scanning, vulnerability management, and compliance checking</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Digital Twin -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-twins"></i></div>
+                        <h3 class="product-title">iTechSmart Digital Twin</h3>
+                        <p class="product-subtitle">Predictive Simulation Engine</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Advanced digital twin platform that creates real-time virtual replicas of infrastructure for predictive analysis, what-if scenarios, and optimization testing.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Real-time Synchronization</div>
+                                    <div class="feature-description">Bidirectional sync between physical infrastructure and digital twin representation</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Predictive Analytics</div>
+                                    <div class="feature-description">AI-powered predictions of performance, capacity needs, and potential failures</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">What-if Scenarios</div>
+                                    <div class="feature-description">Simulate infrastructure changes and business impacts before implementation</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Optimization Engine</div>
+                                    <div class="feature-description">AI-driven optimization recommendations for cost, performance, and efficiency</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Enterprise -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-building"></i></div>
+                        <h3 class="product-title">iTechSmart Enterprise</h3>
+                        <p class="product-subtitle">Enterprise Resource Planning</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Comprehensive ERP solution that integrates all business processes including finance, HR, supply chain, and operations with AI-driven optimization.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Financial Management</div>
+                                    <div class="feature-description">Real-time financial analytics, budgeting, forecasting, and automated compliance reporting</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Supply Chain Optimization</div>
+                                    <div class="feature-description">AI-powered demand forecasting, inventory optimization, and supplier management</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">HR Management</div>
+                                    <div class="feature-description">Complete HR suite with talent analytics, performance management, and workforce planning</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Business Intelligence</div>
+                                    <div class="feature-description">Integrated BI and analytics across all business functions with AI insights</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Forge -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-hammer"></i></div>
+                        <h3 class="product-title">iTechSmart Forge</h3>
+                        <p class="product-subtitle">Low-Code Development Platform</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Revolutionary low-code platform that enables rapid application development with visual builders, pre-built components, and enterprise-grade security.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Visual App Builder</div>
+                                    <div class="feature-description">Drag-and-drop interface for building complex applications without writing code</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Component Marketplace</div>
+                                    <div class="feature-description">Extensive library of pre-built components and templates for rapid development</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Automated Testing</div>
+                                    <div class="feature-description">Built-in testing framework with automated test generation and continuous validation</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Enterprise Integration</div>
+                                    <div class="feature-description">Seamless integration with enterprise systems, databases, and third-party APIs</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Generative Workflow -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-magic"></i></div>
+                        <h3 class="product-title">iTechSmart Generative Workflow</h3>
+                        <p class="product-subtitle">AI-Powered Workflow Generation</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Revolutionary workflow platform that uses AI to generate, optimize, and execute complex business workflows from natural language descriptions.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Natural Language to Workflow</div>
+                                    <div class="feature-description">Convert natural language descriptions into executable workflows with AI understanding</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Citizen DevOps Support</div>
+                                    <div class="feature-description">Enable non-technical teams to create complex workflows with minimal training</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Workflow Marketplace</div>
+                                    <div class="feature-description">Share and discover pre-built workflows with community contributions and templates</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Self-Improving Workflows</div>
+                                    <div class="feature-description">Workflows that learn from execution data and automatically optimize over time</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart HL7 -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-heartbeat"></i></div>
+                        <h3 class="product-title">iTechSmart HL7</h3>
+                        <p class="product-subtitle">Healthcare Integration Platform</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Healthcare-specific integration platform that handles HL7, FHIR, and other medical standards while ensuring HIPAA compliance and interoperability.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Medical Standards Support</div>
+                                    <div class="feature-description">Complete HL7 v2, HL7 v3, FHIR R4, and DICOM integration capabilities</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">HIPAA Compliance</div>
+                                    <div class="feature-description">Built-in privacy controls, audit trails, and secure data handling for healthcare</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Clinical Analytics</div>
+                                    <div class="feature-description">AI-powered clinical decision support and patient outcome optimization</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Interoperability Hub</div>
+                                    <div class="feature-description">Centralized hub for healthcare system integration with real-time data exchange</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart ImpactOS -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-globe"></i></div>
+                        <h3 class="product-title">iTechSmart ImpactOS</h3>
+                        <p class="product-subtitle">ESG &amp; Sustainability Platform</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Comprehensive ESG management platform that tracks environmental impact, social responsibility, and governance metrics with automated reporting.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Carbon Footprint Tracking</div>
+                                    <div class="feature-description">Real-time carbon emissions monitoring with scope 1, 2, and 3 tracking</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Sustainability Analytics</div>
+                                    <div class="feature-description">AI-powered sustainability insights and optimization recommendations</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">ESG Reporting</div>
+                                    <div class="feature-description">Automated ESG report generation aligned with GRI, SASB, and TCFD standards</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Social Impact Tracking</div>
+                                    <div class="feature-description">Measure and report social responsibility initiatives and community impact</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Ledger -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-book"></i></div>
+                        <h3 class="product-title">iTechSmart Ledger</h3>
+                        <p class="product-subtitle">Blockchain &amp; Distributed Ledger</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Enterprise blockchain platform that provides secure, transparent, and immutable record-keeping with smart contracts and decentralized applications.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Smart Contract Platform</div>
+                                    <div class="feature-description">Visual smart contract builder with enterprise-grade security and auditing</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Supply Chain Transparency</div>
+                                    <div class="feature-description">End-to-end supply chain tracking with immutable records and provenance</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Digital Identity</div>
+                                    <div class="feature-description">Self-sovereign identity management with blockchain-based verification</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Tokenization Platform</div>
+                                    <div class="feature-description">Asset tokenization and digital currency management for enterprise use cases</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart MDM Agent -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-mobile-alt"></i></div>
+                        <h3 class="product-title">iTechSmart MDM Agent</h3>
+                        <p class="product-subtitle">Mobile Device Management</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Enterprise mobile device management solution that provides comprehensive control, security, and management of mobile devices across the organization.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Device Management</div>
+                                    <div class="feature-description">Over-the-air device configuration, app distribution, and policy enforcement</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Security Enforcement</div>
+                                    <div class="feature-description">Advanced security policies with remote wipe, encryption, and threat protection</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Compliance Monitoring</div>
+                                    <div class="feature-description">Continuous compliance checking with automated remediation and reporting</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Enterprise Integration</div>
+                                    <div class="feature-description">Integration with enterprise systems for unified device and identity management</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Marketplace -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-store"></i></div>
+                        <h3 class="product-title">iTechSmart Marketplace</h3>
+                        <p class="product-subtitle">Enterprise App Store</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Enterprise app marketplace that provides curated applications, integrations, and solutions with security validation and streamlined deployment.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Curated Application Store</div>
+                                    <div class="feature-description">Enterprise-vetted applications with security scanning and compliance validation</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">One-Click Deployment</div>
+                                    <div class="feature-description">Automated deployment with configuration management and integration setup</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">App Lifecycle Management</div>
+                                    <div class="feature-description">Complete lifecycle management from procurement to retirement with automated updates</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Developer Portal</div>
+                                    <div class="feature-description">Developer portal with APIs, SDKs, and tools for custom application development</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Mobile -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-mobile-alt"></i></div>
+                        <h3 class="product-title">iTechSmart Mobile</h3>
+                        <p class="product-subtitle">Enterprise Mobile Platform</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Enterprise mobile application development platform that enables rapid creation of secure, scalable mobile apps with offline capabilities and seamless integration.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Cross-Platform Development</div>
+                                    <div class="feature-description">Single codebase deployment to iOS, Android, and web with native performance</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Offline Capabilities</div>
+                                    <div class="feature-description">Full offline functionality with intelligent data synchronization when connected</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Enterprise Security</div>
+                                    <div class="feature-description">Built-in security with encryption, biometric authentication, and secure data storage</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Push Notifications</div>
+                                    <div class="feature-description">Advanced push notification system with segmentation, personalization, and analytics</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Ninja -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-user-ninja"></i></div>
+                        <h3 class="product-title">iTechSmart Ninja</h3>
+                        <p class="product-subtitle">Autonomous Operations Agent</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Intelligent autonomous agent that performs infrastructure operations, security monitoring, and incident response with human-like decision-making capabilities.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Autonomous Remediation</div>
+                                    <div class="feature-description">Self-healing infrastructure with automated problem detection and resolution</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Learning Algorithms</div>
+                                    <div class="feature-description">Machine learning models that improve decision-making based on historical data</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Safety Controls</div>
+                                    <div class="feature-description">Kill switches, human-in-the-loop controls, and reversible actions for safety</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Multi-Agent Coordination</div>
+                                    <div class="feature-description">Coordinated multi-agent operations with conflict resolution and optimization</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Notify -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-bell"></i></div>
+                        <h3 class="product-title">iTechSmart Notify</h3>
+                        <p class="product-subtitle">Intelligent Notification System</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Smart notification platform that delivers the right message to the right person at the right time through intelligent routing and contextual awareness.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Multi-Channel Delivery</div>
+                                    <div class="feature-description">Email, SMS, push notifications, Slack, Teams, and custom webhook integrations</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Intelligent Routing</div>
+                                    <div class="feature-description">AI-powered notification routing based on urgency, availability, and preferences</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Escalation Management</div>
+                                    <div class="feature-description">Automated escalation paths with configurable rules and on-call scheduling</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Notification Analytics</div>
+                                    <div class="feature-description">Comprehensive analytics on delivery rates, response times, and engagement metrics</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Observatory -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-satellite"></i></div>
+                        <h3 class="product-title">iTechSmart Observatory</h3>
+                        <p class="product-subtitle">Monitoring &amp; Observability</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Comprehensive monitoring and observability platform that provides complete visibility into infrastructure performance, user experience, and business metrics.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Full-Stack Monitoring</div>
+                                    <div class="feature-description">Infrastructure, application, and business metrics in a unified platform</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Distributed Tracing</div>
+                                    <div class="feature-description">End-to-end transaction tracing with performance bottleneck identification</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">User Experience Monitoring</div>
+                                    <div class="feature-description">Real user monitoring with session replay and performance optimization insights</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Business Metrics</div>
+                                    <div class="feature-description">Business-focused monitoring with conversion tracking and revenue impact analysis</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Passport -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-passport"></i></div>
+                        <h3 class="product-title">iTechSmart Passport</h3>
+                        <p class="product-subtitle">Identity &amp; Access Management</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Enterprise identity and access management platform providing secure authentication, single sign-on, and fine-grained authorization across all applications.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Single Sign-On</div>
+                                    <div class="feature-description">Seamless SSO across all enterprise applications with SAML, OAuth2, and OpenID Connect</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Multi-Factor Authentication</div>
+                                    <div class="feature-description">Advanced MFA with biometrics, hardware tokens, and adaptive authentication</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Privileged Access Management</div>
+                                    <div class="feature-description">Just-in-time access with session recording and automated approval workflows</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Identity Governance</div>
+                                    <div class="feature-description">Complete identity lifecycle management with automated provisioning and deprovisioning</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Port Manager -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-network-wired"></i></div>
+                        <h3 class="product-title">iTechSmart Port Manager</h3>
+                        <p class="product-subtitle">Network Port Management</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Intelligent network port management system that automates port configuration, security policies, and traffic optimization across hybrid networks.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Automated Port Configuration</div>
+                                    <div class="feature-description">Dynamic port allocation and configuration with security policy enforcement</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Traffic Optimization</div>
+                                    <div class="feature-description">AI-powered traffic routing and load balancing for optimal network performance</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Security Enforcement</div>
+                                    <div class="feature-description">Automated firewall rule management and intrusion prevention</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Network Analytics</div>
+                                    <div class="feature-description">Real-time network monitoring with performance optimization and capacity planning</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Pulse -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-heartbeat"></i></div>
+                        <h3 class="product-title">iTechSmart Pulse</h3>
+                        <p class="product-subtitle">Real-time Health Monitoring</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Real-time system health monitoring platform that provides comprehensive visibility into infrastructure performance, availability, and user experience metrics.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Health Scoring</div>
+                                    <div class="feature-description">Dynamic health scores for all systems with predictive failure warnings</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Performance Metrics</div>
+                                    <div class="feature-description">Real-time performance monitoring with historical trend analysis</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Alert Management</div>
+                                    <div class="feature-description">Intelligent alerting with correlation and automated incident creation</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">SLA Monitoring</div>
+                                    <div class="feature-description">Automated SLA tracking with breach prediction and compliance reporting</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart QAQC -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-clipboard-check"></i></div>
+                        <h3 class="product-title">iTechSmart QAQC</h3>
+                        <p class="product-subtitle">Quality Assurance &amp; Control</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Comprehensive quality assurance platform that automates testing, quality control, and compliance verification across the entire development lifecycle.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Automated Testing</div>
+                                    <div class="feature-description">AI-powered test case generation and execution with coverage optimization</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Quality Gates</div>
+                                    <div class="feature-description">Automated quality checks with configurable gates and approval workflows</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Compliance Testing</div>
+                                    <div class="feature-description">Automated compliance verification against industry standards and regulations</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Test Analytics</div>
+                                    <div class="feature-description">Advanced test analytics with defect prediction and quality trend analysis</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Quantum -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-atom"></i></div>
+                        <h3 class="product-title">iTechSmart Quantum</h3>
+                        <p class="product-subtitle">Quantum Computing Interface</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Revolutionary quantum computing platform that provides access to quantum algorithms and hybrid computing for solving complex optimization problems.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Quantum Algorithms</div>
+                                    <div class="feature-description">Access to Grover's search, QAOA optimization, VQE, and Shor's algorithms</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Hybrid Computing</div>
+                                    <div class="feature-description">Classical-quantum hybrid computing for practical business applications</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Multi-Backend Support</div>
+                                    <div class="feature-description">IBM Quantum, D-Wave, Google Sycamore, and simulator backend support</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Quantum Optimization</div>
+                                    <div class="feature-description">Advanced optimization for complex computational problems beyond classical capabilities</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Sandbox -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-box"></i></div>
+                        <h3 class="product-title">iTechSmart Sandbox</h3>
+                        <p class="product-subtitle">Development Environment</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Secure development sandbox environment that provides isolated testing spaces with resource management and automated cleanup capabilities.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Isolated Environments</div>
+                                    <div class="feature-description">Secure sandboxed environments with complete isolation from production systems</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Resource Management</div>
+                                    <div class="feature-description">Dynamic resource allocation with auto-scaling and usage optimization</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Automated Cleanup</div>
+                                    <div class="feature-description">Scheduled cleanup and resource reclamation with policy-based retention</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Template Library</div>
+                                    <div class="feature-description">Pre-configured environment templates for common development scenarios</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Sentinel -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-shield-virus"></i></div>
+                        <h3 class="product-title">iTechSmart Sentinel</h3>
+                        <p class="product-subtitle">Threat Detection &amp; Response</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Advanced threat detection and response platform that uses AI to identify, analyze, and neutralize security threats in real-time with automated incident response.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Threat Intelligence</div>
+                                    <div class="feature-description">Real-time threat detection with global threat feed integration and analysis</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Automated Response</div>
+                                    <div class="feature-description">AI-powered incident response with automated containment and remediation</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Hunting Capabilities</div>
+                                    <div class="feature-description">Proactive threat hunting with behavioral analysis and anomaly detection</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Security Orchestration</div>
+                                    <div class="feature-description">Automated security orchestration with playbooks and incident management</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Shield -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3 class="product-title">iTechSmart Shield</h3>
+                        <p class="product-subtitle">Advanced Protection Suite</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Comprehensive protection suite that combines multiple security layers including web security, endpoint protection, and network security with centralized management.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Multi-Layer Security</div>
+                                    <div class="feature-description">Integrated security across web, endpoint, network, and cloud environments</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Zero Trust Architecture</div>
+                                    <div class="feature-description">Complete zero trust implementation with micro-segmentation and continuous monitoring</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Security Analytics</div>
+                                    <div class="feature-description">AI-powered security analytics with predictive threat assessment</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Threat Prevention</div>
+                                    <div class="feature-description">Proactive threat prevention with advanced malware detection and behavioral analysis</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Supreme -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-crown"></i></div>
+                        <h3 class="product-title">iTechSmart Supreme</h3>
+                        <p class="product-subtitle">Premium Enterprise Suite</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Premium enterprise suite that combines all iTechSmart products with additional features, priority support, and advanced customization options.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Complete Integration</div>
+                                    <div class="feature-description">Full integration of all iTechSmart products with unified data models and workflows</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Premium Features</div>
+                                    <div class="feature-description">Advanced features including AI enhancements, predictive analytics, and automation</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Enterprise Support</div>
+                                    <div class="feature-description">24/7 premium support with dedicated account management and SLAs</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Advanced Customization</div>
+                                    <div class="feature-description">Deep customization options with dedicated development resources</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Supreme Plus -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-gem"></i></div>
+                        <h3 class="product-title">iTechSmart Supreme Plus</h3>
+                        <p class="product-subtitle">Ultimate Enterprise Solution</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Ultimate enterprise solution with exclusive features, custom development options, and white-glove service for the most demanding organizations.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Exclusive Features</div>
+                                    <div class="feature-description">Bespoke features and capabilities developed specifically for your organization</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Custom Development</div>
+                                    <div class="feature-description">Custom development team for creating tailored solutions and integrations</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">White-Glove Service</div>
+                                    <div class="feature-description">Premium white-glove service with dedicated teams and proactive support</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Strategic Partnership</div>
+                                    <div class="feature-description">Strategic partnership with co-innovation and joint development opportunities</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart ThinkTank -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-lightbulb"></i></div>
+                        <h3 class="product-title">iTechSmart ThinkTank</h3>
+                        <p class="product-subtitle">Innovation &amp; Research Platform</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Innovation and research platform that leverages AI to identify trends, generate insights, and drive strategic decision-making with predictive analytics.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Trend Analysis</div>
+                                    <div class="feature-description">AI-powered trend identification and market analysis with predictive insights</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Innovation Pipeline</div>
+                                    <div class="feature-description">Structured innovation management with idea tracking and evaluation</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Strategic Planning</div>
+                                    <div class="feature-description">AI-assisted strategic planning with scenario modeling and risk assessment</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Research Collaboration</div>
+                                    <div class="feature-description">Collaborative research platform with knowledge sharing and expert networking</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Vault -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-lock"></i></div>
+                        <h3 class="product-title">iTechSmart Vault</h3>
+                        <p class="product-subtitle">Secrets &amp; Credential Management</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Enterprise secrets management platform that securely stores, manages, and rotates credentials, API keys, and certificates with automated lifecycle management.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Secure Storage</div>
+                                    <div class="feature-description">Encrypted storage with hardware security modules and zero-knowledge architecture</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Automated Rotation</div>
+                                    <div class="feature-description">Automated credential rotation with configurable policies and zero-downtime updates</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Access Control</div>
+                                    <div class="feature-description">Fine-grained access control with audit trails and session management</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Secrets Analytics</div>
+                                    <div class="feature-description">Advanced analytics on secret usage patterns and security risk assessment</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- iTechSmart Workflow -->
+                <div class="product-card scroll-animate">
+                    <div class="product-header">
+                        <div class="product-icon"><i class="fas fa-project-diagram"></i></div>
+                        <h3 class="product-title">iTechSmart Workflow</h3>
+                        <p class="product-subtitle">Business Process Automation</p>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-description">
+                            Comprehensive business process automation platform that enables workflow design, execution, and optimization with AI-powered process intelligence.
+                        </p>
+                        <ul class="features-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Visual Designer</div>
+                                    <div class="feature-description">Drag-and-drop workflow designer with pre-built templates and components</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Process Intelligence</div>
+                                    <div class="feature-description">AI-powered process optimization with bottleneck identification and recommendations</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Integration Hub</div>
+                                    <div class="feature-description">Seamless integration with existing systems and APIs with low-code connectors</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-content">
+                                    <div class="feature-title">Process Mining</div>
+                                    <div class="feature-description">Automated process discovery and analysis with performance optimization insights</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Next-Gen Architecture Section -->
+    <section id="nextgen" class="section nextgen-section">
+        <div class="container">
+            <h2 class="section-title">Next-Generation Architecture</h2>
+            <div class="nextgen-grid">
+                <div class="nextgen-card">
+                    <div class="nextgen-icon"><i class="fas fa-brain"></i></div>
+                    <h3 class="nextgen-title">AI Governance &amp; Trust Layer</h3>
+                    <ul class="nextgen-features">
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Explainable AI decisions</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Telemetry sanitization</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Agent orchestration governance</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Audit trails for all actions</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Multi-agent coordination</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Safety rule enforcement</li>
+                    </ul>
+                </div>
+
+                <div class="nextgen-card">
+                    <div class="nextgen-icon"><i class="fas fa-twins"></i></div>
+                    <h3 class="nextgen-title">Digital Twin &amp; Predictive Simulation</h3>
+                    <ul class="nextgen-features">
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Real-time infrastructure modeling</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Business impact simulation</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>What-if scenario analysis</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Predictive maintenance</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Autonomous change validation</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Chaos engineering simulation</li>
+                    </ul>
+                </div>
+
+                <div class="nextgen-card">
+                    <div class="nextgen-icon"><i class="fas fa-magic"></i></div>
+                    <h3 class="nextgen-title">Generative Workflow &amp; Low-Code</h3>
+                    <ul class="nextgen-features">
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Natural language to workflow</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Citizen DevOps enablement</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Workflow marketplace</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Self-improving workflows</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>AI-generated components</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Visual process modeling</li>
+                    </ul>
+                </div>
+
+                <div class="nextgen-card">
+                    <div class="nextgen-icon"><i class="fas fa-atom"></i></div>
+                    <h3 class="nextgen-title">Quantum Computing Interface</h3>
+                    <ul class="nextgen-features">
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Grover's search algorithm</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>QAOA optimization</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>VQE eigenvalue solving</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Hybrid computing architecture</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Multi-backend support</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Quantum job management</li>
+                    </ul>
+                </div>
+
+                <div class="nextgen-card">
+                    <div class="nextgen-icon"><i class="fas fa-network-wired"></i></div>
+                    <h3 class="nextgen-title">Edge Computing Optimization</h3>
+                    <ul class="nextgen-features">
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Distributed processing</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>AI-driven resource allocation</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Edge-native agents</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Federated autonomy</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Auto-scaling optimization</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Offline operation support</li>
+                    </ul>
+                </div>
+
+                <div class="nextgen-card">
+                    <div class="nextgen-icon"><i class="fas fa-cogs"></i></div>
+                    <h3 class="nextgen-title">Autonomous Operations</h3>
+                    <ul class="nextgen-features">
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Self-healing infrastructure</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Predictive maintenance</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Intelligent resource optimization</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Automated incident response</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Performance tuning</li>
+                        <li class="nextgen-feature"><i class="fas fa-check"></i>Cost optimization</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>iTechSmart Suite</h3>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Products</a></li>
+                        <li><a href="#">Solutions</a></li>
+                        <li><a href="#">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Products</h3>
+                    <ul>
+                        <li><a href="#">AI &amp; Analytics</a></li>
+                        <li><a href="#">Security &amp; Compliance</a></li>
+                        <li><a href="#">Cloud &amp; Infrastructure</a></li>
+                        <li><a href="#">Integration &amp; Automation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API Reference</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><a href="#">Sales</a></li>
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">Partners</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&amp;copy; 2024 iTechSmart Suite. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-animate').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Product counter animation
+        function animateCounter(element, target, duration = 2000) {
+            const start = 0;
+            const increment = target / (duration / 16);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target + '+';
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current) + '+';
+                }
+            }, 16);
+        }
+
+        // Animate product count when visible
+        const productCounter = document.querySelector('.stat-number');
+        if (productCounter) {
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounter(entry.target, 32);
+                        counterObserver.unobserve(entry.target);
+                    }
+                });
+            });
+            counterObserver.observe(productCounter);
+        }
+    </script>
+</body>
+</html>

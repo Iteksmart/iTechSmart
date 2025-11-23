@@ -21,7 +21,7 @@ async def lifespan(app: FastAPI):
     """Application lifespan events."""
     # Startup
     print("🚀 Starting iTechSmart Quantum Computing Service...")
-    
+
     # Initialize quantum service
     try:
         quantum_service = get_quantum_service()
@@ -29,16 +29,16 @@ async def lifespan(app: FastAPI):
         print(f"✅ Quantum service initialized")
         print(f"   - Available backends: {backend_info['total_jobs']}")
         print(f"   - Qiskit available: {backend_info['qiskit_available']}")
-        
+
         app.state.quantum_service = quantum_service
         app.state.config = get_quantum_config()
-        
+
     except Exception as e:
         print(f"❌ Failed to initialize quantum service: {e}")
         raise
-    
+
     yield
-    
+
     # Shutdown
     print("🛑 Shutting down iTechSmart Quantum Computing Service...")
 
@@ -50,7 +50,7 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan,
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
 )
 
 # Configure CORS
@@ -79,8 +79,8 @@ async def root():
         "endpoints": {
             "docs": "/docs",
             "quantum": "/api/v1/quantum",
-            "health": "/api/v1/quantum/health"
-        }
+            "health": "/api/v1/quantum/health",
+        },
     }
 
 
@@ -93,8 +93,8 @@ async def global_exception_handler(request, exc):
         content={
             "error": "Internal server error",
             "message": str(exc),
-            "timestamp": datetime.now().isoformat()
-        }
+            "timestamp": datetime.now().isoformat(),
+        },
     )
 
 
@@ -105,13 +105,19 @@ async def health_check():
     try:
         quantum_service = get_quantum_service()
         backend_info = quantum_service.get_backend_info()
-        
+
         return {
             "status": "healthy",
             "timestamp": datetime.now().isoformat(),
             "service": "iTechSmart Quantum Computing",
             "qiskit_available": backend_info.get("qiskit_available", False),
-            "available_backends": len([b for b in backend_info.get("available_backends", []) if b["available"]])
+            "available_backends": len(
+                [
+                    b
+                    for b in backend_info.get("available_backends", [])
+                    if b["available"]
+                ]
+            ),
         }
     except Exception as e:
         return JSONResponse(
@@ -119,8 +125,8 @@ async def health_check():
             content={
                 "status": "unhealthy",
                 "error": str(e),
-                "timestamp": datetime.now().isoformat()
-            }
+                "timestamp": datetime.now().isoformat(),
+            },
         )
 
 
@@ -131,26 +137,26 @@ async def get_metrics():
     try:
         quantum_service = get_quantum_service()
         backend_info = quantum_service.get_backend_info()
-        
+
         return {
             "metrics": {
                 "total_jobs": backend_info.get("total_jobs", 0),
                 "active_jobs": backend_info.get("active_jobs", 0),
-                "available_backends": len([b for b in backend_info.get("available_backends", []) if b["available"]]),
+                "available_backends": len(
+                    [
+                        b
+                        for b in backend_info.get("available_backends", [])
+                        if b["available"]
+                    ]
+                ),
                 "qiskit_available": backend_info.get("qiskit_available", False),
-                "service_uptime": "unknown"  # Would calculate from startup time
+                "service_uptime": "unknown",  # Would calculate from startup time
             },
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
 if __name__ == "__main__":
-    uvicorn.run(
-        "main:app",
-        host="0.0.0.0",
-        port=8042,
-        reload=True,
-        log_level="info"
-    )
+    uvicorn.run("main:app", host="0.0.0.0", port=8042, reload=True, log_level="info")

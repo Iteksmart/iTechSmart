@@ -12,6 +12,7 @@ from enum import Enum
 
 class EdgeNodeType(Enum):
     """Types of edge computing nodes."""
+
     GATEWAY = "gateway"
     AGGREGATOR = "aggregator"
     COMPUTE = "compute"
@@ -22,6 +23,7 @@ class EdgeNodeType(Enum):
 
 class TaskPriority(Enum):
     """Task priority levels."""
+
     CRITICAL = 1
     HIGH = 2
     NORMAL = 3
@@ -31,6 +33,7 @@ class TaskPriority(Enum):
 
 class TaskStatus(Enum):
     """Task execution status."""
+
     PENDING = "pending"
     SCHEDULED = "scheduled"
     RUNNING = "running"
@@ -42,6 +45,7 @@ class TaskStatus(Enum):
 @dataclass
 class ResourceMetrics:
     """Resource metrics for an edge node."""
+
     node_id: str
     cpu_usage: float = 0.0  # Percentage
     memory_usage: float = 0.0  # Percentage
@@ -51,7 +55,7 @@ class ResourceMetrics:
     temperature: float = 0.0  # Celsius
     power_consumption: float = 0.0  # Watts
     last_updated: datetime = field(default_factory=datetime.now)
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary representation."""
         return {
@@ -63,13 +67,14 @@ class ResourceMetrics:
             "gpu_usage": self.gpu_usage,
             "temperature": self.temperature,
             "power_consumption": self.power_consumption,
-            "last_updated": self.last_updated.isoformat()
+            "last_updated": self.last_updated.isoformat(),
         }
 
 
 @dataclass
 class EdgeNode:
     """Represents an edge computing node."""
+
     id: str
     name: str
     node_type: EdgeNodeType
@@ -87,7 +92,7 @@ class EdgeNode:
     gpu_accelerated: bool = False
     gpu_memory_gb: int = 0
     network_bandwidth_mbps: int = 1000
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary representation."""
         return {
@@ -107,13 +112,14 @@ class EdgeNode:
             "metadata": self.metadata,
             "gpu_accelerated": self.gpu_accelerated,
             "gpu_memory_gb": self.gpu_memory_gb,
-            "network_bandwidth_mbps": self.network_bandwidth_mbps
+            "network_bandwidth_mbps": self.network_bandwidth_mbps,
         }
 
 
 @dataclass
 class EdgeTask:
     """Represents a task to be executed on edge nodes."""
+
     id: str = ""
     name: str = ""
     description: str = ""
@@ -136,7 +142,7 @@ class EdgeTask:
     result: Optional[Dict[str, Any]] = None
     error_message: Optional[str] = None
     progress_percentage: float = 0.0
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary representation."""
         return {
@@ -153,7 +159,9 @@ class EdgeTask:
             "assigned_nodes": self.assigned_nodes,
             "created_at": self.created_at.isoformat() if self.created_at else None,
             "started_at": self.started_at.isoformat() if self.started_at else None,
-            "completed_at": self.completed_at.isoformat() if self.completed_at else None,
+            "completed_at": (
+                self.completed_at.isoformat() if self.completed_at else None
+            ),
             "requires_redundancy": self.requires_redundancy,
             "max_retries": self.max_retries,
             "retry_count": self.retry_count,
@@ -161,13 +169,14 @@ class EdgeTask:
             "parameters": self.parameters,
             "result": self.result,
             "error_message": self.error_message,
-            "progress_percentage": self.progress_percentage
+            "progress_percentage": self.progress_percentage,
         }
 
 
 @dataclass
 class EdgeWorkload:
     """Represents a workload distributed across edge nodes."""
+
     id: str
     name: str
     description: str = ""
@@ -183,7 +192,7 @@ class EdgeWorkload:
     resource_requirements: Dict[str, Any] = field(default_factory=dict)
     optimization_policy: str = "load_balancing"
     priority: TaskPriority = TaskPriority.NORMAL
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary representation."""
         return {
@@ -197,20 +206,22 @@ class EdgeWorkload:
             "status": self.status,
             "created_at": self.created_at.isoformat(),
             "started_at": self.started_at.isoformat() if self.started_at else None,
-            "completed_at": self.completed_at.isoformat() if self.completed_at else None,
+            "completed_at": (
+                self.completed_at.isoformat() if self.completed_at else None
+            ),
             "total_execution_time_minutes": self.total_execution_time_minutes,
             "resource_requirements": self.resource_requirements,
             "optimization_policy": self.optimization_policy,
-            "priority": self.priority.value
+            "priority": self.priority.value,
         }
-    
+
     @property
     def progress_percentage(self) -> float:
         """Calculate workload progress."""
         if self.total_tasks == 0:
             return 0.0
         return (self.completed_tasks / self.total_tasks) * 100
-    
+
     @property
     def success_rate(self) -> float:
         """Calculate workload success rate."""
@@ -225,10 +236,13 @@ class EdgeWorkload:
 @dataclass
 class EdgePolicy:
     """Represents an edge computing policy."""
+
     id: str
     name: str
     description: str = ""
-    policy_type: str = "resource_allocation"  # resource_allocation, reliability, performance, security
+    policy_type: str = (
+        "resource_allocation"  # resource_allocation, reliability, performance, security
+    )
     enabled: bool = True
     priority: int = 1
     conditions: Dict[str, Any] = field(default_factory=dict)
@@ -237,7 +251,7 @@ class EdgePolicy:
     updated_at: datetime = field(default_factory=datetime.now)
     execution_count: int = 0
     last_executed: Optional[datetime] = None
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary representation."""
         return {
@@ -252,13 +266,16 @@ class EdgePolicy:
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat(),
             "execution_count": self.execution_count,
-            "last_executed": self.last_executed.isoformat() if self.last_executed else None
+            "last_executed": (
+                self.last_executed.isoformat() if self.last_executed else None
+            ),
         }
 
 
 @dataclass
 class EdgeCluster:
     """Represents a cluster of edge computing nodes."""
+
     id: str
     name: str
     description: str = ""
@@ -271,7 +288,7 @@ class EdgeCluster:
     current_utilization: Dict[str, Any] = field(default_factory=dict)
     policies: List[str] = field(default_factory=list)  # Policy IDs
     metadata: Dict[str, Any] = field(default_factory=dict)
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary representation."""
         return {
@@ -286,13 +303,14 @@ class EdgeCluster:
             "total_capacity": self.total_capacity,
             "current_utilization": self.current_utilization,
             "policies": self.policies,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
 @dataclass
 class EdgeAnalytics:
     """Analytics data for edge computing operations."""
+
     timestamp: datetime
     total_nodes: int
     active_nodes: int
@@ -305,7 +323,7 @@ class EdgeAnalytics:
     average_task_duration_minutes: float
     total_throughput_tasks_per_hour: float
     error_rate: float
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary representation."""
         return {
@@ -320,5 +338,5 @@ class EdgeAnalytics:
             "average_memory_usage": self.average_memory_usage,
             "average_task_duration_minutes": self.average_task_duration_minutes,
             "total_throughput_tasks_per_hour": self.total_throughput_tasks_per_hour,
-            "error_rate": self.error_rate
+            "error_rate": self.error_rate,
         }
