@@ -99,7 +99,7 @@ hvac==2.1.0
 
 # Multiple AI Providers
 # Google Gemini
-google-generativeai==0.3.2
+# google-generativeai==0.3.2 # Disabled due to grpcio conflicts in CI/CD
 
 # Anthropic Claude
 anthropic==0.8.1
