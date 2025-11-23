@@ -127,7 +127,7 @@ python-telegram-bot==20.7
 # Ticketing Systems
 jira==3.6.0
 # python-servicenow==2.0.0  # Package not available on PyPI - using pysnow instead
-pysnow==0.7.17
+# pysnow==0.7.17  # Disabled due to pytz dependency conflicts
 
 # Additional ML & Data Science
 scikit-learn==1.4.0
