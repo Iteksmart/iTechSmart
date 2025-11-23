@@ -30,6 +30,7 @@ import requests
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class PortalType(Enum):
     CORPORATE_WEBSITE = "corporate_website"
     CUSTOMER_PORTAL = "customer_portal"
@@ -40,6 +41,7 @@ class PortalType(Enum):
     HEALTHCARE = "healthcare"
     GOVERNMENT = "government"
     MICROSITE = "microsite"
+
 
 class ComponentType(Enum):
     HEADER = "header"
@@ -53,12 +55,14 @@ class ComponentType(Enum):
     FOOTER = "footer"
     CUSTOM = "custom"
 
+
 class DeploymentStatus(Enum):
     DRAFT = "draft"
     REVIEW = "review"
     APPROVED = "approved"
     PUBLISHED = "published"
     ARCHIVED = "archived"
+
 
 @dataclass
 class Portal:
@@ -75,6 +79,7 @@ class Portal:
     settings: Dict[str, Any] = None
     seo_settings: Dict[str, Any] = None
 
+
 @dataclass
 class PortalComponent:
     component_id: str
@@ -86,6 +91,7 @@ class PortalComponent:
     order_index: int = 0
     is_visible: bool = True
     created_at: Optional[datetime] = None
+
 
 @dataclass
 class PortalPage:
@@ -101,6 +107,7 @@ class PortalPage:
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
+
 class PortalBuilderEngine:
     def __init__(self, config: Dict[str, Any]):
         self.config = config
@@ -110,45 +117,43 @@ class PortalBuilderEngine:
         self.cloudfront_client = None
         self.template_cache = {}
         self.component_registry = {}
-        
+
     async def initialize(self):
         """Initialize all connections and services"""
         try:
             # Database connections
             self.db_pool = await asyncpg.create_pool(
-                self.config['database_url'],
-                min_size=5,
-                max_size=20
+                self.config["database_url"], min_size=5, max_size=20
             )
-            
+
             # Redis for caching
             self.redis_client = redis.Redis(
-                host=self.config['redis_host'],
-                port=self.config['redis_port'],
-                decode_responses=True
+                host=self.config["redis_host"],
+                port=self.config["redis_port"],
+                decode_responses=True,
             )
-            
+
             # AWS S3 for static assets
             self.s3_client = boto3.client(
-                's3',
-                aws_access_key_id=self.config['aws_access_key'],
-                aws_secret_access_key=self.config['aws_secret_key'],
-                region_name=self.config['aws_region']
+                "s3",
+                aws_access_key_id=self.config["aws_access_key"],
+                aws_secret_access_key=self.config["aws_secret_key"],
+                region_name=self.config["aws_region"],
             )
-            
+
             # CloudFront for CDN
             self.cloudfront_client = boto3.client(
-                'cloudfront',
-                aws_access_key_id=self.config['aws_access_key'],
-                aws_secret_access_key=self.config['aws_secret_key'],
-                region_name=self.config['aws_region']
+                "cloudfront",
+                aws_access_key_id=self.config["aws_access_key"],
+                aws_secret_access_key=self.config["aws_secret_key"],
+                region_name=self.config["aws_region"],
             )
-            
+
             # Load component registry
             await self._load_component_registry()
-            
+
             logger.info("Portal Builder Engine initialized successfully")
-            
+
         except Exception as e:
             logger.error(f"Failed to initialize Portal Builder Engine: {e}")
             raise
@@ -158,18 +163,20 @@ class PortalBuilderEngine:
         try:
             portal = Portal(
                 portal_id=str(uuid.uuid4()),
-                name=portal_data['name'],
-                domain=portal_data.get('domain'),
-                portal_type=PortalType(portal_data.get('portal_type', 'corporate_website')),
-                template_id=portal_data.get('template_id'),
-                description=portal_data.get('description'),
-                owner_id=portal_data['owner_id'],
+                name=portal_data["name"],
+                domain=portal_data.get("domain"),
+                portal_type=PortalType(
+                    portal_data.get("portal_type", "corporate_website")
+                ),
+                template_id=portal_data.get("template_id"),
+                description=portal_data.get("description"),
+                owner_id=portal_data["owner_id"],
                 created_at=datetime.now(),
                 updated_at=datetime.now(),
-                settings=portal_data.get('settings', {}),
-                seo_settings=portal_data.get('seo_settings', {})
+                settings=portal_data.get("settings", {}),
+                seo_settings=portal_data.get("seo_settings", {}),
             )
-            
+
             # Store portal in database
             query = """
                 INSERT INTO portals 
@@ -177,7 +184,7 @@ class PortalBuilderEngine:
                  owner_id, created_at, updated_at, deployment_status, settings, seo_settings)
                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
             """
-            
+
             async with self.db_pool.acquire() as conn:
                 await conn.execute(
                     query,
@@ -192,38 +199,40 @@ class PortalBuilderEngine:
                     portal.updated_at,
                     portal.deployment_status.value,
                     json.dumps(portal.settings),
-                    json.dumps(portal.seo_settings)
+                    json.dumps(portal.seo_settings),
                 )
-            
+
             # If template specified, apply template
             if portal.template_id:
                 await self._apply_template(portal.portal_id, portal.template_id)
-            
+
             # Create default homepage
             await self._create_default_homepage(portal.portal_id)
-            
+
             logger.info(f"Portal {portal.portal_id} created successfully")
             return portal.portal_id
-            
+
         except Exception as e:
             logger.error(f"Error creating portal: {e}")
             raise
 
-    async def add_component(self, portal_id: str, component_data: Dict[str, Any]) -> str:
+    async def add_component(
+        self, portal_id: str, component_data: Dict[str, Any]
+    ) -> str:
         """Add component to portal"""
         try:
             component = PortalComponent(
                 component_id=str(uuid.uuid4()),
                 portal_id=portal_id,
-                component_type=ComponentType(component_data['component_type']),
-                name=component_data['name'],
-                content=component_data.get('content', {}),
-                styles=component_data.get('styles', {}),
-                order_index=component_data.get('order_index', 0),
-                is_visible=component_data.get('is_visible', True),
-                created_at=datetime.now()
+                component_type=ComponentType(component_data["component_type"]),
+                name=component_data["name"],
+                content=component_data.get("content", {}),
+                styles=component_data.get("styles", {}),
+                order_index=component_data.get("order_index", 0),
+                is_visible=component_data.get("is_visible", True),
+                created_at=datetime.now(),
             )
-            
+
             # Store component in database
             query = """
                 INSERT INTO portal_components 
@@ -231,7 +240,7 @@ class PortalBuilderEngine:
                  styles, order_index, is_visible, created_at)
                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             """
-            
+
             async with self.db_pool.acquire() as conn:
                 await conn.execute(
                     query,
@@ -243,14 +252,14 @@ class PortalBuilderEngine:
                     json.dumps(component.styles),
                     component.order_index,
                     component.is_visible,
-                    component.created_at
+                    component.created_at,
                 )
-            
+
             # Update portal cache
             await self._update_portal_cache(portal_id)
-            
+
             return component.component_id
-            
+
         except Exception as e:
             logger.error(f"Error adding component to portal {portal_id}: {e}")
             raise
@@ -261,17 +270,17 @@ class PortalBuilderEngine:
             page = PortalPage(
                 page_id=str(uuid.uuid4()),
                 portal_id=portal_id,
-                title=page_data['title'],
-                slug=page_data['slug'],
-                content=page_data.get('content', {}),
-                meta_description=page_data.get('meta_description'),
-                meta_keywords=page_data.get('meta_keywords'),
-                is_homepage=page_data.get('is_homepage', False),
-                is_published=page_data.get('is_published', False),
+                title=page_data["title"],
+                slug=page_data["slug"],
+                content=page_data.get("content", {}),
+                meta_description=page_data.get("meta_description"),
+                meta_keywords=page_data.get("meta_keywords"),
+                is_homepage=page_data.get("is_homepage", False),
+                is_published=page_data.get("is_published", False),
                 created_at=datetime.now(),
-                updated_at=datetime.now()
+                updated_at=datetime.now(),
             )
-            
+
             # Store page in database
             query = """
                 INSERT INTO portal_pages 
@@ -279,7 +288,7 @@ class PortalBuilderEngine:
                  meta_keywords, is_homepage, is_published, created_at, updated_at)
                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
             """
-            
+
             async with self.db_pool.acquire() as conn:
                 await conn.execute(
                     query,
@@ -293,14 +302,14 @@ class PortalBuilderEngine:
                     page.is_homepage,
                     page.is_published,
                     page.created_at,
-                    page.updated_at
+                    page.updated_at,
                 )
-            
+
             # Update portal cache
             await self._update_portal_cache(portal_id)
-            
+
             return page.page_id
-            
+
         except Exception as e:
             logger.error(f"Error creating page for portal {portal_id}: {e}")
             raise
@@ -311,71 +320,73 @@ class PortalBuilderEngine:
             portal = await self._get_portal(portal_id)
             if not portal:
                 raise HTTPException(status_code=404, detail="Portal not found")
-            
+
             # Get all components and pages
             components = await self._get_portal_components(portal_id)
             pages = await self._get_portal_pages(portal_id)
-            
+
             # Generate HTML structure
             html_content = await self._generate_html(portal, components, pages)
-            
+
             # Generate CSS styles
             css_content = await self._generate_css(portal, components)
-            
+
             # Generate JavaScript
             js_content = await self._generate_js(portal, components)
-            
+
             # Generate sitemap
             sitemap_content = await self._generate_sitemap(portal, pages)
-            
+
             # Generate robots.txt
             robots_content = await self._generate_robots(portal)
-            
+
             return {
-                'html': html_content,
-                'css': css_content,
-                'js': js_content,
-                'sitemap': sitemap_content,
-                'robots': robots_content,
-                'portal': asdict(portal)
+                "html": html_content,
+                "css": css_content,
+                "js": js_content,
+                "sitemap": sitemap_content,
+                "robots": robots_content,
+                "portal": asdict(portal),
             }
-            
+
         except Exception as e:
             logger.error(f"Error generating portal {portal_id}: {e}")
             raise
 
-    async def deploy_portal(self, portal_id: str, environment: str = "production") -> Dict[str, Any]:
+    async def deploy_portal(
+        self, portal_id: str, environment: str = "production"
+    ) -> Dict[str, Any]:
         """Deploy portal to specified environment"""
         try:
             portal = await self._get_portal(portal_id)
             if not portal:
                 raise HTTPException(status_code=404, detail="Portal not found")
-            
+
             # Generate portal assets
             generated = await self.generate_portal(portal_id)
-            
+
             # Deploy to S3
             deployment_result = await self._deploy_to_s3(portal, generated, environment)
-            
+
             # Update CloudFront if production
             if environment == "production":
-                await self._update_cloudfront(deployment_result['domain'])
-            
+                await self._update_cloudfront(deployment_result["domain"])
+
             # Update portal deployment status
             await self._update_deployment_status(portal_id, DeploymentStatus.PUBLISHED)
-            
+
             # Generate SEO audit
-            seo_audit = await self._run_seo_audit(deployment_result['url'])
-            
+            seo_audit = await self._run_seo_audit(deployment_result["url"])
+
             return {
-                'portal_id': portal_id,
-                'environment': environment,
-                'url': deployment_result['url'],
-                'domain': deployment_result['domain'],
-                'deployment_time': datetime.now().isoformat(),
-                'seo_audit': seo_audit
+                "portal_id": portal_id,
+                "environment": environment,
+                "url": deployment_result["url"],
+                "domain": deployment_result["domain"],
+                "deployment_time": datetime.now().isoformat(),
+                "seo_audit": seo_audit,
             }
-            
+
         except Exception as e:
             logger.error(f"Error deploying portal {portal_id}: {e}")
             raise
@@ -386,59 +397,73 @@ class PortalBuilderEngine:
             portal = await self._get_portal(portal_id)
             if not portal:
                 raise HTTPException(status_code=404, detail="Portal not found")
-            
+
             pages = await self._get_portal_pages(portal_id)
-            
+
             optimizations = []
-            
+
             for page in pages:
                 page_optimizations = []
-                
+
                 # Check meta description
                 if not page.meta_description or len(page.meta_description) < 50:
-                    page_optimizations.append({
-                        'type': 'meta_description',
-                        'severity': 'high',
-                        'message': 'Missing or short meta description',
-                        'recommendation': 'Add compelling meta description (150-160 characters)'
-                    })
-                
+                    page_optimizations.append(
+                        {
+                            "type": "meta_description",
+                            "severity": "high",
+                            "message": "Missing or short meta description",
+                            "recommendation": "Add compelling meta description (150-160 characters)",
+                        }
+                    )
+
                 # Check title length
                 if len(page.title) < 30 or len(page.title) > 60:
-                    page_optimizations.append({
-                        'type': 'title_length',
-                        'severity': 'medium',
-                        'message': f'Title length {len(page.title)} characters',
-                        'recommendation': 'Optimize title to 30-60 characters'
-                    })
-                
+                    page_optimizations.append(
+                        {
+                            "type": "title_length",
+                            "severity": "medium",
+                            "message": f"Title length {len(page.title)} characters",
+                            "recommendation": "Optimize title to 30-60 characters",
+                        }
+                    )
+
                 # Check for heading structure
-                content = json.loads(page.content) if isinstance(page.content, str) else page.content
-                has_h1 = any('h1' in str(content).lower() for content in content.values())
+                content = (
+                    json.loads(page.content)
+                    if isinstance(page.content, str)
+                    else page.content
+                )
+                has_h1 = any(
+                    "h1" in str(content).lower() for content in content.values()
+                )
                 if not has_h1:
-                    page_optimizations.append({
-                        'type': 'heading_structure',
-                        'severity': 'high',
-                        'message': 'Missing H1 tag',
-                        'recommendation': 'Add H1 tag for better SEO structure'
-                    })
-                
-                optimizations.append({
-                    'page_id': page.page_id,
-                    'page_title': page.title,
-                    'optimizations': page_optimizations
-                })
-            
+                    page_optimizations.append(
+                        {
+                            "type": "heading_structure",
+                            "severity": "high",
+                            "message": "Missing H1 tag",
+                            "recommendation": "Add H1 tag for better SEO structure",
+                        }
+                    )
+
+                optimizations.append(
+                    {
+                        "page_id": page.page_id,
+                        "page_title": page.title,
+                        "optimizations": page_optimizations,
+                    }
+                )
+
             # Generate schema markup
             schema_markup = await self._generate_schema_markup(portal, pages)
-            
+
             return {
-                'portal_id': portal_id,
-                'optimizations': optimizations,
-                'schema_markup': schema_markup,
-                'recommendations': await self._get_seo_recommendations(portal)
+                "portal_id": portal_id,
+                "optimizations": optimizations,
+                "schema_markup": schema_markup,
+                "recommendations": await self._get_seo_recommendations(portal),
             }
-            
+
         except Exception as e:
             logger.error(f"Error optimizing SEO for portal {portal_id}: {e}")
             raise
@@ -449,28 +474,30 @@ class PortalBuilderEngine:
             query = """
                 SELECT * FROM portals WHERE portal_id = $1
             """
-            
+
             async with self.db_pool.acquire() as conn:
                 row = await conn.fetchrow(query, portal_id)
-                
+
             if row:
                 return Portal(
-                    portal_id=row['portal_id'],
-                    name=row['name'],
-                    domain=row['domain'],
-                    portal_type=PortalType(row['portal_type']),
-                    template_id=row['template_id'],
-                    description=row['description'],
-                    owner_id=row['owner_id'],
-                    created_at=row['created_at'],
-                    updated_at=row['updated_at'],
-                    deployment_status=DeploymentStatus(row['deployment_status']),
-                    settings=json.loads(row['settings']) if row['settings'] else {},
-                    seo_settings=json.loads(row['seo_settings']) if row['seo_settings'] else {}
+                    portal_id=row["portal_id"],
+                    name=row["name"],
+                    domain=row["domain"],
+                    portal_type=PortalType(row["portal_type"]),
+                    template_id=row["template_id"],
+                    description=row["description"],
+                    owner_id=row["owner_id"],
+                    created_at=row["created_at"],
+                    updated_at=row["updated_at"],
+                    deployment_status=DeploymentStatus(row["deployment_status"]),
+                    settings=json.loads(row["settings"]) if row["settings"] else {},
+                    seo_settings=(
+                        json.loads(row["seo_settings"]) if row["seo_settings"] else {}
+                    ),
                 )
-            
+
             return None
-            
+
         except Exception as e:
             logger.error(f"Error getting portal {portal_id}: {e}")
             return None
@@ -483,26 +510,28 @@ class PortalBuilderEngine:
                 WHERE portal_id = $1 
                 ORDER BY order_index ASC
             """
-            
+
             async with self.db_pool.acquire() as conn:
                 rows = await conn.fetch(query, portal_id)
-            
+
             components = []
             for row in rows:
-                components.append(PortalComponent(
-                    component_id=row['component_id'],
-                    portal_id=row['portal_id'],
-                    component_type=ComponentType(row['component_type']),
-                    name=row['name'],
-                    content=json.loads(row['content']) if row['content'] else {},
-                    styles=json.loads(row['styles']) if row['styles'] else {},
-                    order_index=row['order_index'],
-                    is_visible=row['is_visible'],
-                    created_at=row['created_at']
-                ))
-            
+                components.append(
+                    PortalComponent(
+                        component_id=row["component_id"],
+                        portal_id=row["portal_id"],
+                        component_type=ComponentType(row["component_type"]),
+                        name=row["name"],
+                        content=json.loads(row["content"]) if row["content"] else {},
+                        styles=json.loads(row["styles"]) if row["styles"] else {},
+                        order_index=row["order_index"],
+                        is_visible=row["is_visible"],
+                        created_at=row["created_at"],
+                    )
+                )
+
             return components
-            
+
         except Exception as e:
             logger.error(f"Error getting components for portal {portal_id}: {e}")
             return []
@@ -515,73 +544,80 @@ class PortalBuilderEngine:
                 WHERE portal_id = $1 
                 ORDER BY created_at ASC
             """
-            
+
             async with self.db_pool.acquire() as conn:
                 rows = await conn.fetch(query, portal_id)
-            
+
             pages = []
             for row in rows:
-                pages.append(PortalPage(
-                    page_id=row['page_id'],
-                    portal_id=row['portal_id'],
-                    title=row['title'],
-                    slug=row['slug'],
-                    content=json.loads(row['content']) if row['content'] else {},
-                    meta_description=row['meta_description'],
-                    meta_keywords=row['meta_keywords'],
-                    is_homepage=row['is_homepage'],
-                    is_published=row['is_published'],
-                    created_at=row['created_at'],
-                    updated_at=row['updated_at']
-                ))
-            
+                pages.append(
+                    PortalPage(
+                        page_id=row["page_id"],
+                        portal_id=row["portal_id"],
+                        title=row["title"],
+                        slug=row["slug"],
+                        content=json.loads(row["content"]) if row["content"] else {},
+                        meta_description=row["meta_description"],
+                        meta_keywords=row["meta_keywords"],
+                        is_homepage=row["is_homepage"],
+                        is_published=row["is_published"],
+                        created_at=row["created_at"],
+                        updated_at=row["updated_at"],
+                    )
+                )
+
             return pages
-            
+
         except Exception as e:
             logger.error(f"Error getting pages for portal {portal_id}: {e}")
             return []
 
-    async def _generate_html(self, portal: Portal, components: List[PortalComponent], pages: List[PortalPage]) -> str:
+    async def _generate_html(
+        self, portal: Portal, components: List[PortalComponent], pages: List[PortalPage]
+    ) -> str:
         """Generate HTML structure for portal"""
         try:
             # Load base template
-            template = await self._load_template(portal.template_id or 'default')
-            
+            template = await self._load_template(portal.template_id or "default")
+
             # Generate components HTML
             components_html = ""
             for component in components:
                 if component.is_visible:
                     component_html = await self._render_component(component)
                     components_html += component_html
-            
+
             # Generate navigation
             navigation_html = await self._generate_navigation(pages)
-            
+
             # Generate footer
             footer_html = await self._generate_footer(portal)
-            
+
             # Render main template
             html_content = template.render(
                 portal=portal,
                 components=components_html,
                 navigation=navigation_html,
                 footer=footer_html,
-                pages=pages
+                pages=pages,
             )
-            
+
             return html_content
-            
+
         except Exception as e:
             logger.error(f"Error generating HTML: {e}")
             raise
 
-    async def _generate_css(self, portal: Portal, components: List[PortalComponent]) -> str:
+    async def _generate_css(
+        self, portal: Portal, components: List[PortalComponent]
+    ) -> str:
         """Generate CSS styles for portal"""
         try:
             css_rules = []
-            
+
             # Global styles
-            css_rules.append(f"""
+            css_rules.append(
+                f"""
 /* Portal: {portal.name} */
 * {{ box-sizing: border-box; }}
 body {{ 
@@ -596,34 +632,40 @@ body {{
     margin: 0 auto; 
     padding: 0 20px; 
 }}
-            """)
-            
+            """
+            )
+
             # Component-specific styles
             for component in components:
                 component_css = await self._generate_component_css(component)
                 css_rules.append(component_css)
-            
+
             # Responsive styles
-            css_rules.append("""
+            css_rules.append(
+                """
 @media (max-width: 768px) {
     .container { padding: 0 15px; }
     .grid { grid-template-columns: 1fr; }
 }
-            """)
-            
+            """
+            )
+
             return "\n".join(css_rules)
-            
+
         except Exception as e:
             logger.error(f"Error generating CSS: {e}")
             return ""
 
-    async def _generate_js(self, portal: Portal, components: List[PortalComponent]) -> str:
+    async def _generate_js(
+        self, portal: Portal, components: List[PortalComponent]
+    ) -> str:
         """Generate JavaScript for portal"""
         try:
             js_code = []
-            
+
             # Portal initialization
-            js_code.append(f"""
+            js_code.append(
+                f"""
 // Portal: {portal.name}
 document.addEventListener('DOMContentLoaded', function() {{
     console.log('Portal {portal.name} loaded');
@@ -637,16 +679,18 @@ document.addEventListener('DOMContentLoaded', function() {{
     // Initialize forms
     initializeForms();
 }});
-            """)
-            
+            """
+            )
+
             # Component-specific JavaScript
             for component in components:
                 component_js = await self._generate_component_js(component)
                 if component_js:
                     js_code.append(component_js)
-            
+
             # Utility functions
-            js_code.append("""
+            js_code.append(
+                """
 function initializeComponents() {
     // Initialize interactive components
     document.querySelectorAll('.interactive-component').forEach(component => {
@@ -672,10 +716,11 @@ function initializeForms() {
         });
     });
 }
-            """)
-            
+            """
+            )
+
             return "\n".join(js_code)
-            
+
         except Exception as e:
             logger.error(f"Error generating JavaScript: {e}")
             return ""
@@ -683,86 +728,84 @@ function initializeForms() {
     async def _render_component(self, component: PortalComponent) -> str:
         """Render individual component HTML"""
         try:
-            component_template = self.component_registry.get(component.component_type.value)
+            component_template = self.component_registry.get(
+                component.component_type.value
+            )
             if not component_template:
                 return f'<div class="component component-{component.component_type.value}" data-id="{component.component_id}">Component not found</div>'
-            
+
             # Render component with its data
             html = component_template.render(
-                component=component,
-                content=component.content,
-                styles=component.styles
+                component=component, content=component.content, styles=component.styles
             )
-            
+
             return html
-            
+
         except Exception as e:
             logger.error(f"Error rendering component {component.component_id}: {e}")
             return f'<div class="component-error">Error rendering component</div>'
 
-    async def _deploy_to_s3(self, portal: Portal, generated: Dict[str, Any], environment: str) -> Dict[str, Any]:
+    async def _deploy_to_s3(
+        self, portal: Portal, generated: Dict[str, Any], environment: str
+    ) -> Dict[str, Any]:
         """Deploy portal assets to S3"""
         try:
             bucket_name = f"itechsmart-portals-{environment}"
-            
+
             # Deploy HTML files for each page
             pages = await self._get_portal_pages(portal.portal_id)
-            
+
             for page in pages:
                 if page.is_published:
                     # Generate page-specific HTML
                     page_html = await self._generate_page_html(portal, page, generated)
-                    
+
                     # Upload to S3
                     key = f"{portal.portal_id}/{page.slug}.html"
                     self.s3_client.put_object(
                         Bucket=bucket_name,
                         Key=key,
                         Body=page_html,
-                        ContentType='text/html',
-                        CacheControl='max-age=3600'
+                        ContentType="text/html",
+                        CacheControl="max-age=3600",
                     )
-            
+
             # Upload CSS and JS
             self.s3_client.put_object(
                 Bucket=bucket_name,
                 Key=f"{portal.portal_id}/styles.css",
-                Body=generated['css'],
-                ContentType='text/css'
+                Body=generated["css"],
+                ContentType="text/css",
             )
-            
+
             self.s3_client.put_object(
                 Bucket=bucket_name,
                 Key=f"{portal.portal_id}/scripts.js",
-                Body=generated['js'],
-                ContentType='application/javascript'
+                Body=generated["js"],
+                ContentType="application/javascript",
             )
-            
+
             # Upload sitemap and robots
             self.s3_client.put_object(
                 Bucket=bucket_name,
                 Key=f"{portal.portal_id}/sitemap.xml",
-                Body=generated['sitemap'],
-                ContentType='application/xml'
+                Body=generated["sitemap"],
+                ContentType="application/xml",
             )
-            
+
             self.s3_client.put_object(
                 Bucket=bucket_name,
                 Key=f"{portal.portal_id}/robots.txt",
-                Body=generated['robots'],
-                ContentType='text/plain'
+                Body=generated["robots"],
+                ContentType="text/plain",
             )
-            
+
             # Generate domain URL
             domain = portal.domain or f"{portal.portal_id}.itechsmart-portals.com"
             url = f"https://{domain}"
-            
-            return {
-                'domain': domain,
-                'url': url,
-                'bucket': bucket_name
-            }
-            
+
+            return {"domain": domain, "url": url, "bucket": bucket_name}
+
         except Exception as e:
             logger.error(f"Error deploying to S3: {e}")
             raise
@@ -772,7 +815,8 @@ function initializeForms() {
         try:
             # Define component templates
             self.component_registry = {
-                'header': jinja2.Template("""
+                "header": jinja2.Template(
+                    """
 <div class="component-header" style="{{ styles.container|default('') }}">
     <div class="container">
         <div class="header-content">
@@ -789,9 +833,10 @@ function initializeForms() {
         </div>
     </div>
 </div>
-                """),
-                
-                'hero': jinja2.Template("""
+                """
+                ),
+                "hero": jinja2.Template(
+                    """
 <section class="component-hero" style="{{ styles.container|default('') }}">
     <div class="container">
         <div class="hero-content">
@@ -810,9 +855,10 @@ function initializeForms() {
         {% endif %}
     </div>
 </section>
-                """),
-                
-                'content_block': jinja2.Template("""
+                """
+                ),
+                "content_block": jinja2.Template(
+                    """
 <section class="component-content-block" style="{{ styles.container|default('') }}">
     <div class="container">
         <div class="content-wrapper">
@@ -823,9 +869,10 @@ function initializeForms() {
         </div>
     </div>
 </section>
-                """),
-                
-                'form': jinja2.Template("""
+                """
+                ),
+                "form": jinja2.Template(
+                    """
 <section class="component-form" style="{{ styles.container|default('') }}">
     <div class="container">
         <div class="form-wrapper">
@@ -846,9 +893,10 @@ function initializeForms() {
         </div>
     </div>
 </section>
-                """),
-                
-                'footer': jinja2.Template("""
+                """
+                ),
+                "footer": jinja2.Template(
+                    """
 <footer class="component-footer" style="{{ styles.container|default('') }}">
     <div class="container">
         <div class="footer-content">
@@ -874,9 +922,10 @@ function initializeForms() {
         </div>
     </div>
 </footer>
-                """)
+                """
+                ),
             }
-            
+
         except Exception as e:
             logger.error(f"Error loading component registry: {e}")
 
@@ -908,9 +957,9 @@ function initializeForms() {
 </body>
 </html>
             """
-            
+
             return jinja2.Template(template_content)
-            
+
         except Exception as e:
             logger.error(f"Error loading template {template_id}: {e}")
             raise
@@ -922,20 +971,21 @@ function initializeForms() {
         if self.redis_client:
             self.redis_client.close()
 
+
 # Configuration and initialization
 async def main():
     config = {
-        'database_url': 'postgresql://user:pass@localhost/itechsmart_portals',
-        'redis_host': 'localhost',
-        'redis_port': 6379,
-        'aws_access_key': 'your_access_key',
-        'aws_secret_key': 'your_secret_key',
-        'aws_region': 'us-east-1'
+        "database_url": "postgresql://user:pass@localhost/itechsmart_portals",
+        "redis_host": "localhost",
+        "redis_port": 6379,
+        "aws_access_key": "your_access_key",
+        "aws_secret_key": "your_secret_key",
+        "aws_region": "us-east-1",
     }
-    
+
     portal_engine = PortalBuilderEngine(config)
     await portal_engine.initialize()
-    
+
     try:
         # Keep the service running
         while True:
@@ -944,6 +994,7 @@ async def main():
         logger.info("Shutting down Portal Builder Engine...")
     finally:
         await portal_engine.close()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

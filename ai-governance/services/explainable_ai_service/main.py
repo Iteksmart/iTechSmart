@@ -505,7 +505,7 @@ class LIMEExplainer(ExplainerBase):
 async def initialize_explainers():
     """Initialize all explainers"""
     global model_explainers
-    
+
     # Initialize if empty
     if not model_explainers:
         model_explainers = {}
@@ -623,7 +623,7 @@ async def clear_cache():
     global explanation_cache
     cache_size = len(explanation_cache)
     explanation_cache.clear()
-    
+
     # Reinitialize the cache
     explanation_cache = {}
 

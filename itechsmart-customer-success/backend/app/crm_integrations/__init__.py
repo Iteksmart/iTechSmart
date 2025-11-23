@@ -9,8 +9,8 @@ from .marketo_connector import MarketoConnector
 from .base_crm import BaseCRMConnector
 
 __all__ = [
-    'BaseCRMConnector',
-    'SalesforceConnector', 
-    'HubSpotConnector',
-    'MarketoConnector'
+    "BaseCRMConnector",
+    "SalesforceConnector",
+    "HubSpotConnector",
+    "MarketoConnector",
 ]
