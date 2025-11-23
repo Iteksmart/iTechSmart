@@ -6,6 +6,10 @@
   "author": "iTechSmart Inc.",
   "license": "MIT",
   "homepage": "https://itechsmart.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Iteksmart/iTechSmart.git"
+  },
   "scripts": {
     "start": "electron .",
     "dev": "concurrently &quot;npm run dev:main&quot; &quot;npm run dev:renderer&quot;",
