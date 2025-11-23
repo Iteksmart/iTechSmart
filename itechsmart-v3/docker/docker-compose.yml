@@ -1,0 +1,277 @@
+version: '3.8'
+
+services:
+  # iTechSmart Neural Hub - Central Orchestration
+  itechsmart-neural-hub:
+    build:
+      context: ../neural-hub
+      dockerfile: Dockerfile
+    container_name: itechsmart-neural-hub
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+      - KAFKA_HOST=kafka:9092
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - MONGODB_URI=mongodb://mongodb:27017/itechsmart-neural
+    depends_on:
+      - kafka
+      - redis
+      - mongodb
+    networks:
+      - itechsmart-network
+    volumes:
+      - ./logs/neural-hub:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # iTechSmart Unified Dashboard
+  itechsmart-unified-dashboard:
+    build:
+      context: ../unified-dashboard
+      dockerfile: Dockerfile
+    container_name: itechsmart-unified-dashboard
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_NEURAL_HUB_URL=http://itechsmart-neural-hub:8080
+      - REACT_APP_API_URL=http://itechsmart-neural-hub:8080
+    depends_on:
+      - itechsmart-neural-hub
+    networks:
+      - itechsmart-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # iTechSmart Community Portal
+  itechsmart-community:
+    build:
+      context: ../community
+      dockerfile: Dockerfile
+    container_name: itechsmart-community
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongodb:27017/itechsmart-community
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - NEURAL_HUB_URL=http://itechsmart-neural-hub:8080
+    depends_on:
+      - mongodb
+      - redis
+      - itechsmart-neural-hub
+    networks:
+      - itechsmart-network
+    volumes:
+      - ./uploads/community:/app/uploads
+    restart: unless-stopped
+
+  # Apache Kafka - Event Bus
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: itechsmart-kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_HOST://kafka:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+    depends_on:
+      - zookeeper
+    networks:
+      - itechsmart-network
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+    restart: unless-stopped
+
+  # Apache Zookeeper
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: itechsmart-zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - itechsmart-network
+    volumes:
+      - zookeeper-data:/var/lib/zookeeper/data
+    restart: unless-stopped
+
+  # Redis - Caching and Session Storage
+  redis:
+    image: redis:7-alpine
+    container_name: itechsmart-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --requirepass itechsmart123
+    networks:
+      - itechsmart-network
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # MongoDB - Primary Database
+  mongodb:
+    image: mongo:6
+    container_name: itechsmart-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=itechsmart123
+      - MONGO_INITDB_DATABASE=itechsmart
+    networks:
+      - itechsmart-network
+    volumes:
+      - mongodb-data:/data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Nginx - Reverse Proxy and Load Balancer
+  nginx:
+    image: nginx:alpine
+    container_name: itechsmart-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+      - ./logs/nginx:/var/log/nginx
+    depends_on:
+      - itechsmart-unified-dashboard
+      - itechsmart-community
+      - itechsmart-neural-hub
+    networks:
+      - itechsmart-network
+    restart: unless-stopped
+
+  # Elasticsearch - Log Aggregation and Search
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.8.0
+    container_name: itechsmart-elasticsearch
+    ports:
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    networks:
+      - itechsmart-network
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    restart: unless-stopped
+
+  # Kibana - Log Visualization
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.8.0
+    container_name: itechsmart-kibana
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    networks:
+      - itechsmart-network
+    restart: unless-stopped
+
+  # Prometheus - Metrics Collection
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: itechsmart-prometheus
+    ports:
+      - "9090:9090"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    networks:
+      - itechsmart-network
+    restart: unless-stopped
+
+  # Grafana - Metrics Visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: itechsmart-grafana
+    ports:
+      - "3100:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=itechsmart123
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - prometheus
+    networks:
+      - itechsmart-network
+    restart: unless-stopped
+
+  # Jaeger - Distributed Tracing
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: itechsmart-jaeger
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+    environment:
+      - COLLECTOR_ZIPKIN_HTTP_PORT=9411
+    networks:
+      - itechsmart-network
+    restart: unless-stopped
+
+networks:
+  itechsmart-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  kafka-data:
+    driver: local
+  zookeeper-data:
+    driver: local
+  redis-data:
+    driver: local
+  mongodb-data:
+    driver: local
+  elasticsearch-data:
+    driver: local
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
