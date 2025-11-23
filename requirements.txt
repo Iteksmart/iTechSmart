@@ -137,4 +137,4 @@ jupyter==1.0.0
 
 # Performance Monitoring
 memory-profiler==0.61.0
-line-profiler==4.0.3
+# line-profiler==4.0.3  # Disabled due to Python 3.12 compatibility issues
